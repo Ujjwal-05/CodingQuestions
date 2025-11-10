@@ -224,7 +224,7 @@ public class Arrays {
 //
 //        }
 
-////Find longest subarray with sum = 0 (same as sum K where K=0).
+////Longest Subarray with Equal Number of 0s and 1s.
 //        map.put(0, -1); // handle subarray starting at index 0
 //
 //        for (int i = 0; i < arr.length; i++) {
@@ -239,24 +239,48 @@ public class Arrays {
 //            map.putIfAbsent(sum, i);
 //        }
 
-//// 2 Sum: (Hashing and Two Pointer): for two pointer we need to sort the element
+////Largest Subarray with Equal Number of 0s, 1s, and 2s.
+//        int c0=0,c1=0,c2=0, d10=0,d20=0;
+//        HashMap<String, Integer> map = new HashMap<>();
+//        map.put("0#0",-1);
+//        for (i = 0; i < arr.length; i++) {
+//            if(arr[i]==0) c0++;
+//            else if (arr[i]==1) c1++;
+//            else c2++;
 //
-//        int [] arr={1,2,3,4,5,6,0};
-//        int target=20;
-//        int[] ans={-1,-1};
-//        HashMap<Integer,Integer> map=new HashMap<>();
+//            d10=c1-c0;
+//            d20=c2-c0;
 //
-//        for(int i=0;i<arr.length;i++){
-//            int num=arr[i];
-//            if(map.containsKey(target-num)){
-//                ans[0]=map.get(target-num);
-//                ans[1]=i;
+//            String key= d10 + "#" + d20;
+//
+//            if(map.containsKey(key)){
+//                length=Math.max(length,i-map.get(key));
 //            }
 //
-//            map.put(num,i);
+//            map.putIfAbsent(key,i);
 //
 //        }
-//        System.out.println(Arrays.toString(ans));
+
+
+
+//// 2 Sum: (Hashing and Two Pointer): for two pointer we need to sort the element
+//        HashMap<Integer, Integer> map = new HashMap<>();
+//        int count = 0;
+//
+//        for (int num : arr) {
+//            int rem = k - num;
+//
+//            // If complement exists, add its frequency to count
+//            if (map.containsKey(rem)) {
+//                count += map.get(rem);
+//            }
+//
+//            // Update frequency of current number
+//            map.put(num, map.getOrDefault(num, 0) + 1);
+//        }
+//
+//        return count;
+//    }
 
 ////Sort an array of 0s, 1s and 2s:
 //
@@ -337,48 +361,55 @@ public class Arrays {
 //
 //        int[] arr = { -2, 1, -3, 4, -1, -2, 1, 5, -4};
 //        int max_sum=Integer.MIN_VALUE;
-//        int sum=0;
+//        int sum=0,j=0;
+//        for(int i=0;i<arr.length;i++) {
+//            sum += arr[i];
 //
-//        for(int i=0;i<arr.length;i++){
-//
-//            sum+=arr[i];
-//
-//// Updating the max sum:
 //            if(sum>max_sum){
 //                max_sum=sum;
+//                length=i-j+1;
 //            }
 //
-//// If sum < 0: discard the sum calculated, becuase this gonna decrease the sum. so we didn't need it.
 //            if(sum<0){
 //                sum=0;
-//            }
-//// For empty subarray:
-//            if(max_sum<0){
-//                max_sum=0;
+//                j=i+1;
 //            }
 //
 //        }
+
+//// Stock buy or sell
+//        int[] arr = { 7, 1, 5, 3, 6, 4};
+//        int min=arr[0];
+//        int profit=0, current_profit=0;
 //
-//        System.out.println(max_sum);
-        int[] arr={1,2,3,4,5,1,0,0,0,0};
-        int k=6, maxlen=0,len=0,sum=0,j=0;
-        for (int i=0;i<arr.length;i++){
+//        for(int i=1;i<arr.length;i++) {
+//
+//            current_profit=arr[i]-min;
+//
+//            profit=Math.max(current_profit,profit);
+//
+//            if(min>arr[i]){
+//                min=arr[i];
+//            }
+//        }
 
-            sum+=arr[i];
+//// Rearrange Array elements by sign.
+        int[] arr = { -7, -1, 5, -3, 6, 4};
+        int[] res = new int[arr.length];
 
-            if(sum==k){
-                maxlen=Math.max(maxlen,i-j+1);
+        int pos=0,neg=1;
+
+        for(int num:arr){
+            if(num>0){
+                res[pos]=num;
+                pos+=2;
             }
-
-            while (sum>k){
-                sum-=arr[j];
-                j++;
+            else {
+                res[neg]=num;
+                neg+=2;
             }
 
         }
-
-        System.out.println(maxlen);
-
 
 ////Java programme to print distinct element in Sorted array: First element is always distinct in an array.
 //
