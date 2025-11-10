@@ -169,6 +169,13 @@ public class Streams {
 ////09. Convert array into list of integer.
 //        List<Integer> list = Arrays.stream(array).boxed().toList();
 
+////  Remove duplicates from the sorted array:
+//        List<Integer> list = Arrays.stream(arr).boxed()
+//                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+//                .entrySet().stream()
+//                .filter(entry -> entry.getValue() > 1)
+//                .map(entry -> entry.getKey()).toList();
+
 ////10. Check if a string contains only digits if it’s not empty using Stream API.
 //        boolean only_digits_in_string = str.chars().allMatch(Character::isDigit);
 //        System.out.println(only_digits_in_string);
