@@ -264,7 +264,7 @@ public class Arrays {
 
 
 
-//// 2 Sum: (Hashing and Two Pointer): for two pointer we need to sort the element
+//// Two Sum: (Hashing and Two Pointer): for two pointer we need to sort the element
 //        HashMap<Integer, Integer> map = new HashMap<>();
 //        int count = 0;
 //
@@ -412,27 +412,49 @@ public class Arrays {
 //
 //        }
 
-//Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
-        int[] arr = {100, 4, 200, 1, 3, 2, 2};
-        int maxlen = 0;
+////Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+//        int[] arr = {100, 4, 200, 1, 3, 2, 2};
+//        int maxlen = 0;
+//
+//        HashSet<Integer> set = new HashSet<>();
+//        for (int num : arr) set.add(num);
+//
+//        for (int num : set) {
+//            if (!set.contains(num - 1)) { // start of a sequence
+//                int curr = num;
+//                int len = 1; // reset for each new sequence
+//
+//                while (set.contains(++curr)) {
+//                    len++;
+//                }
+//
+//                maxlen = Math.max(maxlen, len);
+//            }
+//        }
+//
+//        System.out.println(maxlen);
 
-        HashSet<Integer> set = new HashSet<>();
-        for (int num : arr) set.add(num);
+//Product of Array Except Self.
+        int[] nums = {1, 2, 0, 4,5};
+        // 1,2,4,5
+        // res: 1,
+        int res[] =new int[nums.length];
 
-        for (int num : set) {
-            if (!set.contains(num - 1)) { // start of a sequence
-                int curr = num;
-                int len = 1; // reset for each new sequence
-
-                while (set.contains(++curr)) {
-                    len++;
-                }
-
-                maxlen = Math.max(maxlen, len);
-            }
+        res[0]=1;
+        // prefix
+        for(int i=1;i<nums.length;i++){
+            res[i]=res[i-1]*nums[i-1];
         }
 
-        System.out.println(maxlen);
+        int suffix=1;
+        for(int i=nums.length-1;i>=0;i--){
+            res[i]*=suffix;
+            suffix*=nums[i];
+        }
+
+        System.out.println(java.util.Arrays.toString(res));
+
+
 
 
 
