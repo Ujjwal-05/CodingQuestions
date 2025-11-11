@@ -435,7 +435,7 @@ public class Arrays {
 //        System.out.println(maxlen);
 
 //Product of Array Except Self.
-        int[] nums = {1, 2, 0, 4,5};
+        int[] nums = {1, 2, 3, 4,5};
         // 1,2,4,5
         // res: 1,
         int res[] =new int[nums.length];
