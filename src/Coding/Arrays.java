@@ -1,6 +1,7 @@
 package Coding;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Arrays {
     public static void main(String[] args) {
@@ -393,23 +394,47 @@ public class Arrays {
 //            }
 //        }
 
-//// Rearrange Array elements by sign.
-        int[] arr = { -7, -1, 5, -3, 6, 4};
-        int[] res = new int[arr.length];
+////// Rearrange Array elements by sign.
+//        int[] arr = { -7, -1, 5, -3, 6, 4};
+//        int[] res = new int[arr.length];
+//
+//        int pos=0,neg=1;
+//
+//        for(int num:arr){
+//            if(num>0){
+//                res[pos]=num;
+//                pos+=2;
+//            }
+//            else {
+//                res[neg]=num;
+//                neg+=2;
+//            }
+//
+//        }
 
-        int pos=0,neg=1;
+//Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+        int[] arr = {100, 4, 200, 1, 3, 2, 2};
+        int maxlen = 0;
 
-        for(int num:arr){
-            if(num>0){
-                res[pos]=num;
-                pos+=2;
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : arr) set.add(num);
+
+        for (int num : set) {
+            if (!set.contains(num - 1)) { // start of a sequence
+                int curr = num;
+                int len = 1; // reset for each new sequence
+
+                while (set.contains(++curr)) {
+                    len++;
+                }
+
+                maxlen = Math.max(maxlen, len);
             }
-            else {
-                res[neg]=num;
-                neg+=2;
-            }
-
         }
+
+        System.out.println(maxlen);
+
+
 
 ////Java programme to print distinct element in Sorted array: First element is always distinct in an array.
 //
