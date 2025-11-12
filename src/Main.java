@@ -124,28 +124,10 @@ public class Main {
         int[] a = {2, 3, -4, 5, 0, 4, -2, 2};
 
         //0#0, -1#-1, 0#-1, 0#0
-        int k = 14;
-        int  sum = 0,max_sum=Integer.MIN_VALUE,  j=0, length = 0,count=0, maxi=0;
-        int[] arr = { -7, -1, 5, -3, 6, 4};
-        int[] res = new int[arr.length];
-
-        int pos=0,neg=1;
-
-        for(int num:arr){
-            if(num>0){
-                res[pos]=num;
-                pos+=2;
-            }
-            else {
-                res[neg]=num;
-                neg+=2;
-            }
-
-        }
-
-        System.out.println(Arrays.toString(res));
-
-
+//        int k = 14;
+//        int  sum = 0,max_sum=Integer.MIN_VALUE,  j=0, length = 0,count=0, maxi=0;
+//        int[] arr = { -7, -1, 5, -3, 6, 4};
+//        int[] res = new int[arr.length];
 
 
 

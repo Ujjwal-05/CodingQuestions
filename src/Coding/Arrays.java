@@ -1,7 +1,6 @@
 package Coding;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Arrays {
     public static void main(String[] args) {
@@ -434,25 +433,71 @@ public class Arrays {
 //
 //        System.out.println(maxlen);
 
-//Product of Array Except Self.
-        int[] nums = {1, 2, 3, 4,5};
-        // res: 1,
-        int res[] =new int[nums.length];
+////Product of Array Except Self.
+//        int[] nums = {1, 2, 3, 4,5};
+//        // res: 1,
+//        int res[] =new int[nums.length];
+//
+//        res[0]=1;
+//        // prefix
+//        for(int i=1;i<nums.length;i++){
+//            res[i]=res[i-1]*nums[i-1];
+//        }
+//
+//        int suffix=1;
+//        for(int i=nums.length-1;i>=0;i--){
+//            res[i]*=suffix;
+//            suffix*=nums[i];
+//        }
+//
+//        System.out.println(java.util.Arrays.toString(res));
 
-        res[0]=1;
-        // prefix
-        for(int i=1;i<nums.length;i++){
-            res[i]=res[i-1]*nums[i-1];
-        }
+//        Return an element that occurs more than N/3 times:
+        int[] arr={2,1,1,3,1,4,5,6};
 
-        int suffix=1;
-        for(int i=nums.length-1;i>=0;i--){
-            res[i]*=suffix;
-            suffix*=nums[i];
-        }
+//        Set<Integer> ans= new HashSet<>();
+//        HashMap<Integer,Integer> map=new HashMap<>();
+//        for(int num : arr){
+//            map.put(num,map.getOrDefault(num,0)+1);
+//
+//            if(map.get(num)>arr.length/3){
+//                ans.add(num);
+//            }
+//
+//            if(ans.size()==2) break;
+//        }
 
-        System.out.println(java.util.Arrays.toString(res));
-
+//        int e1=-1, e2=-1, cnt1=0, cnt2=0;
+//
+//        for(int num:arr){
+//            if(cnt1==0 && num!=e2){
+//                e1=num;
+//                cnt1++;
+//            } else if (cnt2==0 && num!=e1) {
+//                e2=num;
+//                cnt2++;
+//            } else if (num==e1) cnt1++;
+//            else if (num==e2) cnt2++;
+//            else {
+//                cnt1--;
+//                cnt2--;
+//        }
+//        }
+//        // Step 2: Verify actual counts
+//        cnt1 = 0;
+//        cnt2 = 0;
+//        for (int num : arr) {
+//            if (num == e1) cnt1++;
+//            else if (num == e2) cnt2++;
+//        }
+//
+//// Step 3: Collect results
+//        List<Integer> res = new ArrayList<>();
+//        if (cnt1 > arr.length / 3) res.add(e1);
+//        if (cnt2 > arr.length / 3) res.add(e2);
+//
+//
+//        System.out.println(res);
 
 
 
