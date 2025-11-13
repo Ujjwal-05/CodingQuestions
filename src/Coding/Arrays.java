@@ -453,7 +453,7 @@ public class Arrays {
 //        System.out.println(java.util.Arrays.toString(res));
 
 //        Return an element that occurs more than N/3 times:
-        int[] arr={2,1,1,3,1,4,5,6};
+//        int[] arr={2,1,1,3,1,4,5,6};
 
 //        Set<Integer> ans= new HashSet<>();
 //        HashMap<Integer,Integer> map=new HashMap<>();
@@ -491,6 +491,7 @@ public class Arrays {
 //            else if (num == e2) cnt2++;
 //        }
 //
+
 //// Step 3: Collect results
 //        List<Integer> res = new ArrayList<>();
 //        if (cnt1 > arr.length / 3) res.add(e1);
@@ -498,6 +499,13 @@ public class Arrays {
 //
 //
 //        System.out.println(res);
+
+
+// 3 Sum Problem: Find three numbers in an array whose sum equals a given target:
+        int[] arr = {-1, 0, 1, 2, -1, -4};
+
+
+
 
 
 
