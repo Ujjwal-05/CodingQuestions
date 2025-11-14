@@ -1,8 +1,10 @@
 package Coding;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class Arrays {
+public class Array {
     public static void main(String[] args) {
         System.out.println("Hello");
 
@@ -501,8 +503,83 @@ public class Arrays {
 //        System.out.println(res);
 
 
-// 3 Sum Problem: Find three numbers in an array whose sum equals a given target:
-        int[] arr = {-1, 0, 1, 2, -1, -4};
+//// 3 Sum Problem: Find three numbers in an array whose sum equals a given target:
+//        int[] arr = {-1, 0, 1, 2, -1, -4};
+//        int k=0;
+//        List<List<Integer>> res= new ArrayList<>();
+//        Arrays.sort(arr);
+//        // [-4, -1, -1, 0, 1, 2]
+//        for(int i=0;i<arr.length-2;i++){
+//
+//            if(i>0 && arr[i]==arr[i-1]) continue;
+//
+//            int left=i+1;
+//            int right=arr.length-1;
+//
+//            while (left<right){
+//                int sum=arr[i] + arr[left] +arr[right];
+//
+//                if(sum==k){
+//                    res.add(Arrays.asList(arr[i],arr[left],arr[right]));
+//
+//                    while (left<right && arr[left]==arr[left+1]) left++;
+//                    while (left<right && arr[right]==arr[right-1]) right--;
+//
+//                    left++;
+//                    right--;
+//                } else if (sum>k) {
+//                    right--;
+//                }else {
+//                    left++;
+//                }
+//            }
+//            System.out.println(res);
+
+// Merge Overlapping intervals:
+        int[][] intervals = {
+                {1, 3}, {2, 6},{1,9},{0,100} ,{8, 10}, {15, 18}
+        };
+        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
+        System.out.println(Arrays.deepToString(intervals));
+
+        int i=0;
+        List<List<Integer>> ans=new ArrayList<>();
+
+        while (i<intervals.length){
+            int start=intervals[i][0];
+            int end=intervals[i][1];
+
+            int j=i+1;
+
+            while(j<intervals.length && intervals[j][0]<=end){
+                end=Math.max(end,intervals[j][1]);
+                j++;
+            }
+            ans.add(Arrays.asList(start,end));
+            i=j;
+        }
+
+        System.out.println(ans);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
 
 
 
@@ -711,5 +788,5 @@ public class Arrays {
 
 // Remove duplicates from Sorted array:
 
-    }
 }
+
