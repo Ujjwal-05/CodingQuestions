@@ -394,6 +394,39 @@ public class Array {
 //                min=arr[i];
 //            }
 //        }
+//
+////Maximum Product sub array. with (+ve,0)/ (+ve,-ve,0):
+
+//        int[] arr = {2, -1, 2, -1, 6, 4};
+//        sum=1;
+//        max_sum=1;
+//        for(int num:arr){
+//            sum*=num;
+//            max_sum=Math.max(sum,max_sum);
+//            if(sum<=0){
+//                sum=1;
+//            }
+//        }
+
+//        int min_prod=arr[0];
+//        int max_prod=arr[0];
+//        int ans=arr[0];
+//
+//        for( i=1;i<arr.length;i++){
+//            int curr=arr[i];
+//            if(curr<0){
+//                int temp=max_prod;
+//                max_prod=min_prod;
+//                min_prod=max_prod;
+//            }
+//
+//            max_prod=Math.max(curr,max_prod*curr);
+//            min_prod=Math.min(curr,min_prod*curr);
+//
+//            ans=Math.max(max_prod,ans);
+//        }
+//
+//        System.out.println(ans);
 
 ////// Rearrange Array elements by sign.
 //        int[] arr = { -7, -1, 5, -3, 6, 4};

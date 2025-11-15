@@ -121,13 +121,20 @@ public class Main {
         List<Integer> integers = List.of(1, 2, 3, 5, 4, 5);
         List<Integer> list1 = List.of(1, 2, 3, 4, 5);
         List<Integer> list2 = List.of(3, 4, 5, 6, 7);
-        int[] a = {2, 3, -4, 5, 0, 4, -2, 2};
+        Set<Integer> set =new HashSet<>();
+        List<Integer> list=new ArrayList<>();
+        HashMap<Integer,Integer> map=new HashMap<>();
 
-        //0#0, -1#-1, 0#-1, 0#0
-//        int k = 14;
-//        int  sum = 0,max_sum=Integer.MIN_VALUE,  j=0, length = 0,count=0, maxi=0;
-//        int[] arr = { -7, -1, 5, -3, 6, 4};
-//        int[] res = new int[arr.length];
+        int[] arr = {1, 2, 3, 4, 5};
+        int left=0,right=0,count=0,sum=0,max_sum=0,target=0, max_len=0,len=0,n=arr.length;
+        int i=0,j=0,k=n-1, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
+
+
+        System.out.println(Arrays.toString(ans));
+//        System.out.println(list);
+
+
+
 
 
 
