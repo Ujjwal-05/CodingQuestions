@@ -106,13 +106,38 @@ public class Strings {
 //            if (rotated.equals(goal)) break;
 //        }
 
+        // Another approach O(n)
 //        if(s.length()==goal.length() && (s+s).contains(goal)){
 //            System.out.println("yes");
 //        }
 
 
+////Check if two Strings are anagrams of each other and also for unicode character:
 
-        //System.out.println(temp.equalsIgnoreCase(goal));
+        String s1= "listen", s2= "silent";
+
+//        char[] a= s1.toCharArray();
+//        char[] b=s2.toCharArray();
+//        Arrays.sort(a);
+//        Arrays.sort(b);
+
+//        char[] frequency=new char[26];
+//
+//        for(int i=0;i<s1.length();i++){
+//            frequency[s1.charAt(i)-'a']++;
+//        }
+//        for (int i=0;i<s2.length();i++){
+//            frequency[s2.charAt(i)-'a']--;
+//        }
+//        for(int i=0;i<frequency.length;i++){
+//            if(frequency[i]==1) return;
+//        }
+//        System.out.println("Yes");
+
+
+
+//        System.out.println(Arrays.equals(a,b));
+
 
 
 
