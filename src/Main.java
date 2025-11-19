@@ -130,6 +130,8 @@ public class Main {
         int i=0,j=0,k=n-1, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
 
+
+
 //        System.out.println(Arrays.toString(ans));
 //        System.out.println(list);
 

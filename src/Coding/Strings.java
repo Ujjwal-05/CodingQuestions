@@ -2,7 +2,6 @@ package Coding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class Strings {
@@ -115,15 +114,13 @@ public class Strings {
 
 ////Check if two Strings are anagrams of each other and also for unicode character:
 
-//        String s1= "listen", s2= "silent";
+        String s1= "listen", s2= "silent";
 
-//        if(s1.length()!=s2.length()) return;
 //        char[] a= s1.toCharArray();
 //        char[] b=s2.toCharArray();
 //        Arrays.sort(a);
 //        Arrays.sort(b);
 
-//        if(s1.length()!=s2.length()) return;
 //        char[] frequency=new char[26];
 //
 //        for(int i=0;i<s1.length();i++){
@@ -137,82 +134,9 @@ public class Strings {
 //        }
 //        System.out.println("Yes");
 
-//// Isomorphic String:
-
-//        String s1="egg", s2="add";
 //
-//        if(s1.length()!=s2.length()) return;
-//
-//        int[] map1= new int[256];
-//        int[] map2= new int[256];
-//
-//        for(int i=0;i<s1.length();i++){
-//
-//            if(map1[s1.charAt(i)]!=map2[s2.charAt(i)]) return;
-//
-//            map1[s1.charAt(i)]=i+1;
-//            map2[s2.charAt(i)]=i+1;
-//        }
 
-//// Sort characters by frequency
-
-//        String str="aazzzbbdcf";
-//        HashMap<Character, Integer> map=new HashMap<>();
-//
-//        for(int i=0;i<str.length();i++){
-//            map.put(str.charAt(i), map.getOrDefault(str.charAt(i),0)+1);
-//        }
-//
-//        List<Character> list= new ArrayList<>(map.keySet());
-//
-//        list.sort((a,b)->{
-//            int freqA= map.get(a);
-//            int freqB=map.get(b);
-//
-//            if(freqA!=freqB) return freqB-freqA;
-//            return a-b;
-//        });
-//
-//        System.out.println(list);
-
-//// Longest Palindromic Substring:
-
-//        String str="baabd";
-//        int length=-1;
-//        for(int i=0;i<str.length();i++){
-//            for(int j=i;j<str.length();j++){
-//                length=Math.max(palindrome(str.substring(i,j+1)),length);
-//            }
-//        }
-//        System.out.println(length);
-
-//        int start=0,end=0;
-//
-//        for(int centre=0; centre<str.length(); centre++){
-//
-//            int oddLength=expandFromCentre(str,centre,centre);
-//            int evenLength=expandFromCentre(str,centre,centre+1);
-//            int maxLen=Math.max(oddLength,evenLength);
-//
-//            if(maxLen>end-start){
-//                start=centre-(maxLen-1)/2;
-//                end=centre + (maxLen)/2;
-//            }
-//        }
-//        System.out.println(str.substring(start,end+1));
-
-        String str="aabbb";
-
-        int[] freq=new int[26];
-        int min=Integer.MAX_VALUE,max=Integer.MIN_VALUE;
-
-        for(char c:str.toCharArray()){
-
-            int f= ++freq[c-'a'];
-            min=Math.min(min,f);
-            max=Math.max(max,f);
-
-        }
+//        System.out.println(Arrays.equals(a,b));
 
 
 
@@ -223,46 +147,5 @@ public class Strings {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-    private static int expandFromCentre(String str, int left, int right) {
-
-        while ( left>=0 && right<str.length() && str.charAt(left)==str.charAt(right)){
-            left--;
-            right++;
-        }
-        return right-left-1;
-    }
-
-    public static int palindrome(String str){
-        int left=0;
-        int right=str.length()-1;
-        while (left<right){
-            if(str.charAt(left)!=str.charAt(right)) return -1;
-            left++;
-            right--;
-        }
-        return str.length();
     }
 }

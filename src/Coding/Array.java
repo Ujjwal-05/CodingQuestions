@@ -593,8 +593,8 @@ public class Array {
 //        System.out.println(ans);
 
 //// Longest Substring Without Repeating Characters:
-        String str = "takeUforward";
-        int maxlen=0,len=0;
+//        String str = "takeUforward";
+//        int maxlen=0,len=0;
 
 //        for(int i=0;i<str.length();i++){
 //            HashSet<Character> set =new HashSet<>();
@@ -624,18 +624,96 @@ public class Array {
 //
 //        System.out.println(maxlen);
 
-////
+//// Maximum Consecutive ones |||:
 
-        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1};
-        int k = 3;
+//        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1};
+//        int k = 3,maxLen=0,n=nums.length;
 
-////Fruit Into Baskets:
-////Longest repeating character replacement:
+//        for (int i = 0; i < n; i++) {
+//            int zeroes = 0;
+//
+//            for (int j = i; j < n; j++) {
+//                if (nums[j] == 0) zeroes++;
+//
+//                if (zeroes > k) break; // window invalid
+//
+//                maxLen = Math.max(maxLen, j - i + 1);
+//            }
+//        }
+
+//        int zeroes=0,left=0;
+//        for(int right=0;right<n;right++){
+//
+//            if(nums[right]==0) zeroes++;
+//
+//            if(zeroes>k){
+//                if(nums[left]==0) zeroes--;
+//                left++;
+//            }
+//
+//            maxLen=Math.max(maxLen,right-left+1);
+//        }
+//
+//        System.out.println(maxLen);
+
+////Fruit Into Baskets or Also known as: Longest Subarray with at most 2 distinct elements:
+//        int nums[]={1,1,0,2,2,1,1,2,2,0,0,1};
+//        int k=2,n=nums.length, maxlen=0,left=0;
+//        for(int i=0;i<n;i++){
+//            HashSet<Integer> set=new HashSet<>();
+//            for(int j=i;j<n;j++){
+//                set.add(nums[j]);
+//                if(set.size()>k) break;
+//                maxlen=Math.max(maxlen,j-i+1);
+//            }
+//        }
+
+//        HashMap<Integer,Integer> map=new HashMap<>();
+//        for(int right=0;right<n;right++){
+//            map.put(nums[right], map.getOrDefault(nums[right],0)+1);
+//
+//            while (map.size()>k){
+//                map.put(nums[left],map.get(nums[left])-1);
+//                if(map.get(nums[left])==0){
+//                    map.remove(nums[left]);
+//                }
+//                left++;
+//            }
+//
+//            maxlen=Math.max(maxlen,right-left+1);
+//        }
+//        System.out.println(maxlen);
+
+////Length of the longest substring where you can make all characters equal after at most k replacements.
+
+        String str="AABBABBA";
+        int k=2,maxlen=0;
+
+        for(int i=0;i<str.length();i++){
+            int count=0;
+            for(int j=i+1;j<str.length();j++){
+
+                if(str.charAt(i)!=str.charAt(j)){
+                    count++;
+                    maxlen=Math.max(maxlen,j-i+1);
+                    if(count>k) break;
+                }
+
+                maxlen=Math.max(maxlen,j-i+1);
+            }
+        }
+        System.out.println(maxlen);
+
+
+
+
+
+
+
+
 ////Binary subarray with sum:
 ////Count number of nice subarrays:
 ////Number of substring containing all three characters:
-
-        /// /
 
 
 
