@@ -1,8 +1,6 @@
 package Coding;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Array {
     public static void main(String[] args) {
@@ -568,33 +566,74 @@ public class Array {
 //            }
 //            System.out.println(res);
 
-// Merge Overlapping intervals:
-        int[][] intervals = {
-                {1, 3}, {2, 6},{1,9},{0,100} ,{8, 10}, {15, 18}
-        };
-        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
-        System.out.println(Arrays.deepToString(intervals));
+//// Merge Overlapping intervals:
+//        int[][] intervals = {
+//                {1, 3}, {2, 6},{1,9},{0,100} ,{8, 10}, {15, 18}
+//        };
+//        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
+//        System.out.println(Arrays.deepToString(intervals));
+//
+//        int i=0;
+//        List<List<Integer>> ans=new ArrayList<>();
+//
+//        while (i<intervals.length){
+//            int start=intervals[i][0];
+//            int end=intervals[i][1];
+//
+//            int j=i+1;
+//
+//            while(j<intervals.length && intervals[j][0]<=end){
+//                end=Math.max(end,intervals[j][1]);
+//                j++;
+//            }
+//            ans.add(Arrays.asList(start,end));
+//            i=j;
+//        }
+//
+//        System.out.println(ans);
 
-        int i=0;
-        List<List<Integer>> ans=new ArrayList<>();
+//// Longest Substring Without Repeating Characters:
+        String str = "takeUforward";
+        int maxlen=0,len=0;
 
-        while (i<intervals.length){
-            int start=intervals[i][0];
-            int end=intervals[i][1];
+//        for(int i=0;i<str.length();i++){
+//            HashSet<Character> set =new HashSet<>();
+//            for(int j=i;j<str.length();j++){
+//
+//                if(set.contains(str.charAt(j))) break;
+//
+//                set.add(str.charAt(j));
+//                maxlen=Math.max(maxlen,j-i+1);
+//
+//            }
+//        }
 
-            int j=i+1;
+//        int left=0;
+//        HashMap<Character,Integer> map=new HashMap<>();
+//
+//        for(int right=0;right<str.length();right++){
+//            char c=str.charAt(right);
+//            if(map.containsKey(c) && map.get(c)>=left){
+//                left=map.get(c)+1;
+//            }
+//
+//            map.put(c,right);
+//            maxlen=Math.max(maxlen,right-left+1);
+//
+//        }
+//
+//        System.out.println(maxlen);
 
-            while(j<intervals.length && intervals[j][0]<=end){
-                end=Math.max(end,intervals[j][1]);
-                j++;
-            }
-            ans.add(Arrays.asList(start,end));
-            i=j;
-        }
+////
 
-        System.out.println(ans);
+        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1};
+        int k = 3;
 
-
+////Fruit Into Baskets:
+////Longest repeating character replacement:
+////Binary subarray with sum:
+////Count number of nice subarrays:
+////Number of substring containing all three characters:
 
 
 
