@@ -635,6 +635,8 @@ public class Array {
 ////Count number of nice subarrays:
 ////Number of substring containing all three characters:
 
+        /// /
+
 
 
 
