@@ -818,6 +818,191 @@ public class Array {
 //        int k = 3, temp=k,sum=0,left=0,right=cards.length-1;
 
 //// Longest Substring with At Most K Distinct Characters:
+//        String str="aababbcaacc";
+//        int k = 2,maxlen=0;
+
+//        for(int i=0;i<str.length();i++){
+//            HashMap<Character,Integer> map=new HashMap<>();
+//            for (int j=i;j<str.length();j++){
+//                Character c=str.charAt(j);
+//                map.put(c,map.getOrDefault(c,0)+1);
+//                if(map.size()<=k){
+//                    maxlen=Math.max(maxlen,j-i+1);
+//                }
+//                else {
+//                    break;
+//                }
+//            }
+//        }
+
+//        int left=0; //aababbcaacc
+//        HashMap<Character,Integer> map=new HashMap<>();
+//        for(int right=0;right<str.length();right++){
+//            map.put(str.charAt(right),map.getOrDefault(str.charAt(right),0)+1);
+//
+//            while (map.size()>k){
+//                map.put(str.charAt(left),map.get(str.charAt(left))-1);
+//                if(map.get(left)==0){
+//                    map.remove(str.charAt(left));
+//                }
+//                left++;
+//            }
+//
+//            maxlen=Math.max(maxlen,right-left+1);     }
+
+//// Subarray with k different integers:
+        int[] nums = {1, 2, 1, 2, 3};
+        int k = 2,count=0;
+
+//        for(int i=0;i<nums.length;i++){
+//            HashSet<Integer> set=new HashSet<>();
+//            for(int j=i;j<nums.length;j++){
+//                set.add(nums[j]);
+//                if(set.size()>k) break;
+//                if(set.size()==k){
+//                    count++;
+//                }
+//            }
+//        }
+//        System.out.println(count);
+
+//            int left = 0, count = 0;
+//            HashMap<Integer, Integer> map = new HashMap<>();
+//
+//            for (int right = 0; right < nums.length; right++) {
+//
+//                map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
+//
+//                // Shrink window until it has at most K distinct numbers
+//                while (map.size() > K) {
+//                    map.put(nums[left], map.get(nums[left]) - 1);
+//                    if (map.get(nums[left]) == 0) {
+//                        map.remove(nums[left]);  // distinct count decreases
+//                    }
+//                    left++;
+//                }
+//                count += right - left + 1;
+//            }
+
+//// Minimum Window Substring:
+
+//        String s = "ADOBECODEBAANC";
+//        String t = "ABCA";
+//        int minlength=Integer.MAX_VALUE, start_index=-1;
+//
+//        int[] hash=new int[256];
+//        for(int i=0;i<t.length();i++){
+//            hash[t.charAt(i)]++;
+//        }
+//
+//        for(int i=0;i<s.length();i++){
+//            int[] frequency= hash.clone();
+//            int matchedCount=0;
+//            for(int j=i;j<s.length();j++){
+//                Character c=s.charAt(j);
+//
+//                if(frequency[c]>0) matchedCount++;
+//
+//                frequency[c]--;
+//
+//                if(matchedCount==t.length()){
+//                    if(minlength>j-i+1){
+//                        start_index=i;
+//                        minlength=j-i+1;
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+//
+//        if(start_index==-1) System.out.println("");
+//        System.out.println(s.substring(start_index,start_index+minlength));
+
+//        String s = "ADOBECODEBAANC";
+//        String t = "ABCA";
+//
+//        int[] hash = new int[256];
+//        for (int i = 0; i < t.length(); i++) {
+//            hash[t.charAt(i)]++;
+//        }
+//
+//        int left = 0, start = -1;
+//        int minlength = Integer.MAX_VALUE;
+//        int matchedCount = 0;
+//
+//        for (int right = 0; right < s.length(); right++) {
+//
+//            char c = s.charAt(right);
+//
+//            if (hash[c] > 0) matchedCount++; // needed char matched
+//            hash[c]--; // consume
+//
+//            // window valid
+//            while (matchedCount == t.length()) {
+//
+//                // update minimum
+//                if (right - left + 1 < minlength) {
+//                    minlength = right - left + 1;
+//                    start = left;
+//                }
+//
+//                char leftChar = s.charAt(left);
+//
+//                // if removing it makes us lose a needed char
+//                if (hash[leftChar] >= 0) matchedCount--;
+//
+//                hash[leftChar]++;  // release
+//                left++;
+//            }
+//        }
+//
+//        if (start == -1) {
+//            System.out.println(""); // no valid window
+//        } else {
+//            System.out.println(s.substring(start, start + minlength));
+//        }
+//    }
+//}
+
+
+//        private static boolean isSubsequence(String s1, String s2) {
+//            int i = 0, j = 0;
+//            while (i < s1.length() && j < s2.length()) {
+//                if (s1.charAt(i) == s2.charAt(j)) {
+//                    j++;
+//                }
+//                i++;
+//            }
+//            return j == s2.length();
+//        }
+
+//        String s1="abcde";
+//        String s2="abd";
+//
+//        for (int i = 0; i < n; i++) {
+//            for (int j = i; j < n; j++) {
+//
+//                int windowLen = j - i + 1;
+//
+//                // 1️⃣ If window is already bigger than best, skip
+//                if (windowLen >= minLen) continue;
+//
+//                // 2️⃣ If window is smaller than s2, skip
+//                if (windowLen < s2.length()) continue;
+//
+//                String sub = s1.substring(i, j + 1);
+//
+//                // 3️⃣ Check subsequence
+//                if (isSubsequence(sub, s2)) {
+//                    minLen = windowLen;
+//                    result = sub;
+//                    break; // leftmost minimal window for this i
+//                }
+//            }
+//        }
+//
+//        return result;
+//    }
 
 
 
@@ -839,7 +1024,14 @@ public class Array {
 
 
 
-        }
+
+
+
+
+
+
+
+    }
 
 
 
