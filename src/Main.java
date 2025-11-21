@@ -1,10 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
 class Product {
     private String name;
     private String category;
@@ -125,9 +122,30 @@ public class Main {
         List<Integer> list=new ArrayList<>();
         HashMap<Integer,Integer> map=new HashMap<>();
 
-        int[] arr = {1, 2, 3, 4, 5};
-        int left=0,right=0,count=0,sum=0,max_sum=0,target=0, max_len=0,len=0,n=arr.length;
+        int[] arr = {1, 0, 2, 3, 0, 4};
+        int[] num ={1, 3, 3,10};
+        int target=5,left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0,n=arr.length;
         int i=0,j=0,k=n-1, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
+
+        for(i=0;i<arr.length;i++){
+            sum+=arr[i];
+
+            while (sum>target){
+                sum-=arr[j];
+                j++;
+            }
+
+            if(sum==target) max_len=Math.max(max_len,i-j+1);
+        }
+
+        System.out.println(max_len);
+
+
+
+
+
+
+
 
 
 

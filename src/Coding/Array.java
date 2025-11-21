@@ -6,6 +6,8 @@ public class Array {
     public static void main(String[] args) {
         System.out.println("Hello");
 
+
+
 ////Reverse a number or Check palindrome.
 //        int num=121;
 //        int reversed=0, temp=num;
@@ -964,6 +966,7 @@ public class Array {
 //    }
 //}
 
+////Minimum window subsequence:
 
 //        private static boolean isSubsequence(String s1, String s2) {
 //            int i = 0, j = 0;
