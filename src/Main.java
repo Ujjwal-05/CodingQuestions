@@ -120,49 +120,33 @@ public class Main {
         List<Integer> list2 = List.of(3, 4, 5, 6, 7);
         Set<Integer> set =new HashSet<>();
         List<Integer> list=new ArrayList<>();
-        HashMap<Integer,Integer> map=new HashMap<>();
 
-        int[] arr = {1, 0, 2, 3, 0, 4};
-        int[] num ={1, 3, 3,10};
-        int target=5,left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0,n=arr.length;
-        int i=0,j=0,k=n-1, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
+        int[] nums ={1, 3, 3,10};
+        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
+        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        for(i=0;i<arr.length;i++){
-            sum+=arr[i];
+        int[] arr = {1, 2, 2, 3, 2, 1, 1};
+        int k=arr.length-1;
 
-            while (sum>target){
-                sum-=arr[j];
-                j++;
+        for(int  num:arr){
+            if(cnt1==0 && num!=e2){
+                cnt1=1;
+                e1=num;
+            } else if (cnt2==0 && num!=e1) {
+                cnt2=1;
+                e2=num;
+            } else if (num==e1) {
+                cnt1++;
+            } else if (num==e2) {
+                cnt2++;
+            }else {
+                cnt1--;
+                cnt2--;
             }
-
-            if(sum==target) max_len=Math.max(max_len,i-j+1);
         }
 
-        System.out.println(max_len);
 
 
 
 
-
-
-
-
-
-
-
-//        System.out.println(Arrays.toString(ans));
-//        System.out.println(list);
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-}
+}}

@@ -263,8 +263,6 @@ public class Array {
 //
 //        }
 
-
-
 //// Two Sum: (Hashing and Two Pointer): for two pointer we need to sort the element
 //        HashMap<Integer, Integer> map = new HashMap<>();
 //        int count = 0;
@@ -338,6 +336,29 @@ public class Array {
 //            System.out.println(-1);
 //
 //        }
+
+////Return an element that occurs more than N/3 times:
+//        int[] arr = {1, 2, 2, 3, 2, 1, 1};
+//        int k=arr.length-1;
+//
+//        for(int  num:arr){
+//            if(cnt1==0 && num!=e2){
+//                cnt1=1;
+//                e1=num;
+//            } else if (cnt2==0 && num!=e1) {
+//                cnt2=1;
+//                e2=num;
+//            } else if (num==e1) {
+//                cnt1++;
+//            } else if (num==e2) {
+//                cnt2++;
+//            }else {
+//                cnt1--;
+//                cnt2--;
+//            }
+//        }
+
+
 
 //// Most frequent Element:
 //
