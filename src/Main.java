@@ -125,25 +125,6 @@ public class Main {
         int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
         int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        int[] arr = {1, 2, 2, 3, 2, 1, 1};
-        int k=arr.length-1;
-
-        for(int  num:arr){
-            if(cnt1==0 && num!=e2){
-                cnt1=1;
-                e1=num;
-            } else if (cnt2==0 && num!=e1) {
-                cnt2=1;
-                e2=num;
-            } else if (num==e1) {
-                cnt1++;
-            } else if (num==e2) {
-                cnt2++;
-            }else {
-                cnt1--;
-                cnt2--;
-            }
-        }
 
 
 

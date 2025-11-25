@@ -6,8 +6,6 @@ public class Array {
     public static void main(String[] args) {
         System.out.println("Hello");
 
-
-
 ////Reverse a number or Check palindrome.
 //        int num=121;
 //        int reversed=0, temp=num;
@@ -381,8 +379,8 @@ public class Array {
 //        System.out.println(mostFreqElement);
 
 ////Maximum subarray Sum( find the contiguous subarray (containing at least one number) which has the largest sum):
-//
-//        int[] arr = { -2, 1, -3, 4, -1, -2, 1, 5, -4};
+
+//        int[] arr = { -2, -1, -3, -4, -1, -2,-1, -5, -4};
 //        int max_sum=Integer.MIN_VALUE;
 //        int sum=0,j=0;
 //        for(int i=0;i<arr.length;i++) {
@@ -390,7 +388,7 @@ public class Array {
 //
 //            if(sum>max_sum){
 //                max_sum=sum;
-//                length=i-j+1;
+////                length=i-j+1;
 //            }
 //
 //            if(sum<0){
@@ -399,6 +397,7 @@ public class Array {
 //            }
 //
 //        }
+//        System.out.println(max_sum);
 
 //// Stock buy or sell
 //        int[] arr = { 7, 1, 5, 3, 6, 4};
@@ -438,7 +437,7 @@ public class Array {
 //            if(curr<0){
 //                int temp=max_prod;
 //                max_prod=min_prod;
-//                min_prod=max_prod;
+//                min_prod=temp;
 //            }
 //
 //            max_prod=Math.max(curr,max_prod*curr);
@@ -614,6 +613,139 @@ public class Array {
 //        }
 //
 //        System.out.println(ans);
+
+//// Remove Outermost Paranthesis:
+//
+//        int count=0;
+//        for(Character c: str.toCharArray()){
+//            if(c=='('){
+//                if(count>0) sb.append(c);
+//                count++;
+//            }else {
+//                count--;
+//                if(count>0) sb.append(c);
+//            }
+//        }
+
+////Reverse Words in a String
+//        String str="  This is decent ";
+//        int index = 0;
+//
+//        while (index < str.length()) {
+//            // skip spaces
+//            while (index < str.length() && str.charAt(index) == ' ') index++;
+//
+//            // collect word
+//            StringBuilder currentWord = new StringBuilder();
+//            while (index < str.length() && str.charAt(index) != ' ') {
+//                currentWord.append(str.charAt(index));
+//                index++;
+//            }
+//
+//            if (currentWord.length() > 0) {
+//                ans.add(currentWord.toString());
+//            }
+//        }
+//
+//        // reverse list
+//        Collections.reverse(ans);
+//
+//        System.out.println(String.join(" ", ans));
+
+//// Largest Odd Number in a String.
+//        String str = "00000";
+//        int left = 0, right = str.length() - 1;
+//
+        // Move right pointer to the last odd digit
+//        while (right >= 0 && (str.charAt(right) - '0') % 2 == 0) {
+//            right--;
+//        }
+//
+        // If no odd digit exists
+//        if (right == -1) {
+//            System.out.println("No Substring found");
+//        } else {
+//            // Skip leading zeros
+//            while (left < right && str.charAt(left) == '0') {
+//                left++;
+//            }
+//
+//            System.out.println(str.substring(left, right + 1));
+//        }
+
+//// Longest Common Prefix
+        String[] input = {"interview", "internet", "internal", "interval"};
+
+//        if (input == null || input.length == 0) return;
+//        String prefix = input[0];
+//        if (prefix == null) return;
+//
+//        for(int i=1;i<input.length;i++){
+//
+//            while (!input[i].startsWith(prefix)){
+//                prefix=prefix.substring(0,prefix.length()-1);
+//            }
+//
+//            if(prefix.isEmpty()){
+//                System.out.println("No Prefix Found");
+//                return;
+//            }
+//        }
+//        System.out.println("LCP is " + prefix);
+
+//        Arrays.sort(input);
+//        String first=input[0], last=input[input.length-1];
+//        StringBuilder ans =new StringBuilder();
+//
+//        for(int i=0;i<Math.min(first.length(),last.length());i++){
+//
+//            if(first.charAt(i)!=last.charAt(i)) break;
+//            ans.append(first.charAt(i));
+//        }
+//
+//        System.out.println(ans.toString());
+
+////Check if one string is rotation of another
+        String s = "rotation", goal = "tionrota";
+//        if(s.length()!=goal.length()) return;
+//
+//        for (int i=0;i<s.length();i++){
+//            String rotated= s.substring(i) + s.substring(0,i);
+//            if (rotated.equals(goal)) break;
+//        }
+
+        // Another approach O(n)
+//        if(s.length()==goal.length() && (s+s).contains(goal)){
+//            System.out.println("yes");
+//        }
+
+
+////Check if two Strings are anagrams of each other and also for unicode character:
+
+//        String s1= "listen", s2= "silent";
+//
+//        char[] a= s1.toCharArray();
+//        char[] b=s2.toCharArray();
+//        Arrays.sort(a);
+//        Arrays.sort(b);
+
+//        char[] frequency=new char[26];
+//
+//        for(int i=0;i<s1.length();i++){
+//            frequency[s1.charAt(i)-'a']++;
+//        }
+//        for (int i=0;i<s2.length();i++){
+//            frequency[s2.charAt(i)-'a']--;
+//        }
+//        for(int i=0;i<frequency.length;i++){
+//            if(frequency[i]==1) return;
+//        }
+//        System.out.println("Yes");
+
+//
+
+//        System.out.println(Arrays.equals(a,b));
+
 
 //// Longest Substring Without Repeating Characters:
 //        String str = "takeUforward";
