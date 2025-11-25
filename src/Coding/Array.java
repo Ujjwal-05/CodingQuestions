@@ -674,7 +674,7 @@ public class Array {
 //        }
 
 //// Longest Common Prefix
-        String[] input = {"interview", "internet", "internal", "interval"};
+//        String[] input = {"interview", "internet", "internal", "interval"};
 
 //        if (input == null || input.length == 0) return;
 //        String prefix = input[0];
@@ -706,7 +706,7 @@ public class Array {
 //        System.out.println(ans.toString());
 
 ////Check if one string is rotation of another
-        String s = "rotation", goal = "tionrota";
+//        String s = "rotation", goal = "tionrota";
 //        if(s.length()!=goal.length()) return;
 //
 //        for (int i=0;i<s.length();i++){
@@ -714,7 +714,7 @@ public class Array {
 //            if (rotated.equals(goal)) break;
 //        }
 
-        // Another approach O(n)
+          // Another approach O(n)
 //        if(s.length()==goal.length() && (s+s).contains(goal)){
 //            System.out.println("yes");
 //        }
@@ -728,9 +728,9 @@ public class Array {
 //        char[] b=s2.toCharArray();
 //        Arrays.sort(a);
 //        Arrays.sort(b);
+//        System.out.println(Arrays.equals(a,b));
 
 //        char[] frequency=new char[26];
-//
 //        for(int i=0;i<s1.length();i++){
 //            frequency[s1.charAt(i)-'a']++;
 //        }
@@ -742,56 +742,43 @@ public class Array {
 //        }
 //        System.out.println("Yes");
 
-//
-
-//        System.out.println(Arrays.equals(a,b));
-
-
-//// Longest Substring Without Repeating Characters:
+//// Longest Substring Without Repeating Characters: Given a string, S. Find the length of the longest substring
+//// without repeating characters.
 //        String str = "takeUforward";
-//        int maxlen=0,len=0;
 
+//        int maxlen=0;
 //        for(int i=0;i<str.length();i++){
-//            HashSet<Character> set =new HashSet<>();
+//            HashSet<Character> set=new HashSet<>();
 //            for(int j=i;j<str.length();j++){
-//
-//                if(set.contains(str.charAt(j))) break;
-//
-//                set.add(str.charAt(j));
-//                maxlen=Math.max(maxlen,j-i+1);
-//
+//                Character c=str.charAt(j);
+//                if(set.contains(c)) break;
+//                set.add(c);
+//                maxlen=Math.max(maxlength,j-i+1);
 //            }
 //        }
 
-//        int left=0;
+//        int left=0,maxlen=0;
 //        HashMap<Character,Integer> map=new HashMap<>();
-//
 //        for(int right=0;right<str.length();right++){
-//            char c=str.charAt(right);
+//            Character c=str.charAt(right);
 //            if(map.containsKey(c) && map.get(c)>=left){
-//                left=map.get(c)+1;
+//                int lastseenindex=map.get(c);
+//                left=lastseenindex+1;
 //            }
-//
 //            map.put(c,right);
 //            maxlen=Math.max(maxlen,right-left+1);
-//
 //        }
-//
-//        System.out.println(maxlen);
 
-//// Maximum Consecutive ones |||:
+//// Maximum Consecutive ones: Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array
+//// if you can flip at most k 0's.
+//        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1}; int k = 3;
 
-//        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1};
-//        int k = 3,maxLen=0,n=nums.length;
-
+//        int maxLen=0,n=nums.length;
 //        for (int i = 0; i < n; i++) {
 //            int zeroes = 0;
-//
 //            for (int j = i; j < n; j++) {
 //                if (nums[j] == 0) zeroes++;
-//
 //                if (zeroes > k) break; // window invalid
-//
 //                maxLen = Math.max(maxLen, j - i + 1);
 //            }
 //        }
@@ -808,12 +795,11 @@ public class Array {
 //
 //            maxLen=Math.max(maxLen,right-left+1);
 //        }
-//
-//        System.out.println(maxLen);
 
 ////Fruit Into Baskets or Also known as: Longest Subarray with at most 2 distinct elements:
-//        int nums[]={1,1,0,2,2,1,1,2,2,0,0,1};
-//        int k=2,n=nums.length, maxlen=0,left=0;
+//        int nums[]={1,1,0,2,2,1,1,2,2,0,0,1}; int k=2;
+
+//        int maxlen=0;
 //        for(int i=0;i<n;i++){
 //            HashSet<Integer> set=new HashSet<>();
 //            for(int j=i;j<n;j++){
@@ -839,60 +825,49 @@ public class Array {
 //        }
 //        System.out.println(maxlen);
 
-////longest repeating character replacement:: Length of the longest substring where you can make all characters equal after at most k replacements.
+////Longest repeating character replacement: Length of the longest substring where you can make all characters equal after
+////at most k replacements.
+//      String str="ABBC"; int k=2;
 
-//        String str="ABBCCD";
-//        int k=2,maxlen=0;
-
+//        int maxlen=0;
 //        for(int i=0;i<str.length();i++){
 //            int[] freq=new int[26];
 //            int maximum=0;
 //            for(int j=i;j<str.length();j++){
-//
-//                freq[str.charAt(j)-'A']++;
-//                maximum=Math.max(maximum,freq[str.charAt(j)-'A']);
+//                Character c=str.charAt(j);
+//                freq[c-'A']++;
+//                maximum=Math.max(maximum,freq[c-'A']);
 //                int windowsize=j-i+1;
 //                if(windowsize-maximum<=k){
-//                    maxlen=Math.max(maxlen,windowsize);
+//                    maxlen=Math.max(maxlen,j-i+1);
 //                }
-//
 //            }
 //        }
 
 //        while (right < str.length()) {
 //
-//            // Increment the frequency of current character
 //            freq[s.charAt(right) - 'A']++;
-//
-//            // Update maxCount with the max frequency seen so far
 //            maxCount = Math.max(maxCount, freq[s.charAt(right) - 'A']);
-//
-//            // If the current window needs more than k replacements, move left
 //            while ((right - left + 1) - maxCount > k) {
 //                freq[s.charAt(left) - 'A']--;
 //                left++;
 //            }
 //
-//            // Update the maximum window length
 //            maxLength = Math.max(maxLength, right - left + 1);
-//
-//            // Move right pointer forward
 //            right++;
 //        }
 
-////Binary subarray with sum: You are given a binary array nums (containing only 0s and 1s) and an integer goal.Return the number of non-empty subarrays of
-//nums that sum to goal. A subarray is a contiguous part of the array.
+////Binary subarray with sum: You are given a binary array nums (containing only 0s and 1s) and an integer goal.Return the
+//// number of non-empty subarrays of nums that sum to goal. A subarray is a contiguous part of the array.
+//        int[] nums = {1, 0, 0, 1, 1, 0}; int goal = 2;
 
-//        int[] nums = {1, 0, 0, 1, 1, 0};
-//        int goal = 2, count=0;
-//
+//        int count=0;
 //        for(int i=0;i<nums.length;i++){
 //            int sum=0;
 //            for(int j=i;j<nums.length;j++){
 //                sum+=nums[j];
 //                if(sum==goal) count++;
 //       }}
-//        System.out.println(count);
 
 //        int right=0,left=0,sum=0;
 //        HashMap<Integer,Integer> map=new HashMap<>();
@@ -908,14 +883,12 @@ public class Array {
 //            map.put(sum,map.getOrDefault(sum,0)+1);
 //            right++;
 //        }
-//
-//        System.out.println(count);
 
-////Count number of nice subarrays:
+////Count number of nice subarrays: An array is called nice if and only if it contains k odd numbers. Find the number of nice subarrays
+////in the given array nums. A subarray is continuous part of the array.
+//        int [] nums={1,1,2,1,1,1}; int k=3;
 
-//        int [] nums={1,1,2,1,1};
-//        int k=3,count=0,odd=0,left=0;
-
+//        int count=0;
 //        for(int i=0;i<nums.length;i++){
 //            int odd=0;
 //            for(int j=i;j<nums.length;j++){
@@ -925,35 +898,34 @@ public class Array {
 //                if(odd>k) break;
 //            }
 //        }
-//        System.out.println(count);
 
+//        int oddCount=0,count=0;
+//        HashMap<Integer,Integer> map=new HashMap<>();
 //        for(int num:nums){
+//            if(num%2==1) oddCount++;
+//            int rem=oddCount-k;
 //
-//            if(num%2==1) odd++;
-//
-//            while (odd>k){
-//                if(nums[left]%2==1) odd--;
-//                left++;
+//            if(map.containsKey(rem)){
+//                count+=map.get(rem);
 //            }
 //
-//            if(odd==k){
-//                count++;
-//            }
-//
+//            map.put(oddCount,map.getOrDefault(oddCount,0)+1);
 //        }
-//        System.out.println(count);
 
-////Number of substring containing all three characters:
-
+////Number of substring containing all three characters: Given a string s consisting only of characters 'a', 'b', 'c'.
+////Find the number of substrings that contain at least one occurrence of all these characters 'a', 'b', 'c'.
 //        String str="ccabcc";
+
 //        int count=0;
 //        for(int i=0;i<str.length();i++){
 //            int [] freq=new int[3];
 //            for(int j=i;j<str.length();j++){
 //                freq[str.charAt(j)-'a']++;
-//                if(freq[0]>=1 && freq[1]>=1 && freq[2]>=1) count++;
+//                if(freq[0]>=1 && freq[1]>=1 && freq[2]>=1){
+//                    count++;
 //                }
 //            }
+//        }
 
 //        int [] freq=new int[3];
 //        int n=str.length(),left=0;
@@ -967,26 +939,50 @@ public class Array {
 //                left++;
 //            }}
 
-////Maximum point you can obtain from cards:
+////Maximum point you can obtain from cards: Given N cards arranged in a row, each card has an associated score denoted by the
+////cardScore array. Choose exactly k cards. In each step, a card can be chosen either from the beginning or the end of the row.
+////The score is the sum of the scores of the chosen cards.
+//        int[] cards = {5, 4, 1, 8, 7, 1, 3}; int k = 3;
 
-//        int[] cards = {5, 4, 1, 8, 7, 1, 3};
-//        int k = 3, temp=k,sum=0,left=0,right=cards.length-1;
+//        int n=cards.length-1, maxsum=0;
+//        for(int front=0;front<=k;front++){
+//            int back=k-front;
+//            int sum=0;
+//
+//            for(int i=0;i<front;i++) sum+=cards[i];
+//            for(int i=0;i<back;i++) sum+=cards[n-1-i];
+//
+//            maxsum=Math.max(maxsum,sum);
+//        }
 
-//// Longest Substring with At Most K Distinct Characters:
-//        String str="aababbcaacc";
-//        int k = 2,maxlen=0;
+//        int total=0,n=cards.length;
+//        for(int i=0;i<k;i++){
+//            total+=cards[i];
+//        }
+//        int maximum=total;
+//        for(int i=0;i<k;i++){
+//
+//            total-=cards[k-1-i];
+//            total+=cards[n-1-i];
+//
+//            maximum=Math.max(maximum,total);
+//        }
 
+
+//// Longest Substring with At Most K Distinct Characters: Given a string s and an integer k.Find the length of the longest
+//// substring with at most k distinct characters
+//        String str="aababbcaacc"; int k = 2;
+
+//        int maxlen=0;
 //        for(int i=0;i<str.length();i++){
-//            HashMap<Character,Integer> map=new HashMap<>();
+//            HashSet<Character> set=new HashSet<>();
 //            for (int j=i;j<str.length();j++){
 //                Character c=str.charAt(j);
-//                map.put(c,map.getOrDefault(c,0)+1);
-//                if(map.size()<=k){
-//                    maxlen=Math.max(maxlen,j-i+1);
-//                }
-//                else {
-//                    break;
-//                }
+//                set.add(c);
+//
+//                if(set.size()>k) break;
+//
+//                maxlen=Math.max(maxlen,j-i+1);
 //            }
 //        }
 
@@ -1005,10 +1001,11 @@ public class Array {
 //
 //            maxlen=Math.max(maxlen,right-left+1);     }
 
-//// Subarray with k different integers:
-        int[] nums = {1, 2, 1, 2, 3};
-        int k = 2,count=0;
+//// Subarray with k different integers: Return the number of good subarrays of nums. A good subarray is defined as a contiguous subarray
+///  of nums that contains exactly k distinct integers. A subarray is a contiguous part of the array.
+        int[] nums = {1, 2, 1, 2, 3}; int k = 2;
 
+//        int count=0;
 //        for(int i=0;i<nums.length;i++){
 //            HashSet<Integer> set=new HashSet<>();
 //            for(int j=i;j<nums.length;j++){
@@ -1019,8 +1016,12 @@ public class Array {
 //                }
 //            }
 //        }
-//        System.out.println(count);
 
+//        public static int subarraysWithKDistinct(int[] nums, int k) {
+//            return atMost(nums, k) - atMost(nums, k - 1);
+//        }
+//
+//        private static int atMost(int[] nums, int K) {
 //            int left = 0, count = 0;
 //            HashMap<Integer, Integer> map = new HashMap<>();
 //
@@ -1028,18 +1029,20 @@ public class Array {
 //
 //                map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
 //
-//                // Shrink window until it has at most K distinct numbers
 //                while (map.size() > K) {
 //                    map.put(nums[left], map.get(nums[left]) - 1);
 //                    if (map.get(nums[left]) == 0) {
-//                        map.remove(nums[left]);  // distinct count decreases
+//                        map.remove(nums[left]);
 //                    }
 //                    left++;
 //                }
 //                count += right - left + 1;
 //            }
+//            return count;
+//        }
 
-//// Minimum Window Substring:
+//// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t
+//// (including duplicates), in the window. Return the empty string "" if no such substring exists.
 
 //        String s = "ADOBECODEBAANC";
 //        String t = "ABCA";
