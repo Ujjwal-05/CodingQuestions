@@ -1,10 +1,9 @@
 package Coding;
 
-import java.util.*;
 //Find pairs with given sum in sorted array:
 public class Array {
     public static void main(String[] args) {
-        System.out.println("Hemmmmllo");
+        System.out.println("Happy Coding");
 
 ////Reverse a number or Check palindrome.
 //        int num=121;
@@ -1391,7 +1390,173 @@ public class Array {
 ////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
 
 
-////61844545454545nnnnnnn
+//// Binary Search to find X in sorted array:
+//        int[] a = {3, 4, 5, 7, 9, 12, 16, 17}; int target = 6;
+//
+//        int low =0,high=a.length-1;
+//
+//        while (low <=high){
+//            int mid=(low +high)/2;
+//            if(target==a[mid]){
+//                System.out.println(target);
+//                return;
+//            } else if (target>a[mid]) {
+//                low=mid+1;
+//            }else {
+//                high=mid-1;
+//            }
+//        }
+
+//// Lower Bound: The smallest index in a sorted array where the value at that index is greater than or equal to a given key.
+//// Upper Bound: The smallest index in a sorted array where the value at that index is greater than the given key.
+//        int[] arr = {3, 4, 5, 7, 9, 12, 16, 17}; int target = 1;
+//        int low=0,high=arr.length-1,ans=arr.length;
+
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            if(arr[mid]>=target){
+//                ans=mid;
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }
+
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            if(arr[mid]>target){
+//                ans=mid;
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }
+
+
+//// Search Insert Position: You are given a sorted array arr of distinct values and a target value x. You need to search
+//// for the index of the target value in the array.
+//        int[] arr = {3, 4, 5, 7, 9, 12, 16, 17}; int target = 100;
+//
+//        int low=0,high=arr.length-1,ans=arr.length;
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            if (arr[mid] >= target) {
+//                // Potential answer found, try to go left
+//                ans = mid;
+//                high = mid - 1;
+//            } else {
+//                // Go right
+//                low = mid + 1;
+//            }
+//        }
+
+//// Find the first or last occurrence of a given number in a sorted array:
+//        int[] arr = {3, 4, 5, 7, 7, 7, 7, 9, 12, 16, 17}; int target = 9;
+//
+//        int low=0,high=arr.length-1,ans=arr.length;
+//        int first=-1,last=-1;
+//        while (low<=high) {
+//            int mid = (low + high) / 2;
+//
+//            if(arr[mid]==target){
+//                first=mid;
+//                high=mid-1;
+//            } else if (arr[mid]>target) {
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }
+//
+//        low=0;high=arr.length-1;
+//        while (low<=high) {
+//            int mid = (low + high) / 2;
+//
+//            if(arr[mid]==target){
+//                last=mid;
+//                low=mid+1;
+//            } else if (arr[mid]>target) {
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }
+
+//// Search Element in a Rotated Sorted Array:
+        // In rotated sorted array we are not sure which half is sorted so we have to find which half is sorted out of two:
+        // But it is sure that one half will always be sorted.
+//        int[] arr = {4, 5, 6, 7, 0, 1, 2}; int k = 0;
+//        int low=0,high= arr.length-1, ans=-1;
+//
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            if(arr[mid]==k){
+//                ans=mid;
+//                break;
+//            } else if (arr[low]<=arr[mid]) {  // left half part sorted
+//                if(arr[low]<=k && k<=arr[mid]){
+//                    high=mid-1;
+//                }else {
+//                    low=mid+1;
+//                }
+//            }else {     // Right half is sorted
+//                if(arr[mid]<=k && k<=arr[high]){
+//                    low=mid+1;
+//                }else {
+//                    high=mid-1;
+//                }
+//            }
+//        }
+//        System.out.println(ans);
+
+//// Search Element in Rotated Sorted Array II: contain duplicate values:
+//        When the array contains duplicates, the usual method of identifying the sorted half in a rotated sorted array no longer works.
+//        Normally, we compare arr[low],arr[mid], and arr[high] to decide whether the left or right half is sorted. This logic fails when
+//        arr[low] == arr[mid] == arr[high], because all three values are identical, making it impossible to determine which side is sorted
+//        and where the pivot might be hidden. If arr[mid] is not equal to the target, then arr[low] and arr[high] also cannot be the target
+//        because they have the same value as arr[mid]. This means the search boundaries are not helpful and only block progress. Therefore,
+//        in this situation, we trim the search space by doing low++ and high--. This removes the duplicate values at both ends, allowing the
+//        binary search to continue and eventually expose a portion of the array where the sorted-half logic can correctly determine the direction of search again.
+
+//        int[] arr = {3,1,3 ,3,3,3}; int k = 3;
+//        int low=0,high= arr.length-1, ans=-1;
+//        while (low<=high) {
+//            int mid = (low + high) / 2;
+//            if (arr[mid] == k){
+//            ans=mid;
+//              break;
+//            }
+//
+//            // Handle duplicates: cannot determine sorted side
+//            if (arr[low] == arr[mid] && arr[mid] == arr[high]) {
+//                low++;
+//                high--;
+//                continue;
+//            }
+//
+//            if (arr[low] <= arr[mid]) {
+//                if (arr[low] <= k && k <= arr[mid]) {
+//                    high = mid - 1; // Search left
+//                } else {
+//                    low = mid + 1;  // Search right
+//                }
+//            } else {
+//                if (arr[mid] <= k && k <= arr[high]) {
+//                    low = mid + 1;  // Search right
+//                } else {
+//                    high = mid - 1; // Search left
+//                }
+//            }
+//        }
+
+//// Minimum in Rotated Sorted Array: contain distinct values:
+        int arr[]={4,5,6,7,0,1,2,3};
+
+
 
 
 
