@@ -4,7 +4,7 @@ import java.util.*;
 //Find pairs with given sum in sorted array:
 public class Array {
     public static void main(String[] args) {
-        System.out.println("Hello");
+        System.out.println("Hemmmmllo");
 
 ////Reverse a number or Check palindrome.
 //        int num=121;
