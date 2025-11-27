@@ -1216,7 +1216,7 @@ public class Array {
 //            return count;
 //        }
 
-////Count Number of Substrings:  You are given a string s and a positive integer k. Return the number of substrings that contain exactly k distinct characters.
+////Count Number of Substrings: You are given a string s and a positive integer k. Return the number of substrings that contain exactly k distinct characters.
 //        public static int substringsWithKDistinct(String s, int k) {
 //            return atMostK(s, k) - atMostK(s, k - 1);
 //        }
