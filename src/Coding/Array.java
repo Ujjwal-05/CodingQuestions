@@ -1,7 +1,7 @@
 package Coding;
 
 import java.util.*;
-
+//Find pairs with given sum in sorted array:
 public class Array {
     public static void main(String[] args) {
         System.out.println("Hello");
@@ -14,14 +14,11 @@ public class Array {
 //            reversed=reversed*10 + temp%10;
 //            temp/=10;
 //        }
-//
-//        System.out.println(reversed==num);
 
 //// Armstrong:
-//
 //        static boolean isArmstrong(int num) {
 //            int original = num;
-//            int digits = (int) Math.floor(Math.log10(num)) + 1;
+//            int digits = String.valueOf(num).length();
 //            int sum = 0;
 //
 //            while (num > 0) {
@@ -29,10 +26,8 @@ public class Array {
 //                sum += (int) Math.pow(rem, digits);
 //                num /= 10;
 //            }
-//
 //            return sum == original;
 //        }
-
 
 ////Second Largest element in the from the array:
 //        int [] arr= {10,8,5,4,3,9};
@@ -47,8 +42,6 @@ public class Array {
 //                second_larget=arr[i];
 //            }
 //        }
-//
-//        System.out.println(second_larget);
 
 //// Remove duplicates from the sorted array:
 //        int [] arr= {1,2,2,2,2,2,3,3,3,4,5,5};
@@ -60,9 +53,6 @@ public class Array {
 //                arr[left]=arr[right];;
 //            }
 //        }
-//
-//        System.out.println(left);
-//        System.out.println(Arrays.toString(arr));
 
 //// Left rotate array by d place:
 //        int [] a={1,2,3,4,5};
@@ -71,15 +61,21 @@ public class Array {
 //        Reverse(a,0,k-1);
 //        Reverse(a,k,a.length-1);
 //        Reverse(a,0,a.length-1);
-//
-//        System.out.println(Arrays.toString(a));
+
+//        static void Reverse(int[] a, int start, int end) {
+//            while (start < end) {
+//                int temp = a[start];
+//                a[start] = a[end];
+//                a[end] = temp;
+//                start++;
+//                end--;
+//            }
+//        }
+
 
 //// Moves zero to end:
-///
-//        int [] arr={0,0,0,1,2,3,0,0,4,5,0,0};
-//
-//        //Doesn't maintain insertion order:
-//
+//        int [] arr={0,5,0,1,2,3,0,0,4,5,0,0};
+
 //        int left=0, right=arr.length-1;
 //        while (left<right){
 //            if( arr[left]==0 && arr[right]!=0){
@@ -94,25 +90,20 @@ public class Array {
 //                right--;
 //            }
 //        }
+
+// Maintain insertion order:
+//        int[] arr = {2, 0, 0, 2, 1, 0, 2, 3, 4, 5, 0};
 //
-//        System.out.println(Arrays.toString(arr));
-//
-//        //Maintain insertion order:
-//
-//         arr=new int[]{1,1,1,0,0,0,2,3,4,5,0,0,0};
-//        int largest=0,secondlargest=0;
-//        int i=0;
-//
-//        for(int j=0;j<arr.length;j++){
-//            if(arr[j]!=0){
-//                int temp=arr[i];
-//                arr[i]=arr[j];
-//                arr[j]=temp;
+//        int i = 0;
+//        for (int j = 0; j < arr.length; j++) {
+//            if (arr[j] != 0) {
+//                // Only swap if i and j are different
+//                int temp = arr[i];
+//                arr[i] = arr[j];
+//                arr[j] = temp;
 //                i++;
 //            }
 //        }
-
-//        System.out.println(Arrays.toString(arr));
 
 ////Find the union of the 2 sorted array and result should be sorted:
 //
@@ -156,8 +147,6 @@ public class Array {
 //            }
 //            j++;
 //        }
-//
-//        System.out.println(union);
 
 ////Find the number that appears once, and other numbers twice.
 //
@@ -167,8 +156,144 @@ public class Array {
 //        for (int num:arr){
 //            res=res^num;
 //        }
+
+////Java programme to print distinct element in UnSorted/Sorted array.
+////Print duplicate elements in Sorted/Unsorted array:
+
+////Find pairs with given sum in sorted array:
+//        int arr[] = {1,1,2,2,3,4,4,5,6,7,8}; int k = 9;
+
+//        int left = 0, right = arr.length - 1;
+//        while (left < right) {
+//            int sum = arr[left] + arr[right];
 //
-//        System.out.println(res);
+//            if (sum == k) {
+//                System.out.println(arr[left] + " " + arr[right]);
+//
+//                // Skip duplicates for left
+//                int currentLeft = arr[left];
+//                while (left < right && arr[left] == currentLeft) left++;
+//
+//                // Skip duplicates for right
+//                int currentRight = arr[right];
+//                while (left < right && arr[right] == currentRight) right--;
+//
+//            } else if (sum > k) {
+//                right--;
+//            } else {
+//                left++;
+//            }
+//        }
+
+////Find pairs with given sum in Unsorted array:
+//        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
+//
+//        Set<Integer> set=new HashSet<>();
+//
+//        for (int num:arr){
+//            int compliment=k-num;
+//
+//            if(set.contains(compliment)){
+//                System.out.println(num +"  "+ compliment);
+//            }
+//
+//            set.add(num);
+//
+//        }
+
+//// Find common element in three or two sorted array:
+//        int[] a ={1,2,3,4,5};
+//        int[] b ={2,3,4,5,6};
+//        int[] c ={3,4,5,6,7};
+//
+//        int i=0,j=0,k=0;
+//
+//        while (i<a.length && j<b.length && k<c.length){
+//
+//            if(a[i]==b[j] && b[j]==c[k]){
+//                System.out.println(a[i]);
+//                i++;
+//                j++;
+//                k++;
+//            } else if (a[i]<b[j]) {i++;}
+//            else if (b[j]<c[k]) {j++;}
+//            else {k++;}
+//
+//            }
+
+//// Find common element in three  unsorted array:
+//
+//        int[] a={2,8,7,5,4,6,6};
+//        int[] b={5,2,7,3,9,1,5};
+//        int[] c={1,7,2,5,6,4,5};
+//
+//        Set<Integer> set1=new HashSet<>();
+//        for(int num: a){
+//            set1.add(num);
+//        }
+//
+//        Set<Integer> set2=new HashSet<>();
+//        for(int num: b){
+//            if(set1.contains(num)){
+//                set2.add(num);
+//            }
+//        }
+//
+//        Set<Integer> set3=new HashSet<>();
+//        for(int num: c){
+//            if(set2.contains(num)){
+//                set3.add(num);
+//            }
+//
+//        }
+//
+//        for(int nums: set3 ){
+//            System.out.println(nums);
+//        }
+
+//// Delete an element from array via position:
+//        int[] a={1,2,3,4,5};
+//        int k=5;
+//
+//        for(int i=k-1;i<a.length-1;i++){
+//            a[i]=a[i+1];
+//        }
+//
+//        a[a.length-1]=-1;
+//
+//        for(int nums: a){
+//            System.out.println(nums);
+//        }
+
+//// Given an array of 0 and 1, arrange them left side array contain 0 and right side 1:
+//
+//        int[] a={0,1,1,0,0,0,1,0,1,1,0};
+//        int left=0, right=a.length-1;
+//
+//        while(left<right){
+//
+//            while(a[left]==0 && left<right){
+//                left++;
+//            }
+//            while (a[right]==1 && left<right){
+//                right--;
+//            }
+//
+//            if(left<right) {
+//                int temp = a[left];
+//                a[left] = a[right];
+//                a[right] = temp;
+//
+//                left++;
+//                right--;
+//            }
+//
+//        }
+//        for (int nums: a){
+//            System.out.print(nums);
+//        }
+//
+//        System.out.println();
 
 ////Longest Subarray with given Sum K(Positives)
 //
@@ -1003,7 +1128,7 @@ public class Array {
 
 //// Subarray with k different integers: Return the number of good subarrays of nums. A good subarray is defined as a contiguous subarray
 ///  of nums that contains exactly k distinct integers. A subarray is a contiguous part of the array.
-        int[] nums = {1, 2, 1, 2, 3}; int k = 2;
+//        int[] nums = {1, 2, 1, 2, 3}; int k = 2;
 
 //        int count=0;
 //        for(int i=0;i<nums.length;i++){
@@ -1163,27 +1288,7 @@ public class Array {
 //        return result;
 //    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+////
 
 
 
@@ -1191,231 +1296,8 @@ public class Array {
 
 
     }
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
-
-
-
-
-
-
-
-
-////Java programme to print distinct element in Sorted array: First element is always distinct in an array.
-//
-//        int arr[] = {1, 1, 2, 3, 4, 4, 5, 6, 6};
-//
-//        Arrays.stream(arr).distinct().forEach(System.out::println);
-//
-//        System.out.println(arr[0]);
-//
-//        for (int i = 1; i < arr.length; i++) {
-//            if (arr[i - 1] != arr[i]) {
-//                System.out.println(arr[i]);
-//            }
-//        }
-
-////Java programme to print distinct element in UnSorted array.
-//
-//        int arr[]= {1,5,3,10,10,2,2,5};
-//
-//        Arrays.stream(arr).distinct().sorted().forEach(System.out::println);
-//
-//        HashSet<Integer> set= new HashSet<>();
-//
-//        for(int a:arr){
-//
-//            if(set.add(a)){
-//                System.out.println(set);
-//            }
-//        }
-
-
-////Print duplicate elements in Sorted array:
-//
-//        int arr[]={1,2,2,2,3,3,4,5,5,6};
-//
-//        for(int i=0;i<arr.length-1;i++){
-//            if(arr[i]==arr[i+1]){
-//
-//                if(i==0 || arr[i]!=arr[i-1]) {
-//                    System.out.println(arr[i]);
-//                }
-//            }
-//        }
-
-
-////Print duplicate elements in Unsorted array:
-//
-//        int arr[]= {10,10,1,2,3,4,5,5,5,6,6,1};
-//
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//
-//        for(int num:arr){
-//            map.put(num, map.getOrDefault(num,0)+1);
-//        }
-//
-//        for(Map.Entry<Integer,Integer> entry: map.entrySet()){
-//            if (entry.getValue()>1){
-//                System.out.println(entry.getKey());
-//            }
-//        }
-
-////Find pairs with given sum in sorted array:
-//
-//        int arr[] = {1,1,2,2,3,4,4,5,6,7,8};
-//        int k = 9;
-//        int left = 0, right = arr.length - 1;
-//
-//        while (left < right) {
-//            int sum = arr[left] + arr[right];
-//
-//            if (sum == k) {
-//                System.out.println(arr[left] + " " + arr[right]);
-//
-//                // Skip duplicates for left
-//                int currentLeft = arr[left];
-//                while (left < right && arr[left] == currentLeft) left++;
-//
-//                // Skip duplicates for right
-//                int currentRight = arr[right];
-//                while (left < right && arr[right] == currentRight) right--;
-//
-//            } else if (sum > k) {
-//                right--;
-//            } else {
-//                left++;
-//            }
-//        }
-
-////Find pairs with given sum in Unsorted array:
-//
-//        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};
-//        int k = 9;
-//
-//        Set<Integer> set=new HashSet<>();
-//
-//        for (int num:arr){
-//            int compliment=k-num;
-//
-//            if(set.contains(compliment)){
-//                System.out.println(num +"  "+ compliment);
-//            }
-//
-//            set.add(num);
-//
-//        }
-
-//// Find common element in three or two sorted array:
-//        int[] a ={1,2,3,4,5};
-//        int[] b ={2,3,4,5,6};
-//        int[] c ={3,4,5,6,7};
-//
-//        int i=0,j=0,k=0;
-//
-//        while (i<a.length && j<b.length && k<c.length){
-//
-//            if(a[i]==b[j] && b[j]==c[k]){
-//                System.out.println(a[i]);
-//                i++;
-//                j++;
-//                k++;
-//            } else if (a[i]<b[j]) {i++;}
-//            else if (b[j]<c[k]) {j++;}
-//            else {k++;}
-//
-//            }
-
-//// Find common element in three  unsorted array:
-//
-//        int[] a={2,8,7,5,4,6,6};
-//        int[] b={5,2,7,3,9,1,5};
-//        int[] c={1,7,2,5,6,4,5};
-//
-//        Set<Integer> set1=new HashSet<>();
-//        for(int num: a){
-//            set1.add(num);
-//        }
-//
-//        Set<Integer> set2=new HashSet<>();
-//        for(int num: b){
-//            if(set1.contains(num)){
-//                set2.add(num);
-//            }
-//        }
-//
-//        Set<Integer> set3=new HashSet<>();
-//        for(int num: c){
-//            if(set2.contains(num)){
-//                set3.add(num);
-//            }
-//
-//        }
-//
-//        for(int nums: set3 ){
-//            System.out.println(nums);
-//        }
-
-//// Delete an element from array via position:
-//        int[] a={1,2,3,4,5};
-//        int k=5;
-//
-//        for(int i=k-1;i<a.length-1;i++){
-//            a[i]=a[i+1];
-//        }
-//
-//        a[a.length-1]=-1;
-//
-//        for(int nums: a){
-//            System.out.println(nums);
-//        }
-
-//// Given an array of 0 and 1, arrange them left side array contain 0 and right side 1:
-//
-//        int[] a={0,1,1,0,0,0,1,0,1,1,0};
-//        int left=0, right=a.length-1;
-//
-//        while(left<right){
-//
-//            while(a[left]==0 && left<right){
-//                left++;
-//            }
-//            while (a[right]==1 && left<right){
-//                right--;
-//            }
-//
-//            if(left<right) {
-//                int temp = a[left];
-//                a[left] = a[right];
-//                a[right] = temp;
-//
-//                left++;
-//                right--;
-//            }
-//
-//        }
-//        for (int nums: a){
-//            System.out.print(nums);
-//        }
-//
-//        System.out.println();
-
-// Remove duplicates from Sorted array:
-
-//}
 
