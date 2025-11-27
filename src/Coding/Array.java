@@ -481,8 +481,6 @@ public class Array {
 //            }
 //        }
 
-
-
 //// Most frequent Element:
 //
 //        int[] arr = {1, 2, 2, 3, 3, 3, 4, 4};
@@ -852,8 +850,33 @@ public class Array {
 
 ////Implement Atoi:
 
-////Longest Palindromic Substring[Do it without DP]:
-////Sum of Beauty of all substring:
+////Sum of Beauty of all substring: The beauty of a string is defined as the difference between the frequency of the most frequent character and
+////the least frequent character (excluding characters that do not appear) in that string.
+//        String s="aabcbaa";
+//
+//        int n = s.length(), sum = 0;
+//        for (int i = 0; i < n; i++) {
+//            Map<Character, Integer> freq = new HashMap<>();
+//
+//            for (int j = i; j < n; j++) {
+//                // Increase character frequency
+//                freq.put(s.charAt(j), freq.getOrDefault(s.charAt(j), 0) + 1);
+//
+//                int maxi = Integer.MIN_VALUE;
+//                int mini = Integer.MAX_VALUE;
+//
+//                // Calculate max and min frequency
+//                for (int val : freq.values()) {
+//                    mini = Math.min(mini, val);
+//                    maxi = Math.max(maxi, val);
+//                }
+//                sum += (maxi - mini);
+//            }
+//        }
+
+
+
+
 ////Check if one string is rotation of another
 //        String s = "rotation", goal = "tionrota";
 //        if(s.length()!=goal.length()) return;
@@ -1247,7 +1270,7 @@ public class Array {
 
 
 //// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t
-//// (including duplicates), in the window. Return the empty string "" if no such substring exists.
+//// (including duplicates), order doesn't matter in the window. Return the empty string "" if no such substring exists.
 
 //        String s = "ADOBECODEBAANC";
 //        String t = "ABCA";
@@ -1281,9 +1304,6 @@ public class Array {
 //        if(start_index==-1) System.out.println("");
 //        System.out.println(s.substring(start_index,start_index+minlength));
 
-//        String s = "ADOBECODEBAANC";
-//        String t = "ABCA";
-//
 //        int[] hash = new int[256];
 //        for (int i = 0; i < t.length(); i++) {
 //            hash[t.charAt(i)]++;
@@ -1367,6 +1387,9 @@ public class Array {
 //
 //        return result;
 //    }
+
+////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
+
 
 ////
 
