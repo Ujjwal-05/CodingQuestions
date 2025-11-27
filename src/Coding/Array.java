@@ -798,7 +798,7 @@ public class Array {
 //            System.out.println(str.substring(left, right + 1));
 //        }
 
-//// Longest Common Prefix
+//// Longest Common Prefix:
 //        String[] input = {"interview", "internet", "internal", "interval"};
 
 //        if (input == null || input.length == 0) return;
@@ -830,6 +830,30 @@ public class Array {
 //
 //        System.out.println(ans.toString());
 
+////Sort Characters by frequency: You are given a string s. Return the array of unique characters, sorted by highest to lowest occurring characters.
+/// If two or more characters have same frequency then arrange them in alphabetic order.
+//        String str="raaaajj";
+
+//        Map<Character, Integer> freq = new HashMap<>();
+//        for (char c : str.toCharArray()) {
+//            freq.put(c, freq.getOrDefault(c, 0) + 1);
+//        }
+//
+//        List<Character> result = new ArrayList<>(freq.keySet());
+//
+//        result.sort((a, b) -> {
+//            if (!freq.get(a).equals(freq.get(b))) {
+//                return freq.get(b) - freq.get(a); // higher freq first
+//            }
+//            return a - b; // lexicographical order when freq is same
+//        });
+//
+//        System.out.println(result);
+
+////Implement Atoi:
+
+////Longest Palindromic Substring[Do it without DP]:
+////Sum of Beauty of all substring:
 ////Check if one string is rotation of another
 //        String s = "rotation", goal = "tionrota";
 //        if(s.length()!=goal.length()) return;
@@ -1126,6 +1150,33 @@ public class Array {
 //
 //            maxlen=Math.max(maxlen,right-left+1);     }
 
+//// Count Substring with At Most K Distinct Characters:
+//        public static int countAtMostKDistinct(String s, int k) {
+//            int left = 0, count = 0;
+//            Map<Character, Integer> map = new HashMap<>();
+//
+//            for (int right = 0; right < s.length(); right++) {
+//
+//                char c = s.charAt(right);
+//                map.put(c, map.getOrDefault(c, 0) + 1);
+//
+//                // shrink window if more than k distinct
+//                while (map.size() > k) {
+//                    char leftChar = s.charAt(left);
+//                    map.put(leftChar, map.get(leftChar) - 1);
+//                    if (map.get(leftChar) == 0) {
+//                        map.remove(leftChar);
+//                    }
+//                    left++;
+//                }
+//
+//                // all windows ending at 'right' contribute (right - left + 1) substrings
+//                count += right - left + 1;
+//            }
+//
+//            return count;
+
+
 //// Subarray with k different integers: Return the number of good subarrays of nums. A good subarray is defined as a contiguous subarray
 ///  of nums that contains exactly k distinct integers. A subarray is a contiguous part of the array.
 //        int[] nums = {1, 2, 1, 2, 3}; int k = 2;
@@ -1151,7 +1202,6 @@ public class Array {
 //            HashMap<Integer, Integer> map = new HashMap<>();
 //
 //            for (int right = 0; right < nums.length; right++) {
-//
 //                map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
 //
 //                while (map.size() > K) {
@@ -1165,6 +1215,36 @@ public class Array {
 //            }
 //            return count;
 //        }
+
+////Count Number of Substrings:  You are given a string s and a positive integer k. Return the number of substrings that contain exactly k distinct characters.
+//        public static int substringsWithKDistinct(String s, int k) {
+//            return atMostK(s, k) - atMostK(s, k - 1);
+//        }
+//
+//        private static int atMostK(String s, int k) {
+//            int left = 0, count = 0;
+//            Map<Character, Integer> map = new HashMap<>();
+//
+//            for (int right = 0; right < s.length(); right++) {
+//
+//                char c = s.charAt(right);
+//                map.put(c, map.getOrDefault(c, 0) + 1);
+//
+//                // shrink window until we have ≤ k distinct chars
+//                while (map.size() > k) {
+//                    char leftChar = s.charAt(left);
+//                    map.put(leftChar, map.get(leftChar) - 1);
+//                    if (map.get(leftChar) == 0) map.remove(leftChar);
+//                    left++;
+//                }
+//
+//                // all substrings ending at `right` with start in [left..right] are valid
+//                count += right - left + 1;
+//            }
+//
+//            return count;
+//        }
+
 
 //// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t
 //// (including duplicates), in the window. Return the empty string "" if no such substring exists.
