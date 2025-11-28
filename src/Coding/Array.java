@@ -1582,11 +1582,10 @@ public class Array {
 //        int low = 0;
 //        int high = arr.length - 1;
 //
-//        // Loop until low meets high
 //        while (low < high) {
 //            int mid = low + (high - low) / 2;
 //
-//            // If mid element is greater than element at high,
+// If mid element is greater than element at high, we can say that array is rotated and ri
 //            // smallest element lies to the right of mid
 //            if (arr[mid] > arr[high]) {
 //                low = mid + 1;
@@ -1599,8 +1598,14 @@ public class Array {
 //        // When low == high, we found the smallest element
 //        return low;
 
-
-
+//0 1 2 3 4 5 6
+//1 2 3 4 5 6 0
+//2 3 4 5 6 0 1
+//3 4 5 6 0 1 2
+//4 5 6 0 1 2 3
+//5 6 0 1 2 3 4
+//6 0 1 2 3 4 5
+//0 1 2 3 4 5 6
 
 
 
