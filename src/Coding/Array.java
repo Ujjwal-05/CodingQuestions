@@ -1394,7 +1394,6 @@ public class Array {
 //        int[] a = {3, 4, 5, 7, 9, 12, 16, 17}; int target = 6;
 //
 //        int low =0,high=a.length-1;
-//
 //        while (low <=high){
 //            int mid=(low +high)/2;
 //            if(target==a[mid]){
