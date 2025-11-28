@@ -1522,7 +1522,7 @@ public class Array {
 //        in this situation, we trim the search space by doing low++ and high--. This removes the duplicate values at both ends, allowing the
 //        binary search to continue and eventually expose a portion of the array where the sorted-half logic can correctly determine the direction of search again.
 
-//        int[] arr = {3,1,3 ,3,3,3}; int k = 3;
+//        int[] arr = {3,1,3,3,3,3}; int k = 3;
 //        int low=0,high= arr.length-1, ans=-1;
 //        while (low<=high) {
 //            int mid = (low + high) / 2;
@@ -1554,7 +1554,50 @@ public class Array {
 //        }
 
 //// Minimum in Rotated Sorted Array: contain distinct values:
-        int arr[]={4,5,6,7,0,1,2,3};
+
+//In a rotated sorted array with distinct values, we follow the same principle used in binary search: at every step we process the middle, decide which half
+// cannot contain the answer, and **eliminate that half. Since in a rotated array one half is always sorted, we use that to guide elimination.
+// If the left half is sorted (nums[low] <= nums[mid]), then the minimum cannot be inside this sorted portion except possibly at nums[low], so we record nums[low]
+// as a candidate and discard the entire left half, continuing on the right. If instead the right half is sorted (nums[mid] <= nums[high]), then the minimum cannot
+// be anywhere in that sorted right portion except possibly at nums[mid], so we record nums[mid] as a candidate and discard the entire right half, continuing on the left.
+// By consistently identifying the sorted half, picking its smallest element, and eliminating it—just like binary search eliminates one side after processing—we
+// narrow the search to the unsorted (rotated) portion, which always contains the true minimum.
+//        int arr[]={4,5,6,7,0,1,2,3};
+//
+//        int low=0,high=arr.length-1, min=Integer.MAX_VALUE;
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            if(arr[low]<=arr[mid]){
+//                min=Math.min(min,arr[low]);
+//                low=mid+1;
+//            }else {
+//                min=Math.min(min,arr[mid]);
+//                high=mid-1;
+//            }
+//        }
+
+//// Find out how many times the array has been rotated: FIND THE MINIMUM ELELMENT INDEX:
+//        int arr[]={4,5,6,7,0,1,2,3};
+//        int low = 0;
+//        int high = arr.length - 1;
+//
+//        // Loop until low meets high
+//        while (low < high) {
+//            int mid = low + (high - low) / 2;
+//
+//            // If mid element is greater than element at high,
+//            // smallest element lies to the right of mid
+//            if (arr[mid] > arr[high]) {
+//                low = mid + 1;
+//            } else {
+//                // Else smallest element is at mid or to the left
+//                high = mid;
+//            }
+//        }
+//
+//        // When low == high, we found the smallest element
+//        return low;
 
 
 
