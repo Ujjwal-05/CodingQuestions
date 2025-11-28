@@ -344,8 +344,6 @@ public class Array {
 //            }
 //
 //            map.put(sum,map.getOrDefault(sum,0)+1);
-//
-//
 //        }
 
 ////Longest Subarray with Equal Number of 0s and 1s.
@@ -1394,6 +1392,7 @@ public class Array {
 //        int[] a = {3, 4, 5, 7, 9, 12, 16, 17}; int target = 6;
 //
 //        int low =0,high=a.length-1;
+//
 //        while (low <=high){
 //            int mid=(low +high)/2;
 //            if(target==a[mid]){
@@ -1485,8 +1484,8 @@ public class Array {
 //        }
 
 //// Search Element in a Rotated Sorted Array:
-        // In rotated sorted array, we are not sure which half is sorted, so we have to find which half is sorted out of two:
-        // But it is certain that one half will always be sorted.
+        // In rotated sorted array we are not sure which half is sorted so we have to find which half is sorted out of two:
+        // But it is sure that one half will always be sorted.
 //        int[] arr = {4, 5, 6, 7, 0, 1, 2}; int k = 0;
 //        int low=0,high= arr.length-1, ans=-1;
 //
@@ -1521,7 +1520,7 @@ public class Array {
 //        in this situation, we trim the search space by doing low++ and high--. This removes the duplicate values at both ends, allowing the
 //        binary search to continue and eventually expose a portion of the array where the sorted-half logic can correctly determine the direction of search again.
 
-//        int[] arr = {3,1,3,3,3,3}; int k = 3;
+//        int[] arr = {3,1,3 ,3,3,3}; int k = 3;
 //        int low=0,high= arr.length-1, ans=-1;
 //        while (low<=high) {
 //            int mid = (low + high) / 2;
@@ -1552,8 +1551,27 @@ public class Array {
 //            }
 //        }
 
-//// Minimum in Rotated Sorted Array: contain distinct values:
 
+//// Count number of subarrays whose product is less than equal to k;
+//        int[] nums={10,5,2,6}; int k=100;
+//        if (k <= 0) return;
+//
+//        int left = 0;
+//        long prod = 1;
+//        int count = 0;
+//
+//        for (int right = 0; right < nums.length; right++) {
+//            prod *= nums[right];
+//
+//            while (prod > k && left <= right) {
+//                prod /= nums[left];
+//                left++;
+//            }
+//
+//            count += (right - left + 1);
+//        }
+
+//// Minimum in Rotated Sorted Array: contain distinct values:
 //In a rotated sorted array with distinct values, we follow the same principle used in binary search: at every step we process the middle, decide which half
 // cannot contain the answer, and **eliminate that half. Since in a rotated array one half is always sorted, we use that to guide elimination.
 // If the left half is sorted (nums[low] <= nums[mid]), then the minimum cannot be inside this sorted portion except possibly at nums[low], so we record nums[low]
