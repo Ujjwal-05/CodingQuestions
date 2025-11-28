@@ -1,5 +1,7 @@
 package Coding;
 
+import java.util.Arrays;
+
 //Find pairs with given sum in sorted array:
 public class Array {
     public static void main(String[] args) {
@@ -1387,6 +1389,14 @@ public class Array {
 
 ////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
 
+//0 1 2 3 4 5 6
+//1 2 3 4 5 6 0
+//2 3 4 5 6 0 1
+//3 4 5 6 0 1 2
+//4 5 6 0 1 2 3
+//5 6 0 1 2 3 4
+//6 0 1 2 3 4 5
+//0 1 2 3 4 5 6
 
 //// Binary Search to find X in sorted array:
 //        int[] a = {3, 4, 5, 7, 9, 12, 16, 17}; int target = 6;
@@ -1596,36 +1606,201 @@ public class Array {
 
 //// Find out how many times the array has been rotated: FIND THE MINIMUM ELEMENT INDEX:
 //        int arr[]={4,5,6,0,0,1,2,3};
-//        int low = 0;
-//        int high = arr.length - 1;
 //
-//        while (low < high) {
-//            int mid = low + (high - low) / 2;
+//        int low=0,high=arr.length-1, min=Integer.MAX_VALUE,index=-1;
+//        while (low<=high){
+//            int mid=(low+high)/2;
 //
-//// If a mid-element is greater than an element at high, the smallest element lies to the right of mid
-//            if (arr[mid] > arr[high]) {
-//                low = mid + 1;
-//            } else {
-//                // The else smallest element is at mid or to the left
-//                high = mid;
+//            if(arr[low]<=arr[mid]){
+//                if(arr[low]<min){
+//                    index=low;
+//                    min=arr[low];
+//                }
+//                low=mid+1;
+//            }else {
+//                if(arr[mid]<min){
+//                    index=mid;
+//                    min=arr[mid];
+//                }
+//                high=mid-1;
 //            }
 //        }
-//        System.out.println(low);
+//        System.out.println(index);
 
-//0 1 2 3 4 5 6
-//1 2 3 4 5 6 0
-//2 3 4 5 6 0 1
-//3 4 5 6 0 1 2
-//4 5 6 0 1 2 3
-//5 6 0 1 2 3 4
-//6 0 1 2 3 4 5
-//0 1 2 3 4 5 6
+////Search Single Element in a sorted array
+//        int[] arr = {1,1,2,3,3,4,4,8,8};
+//
+//        int singleNonDuplicate(int[] arr) {
+//            int n = arr.length;
+//            // Edge cases
+//            if (n == 1) return arr[0];
+//            if (arr[0] != arr[1]) return arr[0];
+//            if (arr[n - 1] != arr[n - 2]) return arr[n - 1];
+//
+//            int low = 1, high = n - 2; // exclude boundaries already checked
+//            while (low <= high) {
+//                int mid = (low + high) / 2;
+//                // If mid itself is the unique
+//                if (arr[mid] != arr[mid - 1] && arr[mid] != arr[mid + 1]) {
+//                    return arr[mid];
+//                }
+//                // Use pairing check: mid^1 flips last bit (even->mid+1, odd->mid-1)
+//                if (arr[mid] == arr[mid ^ 1]) {
+//                    // pairing intact -> unique is to the right
+//                    low = mid + 1;
+//                } else {
+//                    // pairing broken -> unique is to the left
+//                    high = mid - 1;
+//                }
+//            }
+//            // Theoretically unreachable if input guarantees exactly one single element
+//            return -1;
+//        }
+
+////Peak element in Array:
+
+//A peak element is one that is strictly greater than its neighbors, and because the array can contain many ups and downs,
+// we can use binary search to find a peak efficiently. At any index mid, there are two important observations:
+// If arr[mid] < arr[mid + 1], then we are on an ascending slope, meaning a peak must exist somewhere to the right,
+// so we shift low = mid + 1. If arr[mid] > arr[mid + 1], then we are on a descending slope, meaning a peak must exist
+// on the left, so we move high = mid. The reason this works is that whenever the slope ascends, it must eventually fall at
+// some point, creating a peak, and similarly on a descent, the peak lies behind us. By continuously eliminating half of the
+// array based on the slope we observe at mid, we narrow down the search window until low == high, which must be a peak index.
+// This gives us an O(log n) time solution using binary search instead of scanning linearly.
+//       int arr[] = {1,2,3,4,5,6,7,8,5,1};
+//
+//       int n=arr.length, peak=-1;
+//       if(n==1) System.out.println(arr[0]);
+//       if(arr[0]>arr[1]) System.out.println(arr[0]);
+//       if(arr[n-1]>arr[n-2]) System.out.println(arr[n-1]);
+//
+//       int low=1, high=n-2;
+//       while (low<=high){
+//           int mid=(low+high)/2;
+//
+//           if(arr[mid-1]<arr[mid] && arr[mid]>arr[mid+1]){
+//               peak=arr[mid];
+//               break;
+//           }
+//           else if (arr[mid-1] < arr[mid]) {
+//               low=mid+1;
+//           }else {
+//               high=mid-1;
+//           }
+//       }
+//        System.out.println(peak);
+
+////Finding Sqrt of a number using Binary Search:
+//        int num=36;
+//
+//        if(num<2) return;
+//        int low=1, high=num/2, ans=-1;
+//
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            if(mid*mid== num){
+//                ans=mid;
+//            } else if (mid*mid <num) {
+//                ans=mid;
+//                low=mid+1;
+//            }else {
+//                high=mid-1;
+//            }
+//        }
+//        System.out.println(ans);
+
+////Find the Nth root of a number using binary search: Find x where x^4 = 16 x^n=m
+//        int n=4,m=16;
+//        int low=1,high=m;
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            int ans=1;
+//            for (int i=0;i<n;i++){
+//                ans=ans*mid;
+//                if(ans>m) break;
+//            }
+//
+//            if(ans==m) System.out.println(mid);;
+//
+//            if(ans>m){
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }
+//        System.out.println(-1);
+
+////Koko Eating Bananas:
+        int piles[] = {7, 15, 6, 3}; int h = 8;
+
+//        int maxPile= Arrays.stream(piles).max().getAsInt();
+//        for(int i=1;i<=maxPile;i++){
+//            int total=0;
+//
+//            for(int pile:piles){
+//                total+=Math.ceilDiv(pile,i);
+//            }
+//
+//            if(total<=h){
+//                System.out.println(i);
+//                break;
+//            }
+//        }
+
+//        int low=1,high=Arrays.stream(piles).max().getAsInt();
+//        int ans=-1;
+//
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//            int total=0;
+//
+//            for(int pile:piles){
+//                total+=Math.ceilDiv(pile,mid);
+//            }
+//
+//            if(total<=h){
+//                ans=mid;
+//                high=mid-1;
+//            } else {
+//                low=mid+1;
+//            }
+//
+//        }
+//        System.out.println(ans);
+
+//// Minimum days to make M bouquets:
+//        int[] bloomDays = {7, 7, 7, 7, 13, 11, 12, 7};
+//        int minimum_flower = 3;
+//        int bouquets  = 2;
+//
+//        if(bloomDays.length<minimum_flower*bouquets ) return;
+//
+//        int mindays= Arrays.stream(bloomDays).min().getAsInt();
+//        int maxdays=Arrays.stream(bloomDays).max().getAsInt();
+//
+//        for(int days=mindays;days<=maxdays;days++){
+//            int count=0,total=0;
+//            for(int bloomday:bloomDays){
+//                if(days>=bloomday){
+//                    count++;
+//                    if(count==minimum_flower){
+//                        total++;
+//                        count=0;
+//                    }
+//                }else {
+//                    count=0;
+//                }
+//            }
+//            if(total>=bouquets){
+//                System.out.println(days);
+//                break;
+//            }
+//        }
 
 
-
-
-
-    }
+ }
 }
 
 
