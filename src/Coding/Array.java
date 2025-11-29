@@ -1,5 +1,6 @@
 package Coding;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 //Find pairs with given sum in sorted array:
@@ -1733,7 +1734,7 @@ public class Array {
 //        System.out.println(-1);
 
 ////Koko Eating Bananas:
-        int piles[] = {7, 15, 6, 3}; int h = 8;
+//        int piles[] = {7, 15, 6, 3}; int h = 8;
 
 //        int maxPile= Arrays.stream(piles).max().getAsInt();
 //        for(int i=1;i<=maxPile;i++){
@@ -1883,14 +1884,158 @@ public class Array {
 //            }
 //        }    // O(log(high-low)*N)
 
+// Difference between maxofmin vs minofmax Approach:
+//Both problems use Binary Search on Answer, but the direction, logic, and monotonic behaviour are opposite.
+//        Aggressive Cows → max of minimum
+//        If you can place all cows with distance = X,
+//        You can also place them with any distance < X
+//        But NOT with distance > X
+//        if(canPlace(X)):
+//        low = X + 1     // try larger distance
+//        else:
+//        high = X - 1    // reduce distance
+//        Final Answer: ans = largest X that works
 
-//// Aggressive Cows: maxofmin
-        int[] stalls = {1, 2, 8, 4, 9};
-        int cows = 3;
+//        Allocate Minimum Pages: min of maximum
+//        If it is possible to allocate with maxPages = X,
+//        It is also possible with any X > X (looser constraint)
+//        But NOT with X < X
+//        if(canAllocate(X)):
+//        ans = X
+//        high = X - 1    // try smaller max pages
+//        else:
+//        low = X + 1     // need more pages allowed
+//        Final Answer: ans = smallest X that works
+
+//        Why the search direction flips?
+//        Aggressive Cows: If X is possible, try bigger low = mid + 1
+//        If distance X works → we try bigger
+//        increasing is good → move right
+//        Allocate Books: If X is possible, try smaller high = mid - 1
+//        If pages X works → we try smaller
+//        decreasing is good → move left
+
+//        Both Aggressive Cows and Allocate Minimum Pages use the same technique—Binary Search on Answer + a feasibility check—but they work in opposite directions
+//        because the optimization goals are different. Aggressive Cows is a max-of-min problem: we want to maximize the minimum distance between any two cows.
+//        If a distance X is feasible (we can place all cows greedily), then every distance < X is also feasible, but distances > X may not be.
+//        This monotonic behavior pushes the search upwards, so when placement works, we move low = mid + 1 to try a larger distance;
+//        the final answer is the largest feasible X. In contrast, Allocate Minimum Pages is a min-of-max problem: we want to minimize the maximum pages given to a student.
+//        If a maximum limit X is feasible (books can be allocated contiguously within X pages), then any limit > X is also feasible, but limits < X may fail.
+//        This monotonic behavior pushes the search downwards, so when allocation works, we move high = mid - 1 to try reducing the limit;
+//        the final answer is the smallest feasible X. In short, Aggressive Cows increases the answer when feasible (maximize a minimum), whereas Allocate Pages
+//        decreases the answer when feasible (minimize a maximum)—same binary-search pattern, opposite search direction due to opposite optimization goals.
+
+
+//// Aggressive Cows: maxofmin You are given the task of assigning stalls to 'k' cows such that
+//// the minimum distance between any two of them is the maximum possible. Find the maximum possible minimum distance.
+
+//        int[] stalls = {1, 2, 8, 4, 9}; int cows = 3;
+//        Arrays.sort(stalls);
+//
+//        int min=1; int max=stalls[stalls.length-1];
+//        int ans=-1;
+//
+//        for(int i=min;i<=max;i++){
+//
+//            if(canPlace(stalls, cows, i)){
+//                ans=i;
+//            }
+//        }
+//        System.out.println(ans);
+
+//        int low=1, high=stalls[stalls.length-1];
+//        Arrays.sort(stalls);
+//        int ans=-1;
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            if(canPlace(stalls,cows,mid)){
+//                ans=mid;
+//                low=mid+1;
+//            }else {
+//                high=mid-1;
+//            }
+//        }
+
+//// Allocate Minimum Number of Pages: minofmax You have to allocate the book to ‘m’ students such that
+////the maximum number of pages assigned to a student is minimum. If the allocation of books is not possible. return -1
+//        int[] arr = {25, 46, 28, 49, 24}; int n = 5; int m = 4;
+        
+//        int min=Arrays.stream(arr).max().getAsInt();
+//        int max=Arrays.stream(arr).sum();
+//        for(int i=min;i<=max;i++){
+//            int right=0;
+//            int pages=i;
+//            int students_who_got_book=0;
+//
+//            while (right<arr.length){
+//                if(pages>=arr[right]){
+//                    pages-=arr[right];
+//                    right++;
+//                }else {
+//                    students_who_got_book++;
+//                    pages=i;
+//                }
+//            }
+//
+//            if(students_who_got_book+1==m){
+//                System.out.println(i);
+//                break;
+//            }
+//        }
+
+//        int low=Arrays.stream(arr).max().getAsInt();
+//        int high=Arrays.stream(arr).sum();
+//        int ans=0;
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//
+//            int right=0;
+//            int pages=mid;
+//            int students_who_got_book=0;
+//
+//            while (right<arr.length){
+//                if(pages>=arr[right]){
+//                    pages-=arr[right];
+//                    right++;
+//                }else {
+//                    students_who_got_book++;
+//                    pages=mid;
+//                }
+//            }
+//
+//            if(students_who_got_book+1<=m){
+//                ans=mid;
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }
+//
+//        System.out.println(ans);
+        
+        
+
+
 
 
 
  }
+
+    private static boolean canPlace(int[] stalls, int cows, int d) {
+
+        int count=1;
+        int lastposition=stalls[0];
+
+        for(int i=1;i<stalls.length;i++){
+            if(stalls[i]-lastposition>=d){
+                count++;
+                lastposition=stalls[i];
+            }
+            if(count>=cows) return true;
+        }
+        return false;
+    }
 }
 
 
