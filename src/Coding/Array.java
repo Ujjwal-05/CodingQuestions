@@ -1771,7 +1771,7 @@ public class Array {
 //        System.out.println(ans);
 
 //// Minimum days to make M bouquets:
-//        int[] bloomDays = {7, 7, 7, 7, 13, 11, 12, 7};
+        int[] bloomDays = {7, 7, 7, 7, 13, 11, 12, 7};
 //        int minimum_flower = 3;
 //        int bouquets  = 2;
 //
@@ -1798,6 +1798,96 @@ public class Array {
 //                break;
 //            }
 //        }
+
+//        int m = 3;int k  = 2;
+//        if(bloomDays.length<m*k ) return;
+//        int low= Arrays.stream(bloomDays).min().getAsInt();
+//        int high=Arrays.stream(bloomDays).max().getAsInt();
+//        int ans=0;
+//
+//        while (low<=high){
+//            int mid=(low+high)/2;
+//            int total=0, count=0;
+//
+//            for(int days:bloomDays){
+//                if(mid>=days){
+//                    count++;
+//                    if(count==m){
+//                        total++;
+//                        count=0;
+//                    }
+//                }else {
+//                    count=0;
+//                }
+//            }
+//            if(total>=k) {
+//                ans=mid;
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//
+//        }
+//        System.out.println(ans);
+
+////Capacity to Ship Packages within D Days:
+        int[] weights = {5,4,5,2,3,4,5,6}; int d = 5;
+
+//        int min_capacity=Arrays.stream(weights).max().getAsInt();
+//        int max_capacity=Arrays.stream(weights).sum();
+//
+//        for(int i=min_capacity;i<=max_capacity;i++){
+//            int capacity=i;
+//            int right=0,days=0;
+//            while (right<weights.length){
+//
+//                if(capacity>=weights[right]){
+//                    capacity=capacity-weights[right];
+//                    right++;
+//                }else {
+//                    capacity=i;
+//                    days++;
+//                }
+//            }
+//              days + 1: You increment days++ only when you start a NEW day. But after you finish the entire array,
+//              the current day is not counted yet, because the last partial day never triggered the else block.
+//            if(days+1<=d){
+//                System.out.println(i);
+//                break;
+//            }
+//        }         //(high-low)*N
+
+//        int low=Arrays.stream(weights).max().getAsInt();
+//        int high=Arrays.stream(weights).sum();
+//        int ans=0;
+//        while (low<=high) {
+//            int mid = (low + high) / 2;
+//
+//            int capacity = mid;
+//            int right = 0, days = 0;
+//            while (right < weights.length) {
+//                if (capacity >= weights[right]) {
+//                    capacity = capacity - weights[right];
+//                    right++;
+//                } else {
+//                    capacity = mid;
+//                    days++;
+//                }
+//            }
+//
+//            if(days+1<=d){
+//                ans=mid;
+//                high=mid-1;
+//            }else {
+//                low=mid+1;
+//            }
+//        }    // O(log(high-low)*N)
+
+
+//// Aggressive Cows: maxofmin
+        int[] stalls = {1, 2, 8, 4, 9};
+        int cows = 3;
+
 
 
  }
