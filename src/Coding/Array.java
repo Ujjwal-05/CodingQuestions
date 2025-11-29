@@ -2023,14 +2023,65 @@ public class Array {
 //        }
 //
 //        System.out.println(ans);
-        
-        
 
+////Split Array - Largest Sum:
+      int  arr[] = {7,2,5,10,8}; int k = 2;
+//
+//        int low = Arrays.stream(arr).max().getAsInt();   // minimum possible max sum
+//        int high = Arrays.stream(arr).sum();             // maximum possible max sum
+//
+//        for(int i=low;i<=high;i++){
+//            int right=0;
+//            int currsum=i;
+//            int subarrays=0;
+//            while (right<arr.length){
+//
+//                if(currsum>=arr[right]){
+//                    currsum-=arr[right];
+//                    right++;
+//                }else {
+//                    currsum=i;
+//                    subarrays++;
+//                }
+//            }
+//
+//            if(subarrays+1==k){
+//                System.out.println(i);
+//                break;
+//            }
+//        }
 
+//        int low = Arrays.stream(arr).max().getAsInt();  // smallest possible max subarray sum
+//        int high = Arrays.stream(arr).sum();            // largest possible max subarray sum
+//        int ans = -1;
+//
+//        while (low <= high) {
+//            int mid = (low + high) / 2;
+//
+//            int subarrays = 1;
+//            int currentSum = 0;
+//            for (int num : arr) {
+//                if (currentSum + num <= mid) {
+//                    currentSum += num;      // continue adding to current subarray
+//                } else {
+//                    subarrays++;            // need new subarray
+//                    currentSum = num;
+//                }
+//            }
+//
+//            if (subarrays <= k) {
+//                ans = mid;          // mid works → try smaller max sum
+//                high = mid - 1;
+//            } else {
+//                low = mid + 1;      // mid too small → need bigger max sum
+//            }
+//        }
+//        System.out.println(ans);
 
+//// Painter's Partition:
+////
 
-
- }
+    }
 
     private static boolean canPlace(int[] stalls, int cows, int d) {
 
