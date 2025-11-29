@@ -1832,7 +1832,7 @@ public class Array {
 //        System.out.println(ans);
 
 ////Capacity to Ship Packages within D Days:
-        int[] weights = {5,4,5,2,3,4,5,6}; int d = 5;
+//        int[] weights = {5,4,5,2,3,4,5,6}; int d = 5;
 
 //        int min_capacity=Arrays.stream(weights).max().getAsInt();
 //        int max_capacity=Arrays.stream(weights).sum();
@@ -1884,7 +1884,7 @@ public class Array {
 //            }
 //        }    // O(log(high-low)*N)
 
-// Difference between maxofmin vs minofmax Approach:
+//// Difference between maxofmin vs minofmax Approach:
 //Both problems use Binary Search on Answer, but the direction, logic, and monotonic behaviour are opposite.
 //        Aggressive Cows → max of minimum
 //        If you can place all cows with distance = X,
@@ -1925,6 +1925,16 @@ public class Array {
 //        the final answer is the smallest feasible X. In short, Aggressive Cows increases the answer when feasible (maximize a minimum), whereas Allocate Pages
 //        decreases the answer when feasible (minimize a maximum)—same binary-search pattern, opposite search direction due to opposite optimization goals.
 
+//        Min-of-max → low = max element, high = sum
+//        Max-of-min → low = 1, high = maximum gap
+
+//        Min-of-Max:
+//        low  = minimum possible maximum = max(arr)
+//        high = overall maximum = sum(arr)
+
+//        Max-of-Min:
+//        low  = minimum possible minimum = 1
+//        high = maximum possible minimum = max(arr) - min(arr)
 
 //// Aggressive Cows: maxofmin You are given the task of assigning stalls to 'k' cows such that
 //// the minimum distance between any two of them is the maximum possible. Find the maximum possible minimum distance.
