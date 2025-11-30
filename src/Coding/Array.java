@@ -1,9 +1,22 @@
 package Coding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 //Find pairs with given sum in sorted array:
+
+class Pair{
+    double distance;
+    int index;
+
+    public Pair(double distance, int index) {
+        this.distance = distance;
+        this.index = index;
+    }
+}
+
 public class Array {
     public static void main(String[] args) {
         System.out.println("Happy Coding");
@@ -875,8 +888,6 @@ public class Array {
 //        }
 
 
-
-
 ////Check if one string is rotation of another
 //        String s = "rotation", goal = "tionrota";
 //        if(s.length()!=goal.length()) return;
@@ -886,7 +897,7 @@ public class Array {
 //            if (rotated.equals(goal)) break;
 //        }
 
-          // Another approach O(n)
+        // Another approach O(n)
 //        if(s.length()==goal.length() && (s+s).contains(goal)){
 //            System.out.println("yes");
 //        }
@@ -1970,7 +1981,7 @@ public class Array {
 //// Allocate Minimum Number of Pages: minofmax You have to allocate the book to ‘m’ students such that
 ////the maximum number of pages assigned to a student is minimum. If the allocation of books is not possible. return -1
 //        int[] arr = {25, 46, 28, 49, 24}; int n = 5; int m = 4;
-        
+
 //        int min=Arrays.stream(arr).max().getAsInt();
 //        int max=Arrays.stream(arr).sum();
 //        for(int i=min;i<=max;i++){
@@ -2025,7 +2036,7 @@ public class Array {
 //        System.out.println(ans);
 
 ////Split Array - Largest Sum:
-      int  arr[] = {7,2,5,10,8}; int k = 2;
+//      int  arr[] = {7,2,5,10,8}; int k = 2;
 //
 //        int low = Arrays.stream(arr).max().getAsInt();   // minimum possible max sum
 //        int high = Arrays.stream(arr).sum();             // maximum possible max sum
@@ -2079,25 +2090,166 @@ public class Array {
 //        System.out.println(ans);
 
 //// Painter's Partition:
+
+//// Minimise the Maximum Distance between Gas Stations:
+        int[] arr = {1, 2, 3, 4, 5}; int k = 4;
+
+//        int[] sections = new int[arr.length - 1];
+//
+//        for (int gasstation = 1; gasstation <= k; gasstation++) {
+//
+//            double maxsectionlength = -1;
+//            int maxsectionlengthindex = -1;
+//            for (int i = 0; i < arr.length - 1; i++) {
+//
+//                double difference = arr[i + 1] - arr[i];
+//                double sectionlength = difference / (sections[i] + 1.0);
+//
+//                if (maxsectionlength < sectionlength) {
+//                    maxsectionlength = sectionlength;
+//                    maxsectionlengthindex = i;
+//                }
+//            }
+//
+//            sections[maxsectionlengthindex]++;
+//        }
+//
+//        double ans = -1;
+//        for (int i = 0; i < arr.length - 1; i++) {
+//            double difference = arr[i + 1] - arr[i];
+//            double currsectionlength = difference / (sections[i] + 1.0);
+//            ans = Math.max(ans, currsectionlength);
+//        }
+//        System.out.println(ans);  // O(n*k)
+
+////        PriorityQueue<Integer> pq=new PriorityQueue<>();
 ////
+////        pq.add(1);      // Adds the element into the priority queue.
+////        pq.add(2);
+////        pq.add(3);
+////
+////        System.out.println(pq.peek());  // returns the first element
+////        System.out.println(pq.poll());  // returns and remove element
+////
+////        pq.offer(1);
+////        System.out.println(pq);
 
-    }
+//        int[] sections = new int[arr.length - 1];
+//        PriorityQueue<Pair> pq =new PriorityQueue<>(
+//                (a,b)->Double.compare(b.distance,a.distance)
+//        );
+//
+//        for(int i=0;i< arr.length-1;i++){
+//            pq.add(new Pair(arr[i+1]-arr[i],i));
+//        }
+//
+//        for(int gasstation=1;gasstation<=k;gasstation++){
+//
+//            Pair top=pq.poll();
+//            int index= top.index;
+//            sections[index]++;
+//
+//            double totaldistance =arr[index+1] - arr[index];
+//            double newdistance= totaldistance/(sections[index] + 1.0);
+//            pq.add(new Pair(newdistance,index));
+//        }
+//
+//        System.out.println(pq.peek().distance);
 
-    private static boolean canPlace(int[] stalls, int cows, int d) {
+//// Median of 2 sorted arrays:
+        int[] a = {2,4,6};  int[] b = {1,3,5};
 
-        int count=1;
-        int lastposition=stalls[0];
+//        List<Integer> list=new ArrayList<>();
+//        int i=0,j=0;
+//
+//        while (i<a.length && j<b.length){
+//
+//            if(a[i]<b[j]){
+//                list.add(a[i++]);
+//            }else {
+//                list.add(b[j++]);
+//            }
+//        }
+//
+//        while (i<a.length){ list.add(a[i++]);}
+//        while (j<b.length){ list.add(b[j++]);}
+//
+//        int size=list.size();
+//
+//        if(size%2==0){
+//            System.out.println((list.get(size/2)+list.get((size/2)-1))/2.0);
+//        }else {
+//            System.out.println(list.get(size/2));
+//        }
 
-        for(int i=1;i<stalls.length;i++){
-            if(stalls[i]-lastposition>=d){
-                count++;
-                lastposition=stalls[i];
-            }
-            if(count>=cows) return true;
-        }
-        return false;
-    }
-}
+//        int size=a.length + b.length;
+//
+//        int index2=size/2;
+//        int index1=index2-1;
+//
+//        int e1=-1,e2=-1, elementcount=0;
+//        int i=0,j=0;
+//
+//        while (i<a.length && j<b.length){
+//            if(a[i]<b[j]){
+//                if(elementcount==index1) e1=a[i];
+//                if(elementcount==index2) e2=a[i];
+//                i++;
+//            }else {
+//                if(elementcount==index1) e1=b[j];
+//                if(elementcount==index2) e2=b[j];
+//                j++;
+//            }
+//            elementcount++;
+//        }
+//
+//        while (i<a.length){
+//            if(elementcount==index1) e1=a[i];
+//            if(elementcount==index2) e2=a[i];
+//            i++;
+//            elementcount++;
+//        }
+//
+//        while (j<b.length){
+//            if(elementcount==index1) e1=b[j];
+//            if(elementcount==index2) e2=b[j];
+//            j++;
+//            elementcount++;
+//        }
+//
+//        if(size%2==1){
+//            System.out.println( e2 );
+//        }else {
+//            System.out.println((e1+e2)/2.0);
+//        }
+
+////Binary search approach:
+        LinkedList<Integer> list=new LinkedList<>();
+
+        list.add(1);
+
+
+    }}
+
+
+
+
+//        private static boolean canPlace ( int[] stalls, int cows, int d){
+//
+//            int count = 1;
+//            int lastposition = stalls[0];
+//
+//            for (int i = 1; i < stalls.length; i++) {
+//                if (stalls[i] - lastposition >= d) {
+//                    count++;
+//                    lastposition = stalls[i];
+//                }
+//                if (count >= cows) return true;
+//            }
+//            return false;
+//        }
+
+
 
 
 
