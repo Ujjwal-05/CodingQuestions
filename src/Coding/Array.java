@@ -1,11 +1,9 @@
 package Coding;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
-
 //Find pairs with given sum in sorted array:
+
+import java.util.Arrays;
+import java.util.List;
 
 class Pair{
     double distance;
@@ -17,7 +15,52 @@ class Pair{
     }
 }
 
+class Node<T>{
+    T data;
+    Node next;
+
+    public Node(T data, Node next) {
+        this.data = data;
+        this.next = next;
+    }
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
+    }
+
+    Node<T> createnodes(List<T> nums) {
+
+        if (nums.isEmpty()) return null;
+
+        Node<T> head = new Node<>(nums.get(0));
+        Node<T> temp = head;
+
+        for (int i = 1; i < nums.size(); i++) {
+            temp.next = new Node<>(nums.get(i));
+            temp = temp.next;
+        }
+
+        return head;
+    }
+
+}
+
 public class Array {
+    private static boolean canPlace ( int[] stalls, int cows, int d){
+
+        int count = 1;
+        int lastposition = stalls[0];
+
+        for (int i = 1; i < stalls.length; i++) {
+            if (stalls[i] - lastposition >= d) {
+                count++;
+                lastposition = stalls[i];
+            }
+            if (count >= cows) return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         System.out.println("Happy Coding");
 
@@ -2224,31 +2267,21 @@ public class Array {
 //        }
 
 ////Binary search approach:
-        LinkedList<Integer> list=new LinkedList<>();
 
-        list.add(1);
+////LinkedList:
+
+        Node<Integer> obj = new Node<>(0, null); // dummy object to call method
+        List<Integer> list = Arrays.asList(10, 20, 30, 40);
+        Node<Integer> head = obj.createnodes(list);
+
+
+
+
+
+
 
 
     }}
-
-
-
-
-//        private static boolean canPlace ( int[] stalls, int cows, int d){
-//
-//            int count = 1;
-//            int lastposition = stalls[0];
-//
-//            for (int i = 1; i < stalls.length; i++) {
-//                if (stalls[i] - lastposition >= d) {
-//                    count++;
-//                    lastposition = stalls[i];
-//                }
-//                if (count >= cows) return true;
-//            }
-//            return false;
-//        }
-
 
 
 
