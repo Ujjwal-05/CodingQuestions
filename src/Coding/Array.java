@@ -2297,7 +2297,30 @@ public class Array {
 //        }
 //        System.out.println("Lenght of List:" + length);
 
-////
+//// Middle of linked list:
+
+//        Node slow=head;
+//        Node fast=head;
+//
+//        while (fast!=null && fast.next!=null){
+//            slow=slow.next;
+//            fast=fast.next.next;
+//        }
+//
+//        System.out.println(slow.data);
+
+////Reverse a Linked List:
+
+//        Node prev=null;
+//        Node temp=head;
+//
+//        while (temp!=null){
+//
+//            Node front= temp.next;
+//            temp.next=prev;
+//            prev=temp;
+//            temp=front;
+//        }
 
         Node temphead =head;
         while (temphead !=null){
