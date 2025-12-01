@@ -42,7 +42,6 @@ class Node<T>{
 
         return head;
     }
-
 }
 
 public class Array {
@@ -66,11 +65,11 @@ public class Array {
 
 ////Reverse a number or Check palindrome.
 //        int num=121;
-//        int reversed=0, temp=num;
+//        int reversed=0, temphead=num;
 //
-//        while(temp>0){
-//            reversed=reversed*10 + temp%10;
-//            temp/=10;
+//        while(temphead>0){
+//            reversed=reversed*10 + temphead%10;
+//            temphead/=10;
 //        }
 
 //// Armstrong:
@@ -122,9 +121,9 @@ public class Array {
 
 //        static void Reverse(int[] a, int start, int end) {
 //            while (start < end) {
-//                int temp = a[start];
+//                int temphead = a[start];
 //                a[start] = a[end];
-//                a[end] = temp;
+//                a[end] = temphead;
 //                start++;
 //                end--;
 //            }
@@ -137,9 +136,9 @@ public class Array {
 //        int left=0, right=arr.length-1;
 //        while (left<right){
 //            if( arr[left]==0 && arr[right]!=0){
-//                int temp=arr[left];
+//                int temphead=arr[left];
 //                arr[left]=arr[right];
-//                arr[right]=temp;
+//                arr[right]=temphead;
 //                left++;
 //                right--;
 //            } else if ( arr[left]!=0 ) {
@@ -156,9 +155,9 @@ public class Array {
 //        for (int j = 0; j < arr.length; j++) {
 //            if (arr[j] != 0) {
 //                // Only swap if i and j are different
-//                int temp = arr[i];
+//                int temphead = arr[i];
 //                arr[i] = arr[j];
-//                arr[j] = temp;
+//                arr[j] = temphead;
 //                i++;
 //            }
 //        }
@@ -338,9 +337,9 @@ public class Array {
 //            }
 //
 //            if(left<right) {
-//                int temp = a[left];
+//                int temphead = a[left];
 //                a[left] = a[right];
-//                a[right] = temp;
+//                a[right] = temphead;
 //
 //                left++;
 //                right--;
@@ -467,17 +466,17 @@ public class Array {
 //        int low=0, mid=0,high=arr.length-1;
 //        while (mid<=high){
 //            if(arr[mid]==0){
-//                int temp=arr[low];
+//                int temphead=arr[low];
 //                arr[low]=arr[mid];
-//                arr[mid]=temp;
+//                arr[mid]=temphead;
 //                low++;
 //                mid++;
 //            } else if (arr[mid]==1) {
 //                mid++;
 //            }else {
-//                int temp=arr[mid];
+//                int temphead=arr[mid];
 //                arr[mid]=arr[high];
-//                arr[high]=temp;
+//                arr[high]=temphead;
 //                high--;
 //            }
 //        }
@@ -614,9 +613,9 @@ public class Array {
 //        for( i=1;i<arr.length;i++){
 //            int curr=arr[i];
 //            if(curr<0){
-//                int temp=max_prod;
+//                int temphead=max_prod;
 //                max_prod=min_prod;
-//                min_prod=temp;
+//                min_prod=temphead;
 //            }
 //
 //            max_prod=Math.max(curr,max_prod*curr);
@@ -2271,8 +2270,40 @@ public class Array {
 ////LinkedList:
 
         Node<Integer> obj = new Node<>(0, null); // dummy object to call method
-        List<Integer> list = Arrays.asList(10, 20, 30, 40);
+        List<Integer> list = Arrays.asList(2, 3, 4, 5, 6);
         Node<Integer> head = obj.createnodes(list);
+
+// Insertion at Head:
+        Node newnode=new Node<>(1);
+        newnode.next=head;
+        head=newnode;
+
+//// Deletion at end:
+//        Node curr=head;
+//        while (curr.next.next!=null){
+//            curr=curr.next;
+//        }
+//        curr.next=null;
+
+//// Length of the linked list and find an element:
+//        Node curr=head;
+//        int length=0, element=6;
+//        while (curr!=null){
+//            if(curr.data==Integer.valueOf(element)) {
+//                System.out.println("Element Found:" + element);
+//            }
+//            length++;
+//            curr=curr.next;
+//        }
+//        System.out.println("Lenght of List:" + length);
+
+////
+
+        Node temphead =head;
+        while (temphead !=null){
+            System.out.print(temphead.data + " ");
+            temphead = temphead.next;
+        }
 
 
 
