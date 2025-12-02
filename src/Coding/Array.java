@@ -47,7 +47,7 @@ class Node<T>{
 }
 
 public class Array {
-    private static boolean canPlace ( int[] stalls, int cows, int d){
+    public static boolean canPlace ( int[] stalls, int cows, int d){
 
         int count = 1;
         int lastposition = stalls[0];
@@ -61,6 +61,21 @@ public class Array {
         }
         return false;
     }
+
+    public static Node reverselinkedlist(Node head){
+        Node prev=null;
+        Node curr=head;
+
+        while (curr!=null){
+            Node front=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=front;
+        }
+
+        return prev;
+    }
+
 
     public static void main(String[] args) {
         System.out.println("Happy Coding");
@@ -2316,7 +2331,7 @@ public class Array {
 //        Node prev=null;
 //        Node curr=head;
 //
-//        while (temp!=null){
+//        while (curr!=null){
 //
 //            Node front= curr.next;
 //            curr.next=prev;
@@ -2470,45 +2485,29 @@ public class Array {
 //        }
 //        System.out.println("It's a Palindrome");
 
-        Node slow=head;
-        Node fast=head;
-
-        while (fast!=null && fast.next!=null){
-            slow=slow.next;
-            fast=fast.next.next;
-        }
-
-        Node prev=null;
-        Node curr=slow;
-
-        while (curr!=null){
-            Node front=curr.next;
-            curr.next=prev;
-            prev=curr;
-            curr=front;
-        }
-
-        Node firsthalf=head;
-        Node secondhalf=prev;
-
-        while (secondhalf!=null){
-            if(firsthalf.data!=secondhalf.data){
-                System.out.println("Not a Palindrome");
-                return;
-            }
-
-            firsthalf=firsthalf.next;
-            secondhalf=secondhalf.next;
-        }
-
-        System.out.println("Its a plaindrome");
-
-
-
-
-
-
-
+//        Node slow=head;
+//        Node fast=head;
+//
+//        while (fast!=null && fast.next!=null){
+//            slow=slow.next;
+//            fast=fast.next.next;
+//        }
+//
+//        Node firsthalf=head;
+//        Node secondhalfhead=reverselinkedlist(slow);
+//        Node secondhalf=secondhalfhead;
+//
+//        while (secondhalf!=null){
+//            if(firsthalf.data!=secondhalf.data){
+//                System.out.println("Not a Palindrome");
+//                return;
+//            }
+//            firsthalf=firsthalf.next;
+//            secondhalf=secondhalf.next;
+//        }
+//        reverselinkedlist(secondhalfhead);
+//
+//        System.out.println("Its a plaindrome");
 
 
 
