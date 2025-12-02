@@ -3,7 +3,9 @@ package Coding;
 //Find pairs with given sum in sorted array:
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 class Pair{
     double distance;
@@ -2270,7 +2272,7 @@ public class Array {
 ////LinkedList:
 
         Node<Integer> obj = new Node<>(0, null); // dummy object to call method
-        List<Integer> list = Arrays.asList(2, 3, 4, 5, 6);
+        List<Integer> list = Arrays.asList(2, 3, 3, 2, 1);
         Node<Integer> head = obj.createnodes(list);
 
 // Insertion at Head:
@@ -2312,15 +2314,204 @@ public class Array {
 ////Reverse a Linked List:
 
 //        Node prev=null;
-//        Node temp=head;
+//        Node curr=head;
 //
 //        while (temp!=null){
 //
-//            Node front= temp.next;
-//            temp.next=prev;
-//            prev=temp;
-//            temp=front;
+//            Node front= curr.next;
+//            curr.next=prev;
+//            prev=curr;
+//            curr=front;
 //        }
+
+////Detect a Cycle/loop in a Linked List:
+
+////In Floyd’s Cycle Detection (Tortoise–Hare) algorithm, we move one pointer one step at a time and the other two steps at a time to create a speed difference that
+//// helps detect the presence of a loop efficiently. If there is no cycle in the linked list, the fast pointer, because it moves twice as quickly, will eventually reach
+//// the end of the list and become null, confirming that the list is linear. However, if a cycle exists, both pointers will eventually meet because once they are inside
+//// the loop, the fast pointer keeps closing the gap between itself and the slow pointer.
+//// Assume at some point inside the cycle the fast pointer is k nodes ahead of the slow pointer. Since the fast pointer moves two steps and the slow pointer moves one step
+//// in each iteration, the net reduction in the gap is one node per iteration. So the difference reduces from k to k-1, k-2, and so on, until it becomes zero.
+//// At that moment, both pointers land on the same node, meaning they collide, and this collision conclusively indicates that a cycle exists in the linked list.
+
+//        public ListNode detectCycle(ListNode head) {
+//            Set<ListNode> visited = new HashSet<>();
+//            while (head != null) {
+//                if (visited.contains(head)) {
+//                    return head;
+//                }
+//                visited.add(head);
+//                head = head.next;
+//            }
+//            return null;
+
+//        if (head == null || head.next == null)  return;
+//
+//        Node slow = head;       // moves 1 step
+//        Node fast = head;       // moves 2 steps
+//
+//        while (fast != null && fast.next != null) {
+//            slow = slow.next;           // move slow by 1
+//            fast = fast.next.next;      // move fast by 2
+//
+//            if (slow == fast)           // cycle detected
+//                System.out.println("Yes");
+//        }
+
+//// Starting point of loop in a Linked List: Brute force same as detect loop:
+
+// You may be curious about the proof for this algorithm, and it hinges on the idea that the point where the slow and fast pointers converge
+// can be leveraged to determine the starting point of the loop. In the "tortoise and hare" algorithm for detecting loops in a linked list, when the slow pointer
+// (tortoise) reaches the starting point of the loop, the fast pointer (hare) is positioned at a point that is twice the distance travelled by the slow pointer.
+// This is because the hare moves at double the speed of the tortoise. If slow has travelled distance L1 then fast has travelled 2 x L1. Now that slow and fast have
+// entered the loop, the distance fast will have to cover to catch up to slow is the total length of loop minus L1. Let this distance be d.
+// Distance travelled by slow = L1 Distance travelled by fast = 2 * L1 Total length of loop = L1 + d. In this configuration, the fast pointer advances toward the slow
+// pointer with two jumps per step, while the slow pointer moves away with one jump per step. As a result, the gap between them decreases by 1 with each step.
+// Given that the initial gap is d, it takes exactly d steps for them to meet.
+//// Total length of loop = L1 + d Distance between slow and fast = d
+//During these d steps, the slow pointer effectively travels d steps from the starting point within the loop and fast travels 2 x d and they meet at a specific point.
+// Based on our previous calculations, the total length of the loop is L1 + d. And since the distance covered by the slow pointer within the loop is d,
+// the remaining distance within the loop is equal to L1. Therefore, it is proven that the distance between the starting point of the loop and the point where
+// the two pointers meet is indeed equal to the distance between the starting point and head of the linked list.
+
+//         Node detectCycle(Node head) {
+//
+//            Node slow = head;
+//            Node fast = head;
+//
+//            while (fast != null && fast.next != null) {
+//
+//                slow = slow.next;
+//                fast = fast.next.next;
+//
+//                if (slow == fast) {
+//                    slow = head;
+//
+//                    while (slow != fast) {
+//                        slow = slow.next;
+//                        fast = fast.next;
+//                    }
+//
+//                    return slow;
+//                }
+//            }
+//            return null;
+//        }
+
+//// Length of Loop in LL:
+
+//        public int lengthOfLoop(Node head) {
+//            HashMap<Node, Integer> visitedNodes = new HashMap<>();
+//
+//            Node temp = head;
+//            int timer = 0;
+//
+//            while (temp != null) {
+//
+//                if (visitedNodes.containsKey(temp)) {
+//                    int loopLength = timer - visitedNodes.get(temp);
+//                    return loopLength;
+//                }
+//
+//                visitedNodes.put(temp, timer);
+//                temp = temp.next;
+//                timer++;
+//            }
+//
+//            return 0;
+//        }
+
+//        public int lengthOfLoop(Node head) {
+//            if (head == null || head.next == null) return ;
+//
+//            Node slow = head;
+//            Node fast = head;
+//
+//            while (fast != null && fast.next != null) {
+//                slow = slow.next;
+//                fast = fast.next.next;
+//
+//                if (slow == fast) {
+//                    return countLength(slow);
+//                }
+//            }
+//            return;
+//        }
+//
+//         int countLength(Node meetingPoint) {
+//            Node curr = meetingPoint;
+//            int count = 1;
+//
+//            // traverse cycle until we come back to the same node
+//            while (curr.next != meetingPoint) {
+//                curr = curr.next;
+//                count++;
+//            }
+//            return count;
+//        }
+
+//// Check if the given Linked List is Palindrome:
+
+//        Stack<Integer> st = new Stack<>();
+//        Node curr = head;
+//
+//        while (curr != null) {
+//            st.push((Integer) curr.data);
+//            curr = curr.next;
+//        }
+//
+//        curr = head;
+//        while (curr != null) {
+//            if (curr.data != st.pop()) {
+//                System.out.println("Not a Palindrome");
+//                break;
+//            }
+//            curr = curr.next;
+//        }
+//        System.out.println("It's a Palindrome");
+
+        Node slow=head;
+        Node fast=head;
+
+        while (fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+
+        Node prev=null;
+        Node curr=slow;
+
+        while (curr!=null){
+            Node front=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=front;
+        }
+
+        Node firsthalf=head;
+        Node secondhalf=prev;
+
+        while (secondhalf!=null){
+            if(firsthalf.data!=secondhalf.data){
+                System.out.println("Not a Palindrome");
+                return;
+            }
+
+            firsthalf=firsthalf.next;
+            secondhalf=secondhalf.next;
+        }
+
+        System.out.println("Its a plaindrome");
+
+
+
+
+
+
+
+
+
+
 
         Node temphead =head;
         while (temphead !=null){
