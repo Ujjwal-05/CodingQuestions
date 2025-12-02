@@ -2,10 +2,7 @@ package Coding;
 
 //Find pairs with given sum in sorted array:
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 class Pair{
     double distance;
@@ -2287,8 +2284,8 @@ public class Array {
 ////LinkedList:
 
         Node<Integer> obj = new Node<>(0, null); // dummy object to call method
-        List<Integer> list = Arrays.asList(2, 3, 3, 2, 1);
-        Node<Integer> head = obj.createnodes(list);
+        List<Integer> listnodes = Arrays.asList(2, 3, 3, 2, 1);
+        Node<Integer> head = obj.createnodes(listnodes);
 
 // Insertion at Head:
         Node newnode=new Node<>(1);
@@ -2509,8 +2506,42 @@ public class Array {
 //
 //        System.out.println("Its a plaindrome");
 
+//// Segrregate odd and even nodes in LL:
 
+//        if (head == null) return;
+//
+//        ArrayList<Integer> list = new ArrayList<>();
+//        Node curr = head;
+//
+//        while (curr != null) {
+//            list.add((Integer) curr.data);
+//            curr = curr.next;
+//        }
+//
+//        curr = head;
+//
+//        for (int i = 0; i < list.size(); i += 2) {
+//            curr.data = list.get(i);
+//            curr = curr.next;
+//        }
+//
+//        for (int i = 1; i < list.size(); i += 2) {
+//            curr.data = list.get(i);
+//            curr = curr.next;
+//        }
 
+        Node odd=head;
+        Node even=head.next;
+        Node evenhead=even;
+
+        while (even!=null && even.next!=null){
+            odd.next=even.next;
+            odd=odd.next;
+
+            even.next=odd.next;
+            even=even.next;
+        }
+        odd.next=evenhead;
 
         Node temphead =head;
         while (temphead !=null){
