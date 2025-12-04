@@ -2213,7 +2213,7 @@ public class Array {
 //        System.out.println(pq.peek().distance);
 
 //// Median of 2 sorted arrays:
-        int[] a = {2,4,6};  int[] b = {1,3,5};
+//        int[] a = {2,4,6};  int[] b = {1,3,5};
 
 //        List<Integer> list=new ArrayList<>();
 //        int i=0,j=0;
@@ -2286,6 +2286,8 @@ public class Array {
         Node<Integer> obj = new Node<>(0, null); // dummy object to call method
         List<Integer> listnodes = Arrays.asList(2, 3, 3, 2, 1);
         Node<Integer> head = obj.createnodes(listnodes);
+        Node<Integer> head2 = obj.createnodes(listnodes);
+
 
 // Insertion at Head:
         Node newnode=new Node<>(1);
@@ -2314,7 +2316,8 @@ public class Array {
 //// Middle of linked list:
 
 //        Node slow=head;
-//        Node fast=head;
+//        Node fast=head; for 2nd middle in even length case
+//        Node fast=head.next; for 1st middle in even length case
 //
 //        while (fast!=null && fast.next!=null){
 //            slow=slow.next;
@@ -2530,31 +2533,228 @@ public class Array {
 //            curr = curr.next;
 //        }
 
-        Node odd=head;
-        Node even=head.next;
-        Node evenhead=even;
+//        Node odd=head;
+//        Node even=head.next;
+//        Node evenhead=even;
+//
+//        while (even!=null && even.next!=null){
+//            odd.next=even.next;
+//            odd=odd.next;
+//
+//            even.next=odd.next;
+//            even=even.next;
+//        }
+//        odd.next=evenhead;
+//
+//        Node temphead =head;
+//        while (temphead !=null){
+//            System.out.print(temphead.data + " ");
+//            temphead = temphead.next;
+//        }
 
-        while (even!=null && even.next!=null){
-            odd.next=even.next;
-            odd=odd.next;
+////Delete the Middle Node of the Linked List:
+//        public ListNode deleteMiddle(ListNode head) {
+//            if (head == null || head.next == null)
+//                return null;  // list becomes empty
+//
+//            ListNode slow = head;
+//            ListNode fast = head;
+//            ListNode prev = null;
+//
+//            // Move slow by 1, fast by 2
+//            while (fast != null && fast.next != null) {
+//                prev = slow;
+//                slow = slow.next;
+//                fast = fast.next.next;
+//            }
+//
+//            // Now slow is middle, prev is before middle
+//            prev.next = slow.next;
+//
+//            return head;
+//        }
 
-            even.next=odd.next;
-            even=even.next;
-        }
-        odd.next=evenhead;
+//// Sort LL:
 
-        Node temphead =head;
-        while (temphead !=null){
-            System.out.print(temphead.data + " ");
-            temphead = temphead.next;
-        }
+//// Find intersection of Two Linked Lists:
+
+//public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+//    HashSet<ListNode> set = new HashSet<>();
+//
+//    while (headA != null) {
+//        set.add(headA);
+//        headA = headA.next;
+//    }
+//
+//    while (headB != null) {
+//        if (set.contains(headB))
+//            return headB;
+//        headB = headB.next;
+//    }
+//
+//    return null;
+//}
+
+//        public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+//
+//            if (headA == null || headB == null)
+//                return null;
+//
+//            ListNode a = headA;
+//            ListNode b = headB;
+//
+//            // Traverse until both pointers meet
+//            while (a != b) {
+//
+//                // If pointer a reaches the end of list A, move it to the head of list B
+//                if (a == null) {
+//                    a = headB;
+//                } else {
+//                    a = a.next;   // otherwise move to next node
+//                }
+//
+//                // If pointer b reaches the end of list B, move it to the head of list A
+//                if (b == null) {
+//                    b = headA;
+//                } else {
+//                    b = b.next;   // otherwise move to next node
+//                }
+//            }
+//
+//            // At this point, a == b
+//            // If intersection exists, it is the intersection node
+//            // If no intersection, both are null
+//            return a;
+//        }
 
 
+//// Add 1 to a number represented by LL
 
+//        if (head == null)
+//            return null;
+//
+//        long num = 0;
+//        ListNode curr = head;
+//
+//        // Step 1: Convert list to number
+//        while (curr != null) {
+//            num = num * 10 + curr.data;
+//            curr = curr.next;
+//        }
+//
+//        // Step 2: Add 1
+//        num = num + 1;
+//
+//        // Step 3: Convert updated number to string
+//        String s = String.valueOf(num);
+//
+//        // Step 4: Rewrite digits from the front
+//        curr = head;
+//        int i = 0;
+//
+//        // Track tail node to append later
+//        ListNode tail = null;
+//
+//        while (curr != null && i < s.length()) {
+//            curr.data = s.charAt(i) - '0';
+//            tail = curr;
+//            curr = curr.next;
+//            i++;
+//        }
+//
+//        // Step 5: Append remaining digits (if any)
+//        while (i < s.length()) {
+//            ListNode newNode = new ListNode(s.charAt(i) - '0');
+//            tail.next = newNode;
+//            tail = newNode;
+//            i++;
+//        }
+//
+//        return head;
 
+//            public ListNode addOne(ListNode head) {
+//                if (head == null)
+//                    return null;
+//
+//                // Step 1: Reverse the list
+//                head = reverse(head);
+//
+//                ListNode curr = head;
+//                int carry = 1; // since we add 1
+//
+//                // Step 2: Add 1 and propagate carry
+//                while (curr != null) {
+//                    int sum = curr.data + carry;
+//                    curr.data = sum % 10;
+//                    carry = sum / 10;
+//
+//                    // If no carry left, break
+//                    if (carry == 0)
+//                        break;
+//
+//                    // If next is null and carry exists, add node
+//                    if (curr.next == null && carry > 0) {
+//                        curr.next = new ListNode(carry);
+//                        carry = 0;
+//                    }
+//
+//                    curr = curr.next;
+//                }
+//
+//                // Step 3: Reverse back to original order
+//                head = reverse(head);
+//
+//                return head;
+//            }
+//
+//            private ListNode reverse(ListNode head) {
+//                ListNode prev = null;
+//                ListNode curr = head;
+//
+//                while (curr != null) {
+//                    ListNode next = curr.next;
+//                    curr.next = prev;
+//                    prev = curr;
+//                    curr = next;
+//                }
+//
+//                return prev;
+//            }
+//        }
 
+////Add 2 numbers in LL:
+////Use && when you need pairs of nodes:
+////Use || when you need to process all nodes, even if one list ends before the other:
 
+       Node l1=head,l2=head2;
+       int carry=0;
+       Node newHead=null, curr=null;
 
+       while (l1!=null || l2!=null || carry>0){
+           int sum=carry;
+           if(l1!=null){
+               sum= sum +(int) l1.data;
+               l1=l1.next;
+           }
+
+           if(l2!=null){
+               sum= sum +(int) l2.data;
+               l2=l2.next;
+           }
+
+           carry=sum/10;
+
+           Node newNode=new Node<>(sum%10);
+
+           if(newHead==null){
+               newHead=newNode;
+               curr=newNode;
+           }else {
+               curr.next = newNode;
+               curr = curr.next;
+           }
+
+       }
 
     }}
 
