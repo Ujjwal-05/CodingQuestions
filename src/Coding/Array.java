@@ -2271,7 +2271,7 @@ public class Array {
 ////LinkedList:
 
         Node<Integer> obj = new Node<>(0, null); // dummy object to call method
-        List<Integer> listnodes = Arrays.asList(2, 3, 3, 2, 1);
+        List<Integer> listnodes = Arrays.asList(2, 3, 4, 5, 6);
         Node<Integer> head = obj.createnodes(listnodes);
         Node<Integer> head2 = obj.createnodes(listnodes);
 
@@ -2558,6 +2558,100 @@ public class Array {
 
 //// Sort LL:
 
+//        public Node sortLL(Node head) {
+//            // List to store node values
+//            ArrayList<Integer> arr = new ArrayList<>();
+//
+//            // Pointer to traverse the list
+//            Node temp = head;
+//
+//            // Traverse and push values into list
+//            while (temp != null) {
+//                arr.add(temp.data);
+//                temp = temp.next;
+//            }
+//
+//            // Sort the list
+//            Collections.sort(arr);
+//
+//            // Reassign sorted values to list nodes
+//            temp = head;
+//            for (int i = 0; i < arr.size(); i++) {
+//                temp.data = arr.get(i);
+//                temp = temp.next;
+//            }
+//
+//            // Return head of sorted list
+//            return head;
+
+
+//            Node mergeTwoSortedLinkedLists(Node list1, Node list2) {
+//                Node dummyNode = new Node(-1, null);
+//                Node temp = dummyNode;
+//
+//                while (list1 != null && list2 != null) {
+//                    if (list1.data <= list2.data) {
+//                        temp.next = list1;
+//                        list1 = list1.next;
+//                    } else {
+//                        temp.next = list2;
+//                        list2 = list2.next;
+//                    }
+//                    temp = temp.next;
+//                }
+//
+//                if (list1 != null) {
+//                    temp.next = list1;
+//                } else {
+//                    temp.next = list2;
+//                }
+//                return dummyNode.next;
+//            }
+//
+//            public Node findMiddle(Node head) {
+//                // If list empty or single node
+//                if (head == null || head.next == null) {
+//                    return head;
+//                }
+//
+//                // Slow and fast pointers
+//                Node slow = head;
+//                Node fast = head.next;
+//
+//                // Move fast twice as fast as slow
+//                while (fast != null && fast.next != null) {
+//                    slow = slow.next;
+//                    fast = fast.next.next;
+//                }
+//
+//                // Return middle node
+//                return slow;
+//            }
+//
+//            // Function to perform merge sort
+//            public Node sortLL(Node head) {
+//                // Base case: empty or single node
+//                if (head == null || head.next == null) {
+//                    return head;
+//                }
+//
+//                // Find middle node
+//                Node middle = findMiddle(head);
+//
+//                // Split into two halves
+//                Node right = middle.next;
+//                middle.next = null;
+//                Node left = head;
+//
+//                // Recursively sort both halves
+//                left = sortLL(left);
+//                right = sortLL(right);
+//
+//                // Merge sorted halves
+//                return mergeTwoSortedLinkedLists(left, right);
+//            }
+//        }
+
 ////Sort a LL of 0's 1's and 2's by changing links
 
 //// Find intersection of Two Linked Lists:
@@ -2706,9 +2800,10 @@ public class Array {
 //            }
 //        }
 
-////Add 2 numbers in LL:
 ////Use && when you need pairs of nodes:
 ////Use || when you need to process all nodes, even if one list ends before the other:
+
+ ////Add 2 numbers in LL:
 
 //       Node l1=head,l2=head2;
 //       int carry=0;
@@ -2744,11 +2839,158 @@ public class Array {
 //// While(temp.next!=null) till last
 //// While(temp.next.next!=null) till second last
 
+////Rotate a Linked List: Given the head of a singly linked list containing integers, shift the elements of the linked list to the right by k places and return the head of the modified list.
+////Do not change the values of the nodes, only change the links between nodes.
+
+//        int k=3;
+//        if(head==null || head.next==null || k==0) return;
+//
+//        for (int i=1;i<=k;i++){
+//
+//            Node prev=null;
+//            Node curr=head;
+//
+//            while (curr.next!=null){
+//                prev=curr;
+//                curr=curr.next;
+//            }
+//
+//            curr.next=head;
+//            head=curr;
+//            prev.next=null;
+//        }           // O(n*k)
+
+//        int k=10;
+//        if(head==null || head.next==null || k==0) return;
+//
+//        Node temp=head;
+//        int length=1;
+//        while (temp.next!=null){
+//            temp=temp.next;
+//            length++;
+//        }
+//
+//        k=k%length;
+//
+//        Node fast=head;
+//
+//        //move fast pointer k steps
+//        for(int i=0;i<k;i++){
+//            fast=fast.next;
+//        }
+//
+//        Node slow=head;
+//
+//        // move slow and fast together
+//        while (fast.next!=null){
+//            fast=fast.next;
+//            slow=slow.next;
+//        }
+//
+//        fast.next=head;
+//        head=slow.next;
+//        slow.next=null;
+
+////Merge Two Sorted Linked list in one sorted list:
+
+//        Node mergeTwoLists(Node l1, Node l2) {
+//        Node dummy = new Node(-1);
+//        Node temp = dummy;
+//
+//        while (l1 != null && l2 != null) {
+//            if (l1.val < l2.val) {
+//                temp.next = l1;
+//                l1 = l1.next;
+//            } else {
+//                temp.next = l2;
+//                l2 = l2.next;
+//            }
+//            temp = temp.next;
+//        }
+//
+//
+//            // Attach leftover part
+//            if (l1 != null) temp.next = l1;
+//            else temp.next = l2;
+//
+//            return dummy.next;
+//        }
+
+////Flattening a Linked List:
+
+//        if (head == null) return ;
+//
+//        // Step 1: add all nodes to list
+//        ArrayList<Integer> list = new ArrayList<>();
+//
+//        Node temp = head;
+//        while (temp != null) {
+//            Node b = temp;
+//            while (b != null) {
+//                list.add(b.data);
+//                b = b.bottom;
+//            }
+//            temp = temp.next;
+//        }
+//
+//        // Step 2: sort values
+//        Collections.sort(list);
+//
+//        // Step 3: build new linked list using bottom pointers
+//        Node newHead = new Node(list.get(0));
+//        Node curr = newHead;
+//
+//        for (int i = 1; i < list.size(); i++) {
+//            curr.bottom = new Node(list.get(i));
+//            curr = curr.bottom;
+//        }
+
+//        class Solution {
+//            // Merge two sorted bottom-linked lists
+//            Node merge(Node a, Node b) {
+//                if (a == null) return b;
+//                if (b == null) return a;
+//
+//                Node result;
+//
+//                if (a.data < b.data) {
+//                    result = a;
+//                    result.bottom = merge(a.bottom, b);
+//                } else {
+//                    result = b;
+//                    result.bottom = merge(a, b.bottom);
+//                }
+//
+//                result.next = null;  // very important!
+//                return result;
+//            }
+//
+//            // Main flatten function
+//            Node flatten(Node root) {
+//                if (root == null || root.next == null)
+//                    return root;
+//
+//                // Flatten the right side
+//                root.next = flatten(root.next);
+//
+//                // Merge root list with flattened right list
+//                root = merge(root, root.next);
+//
+//                return root;
+//            }
+//        }
+
+
+
+
+
         Node temphead =head;
-        while (temphead.next !=null){
+        while (temphead !=null){
             System.out.print(temphead.data + " ");
             temphead = temphead.next;
         }
+
+
 
     }}
 
