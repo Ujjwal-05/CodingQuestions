@@ -86,7 +86,7 @@ public class Array {
 //            temphead/=10;
 //        }
 
-//// Armstrong:
+//// Check num is Armstrong or not:
 //        static boolean isArmstrong(int num) {
 //            int original = num;
 //            int digits = String.valueOf(num).length();
@@ -114,6 +114,7 @@ public class Array {
 //            }
 //        }
 
+//// Find the duplicate elemet in the array:
 //// Remove duplicates from the sorted array:
 //        int [] arr= {1,2,2,2,2,2,3,3,3,4,5,5};
 //        int left=0;
@@ -125,6 +126,7 @@ public class Array {
 //            }
 //        }
 
+//// Find the missing number in array:
 //// Left rotate array by d place:
 //        int [] a={1,2,3,4,5};
 //        int k =3;
@@ -135,88 +137,12 @@ public class Array {
 
 //        static void Reverse(int[] a, int start, int end) {
 //            while (start < end) {
-//                int temphead = a[start];
+//                int temp = a[start];
 //                a[start] = a[end];
-//                a[end] = temphead;
+//                a[end] = temp;
 //                start++;
 //                end--;
 //            }
-//        }
-
-
-//// Moves zero to end:
-//        int [] arr={0,5,0,1,2,3,0,0,4,5,0,0};
-
-//        int left=0, right=arr.length-1;
-//        while (left<right){
-//            if( arr[left]==0 && arr[right]!=0){
-//                int temphead=arr[left];
-//                arr[left]=arr[right];
-//                arr[right]=temphead;
-//                left++;
-//                right--;
-//            } else if ( arr[left]!=0 ) {
-//                left++;
-//            } else if ( arr[right]==0){
-//                right--;
-//            }
-//        }
-
-// Maintain insertion order:
-//        int[] arr = {2, 0, 0, 2, 1, 0, 2, 3, 4, 5, 0};
-//
-//        int i = 0;
-//        for (int j = 0; j < arr.length; j++) {
-//            if (arr[j] != 0) {
-//                // Only swap if i and j are different
-//                int temphead = arr[i];
-//                arr[i] = arr[j];
-//                arr[j] = temphead;
-//                i++;
-//            }
-//        }
-
-////Find the union of the 2 sorted array and result should be sorted:
-//
-//        int arr1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//        int arr2[] = {2, 3, 4, 4, 5, 11, 12};
-//
-//        ArrayList<Integer> union = new ArrayList<>();
-//        int i = 0, j = 0;
-//
-//        while (i < arr1.length && j < arr2.length) {
-//            if (arr1[i] < arr2[j]) {
-//                if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-//                    union.add(arr1[i]);
-//                }
-//                i++;
-//            } else if (arr1[i] > arr2[j]) {
-//                if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
-//                    union.add(arr2[j]);
-//                }
-//                j++;
-//            } else {
-//                // arr1[i] == arr2[j], add one of them
-//                if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-//                    union.add(arr1[i]);
-//                }
-//                i++;
-//                j++;
-//            }
-//        }
-//
-//        while (i < arr1.length) {
-//            if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-//                union.add(arr1[i]);
-//            }
-//            i++;
-//        }
-//
-//        while (j < arr2.length) {
-//            if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
-//                union.add(arr2[j]);
-//            }
-//            j++;
 //        }
 
 ////Find the number that appears once, and other numbers twice.
@@ -226,6 +152,45 @@ public class Array {
 //
 //        for (int num:arr){
 //            res=res^num;
+//        }
+
+//// Moves zero to end and preserve the order:
+//        int [] arr={0,5,5,1,0,0,0,1,2,3,0,0,4,5,0,0};
+//
+//        int left=-1;
+//        for(int right=0;right<arr.length;right++){
+//
+//            if(arr[right]==0){
+//                if(left==-1) {
+//                    left = right;
+//                }
+//            }else {
+//                if(left!=-1){
+//                    arr[left]=arr[right];
+//                    arr[right]=0;
+//                    left++;
+//                }
+//            }
+//        }
+
+////Leader in array problem:
+
+////// Rearrange Array elements by sign.
+//        int[] arr = { -7, -1, 5, -3, 6, 4};
+//        int[] res = new int[arr.length];
+//
+//        int pos=0,neg=1;
+//
+//        for(int num:arr){
+//            if(num>0){
+//                res[pos]=num;
+//                pos+=2;
+//            }
+//            else {
+//                res[neg]=num;
+//                neg+=2;
+//            }
+//
 //        }
 
 ////Java programme to print distinct element in UnSorted/Sorted array.
@@ -256,21 +221,27 @@ public class Array {
 //            }
 //        }
 
-////Find pairs with given sum in Unsorted array:
+////Find Unique pairs with given sum in Unsorted array:
 //        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
+
+//        Set<Integer> set = new HashSet<>();
+//        Set<String> printed = new HashSet<>();
 //
-//        Set<Integer> set=new HashSet<>();
+//        for (int num : arr) {
+//            int complement = k - num;
 //
-//        for (int num:arr){
-//            int compliment=k-num;
+//            if (set.contains(complement)) {
+//                int a = Math.min(num, complement);
+//                int b = Math.max(num, complement);
 //
-//            if(set.contains(compliment)){
-//                System.out.println(num +"  "+ compliment);
+//                if (printed.add(a + "," + b)) {
+//                    System.out.println(a + " " + b);
+//                }
 //            }
 //
 //            set.add(num);
-//
 //        }
+
 
 //// Find common element in three or two sorted array:
 //        int[] a ={1,2,3,4,5};
@@ -366,6 +337,49 @@ public class Array {
 //
 //        System.out.println();
 
+////Find the union of the 2 sorted array and result should be sorted:
+//
+//        int arr1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//        int arr2[] = {2, 3, 4, 4, 5, 11, 12};
+//
+//        ArrayList<Integer> union = new ArrayList<>();
+//        int i = 0, j = 0;
+//
+//        while (i < arr1.length && j < arr2.length) {
+//            if (arr1[i] < arr2[j]) {
+//                if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
+//                    union.add(arr1[i]);
+//                }
+//                i++;
+//            } else if (arr1[i] > arr2[j]) {
+//                if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
+//                    union.add(arr2[j]);
+//                }
+//                j++;
+//            } else {
+//                // arr1[i] == arr2[j], add one of them
+//                if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
+//                    union.add(arr1[i]);
+//                }
+//                i++;
+//                j++;
+//            }
+//        }
+//
+//        while (i < arr1.length) {
+//            if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
+//                union.add(arr1[i]);
+//            }
+//            i++;
+//        }
+//
+//        while (j < arr2.length) {
+//            if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
+//                union.add(arr2[j]);
+//            }
+//            j++;
+//        }
+
 ////Longest Subarray with given Sum K(Positives)
 //
 //        int[] a = {2,3,5,0,0,0,9,0};
@@ -385,11 +399,11 @@ public class Array {
 //        }
 
 ////Longest Subarray with given Sum K(Positives+Negatives):
-//
-////        int[] arr={2, 3, -4, 5, 0, 4, -2, 2};
+//        int[] arr={2, 3, -4, 5, 0, 4, -2, 2}; int k=10;
+
 //        int i=0,j=0,sum=0,length=0;
 //        HashMap<Integer,Integer> hashMap=new HashMap<>();
-//
+//        hashMap.put(0, -1);
 //        for(i=0;i<a.length;i++){
 //            sum+=a[j];
 //
@@ -404,21 +418,26 @@ public class Array {
 //
 //            hashMap.putIfAbsent(sum, i);
 
-//// Count Subarrays with Given Sum K (Positives + Negatives).
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//        map.put(0,1);
+////Longest Subarray with Equal Number of 0s and 1s.
+//        int[] arr = {0, 1, 0, 1, 1, 0, 0};
+
+//        int maxLen = 0;
+//        for (int i = 0; i < arr.length; i++) {
+//            int zero = 0;
+//            int one = 0;
 //
-//        for(i=0;i<a.length;i++){
-//            sum+=a[i];
+//            for (int j = i; j < arr.length; j++) {
+//                if (arr[j] == 0) zero++;
+//                else one++;
 //
-//            if(map.containsKey(sum-k)){
-//                length+=map.get(sum-k);
+//                if (zero == one) {
+//                    maxLen = Math.max(maxLen, j - i + 1);
+//                }
 //            }
-//
-//            map.put(sum,map.getOrDefault(sum,0)+1);
 //        }
 
-////Longest Subarray with Equal Number of 0s and 1s.
+//        HashMap<Integer,Integer> map=new HashMap<>();
+//        int sum=0;
 //        map.put(0, -1); // handle subarray starting at index 0
 //
 //        for (int i = 0; i < arr.length; i++) {
@@ -428,8 +447,6 @@ public class Array {
 //                int len = i - map.get(sum);
 //                maxLen = Math.max(maxLen, len);
 //            }
-//
-//            // only store the first occurrence of this prefix sum
 //            map.putIfAbsent(sum, i);
 //        }
 
@@ -450,29 +467,29 @@ public class Array {
 //            if(map.containsKey(key)){
 //                length=Math.max(length,i-map.get(key));
 //            }
-//
 //            map.putIfAbsent(key,i);
-//
 //        }
 
-//// Two Sum: (Hashing and Two Pointer): for two pointer we need to sort the element
-//        HashMap<Integer, Integer> map = new HashMap<>();
+//// Two Sum: Given an unsorted array of integers arr[] and an integer target, find any pair of elements whose sum equals target.
+
+//        int[] arr = {2, 7, 11, 15};
+//        int k = 9;
+//
+//        Map<Integer, Integer> map = new HashMap<>();
 //        int count = 0;
 //
 //        for (int num : arr) {
 //            int rem = k - num;
 //
-//            // If complement exists, add its frequency to count
 //            if (map.containsKey(rem)) {
-//                count += map.get(rem);
+//                count += map.get(rem);  // count all occurrences
 //            }
 //
-//            // Update frequency of current number
 //            map.put(num, map.getOrDefault(num, 0) + 1);
 //        }
 //
-//        return count;
-//    }
+//        System.out.println("Total pairs = " + count);
+
 
 ////Sort an array of 0s, 1s and 2s:
 //
@@ -480,9 +497,9 @@ public class Array {
 //        int low=0, mid=0,high=arr.length-1;
 //        while (mid<=high){
 //            if(arr[mid]==0){
-//                int temphead=arr[low];
+//                int temp=arr[low];
 //                arr[low]=arr[mid];
-//                arr[mid]=temphead;
+//                arr[mid]=temp;
 //                low++;
 //                mid++;
 //            } else if (arr[mid]==1) {
@@ -498,8 +515,25 @@ public class Array {
 //        System.out.println(Arrays.toString(arr));
 
 ////  Return an element that occurs more than N/2 times:
-//
 //        int[] arr={2,3,5,0,0,0,0,0};
+//        int n = arr.length;
+//
+//        for (int i = 0; i < n; i++) {
+//            int count = 0;
+//
+//            // Count occurrences of arr[i]
+//            for (int j = 0; j < n; j++) {
+//                if (arr[j] == arr[i]) {
+//                    count++;
+//                }
+//            }
+//
+//            // Check if it occurs more than N/2 times
+//            if (count > n / 2) {
+//        System.out.println(arr[i]);
+//            }
+//        }
+
 //        int count=0, max_element=-1;
 //
 //        for (int i=0;i<arr.length;i++){
@@ -530,176 +564,6 @@ public class Array {
 //        }
 
 ////Return an element that occurs more than N/3 times:
-//        int[] arr = {1, 2, 2, 3, 2, 1, 1};
-//        int k=arr.length-1;
-//
-//        for(int  num:arr){
-//            if(cnt1==0 && num!=e2){
-//                cnt1=1;
-//                e1=num;
-//            } else if (cnt2==0 && num!=e1) {
-//                cnt2=1;
-//                e2=num;
-//            } else if (num==e1) {
-//                cnt1++;
-//            } else if (num==e2) {
-//                cnt2++;
-//            }else {
-//                cnt1--;
-//                cnt2--;
-//            }
-//        }
-
-//// Most frequent Element:
-//
-//        int[] arr = {1, 2, 2, 3, 3, 3, 4, 4};
-//
-//        HashMap<Integer, Integer> map = new HashMap<>();
-//        int maxFreq = 0;
-//        int mostFreqElement = arr[0];
-//
-//        for (int num : arr) {
-//            int count = map.getOrDefault(num, 0) + 1;
-//            map.put(num, count);
-//
-//            if (count > maxFreq) {
-//                maxFreq = count;
-//                mostFreqElement = num;
-//            }
-//        }
-//
-//        System.out.println(mostFreqElement);
-
-////Maximum subarray Sum( find the contiguous subarray (containing at least one number) which has the largest sum):
-
-//        int[] arr = { -2, -1, -3, -4, -1, -2,-1, -5, -4};
-//        int max_sum=Integer.MIN_VALUE;
-//        int sum=0,j=0;
-//        for(int i=0;i<arr.length;i++) {
-//            sum += arr[i];
-//
-//            if(sum>max_sum){
-//                max_sum=sum;
-////                length=i-j+1;
-//            }
-//
-//            if(sum<0){
-//                sum=0;
-//                j=i+1;
-//            }
-//
-//        }
-//        System.out.println(max_sum);
-
-//// Stock buy or sell
-//        int[] arr = { 7, 1, 5, 3, 6, 4};
-//        int min=arr[0];
-//        int profit=0, current_profit=0;
-//
-//        for(int i=1;i<arr.length;i++) {
-//
-//            current_profit=arr[i]-min;
-//
-//            profit=Math.max(current_profit,profit);
-//
-//            if(min>arr[i]){
-//                min=arr[i];
-//            }
-//        }
-//
-////Maximum Product sub array. with (+ve,0)/ (+ve,-ve,0):
-
-//        int[] arr = {2, -1, 2, -1, 6, 4};
-//        sum=1;
-//        max_sum=1;
-//        for(int num:arr){
-//            sum*=num;
-//            max_sum=Math.max(sum,max_sum);
-//            if(sum<=0){
-//                sum=1;
-//            }
-//        }
-
-//        int min_prod=arr[0];
-//        int max_prod=arr[0];
-//        int ans=arr[0];
-//
-//        for( i=1;i<arr.length;i++){
-//            int curr=arr[i];
-//            if(curr<0){
-//                int temphead=max_prod;
-//                max_prod=min_prod;
-//                min_prod=temphead;
-//            }
-//
-//            max_prod=Math.max(curr,max_prod*curr);
-//            min_prod=Math.min(curr,min_prod*curr);
-//
-//            ans=Math.max(max_prod,ans);
-//        }
-//
-//        System.out.println(ans);
-
-////// Rearrange Array elements by sign.
-//        int[] arr = { -7, -1, 5, -3, 6, 4};
-//        int[] res = new int[arr.length];
-//
-//        int pos=0,neg=1;
-//
-//        for(int num:arr){
-//            if(num>0){
-//                res[pos]=num;
-//                pos+=2;
-//            }
-//            else {
-//                res[neg]=num;
-//                neg+=2;
-//            }
-//
-//        }
-
-////Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
-//        int[] arr = {100, 4, 200, 1, 3, 2, 2};
-//        int maxlen = 0;
-//
-//        HashSet<Integer> set = new HashSet<>();
-//        for (int num : arr) set.add(num);
-//
-//        for (int num : set) {
-//            if (!set.contains(num - 1)) { // start of a sequence
-//                int curr = num;
-//                int len = 1; // reset for each new sequence
-//
-//                while (set.contains(++curr)) {
-//                    len++;
-//                }
-//
-//                maxlen = Math.max(maxlen, len);
-//            }
-//        }
-//
-//        System.out.println(maxlen);
-
-////Product of Array Except Self.
-//        int[] nums = {1, 2, 3, 4,5};
-//        // res: 1,
-//        int res[] =new int[nums.length];
-//
-//        res[0]=1;
-//        // prefix
-//        for(int i=1;i<nums.length;i++){
-//            res[i]=res[i-1]*nums[i-1];
-//        }
-//
-//        int suffix=1;
-//        for(int i=nums.length-1;i>=0;i--){
-//            res[i]*=suffix;
-//            suffix*=nums[i];
-//        }
-//
-//        System.out.println(java.util.Arrays.toString(res));
-
-//        Return an element that occurs more than N/3 times:
 //        int[] arr={2,1,1,3,1,4,5,6};
 
 //        Set<Integer> ans= new HashSet<>();
@@ -747,6 +611,108 @@ public class Array {
 //
 //        System.out.println(res);
 
+////Maximum subarray Sum( find the contiguous subarray (containing at least one number) which has the largest sum):
+//        int[] arr = { -2, -1, 3, 4, -1, 2,-1};
+
+//        int max_sum=Integer.MIN_VALUE;
+//        int sum=0,j=0;
+//        for(int i=0;i<arr.length;i++) {
+//            sum += arr[i];
+//
+//            if(sum>max_sum){
+//                max_sum=sum;
+//                length=i-j+1;
+//            }
+//
+//            if(sum<0){
+//                sum=0;
+//                j=i+1;
+//            }
+//        }
+//        System.out.println(max_sum);
+
+//// Stock buy or sell
+//        int[] arr = { 7, 1, 5, 3, 6, 4};
+//        int min=arr[0];
+//        int profit=0, current_profit=0;
+//
+//        for(int i=1;i<arr.length;i++) {
+//
+//            current_profit=arr[i]-min;
+//
+//            profit=Math.max(current_profit,profit);
+//
+//            if(min>arr[i]){
+//                min=arr[i];
+//            }
+//        }
+//
+
+////Maximum Product sub array. with (+ve,0)/ (+ve,-ve,0):
+//        int[] arr = {2, -1, 2, -1, 6, 4};
+
+//        int min_prod=arr[0];
+//        int max_prod=arr[0];
+//        int ans=arr[0];
+//
+//        for( i=1;i<arr.length;i++){
+//            int curr=arr[i];
+//            if(curr<0){
+//                int temp=max_prod;
+//                max_prod=min_prod;
+//                min_prod=temp;
+//            }
+//
+//            max_prod=Math.max(curr,max_prod*curr);
+//            min_prod=Math.min(curr,min_prod*curr);
+//
+//            ans=Math.max(max_prod,ans);
+//        }
+//
+//        System.out.println(ans);
+
+
+////Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+//        int[] arr = {100, 4, 200, 1, 3, 2, 2};
+//        int maxlen = 0;
+//
+//        HashSet<Integer> set = new HashSet<>();
+//        for (int num : arr) set.add(num);
+//
+//        for (int num : set) {
+//            if (!set.contains(num - 1)) { // start of a sequence
+//                int curr = num;
+//                int len = 1; // reset for each new sequence
+//
+//                while (set.contains(++curr)) {
+//                    len++;
+//                }
+//
+//                maxlen = Math.max(maxlen, len);
+//            }
+//        }
+//
+//        System.out.println(maxlen);
+
+////Product of Array Except Self.
+//        int[] nums = {1, 2, 3, 4,5};
+
+//        int res[] =new int[nums.length];
+//        res[0]=1;
+//        // prefix
+//        for(int i=1;i<nums.length;i++){
+//            res[i]=res[i-1]*nums[i-1];
+//        }
+//
+//        int suffix=1;
+//        for(int i=nums.length-1;i>=0;i--){
+//            res[i]*=suffix;
+//            suffix*=nums[i];
+//        }
+//
+//        System.out.println(java.util.Arrays.toString(res));
+
+////Next Permutation:
 
 //// 3 Sum Problem: Find three numbers in an array whose sum equals a given target:
 //        int[] arr = {-1, 0, 1, 2, -1, -4};
@@ -806,6 +772,7 @@ public class Array {
 //
 //        System.out.println(ans);
 
+////Merge two sorted array Without Extra Space:
 //// Remove Outermost Paranthesis:
 //
 //        int count=0;
@@ -822,6 +789,7 @@ public class Array {
 ////Reverse Words in a String
 //        String str="  This is decent ";
 //        int index = 0;
+//        List<String> ans = new ArrayList<>();
 //
 //        while (index < str.length()) {
 //            // skip spaces
@@ -844,8 +812,8 @@ public class Array {
 //
 //        System.out.println(String.join(" ", ans));
 
-//// Largest Odd Number in a String.
-//        String str = "00000";
+//// Largest Odd Number in a String:
+//        String str = "1245788";
 //        int left = 0, right = str.length() - 1;
 //
         // Move right pointer to the last odd digit
@@ -853,7 +821,7 @@ public class Array {
 //            right--;
 //        }
 //
-        // If no odd digit exists
+//        // If no odd digit exists
 //        if (right == -1) {
 //            System.out.println("No Substring found");
 //        } else {
@@ -886,7 +854,8 @@ public class Array {
 //        System.out.println("LCP is " + prefix);
 
 //        Arrays.sort(input);
-//        String first=input[0], last=input[input.length-1];
+//        String first=input[0];
+//        String last=input[input.length-1];
 //        StringBuilder ans =new StringBuilder();
 //
 //        for(int i=0;i<Math.min(first.length(),last.length());i++){
@@ -943,7 +912,7 @@ public class Array {
 //            }
 //        }
 
-
+//// str.substring(beginIndex), str.substring(beginIndex, endIndex);
 ////Check if one string is rotation of another
 //        String s = "rotation", goal = "tionrota";
 //        if(s.length()!=goal.length()) return;
@@ -960,9 +929,8 @@ public class Array {
 
 
 ////Check if two Strings are anagrams of each other and also for unicode character:
-
 //        String s1= "listen", s2= "silent";
-//
+
 //        char[] a= s1.toCharArray();
 //        char[] b=s2.toCharArray();
 //        Arrays.sort(a);
@@ -1096,6 +1064,110 @@ public class Array {
 //            right++;
 //        }
 
+////Maximum point you can obtain from cards: Given N cards arranged in a row, each card has an associated score denoted by the
+////cardScore array. Choose exactly k cards. In each step, a card can be chosen either from the beginning or the end of the row.
+////The score is the sum of the scores of the chosen cards.
+//        int[] cards = {5, 4, 1, 8, 7, 1, 3}; int k = 3;
+
+//        int n=cards.length-1, maxsum=0;
+//        for(int front=0;front<=k;front++){
+//            int back=k-front;
+//            int sum=0;
+//
+//            for(int i=0;i<front;i++) sum+=cards[i];
+//            for(int i=0;i<back;i++) sum+=cards[n-1-i];
+//
+//            maxsum=Math.max(maxsum,sum);
+//        }
+
+//        int total=0,n=cards.length;
+//        for(int i=0;i<k;i++){
+//            total+=cards[i];
+//        }
+//        int maximum=total;
+//        for(int i=0;i<k;i++){
+//
+//            total-=cards[k-1-i];
+//            total+=cards[n-1-i];
+//
+//            maximum=Math.max(maximum,total);
+//        }
+
+//// Longest Substring with At Most K Distinct Characters: Given a string s and an integer k.Find the length of the longest
+//// substring with at most k distinct characters
+//        String str="aababbcaacc"; int k = 2;
+
+//        int maxlen=0;
+//        for(int i=0;i<str.length();i++){
+//            HashSet<Character> set=new HashSet<>();
+//            for (int j=i;j<str.length();j++){
+//                Character c=str.charAt(j);
+//                set.add(c);
+//
+//                if(set.size()>k) break;
+//
+//                maxlen=Math.max(maxlen,j-i+1);
+//            }
+//        }
+
+//        int left=0; //aababbcaacc
+//        HashMap<Character,Integer> map=new HashMap<>();
+//        for(int right=0;right<str.length();right++){
+//            map.put(str.charAt(right),map.getOrDefault(str.charAt(right),0)+1);
+//
+//            while (map.size()>k){
+//                map.put(str.charAt(left),map.get(str.charAt(left))-1);
+//                if(map.get(left)==0){
+//                    map.remove(str.charAt(left));
+//                }
+//                left++;
+//            }
+//
+//            maxlen=Math.max(maxlen,right-left+1);     }
+
+////Number of substring containing all three characters: Given a string s consisting only of characters 'a', 'b', 'c'.
+////Find the number of substrings that contain at least one occurrence of all these characters 'a', 'b', 'c'.
+//        String str="ccabcc";
+
+//        int count=0;
+//        for(int i=0;i<str.length();i++){
+//            int [] freq=new int[3];
+//            for(int j=i;j<str.length();j++){
+//                freq[str.charAt(j)-'a']++;
+//                if(freq[0]>=1 && freq[1]>=1 && freq[2]>=1){
+//                    count++;
+//                }
+//            }
+//        }
+
+//        int [] freq=new int[3];
+//        int n=str.length(),left=0;
+//        for(int right=0;right<str.length();right++){
+//
+//            freq[str.charAt(right)-'a']++;
+//
+//            while (freq[0]>0 && freq[1]>0 && freq[2]>0){
+//                count+=n-right;
+//                freq[str.charAt(left) - 'a']--;
+//                left++;
+//            }}
+
+//// Count Subarrays with Given Sum K (Positives + Negatives).
+        // 5,0,0,1,4
+//        int length=0;
+//        HashMap<Integer,Integer> map=new HashMap<>();
+//        map.put(0,1);
+//
+//        for(i=0;i<a.length;i++){
+//            sum+=a[i];
+//
+//            if(map.containsKey(sum-k)){
+//                length+=map.get(sum-k);
+//            }
+//
+//            map.put(sum,map.getOrDefault(sum,0)+1);
+//        }
+
 ////Binary subarray with sum: You are given a binary array nums (containing only 0s and 1s) and an integer goal.Return the
 //// number of non-empty subarrays of nums that sum to goal. A subarray is a contiguous part of the array.
 //        int[] nums = {1, 0, 0, 1, 1, 0}; int goal = 2;
@@ -1150,95 +1222,6 @@ public class Array {
 //
 //            map.put(oddCount,map.getOrDefault(oddCount,0)+1);
 //        }
-
-////Number of substring containing all three characters: Given a string s consisting only of characters 'a', 'b', 'c'.
-////Find the number of substrings that contain at least one occurrence of all these characters 'a', 'b', 'c'.
-//        String str="ccabcc";
-
-//        int count=0;
-//        for(int i=0;i<str.length();i++){
-//            int [] freq=new int[3];
-//            for(int j=i;j<str.length();j++){
-//                freq[str.charAt(j)-'a']++;
-//                if(freq[0]>=1 && freq[1]>=1 && freq[2]>=1){
-//                    count++;
-//                }
-//            }
-//        }
-
-//        int [] freq=new int[3];
-//        int n=str.length(),left=0;
-//        for(int right=0;right<str.length();right++){
-//
-//            freq[str.charAt(right)-'a']++;
-//
-//            while (freq[0]>0 && freq[1]>0 && freq[2]>0){
-//                count+=n-right;
-//                freq[str.charAt(left) - 'a']--;
-//                left++;
-//            }}
-
-////Maximum point you can obtain from cards: Given N cards arranged in a row, each card has an associated score denoted by the
-////cardScore array. Choose exactly k cards. In each step, a card can be chosen either from the beginning or the end of the row.
-////The score is the sum of the scores of the chosen cards.
-//        int[] cards = {5, 4, 1, 8, 7, 1, 3}; int k = 3;
-
-//        int n=cards.length-1, maxsum=0;
-//        for(int front=0;front<=k;front++){
-//            int back=k-front;
-//            int sum=0;
-//
-//            for(int i=0;i<front;i++) sum+=cards[i];
-//            for(int i=0;i<back;i++) sum+=cards[n-1-i];
-//
-//            maxsum=Math.max(maxsum,sum);
-//        }
-
-//        int total=0,n=cards.length;
-//        for(int i=0;i<k;i++){
-//            total+=cards[i];
-//        }
-//        int maximum=total;
-//        for(int i=0;i<k;i++){
-//
-//            total-=cards[k-1-i];
-//            total+=cards[n-1-i];
-//
-//            maximum=Math.max(maximum,total);
-//        }
-
-
-//// Longest Substring with At Most K Distinct Characters: Given a string s and an integer k.Find the length of the longest
-//// substring with at most k distinct characters
-//        String str="aababbcaacc"; int k = 2;
-
-//        int maxlen=0;
-//        for(int i=0;i<str.length();i++){
-//            HashSet<Character> set=new HashSet<>();
-//            for (int j=i;j<str.length();j++){
-//                Character c=str.charAt(j);
-//                set.add(c);
-//
-//                if(set.size()>k) break;
-//
-//                maxlen=Math.max(maxlen,j-i+1);
-//            }
-//        }
-
-//        int left=0; //aababbcaacc
-//        HashMap<Character,Integer> map=new HashMap<>();
-//        for(int right=0;right<str.length();right++){
-//            map.put(str.charAt(right),map.getOrDefault(str.charAt(right),0)+1);
-//
-//            while (map.size()>k){
-//                map.put(str.charAt(left),map.get(str.charAt(left))-1);
-//                if(map.get(left)==0){
-//                    map.remove(str.charAt(left));
-//                }
-//                left++;
-//            }
-//
-//            maxlen=Math.max(maxlen,right-left+1);     }
 
 //// Count Substring with At Most K Distinct Characters:
 //        public static int countAtMostKDistinct(String s, int k) {
@@ -1333,6 +1316,25 @@ public class Array {
 //            }
 //
 //            return count;
+//        }
+
+//// Count number of subarrays whose product is less than equal to k:
+//        int[] nums={10,5,2,6}; int k=100;
+//        if (k <= 0) return;
+//
+//        int left = 0;
+//        long prod = 1;
+//        int count = 0;
+//
+//        for (int right = 0; right < nums.length; right++) {
+//            prod *= nums[right];
+//
+//            while (prod > k && left <= right) {
+//                prod /= nums[left];
+//                left++;
+//            }
+//
+//            count += (right - left + 1);
 //        }
 
 
@@ -1456,6 +1458,7 @@ public class Array {
 //    }
 
 ////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
+
 
 //0 1 2 3 4 5 6
 //1 2 3 4 5 6 0
@@ -1627,26 +1630,6 @@ public class Array {
 //                    high = mid - 1; // Search left
 //                }
 //            }
-//        }
-
-
-//// Count number of subarrays whose product is less than equal to k;
-//        int[] nums={10,5,2,6}; int k=100;
-//        if (k <= 0) return;
-//
-//        int left = 0;
-//        long prod = 1;
-//        int count = 0;
-//
-//        for (int right = 0; right < nums.length; right++) {
-//            prod *= nums[right];
-//
-//            while (prod > k && left <= right) {
-//                prod /= nums[left];
-//                left++;
-//            }
-//
-//            count += (right - left + 1);
 //        }
 
 //// Minimum in Rotated Sorted Array: contain distinct values:
@@ -1839,7 +1822,7 @@ public class Array {
 //        System.out.println(ans);
 
 //// Minimum days to make M bouquets:
-        int[] bloomDays = {7, 7, 7, 7, 13, 11, 12, 7};
+//        int[] bloomDays = {7, 7, 7, 7, 13, 11, 12, 7};
 //        int minimum_flower = 3;
 //        int bouquets  = 2;
 //
@@ -1897,6 +1880,8 @@ public class Array {
 //
 //        }
 //        System.out.println(ans);
+
+////Find the smallest Divisor:
 
 ////Capacity to Ship Packages within D Days:
 //        int[] weights = {5,4,5,2,3,4,5,6}; int d = 5;
@@ -2034,7 +2019,7 @@ public class Array {
 //            }
 //        }
 
-//// Allocate Minimum Number of Pages: minofmax You have to allocate the book to ‘m’ students such that
+//// Book Allocation Problem: Allocate Minimum Number of Pages: minofmax You have to allocate the book to ‘m’ students such that
 ////the maximum number of pages assigned to a student is minimum. If the allocation of books is not possible. return -1
 //        int[] arr = {25, 46, 28, 49, 24}; int n = 5; int m = 4;
 
@@ -2148,7 +2133,7 @@ public class Array {
 //// Painter's Partition:
 
 //// Minimise the Maximum Distance between Gas Stations:
-        int[] arr = {1, 2, 3, 4, 5}; int k = 4;
+//        int[] arr = {1, 2, 3, 4, 5}; int k = 4;
 
 //        int[] sections = new int[arr.length - 1];
 //
@@ -2280,6 +2265,8 @@ public class Array {
 //        }
 
 ////Binary search approach:
+
+//// Kth element of 2 sorted arrays:
 
 ////LinkedList:
 
@@ -2576,6 +2563,8 @@ public class Array {
 
 //// Sort LL:
 
+////Sort a LL of 0's 1's and 2's by changing links
+
 //// Find intersection of Two Linked Lists:
 
 //public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
@@ -2726,35 +2715,35 @@ public class Array {
 ////Use && when you need pairs of nodes:
 ////Use || when you need to process all nodes, even if one list ends before the other:
 
-       Node l1=head,l2=head2;
-       int carry=0;
-       Node newHead=null, curr=null;
-
-       while (l1!=null || l2!=null || carry>0){
-           int sum=carry;
-           if(l1!=null){
-               sum= sum +(int) l1.data;
-               l1=l1.next;
-           }
-
-           if(l2!=null){
-               sum= sum +(int) l2.data;
-               l2=l2.next;
-           }
-
-           carry=sum/10;
-
-           Node newNode=new Node<>(sum%10);
-
-           if(newHead==null){
-               newHead=newNode;
-               curr=newNode;
-           }else {
-               curr.next = newNode;
-               curr = curr.next;
-           }
-
-       }
+//       Node l1=head,l2=head2;
+//       int carry=0;
+//       Node newHead=null, curr=null;
+//
+//       while (l1!=null || l2!=null || carry>0){
+//           int sum=carry;
+//           if(l1!=null){
+//               sum= sum +(int) l1.data;
+//               l1=l1.next;
+//           }
+//
+//           if(l2!=null){
+//               sum= sum +(int) l2.data;
+//               l2=l2.next;
+//           }
+//
+//           carry=sum/10;
+//
+//           Node newNode=new Node<>(sum%10);
+//
+//           if(newHead==null){
+//               newHead=newNode;
+//               curr=newNode;
+//           }else {
+//               curr.next = newNode;
+//               curr = curr.next;
+//           }
+//
+//       }
 
     }}
 
