@@ -2533,11 +2533,6 @@ public class Array {
 //        }
 //        odd.next=evenhead;
 //
-//        Node temphead =head;
-//        while (temphead !=null){
-//            System.out.print(temphead.data + " ");
-//            temphead = temphead.next;
-//        }
 
 ////Delete the Middle Node of the Linked List:
 //        public ListNode deleteMiddle(ListNode head) {
@@ -2744,6 +2739,16 @@ public class Array {
 //           }
 //
 //       }
+
+//// While(temp!=null) till null
+//// While(temp.next!=null) till last
+//// While(temp.next.next!=null) till second last
+
+        Node temphead =head;
+        while (temphead.next !=null){
+            System.out.print(temphead.data + " ");
+            temphead = temphead.next;
+        }
 
     }}
 
