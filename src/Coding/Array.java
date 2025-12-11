@@ -2726,37 +2726,38 @@ public class Array {
 ////Use && when you need pairs of nodes:
 ////Use || when you need to process all nodes, even if one list ends before the other:
 
-       Node l1=head,l2=head2;
-       int carry=0;
-       Node newHead=null, curr=null;
-
-       while (l1!=null || l2!=null || carry>0){
-           int sum=carry;
-           if(l1!=null){
-               sum= sum +(int) l1.data;
-               l1=l1.next;
-           }
-
-           if(l2!=null){
-               sum= sum +(int) l2.data;
-               l2=l2.next;
-           }
-
-           carry=sum/10;
-
-           Node newNode=new Node<>(sum%10);
-
-           if(newHead==null){
-               newHead=newNode;
-               curr=newNode;
-           }else {
-               curr.next = newNode;
-               curr = curr.next;
-           }
-
-       }
-
+//       Node l1=head,l2=head2;
+//       int carry=0;
+//       Node newHead=null, curr=null;
+//
+//       while (l1!=null || l2!=null || carry>0){
+//           int sum=carry;
+//           if(l1!=null){
+//               sum= sum +(int) l1.data;
+//               l1=l1.next;
+//           }
+//
+//           if(l2!=null){
+//               sum= sum +(int) l2.data;
+//               l2=l2.next;
+//           }
+//
+//           carry=sum/10;
+//
+//           Node newNode=new Node<>(sum%10);
+//
+//           if(newHead==null){
+//               newHead=newNode;
+//               curr=newNode;
+//           }else {
+//               curr.next = newNode;
+//               curr = curr.next;
+//           }
+//
+//       }
+//
     }}
+
 
 
 
