@@ -2654,6 +2654,42 @@ public class Array {
 
 ////Sort a LL of 0's 1's and 2's by changing links
 
+//        Node zerohead= new Node(-1);
+//        Node onehead= new Node(-1);
+//        Node twohead= new Node(-1);
+//
+//        Node zerotail=zerohead;
+//        Node onetail=onehead;
+//        Node twotail=twohead;
+//
+//        Node temp=head;
+//
+//        while (temp!=null){
+//            Node nextnode=temp.next;
+//            temp.next=null;
+//
+//            if((int)temp.data==0){
+//                zerotail.next=temp;
+//                zerotail=zerotail.next;
+//            } else if ((int) temp.data==1) {
+//                onetail.next=temp;
+//                onetail=onetail.next;
+//            }else {
+//                twotail.next=temp;
+//                twotail=twotail.next;
+//            }
+//
+//            temp=nextnode;
+//        }
+//
+//        zerotail.next=(onehead.next!=null)?onehead.next:twohead.next;
+//        onetail.next=twohead.next;
+//        twotail.next=null;
+//
+//        return (zerohead.next != null)
+//                ? zerohead.next
+//                : (onehead.next != null ? onehead.next : twohead.next);
+
 //// Find intersection of Two Linked Lists:
 
 //public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
