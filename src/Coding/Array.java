@@ -3017,15 +3017,947 @@ public class Array {
 //        }
 
 
+////Reverse Linked List in groups of Size K:
+
+// returns the k-th node from temp (1-based)
+//        Node getKthNode(Node temp, int k) {
+//            k = k - 1; // we already treat temp as 1st node
+//            while (temp != null && k > 0) {
+//                temp = temp.next;
+//                k--;
+//            }
+//            return temp;   // may return null if < k nodes remain
+//        }
+
+//        // reverse entire linked list (standard)
+//        Node reverseLinkedList(Node head) {
+//            Node prev = null;
+//            Node curr = head;
+//
+//            while (curr != null) {
+//                Node next = curr.next;
+//                curr.next = prev;
+//                prev = curr;
+//                curr = next;
+//            }
+//            return prev; // new head of reversed segment
+//        }
+//
+//        // main K-group reverse
+//        Node kReverse(Node head, int k) {
+//            if (head == null || k <= 1) return head;
+//
+//            Node temp = head;
+//            Node prevLast = null;
+//
+//            while (temp != null) {
+//
+//                Node kthNode = getKthNode(temp, k);
+//                if (kthNode == null) {
+//                    // remaining nodes < k → no reverse
+//                    if (prevLast != null) prevLast.next = temp;
+//                    break;
+//                }
+//
+//                Node nextNode = kthNode.next;
+//                kthNode.next = null; // detach segment
+//
+//                // reverse the extracted segment
+//                Node reversedHead = reverseLinkedList(temp);
+//
+//                // connect previous segment
+//                if (temp == head) {
+//                    head = reversedHead;
+//                } else {
+//                    prevLast.next = reversedHead;
+//                }
+//
+//                // temp becomes last of reversed segment
+//                prevLast = temp;
+//
+//                // move ahead
+//                temp = nextNode;
+//            }
+//
+//            return head;
+//        }
+
+//
+//        Node temphead =head;
+//        while (temphead !=null){
+//            System.out.print(temphead.data + " ");
+//            temphead = temphead.next;
+//        }
+
+////Stack and Queue:
+
+////Check for balanced paranthesis:
+
+//        String s = "{[()]}}";
+//        Stack<Character> st = new Stack<>();
+//
+//        for (char ch : s.toCharArray()) {
+//
+//            if (ch == '(' || ch == '{' || ch == '[') {
+//                st.push(ch);
+//            }
+//            else if (ch == ')' || ch == '}' || ch == ']') {
+//
+//                if (st.isEmpty()) return; // No matching opening
+//
+//                char top = st.pop();
+//
+//                // Check matches
+//                if ((ch == ')' && top != '(') || (ch == '}' && top != '{') || (ch == ']' && top != '[')) {
+//                    return;
+//                }
+//            }
+//        }
+//        // Step 3: Stack must be empty
+//        System.out.println(st.isEmpty());
+
+////Next Greater Element Using Stack:
+
+//        Integer arr[] = {6, 8, 0, 1, 3};
+//        Stack<Integer> stack=new Stack<Integer>();
+//        Integer ans[]=new Integer[arr.length];
+//
+//        for(int i=arr.length-1;i>=0;i--){
+//
+//            while (!stack.isEmpty() && stack.peek()<=arr[i]){
+//                    stack.pop();
+//            }
+//
+//            if(stack.isEmpty()){
+//                ans[i]=-1;
+//            }else {
+//                ans[i]=stack.peek();
+//            }
+//
+//            stack.push(arr[i]);
+//
+//        }
+//
+//        System.out.println(Arrays.toString(ans));
+
+//Brute force: O(n2)
+// Optimal: O(2n) O(n)
+
+////Next Greater Element 2:
+//        int arr[] = {6, 8, 0, 1, 3};
+
+//        int n = arr.length;
+//        int[] nge = new int[n];
+//
+//        for (int i = 0; i < n; i++) {
+//
+//            nge[i] = -1;
+//
+//            for (int j = i + 1; j < i + n; j++) {
+//
+//                int idx = j % n;   // circular index
+//
+//                if (arr[idx] > arr[i]) {
+//                    nge[i] = arr[idx];
+//                    break;
+//                }
+//            }
+//        }
+//
+//        System.out.println(Arrays.toString(nge));
+
+//        public int[] nextGreaterElements(int[] arr) {
+//            int n = arr.length;
+//            int[] nge = new int[n];
+//            Stack<Integer> st = new Stack<>();
+//
+//            // Loop 2N - 1 down to 0
+//            for (int i = 2 * n - 1; i >= 0; i--) {
+//
+//                int idx = i % n;  // circular index
+//
+//                // Maintain decreasing stack
+//                while (!st.isEmpty() && st.peek() <= arr[idx]) {
+//                    st.pop();
+//                }
+//
+//                if (i < n) {
+//                    nge[idx] = st.isEmpty() ? -1 : st.peek();
+//                }
+//
+//                st.push(arr[idx]);
+//            }
+//            return nge;
+//        }
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+//// Previous Smaller Element:
+//        public int[] previousSmallerBrute(int[] arr) {
+//            int n = arr.length;
+//            int[] pse = new int[n];
+//
+//            for (int i = 0; i < n; i++) {
+//                pse[i] = -1;
+//                for (int j = i - 1; j >= 0; j--) {
+//                    if (arr[j] < arr[i]) {
+//                        pse[i] = arr[j];
+//                        break;
+//                    }
+//                }
+//            }
+//            return pse;
+//        }
+
+//        public int[] previousSmallerElement(int[] arr) {
+//            int n = arr.length;
+//            int[] pse = new int[n];
+//            Stack<Integer> st = new Stack<>();
+//
+//            for (int i = 0; i < n; i++) {
+//
+//                // Pop all greater/equal elements (they cannot be previous smaller)
+//                while (!st.isEmpty() && st.peek() >= arr[i]) {
+//                    st.pop();
+//                }
+//
+//                // If empty → no smaller element on the left
+//                pse[i] = st.isEmpty() ? -1 : st.peek();
+//
+//                // Push current element into stack
+//                st.push(arr[i]);
+//            }
+//
+//            return pse;
+//        }
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////Stock Span Problem: https://leetcode.com/problems/online-stock-span/description/
+//     int[]  price = {100, 80, 60, 70, 60, 75, 85};
+//     int ans[]=new int[price.length];
+
+//     for(int i=price.length-1;i>=0;i--){
+//         int days=1;
+//         for(int j=i-1; j>=0; j--){
+//             if(price[i]<price[j]){
+//                 break;
+//             }
+//             days++;
+//         }
+//         ans[i]=days;
+//     }
+//        System.out.println(Arrays.toString(ans));
+
+//        Stack<Integer> stack=new Stack<>();
+//
+//        for(int i=0;i<price.length;i++){
+//
+//            while (!stack.isEmpty() && price[stack.peek()]<=price[i]){
+//                stack.pop();
+//            }
+//            ans[i]=stack.isEmpty()?i+1:i-stack.peek();
+//            stack.push(i);
+//        }
+//        System.out.println(Arrays.toString(ans));
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////Daily Temperatures: Given an array of integer temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after
+////the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+//        int[] temperatures = {73, 74, 75, 71, 69, 72, 76, 73};
+//        int[] ans = new int[temperatures.length];
+//        Stack<Integer> stack=new Stack<>();
+//        for(int i=temperatures.length-1;i>=0;i--){
+//
+//            while (!stack.isEmpty() && temperatures[stack.peek()]<=temperatures[i]){
+//                stack.pop();
+//            }
+//            ans[i]=stack.isEmpty()?0:stack.peek()-i;
+//            stack.push(i);
+//        }
+//        System.out.println(Arrays.toString(ans));
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////Trapping Rainwater:
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////Sum of Subarray Minimum:
+//        int[] arr={3,1,2,5};
+//        int ans=0;
+
+//        for(int i=0;i<arr.length;i++){
+//            int min=Integer.MAX_VALUE;
+//            for (int j=i;j<arr.length;j++){
+//                if(min>arr[j]){
+//                    min=arr[j];
+//                }
+//                ans+=min;
+//            }
+//        }
+//        System.out.println(ans);
+
+//        int sumSubarrayMins(int[] arr){
+//        int n=arr.length;
+//        int MOD = 1_000_000_007;
+//        int[] pse = new int[n];
+//        int[] nse = new int[n];
+//
+//        Stack<Integer> stack = new Stack<>();
+//
+//        // 🔹 Previous Smaller Element (strict)
+//        for (int i = 0; i < n; i++) {
+//            while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
+//                stack.pop();
+//            }
+//            pse[i] = stack.isEmpty() ? -1 : stack.peek();
+//            stack.push(i);
+//        }
+//
+//        stack.clear();
+//
+//        // 🔹 Next Smaller Element (non-strict)
+//        for (int i = n - 1; i >= 0; i--) {
+//            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+//                stack.pop();
+//            }
+//            nse[i] = stack.isEmpty() ? n : stack.peek();
+//            stack.push(i);
+//        }
+//
+//        // 🔹 Calculate answer
+//        long ans = 0;
+//        for (int i = 0; i < n; i++) {
+//            long left = i - pse[i];
+//            long right = nse[i] - i;
+//            ans = (ans + arr[i] * left * right) % MOD;
+//        }
+//
+//        return (int) ans;
+//        }
+
+////We intentionally do NOT use >= in Previous Smaller Element (PSE) because:To avoid double counting when duplicate
+////values exist
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(5n) SC:O(n)
+
+////Sum of Subarray Minimum:
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////Asteroid Collision: Simulation pattern means:We imitate the real-world process step by step exactly as it happens.
 
 
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
 
-        Node temphead =head;
-        while (temphead !=null){
-            System.out.print(temphead.data + " ");
-            temphead = temphead.next;
-        }
+////
 
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
 
 
     }}
