@@ -3356,9 +3356,34 @@ public class Array {
 
 ////Asteroid Collision: Simulation pattern means:We imitate the real-world process step by step exactly as it happens.
 
+        int [] asteroids={7, -8, 5, 10, -5, -10, 15, -3, 7};
+        Stack<Integer> stack = new Stack<>();
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+        for (int ast : asteroids) {
+
+            // Case 1: moving right → always safe
+            if (ast > 0) {
+                stack.push(ast);
+            }
+            // Case 2: moving left → possible collision
+            else {
+                // destroy smaller right-moving asteroids
+                while (!stack.isEmpty() && stack.peek() > 0 && stack.peek() < Math.abs(ast)) {
+                    stack.pop();
+                }
+
+                // equal size → both destroyed
+                if (!stack.isEmpty() && stack.peek() > 0 && stack.peek() == Math.abs(ast)) {
+                    stack.pop();
+                }
+                // current asteroid survives
+                else if (stack.isEmpty() || stack.peek() < 0) {
+                    stack.push(ast);
+                }
+            }
+
+//Brute force: TC:O(2n) SC:O(n)
+// Optimal:    TC:O() SC:O()
 
 ////
 
