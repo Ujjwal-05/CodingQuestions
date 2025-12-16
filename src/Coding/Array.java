@@ -3356,49 +3356,216 @@ public class Array {
 
 ////Asteroid Collision: Simulation pattern means:We imitate the real-world process step by step exactly as it happens.
 
-        int [] asteroids={7, -8, 5, 10, -5, -10, 15, -3, 7};
-        Stack<Integer> stack = new Stack<>();
-
-        for (int ast : asteroids) {
-
-            // Case 1: moving right → always safe
-            if (ast > 0) {
-                stack.push(ast);
-            }
-            // Case 2: moving left → possible collision
-            else {
-                // destroy smaller right-moving asteroids
-                while (!stack.isEmpty() && stack.peek() > 0 && stack.peek() < Math.abs(ast)) {
-                    stack.pop();
-                }
-
-                // equal size → both destroyed
-                if (!stack.isEmpty() && stack.peek() > 0 && stack.peek() == Math.abs(ast)) {
-                    stack.pop();
-                }
-                // current asteroid survives
-                else if (stack.isEmpty() || stack.peek() < 0) {
-                    stack.push(ast);
-                }
-            }
+//        int [] asteroids={7, -8, 5, 10, -5, -10, 15, -3, 7};
+//        Stack<Integer> stack = new Stack<>();
+//
+//        for (int ast : asteroids) {
+//
+//            // Case 1: moving right → always safe
+//            if (ast > 0) {
+//                stack.push(ast);
+//            }
+//            // Case 2: moving left → possible collision
+//            else {
+//                // destroy smaller right-moving asteroids
+//                while (!stack.isEmpty() && stack.peek() > 0 && stack.peek() < Math.abs(ast)) {
+//                    stack.pop();
+//                }
+//
+//                // equal size → both destroyed
+//                if (!stack.isEmpty() && stack.peek() > 0 && stack.peek() == Math.abs(ast)) {
+//                    stack.pop();
+//                }
+//                // current asteroid survives
+//                else if (stack.isEmpty() || stack.peek() < 0) {
+//                    stack.push(ast);
+//                }
+//            }
 
 //Brute force: TC:O(2n) SC:O(n)
 // Optimal:    TC:O() SC:O()
 
-////
+//// Sum of Subarray Ranges:
+
+//        int [] nums = {1, 2, 3};
+//        int n = nums.length;
+//        long sum = 0;
+//
+//        for (int i = 0; i < n; i++) {
+//            int min = nums[i];
+//            int max = nums[i];
+//
+//            for (int j = i; j < n; j++) {
+//                min = Math.min(min, nums[j]);
+//                max = Math.max(max, nums[j]);
+//                sum += (max - min);
+//            }
+//        }
+
+
+////Optimal: Sum of subarray ranges = (sum of all subarray maximums) − (sum of all subarray minimums)
+// **Intuition (in one paragraph):**
+//Instead of calculating the maximum and minimum for every subarray separately, we reverse the perspective and focus on
+// **each element’s contribution** to the final answer. Any element participates in many subarrays—sometimes as the **minimum**,
+// sometimes as the **maximum**. The total sum of subarray ranges can therefore be written as
+// **(sum of all subarray maximums − sum of all subarray minimums)**. For a given element, if we know how far it can
+// extend to the left and right before encountering a smaller element (for minimum) or a greater element (for maximum),
+// then every choice of a start on the left and an end on the right forms a subarray where that element is the min or max.
+// The number of such subarrays is simply the product of those left and right distances. **Monotonic stacks** allow us to
+// find these nearest smaller/greater boundaries efficiently in linear time, ensuring each element’s contribution is counted
+// exactly once.
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
-////
+//// Remove K Digits: Given a string nums representing a non-negative integer, and an integer k,
+//// find the smallest possible integer after removing k digits from num.
 
-//Brute force: TC:O(n2) SC:O(1)
+//**Intuition (in one paragraph):**
+//The goal in *Remove K Digits* is to make the number as small as possible while removing exactly `k` digits,
+// so we should eliminate digits that cause the number to be larger **earlier** in the sequence.
+// A larger digit placed before a smaller one increases the value more than a larger digit placed later,
+// so whenever we see a digit that is **smaller than the previous digit**, it is beneficial to remove that previous larger
+// digit if we still have removals left. This leads to a greedy process where we scan the number from left to right and maintain
+// a **monotonic increasing stack** of digits; whenever the current digit is smaller than the stack’s top and `k > 0`,
+// we pop the stack to reduce the number. After processing all digits, if removals are still left, we remove digits from the
+// end (the least significant side). Finally, we strip leading zeros because they do not contribute to the numeric value.
+
+//**Example intuition (in one paragraph):**
+// For `num = "1432219"` and `k = 3`, we scan digits from left to right and keep a stack that stays increasing,
+// because a larger digit placed before a smaller one makes the number bigger. When we see `3` after `4`, removing `4` is
+// beneficial since it reduces the number at a higher place value; similarly, when `2` appears after `3`, we remove `3`,
+// and later when `1` appears after `2`, we remove `2`, using up all three removals. At each step, we only remove a previous
+// digit if it is larger than the current one and we still have removals left. The remaining digits in the stack (`1,2,1,9`)
+// form the smallest possible number after exactly three deletions, giving the final result `"1219"`.
+
+//        public String removeKdigits(String nums, int k) {
+//            // Stack to store digits
+//            Stack<Character> st = new Stack<>();
+//
+//            // Traverse the given string
+//            for (int i = 0; i < nums.length(); i++) {
+//                char digit = nums.charAt(i); // Current digit
+//
+//                // Pop last digits if a smaller digit is found and k > 0
+//                while (!st.isEmpty() && k > 0 && st.peek() > digit) {
+//                    st.pop(); // Remove the last digit
+//                    k--; // Decrement k by 1
+//                }
+//
+//                // Push the current digit
+//                st.push(digit);
+//            }
+//
+//            // If more digits can be removed
+//            while (k > 0) {
+//                st.pop(); // Pop the last added digits
+//                k--; // Decrement k by 1
+//            }
+//
+//            // Handle edge case: if stack is empty
+//            if (st.isEmpty()) return "0";
+//
+//            // StringBuilder to store the result
+//            StringBuilder res = new StringBuilder();
+//
+//            // Add digits from stack to result
+//            while (!st.isEmpty()) {
+//                res.append(st.pop());
+//            }
+//
+//            // Trim the leading zeros
+//            while (res.length() > 0 && res.charAt(res.length() - 1) == '0') {
+//                res.deleteCharAt(res.length() - 1);
+//            }
+//
+//            // Reverse the string to get the correct number
+//            res.reverse();
+//
+//            // If result is empty, return "0"
+//            if (res.length() == 0) return "0";
+//
+//            // Return the result as a string
+//            return res.toString();
+//        }
+//    }
+
+//Brute force: TC:O(2^n) SC:O(n)
 // Optimal:    TC:O(n) SC:O(n)
 
-////
+//// Largest rectangle in a histogram:
+        int[] heights = {2, 1, 5, 6, 2, 3, 1};
+        int n = heights.length;
+
+//        int area=0;
+//        for(int i=0;i<n;i++){
+//            int minheight=Integer.MAX_VALUE;
+//            for(int j=i;j<n;j++){
+//                minheight = Math.min(minheight, heights[j]);
+//                area=Math.max(area,(j-i+1)*minheight);
+//            }
+//        }
+//        System.out.println(area);
+
+//        int[] pse = new int[n]; // previous smaller boundary
+//        int[] nse = new int[n]; // next smaller boundary
+//
+//        Stack<Integer> stack = new Stack<>();
+//
+//        // 1. Previous Smaller Element (left boundary)
+//        for (int i = 0; i < n; i++) {
+//            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+//                stack.pop();
+//            }
+//            pse[i] = stack.isEmpty() ? 0 : stack.peek() + 1;
+//            stack.push(i);
+//        }
+//
+//        stack.clear();
+//
+//        // 2. Next Smaller Element (right boundary)
+//        for (int i = n - 1; i >= 0; i--) {
+//            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+//                stack.pop();
+//            }
+//            nse[i] = stack.isEmpty() ? n - 1 : stack.peek() - 1;
+//            stack.push(i);
+//        }
+//
+//        // 3. Compute maximum area
+//        int maxArea = 0;
+//        for (int i = 0; i < n; i++) {
+//            int width = nse[i] - pse[i] + 1;
+//            maxArea = Math.max(maxArea, heights[i] * width);
+//        }
+//        System.out.println(maxArea);
+
+//        Stack<Integer> stack = new Stack<>();
+//        int maxArea = 0;
+//
+//        // traverse all bars + one extra iteration (sentinel)
+//        for (int i = 0; i <= n; i++) {
+//
+//            int currHeight = (i == n) ? 0 : heights[i];
+//
+//            while (!stack.isEmpty() && currHeight < heights[stack.peek()]) {
+//
+//                int height = heights[stack.pop()];
+//
+//                int right = i; // current index is the first smaller on right
+//                int left = stack.isEmpty() ? -1 : stack.peek();
+//
+//                int width = right - left - 1;
+//                maxArea = Math.max(maxArea, height * width);
+//            }
+//
+//            stack.push(i);
+//        }
+//        System.out.println(maxArea);
 
 //Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+// Optimal: TC:O(5n) SC:O(3n)
+// Optimal: TC:O(n) SC:O(n)
 
 ////
 
