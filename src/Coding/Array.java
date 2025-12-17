@@ -3349,7 +3349,7 @@ public class Array {
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(5n) SC:O(n)
 
-////Sum of Subarray Minimum:
+////Sum of Subarray Maximum:
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
@@ -3494,8 +3494,8 @@ public class Array {
 // Optimal:    TC:O(n) SC:O(n)
 
 //// Largest rectangle in a histogram:
-        int[] heights = {2, 1, 5, 6, 2, 3, 1};
-        int n = heights.length;
+//        int[] heights = {2, 1, 5, 6, 2, 3, 1};
+//        int n = heights.length;
 
 //        int area=0;
 //        for(int i=0;i<n;i++){
@@ -3567,30 +3567,266 @@ public class Array {
 // Optimal: TC:O(5n) SC:O(3n)
 // Optimal: TC:O(n) SC:O(n)
 
-////
+//// Maximal Rectangles:
 
-//Brute force: TC:O(n2) SC:O(1)
+//        class Solution {
+//
+//            public int maximalRectangle(char[][] matrix) {
+//                if (matrix.length == 0) return 0;
+//
+//                int rows = matrix.length;
+//                int cols = matrix[0].length;
+//                int[] heights = new int[cols];
+//                int maxArea = 0;
+//
+//                for (int r = 0; r < rows; r++) {
+//
+//                    // Build histogram for current row
+//                    for (int c = 0; c < cols; c++) {
+//                        if (matrix[r][c] == '1')
+//                            heights[c] += 1;
+//                        else
+//                            heights[c] = 0;
+//                    }
+//
+//                    // Compute largest rectangle in histogram
+//                    maxArea = Math.max(maxArea, largestRectangleArea(heights));
+//                }
+//
+//                return maxArea;
+//            }
+//
+//            // Single-pass Largest Rectangle in Histogram
+//            private int largestRectangleArea(int[] heights) {
+//                Stack<Integer> stack = new Stack<>();
+//                int maxArea = 0;
+//                int n = heights.length;
+//
+//                for (int i = 0; i <= n; i++) {
+//                    int currHeight = (i == n) ? 0 : heights[i];
+//
+//                    while (!stack.isEmpty() && currHeight < heights[stack.peek()]) {
+//                        int height = heights[stack.pop()];
+//                        int right = i;
+//                        int left = stack.isEmpty() ? -1 : stack.peek();
+//                        int width = right - left - 1;
+//                        maxArea = Math.max(maxArea, height * width);
+//                    }
+//                    stack.push(i);
+//                }
+//                return maxArea;
+//            }
+//        }
+
+//Brute force: TC:O() SC:O()
+// Optimal:    TC:O(N*M) + O(2*M) SC:O(N*M)
+
+//// Sliding Window Maximum: Given an array of integers arr, there is a sliding window of size k which is moving from the very left of the array
+////to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window..
+
+// In the *Sliding Window Maximum* problem, we need the maximum element for every window of size `k` while moving the window one step at a time, and recalculating
+// the maximum from scratch would be inefficient. The key idea is to use a **deque (double-ended queue)** to store indices of elements in such a way that their values
+// are always in **decreasing order from front to back**. As we move forward, we remove elements from the **back** of the deque that are smaller than the current element,
+// because they can never become the maximum in the presence of this larger element. We also remove elements from the **front** if they fall outside the current window
+// range. This way, the front of the deque always holds the index of the **maximum element of the current window**, allowing us to get the answer in constant time per
+// window while each element is added and removed at most once, achieving an overall linear time complexity.
+
+//    int[]  arr = {4,0,-1,3,5,3,6,8}; int k = 3;
+//        int n=arr.length;
+//        int ans[]=new int[n-k+1];
+
+//        for(int i=0;i<=n-k;i++){
+//            int max=Integer.MIN_VALUE;
+//
+//            for (int j=i;j<=k+i-1;j++){
+//                max=Math.max(max,arr[j]);
+//            }
+//            ans[i]=max;
+//        }
+//        System.out.println(Arrays.toString(ans));
+
+//        Deque<Integer> dq=new ArrayDeque<>();
+//        for(int i=0;i<n;i++){
+//            while (!dq.isEmpty() && dq.peekFirst()<=i-k){
+//                dq.pollFirst();
+//            }
+//            while (!dq.isEmpty() && dq.peekLast()<arr[i]){
+//                dq.pollLast();
+//            }
+//            dq.offerLast(i);
+//            if(i>=k-1){
+//                ans[i-k+1]=arr[dq.peekFirst()];
+//
+//            }
+//        }
+//        System.out.println(Arrays.toString(ans));
+
+//Brute force: TC:O(n*k) SC:O(1)
+// Optimal:    TC:O(n) SC:O(k)
+
+////Celebrity Problem: A celebrity is a person who is known by everyone else at the party but does not know anyone in return.
+////Given a square matrix M of size N x N where M[i][j] is 1 if person i knows person j, and 0 otherwise, determine if there is a celebrity at the party.
+////Return the index of the celebrity or -1 if no such person exists.
+
+//A celebrity must satisfy two conditions: they do not know anyone else, and everyone else knows them. So, we treat each person as a potential candidate and verify
+// these two rules by scanning their entire row and column in the matrix. If we find even one person whom the candidate knows, or one person who does not know the
+// candidate, that candidate is immediately rejected. If a person passes both checks, they are the celebrity. If no one satisfies these conditions after checking
+// all people, then there is no celebrity at the party.
+
+        int[][] M = {
+                {0, 1, 1, 0},
+                {0, 0, 0, 0},
+                {1, 1, 0, 0},
+                {0, 1, 1, 0}
+        };
+
+//        int n = M.length; // rows
+//        int m=M[0].length; // column
+//
+//        for (int i = 0; i < n; i++) {
+//
+//            boolean isCelebrity = true;
+//
+//            // Check row: celebrity knows no one
+//            for (int j = 0; j < n; j++) {
+//                if (i != j && M[i][j] == 1) {
+//                    isCelebrity = false;
+//                    break;
+//                }
+//            }
+//
+//            // Check column: everyone knows celebrity
+//            for (int j = 0; j < n && isCelebrity; j++) {
+//                if (i != j && M[j][i] == 0) {
+//                    isCelebrity = false;
+//                    break;
+//                }
+//            }
+//
+//            if (isCelebrity) {
+//                System.out.println("Celebrity index: " + i);
+//                return;
+//            }
+//        }
+//        System.out.println("No celebrity found");
+
+//        int n = M.length;
+//        int left = 0;
+//        int right = n - 1;
+//
+//        // Step 1: Find potential celebrity
+//        while (left < right) {
+//            if (M[left][right] == 1) {
+//                left++;      // left knows right → left not celebrity
+//            } else {
+//                right--;     // left doesn't know right → right not celebrity
+//            }
+//        }
+//
+//        int candidate = left;
+//
+//        // Step 2: Verify candidate
+//        for (int i = 0; i < n; i++) {
+//            if (i != candidate) {
+//                // celebrity should not know anyone
+//                // everyone should know celebrity
+//                if (M[candidate][i] == 1 || M[i][candidate] == 0) {
+//                    System.out.println("No celebrity found");
+//                    return;
+//                }
+//            }
+//        }
+//
+//        System.out.println("Celebrity is: " + candidate);
+
+
+//Brute force: TC:O(m*n) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
-////
+//// LRU Cache:
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//        // Doubly linked list node class
+//        class  Node{
+//            int key;
+//            int value;
+//            Node next;
+//            Node prev;
+//
+//            // Constructor to initialize node
+//            public Node(int _key,int _value){
+//                this.key=_key;
+//                this.value=_value;
+//            }
+//        }
+//
+//        class LRUCache {
+//
+//            private int capacity;
+//            private HashMap<Integer, Node> map;
+//            private Node head, tail;
+//
+//            public LRUCache(int capacity) {
+//                this.capacity=capacity;
+//                map=new HashMap<>();
+//
+//                head=new Node(-1,-1);
+//                tail=new Node(-1,-1);
+//                head.next=tail;
+//                tail.prev=head;
+//            }
+//
+//            public int get(int _key) {
+//
+//                if(!map.containsKey(_key)) return -1;
+//
+//                Node resNode=map.get(_key);
+//
+//                //map.remove(_key);
+//
+//                deleteNode(resNode);
+//                insertAfterHead(resNode);
+//
+//                //map.put(_key,head.next);
+//
+//                return resNode.value;
+//            }
+//
+//            public void put(int _key, int _value) {
+//
+//                if(map.containsKey(_key)){
+//                    Node oldNode=map.get(_key);
+//                    deleteNode(oldNode);
+//                    map.remove(_key);
+//                }
+//
+//                // If capacity reached
+//                if(map.size()==capacity){
+//                    Node lru=tail.prev;
+//                    map.remove(lru.key);
+//                    deleteNode(lru);
+//                }
+//
+//                Node newNode=new Node(_key,_value);
+//                insertAfterHead(newNode);
+//                map.put(_key,newNode);
+//            }
+//
+//            private void insertAfterHead(Node temp) {
+//                temp.next=head.next;
+//                temp.prev=head;
+//                head.next.prev=temp;
+//                head.next=temp;
+//            }
+//
+//            private void deleteNode(Node temp) {
+//                temp.prev.next=temp.next;
+//                temp.next.prev=temp.prev;
+//            }
+//
+//        }
 
-////
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+////LFU Cache:
 
 ////
 
