@@ -3828,6 +3828,11 @@ public class Array {
 
 ////LFU Cache:
 
+//Priority Queue:
+// A Priority Queue is a special type of queue where each element is assigned a priority, and instead of being processed in the order they arrive (like a normal queue), the element with the highest priority is always processed first.If two elements have the same priority, they are handled based on their insertion order.
+//Think of it like an emergency room in a hospital patients are not treated just by arrival time, but by how critical their condition is; someone with a heart attack gets attention before someone with a cold, regardless of who came first. This makes priority queues super useful in scenarios like task scheduling, pathfinding algorithms, and real-time systems.
+
+
 ////
 
 //Brute force: TC:O(n2) SC:O(1)
