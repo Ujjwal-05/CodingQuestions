@@ -3828,12 +3828,47 @@ public class Array {
 
 ////LFU Cache:
 
-//Priority Queue:
-// A Priority Queue is a special type of queue where each element is assigned a priority, and instead of being processed in the order they arrive (like a normal queue), the element with the highest priority is always processed first.If two elements have the same priority, they are handled based on their insertion order.
-//Think of it like an emergency room in a hospital patients are not treated just by arrival time, but by how critical their condition is; someone with a heart attack gets attention before someone with a cold, regardless of who came first. This makes priority queues super useful in scenarios like task scheduling, pathfinding algorithms, and real-time systems.
+////Priority Queue:
+/*
+ A Priority Queue is a special type of queue where each element is assigned a priority, and instead of being processed in the order they arrive (like a normal queue),
+ the element with the highest priority is always processed first. If two elements have the same priority, they are handled based on their insertion order.
 
+ Binary Heap:  A Binary Heap is a Binary Tree that satisfies the following conditions.
 
-////
+    It should be a Complete Binary Tree.
+    It should satisfy the Heap property.
+
+Complete Binary Tree: The tree in Which all the levels are completely filled except the last level and last level is filled in such a way that all the keys are as
+ left as possible.
+
+Heap Property: Binary Heap is either a Min Heap or Max Heap. Property of the Binary Heap decides whether it is Min Heap or Max Heap.
+
+Min Heap property: For every node in a binary heap, if the node value is less than its right and left child’s value then Binary Heap is known as Min Heap.
+The property of Node’s value less than its children’s value is known as Min Heap property. In Min Heap, the root value is always the Minimum value in Heap.
+
+Max Heap property: For every node in a binary heap, if the node value is greater than its right and left child’s value then Binary Heap is known as Max Heap.
+The property of being Node’s value greater than its children's value is known as Max Heap property. In Max Heap, the root value is always the maximum value in Heap.
+
+Representation of the Binary Heap:
+
+Node index: i
+Left child Index: 2*i+1
+Right Child Index: 2*i+2
+
+Child’s Index: i
+Parent’s Index: (i-1)/2
+
+Operations Associated with Min Heap:
+
+    Function	Time Complexity
+    Insert(): 	    O(logN)
+    Heapify():	    O(logN)
+    getMin():	    O(1)
+    ExtractMin():	O(logN)
+    Decreasekey():	O(logN)
+    Delete():	    O(logN)
+
+*/
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
