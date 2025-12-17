@@ -3868,19 +3868,152 @@ Operations Associated with Min Heap:
     Decreasekey():	O(logN)
     Delete():	    O(logN)
 
+    Min-Heap Checking:Since we're checking whether the array represents a min heap, we need to ensure that every parent node is less than or equal to both of its children.
+    That's the key rule for min heaps. We don’t have to check every element in the array. Leaf nodes don’t have children, so they can’t violate the heap property.
+    In an array of size n, leaf nodes start from index n/2, so the only nodes we actually need to check are from index 0 to n/2 - 1. These are the non-leaf nodes.
+    For each of these, we compute their children’s indices and compare values. If any parent node is found to be greater than one of its children,
+    we can immediately return false because the heap rule is broken. If all the parent nodes satisfy the condition, then the array is a valid min heap.
+
 */
 
+//// Implement Min Heap:
+
+//        class Solution {
+//
+//            private int[] heap;
+//            private int capacity;
+//            private int size;
+//
+//            // 1️⃣ Initialize Heap
+//            public void initializeHeap() {
+//                capacity = 1000;          // default capacity
+//                heap = new int[capacity];
+//                size = 0;
+//            }
+//
+//            // Helper methods
+//            private int parent(int i) { return (i - 1) / 2; }
+//            private int left(int i) { return 2 * i + 1; }
+//            private int right(int i) { return 2 * i + 2; }
+//
+//            private void swap(int i, int j) {
+//                int temp = heap[i];
+//                heap[i] = heap[j];
+//                heap[j] = temp;
+//            }
+//
+//            // 2️⃣ Insert key
+//            public void insert(int key) {
+//                if (size == capacity) return;
+//
+//                heap[size] = key;
+//                int i = size;
+//                size++;
+//
+//                // Heapify up
+//                while (i != 0 && heap[parent(i)] > heap[i]) {
+//                    swap(i, parent(i));
+//                    i = parent(i);
+//                }
+//            }
+//
+//            // 3️⃣ Change key at index
+//            public void changeKey(int index, int newVal) {
+//                if (index < 0 || index >= size) return;
+//
+//                heap[index] = newVal;
+//
+//                // Heapify up
+//                while (index != 0 && heap[parent(index)] > heap[index]) {
+//                    swap(index, parent(index));
+//                    index = parent(index);
+//                }
+//
+//                // Heapify down
+//                minHeapify(index);
+//            }
+//
+//            // 4️⃣ Extract Minimum
+//            public void extractMin() {
+//                if (size <= 0) return;
+//
+//                if (size == 1) {
+//                    size--;
+//                    return;
+//                }
+//
+//                heap[0] = heap[size - 1];
+//                size--;
+//                minHeapify(0);
+//            }
+//
+//            // Heapify down
+//            private void minHeapify(int i) {
+//                int smallest = i;
+//                int l = left(i);
+//                int r = right(i);
+//
+//                if (l < size && heap[l] < heap[smallest]) {
+//                    smallest = l;
+//                }
+//
+//                if (r < size && heap[r] < heap[smallest]) {
+//                    smallest = r;
+//                }
+//
+//                if (smallest != i) {
+//                    swap(i, smallest);
+//                    minHeapify(smallest);
+//                }
+//            }
+//
+//            // 5️⃣ Check if empty
+//            public boolean isEmpty() {
+//                return size == 0;
+//            }
+//
+//            // 6️⃣ Get Minimum
+//            public int getMin() {
+//                if (size == 0) return -1;
+//                return heap[0];
+//            }
+//
+//            // 7️⃣ Heap size
+//            public int heapSize() {
+//                return size;
+//            }
+//        }
+
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
-////
+//// Check if an array represents a min heap:
+//        int[] arr={10,20,30,21,23,3,33};
+//        int n=arr.length;
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//        for(int i=0;i<=(n/2)-1;i++){
+//
+//            int left = 2 * i + 1;
+//            int right = 2 * i + 2;
+//
+//            if (left < n && arr[i] > arr[left]) {
+//                System.out.println("Not a min heap");
+//                return;
+//            }
+//
+//            if (right < n && arr[i] > arr[right]) {
+//                System.out.println("Not a min heap");
+//                return;
+//        }
+//        System.out.println("Its a min-heap");
 
-////
+// Optimal:    TC:O(n/2) SC:O(1)
 
-//Brute force: TC:O(n2) SC:O(1)
+////Convert min Heap to max Heap:
+
+//        “Min Heap can be converted to Max Heap in O(n) time by applying max-heapify from the last non-leaf node.”
+
+//Brute force: TC:O(nlogn) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
 ////
