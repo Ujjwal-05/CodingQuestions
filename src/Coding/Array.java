@@ -3830,24 +3830,31 @@ public class Array {
 
 ////Priority Queue:
 /*
- A Priority Queue is a special type of queue where each element is assigned a priority, and instead of being processed in the order they arrive (like a normal queue),
+ A Priority Queue is a special type of queue where each element is assigned a priority. Instead of being processed in the order they arrive (like a normal queue),
  the element with the highest priority is always processed first. If two elements have the same priority, they are handled based on their insertion order.
 
- Binary Heap:  A Binary Heap is a Binary Tree that satisfies the following conditions.
+Binary tree: A Binary Tree is a hierarchical data structure in which each node has at most two children, called the left child and the right child.
 
-    It should be a Complete Binary Tree.
-    It should satisfy the Heap property.
+Complete Binary Tree: A Complete Binary Tree is a binary tree in which all levels are completely filled except possibly the last level, and all nodes in the
+                      last level are filled from left to right. No node can have a right child without having a left child.
 
-Complete Binary Tree: The tree in Which all the levels are completely filled except the last level and last level is filled in such a way that all the keys are as
- left as possible.
+        1     CBT               1     CBT                       1       Not a CBT
+       / \                     / \                             / \
+      2   3                   2   3                           2   3
+     / \ / \                 / \ / \                              /
+    4  5 6  7               4  5 6                                4
+
+
+Heap: A Heap is a special tree-based data structure that satisfies two properties:
+
+    1️⃣ Complete Binary Tree Property
+    2️⃣ Heap Order Property
 
 Heap Property: Binary Heap is either a Min Heap or Max Heap. Property of the Binary Heap decides whether it is Min Heap or Max Heap.
 
-Min Heap property: For every node in a binary heap, if the node value is less than its right and left child’s value then Binary Heap is known as Min Heap.
-The property of Node’s value less than its children’s value is known as Min Heap property. In Min Heap, the root value is always the Minimum value in Heap.
+Min Heap property: For every node in a binary heap, if the parent node value is less than its right and left child’s value then Binary Heap is known as Min Heap.
+Max Heap property: For every node in a binary heap, if the parent node value is greater than its right and left child’s value then Binary Heap is known as Max Heap.
 
-Max Heap property: For every node in a binary heap, if the node value is greater than its right and left child’s value then Binary Heap is known as Max Heap.
-The property of being Node’s value greater than its children's value is known as Max Heap property. In Max Heap, the root value is always the maximum value in Heap.
 
 Representation of the Binary Heap:
 
@@ -3868,121 +3875,161 @@ Operations Associated with Min Heap:
     Decreasekey():	O(logN)
     Delete():	    O(logN)
 
-    Min-Heap Checking:Since we're checking whether the array represents a min heap, we need to ensure that every parent node is less than or equal to both of its children.
-    That's the key rule for min heaps. We don’t have to check every element in the array. Leaf nodes don’t have children, so they can’t violate the heap property.
-    In an array of size n, leaf nodes start from index n/2, so the only nodes we actually need to check are from index 0 to n/2 - 1. These are the non-leaf nodes.
-    For each of these, we compute their children’s indices and compare values. If any parent node is found to be greater than one of its children,
-    we can immediately return false because the heap rule is broken. If all the parent nodes satisfy the condition, then the array is a valid min heap.
+
+    1️⃣Insertion: in a heap is done by first placing the new element at the next available position to maintain the complete binary tree property. After insertion,
+    the heap order property may be violated, so the element is moved upward by repeatedly comparing it with its parent and swapping if necessary.
+    This process is called heapify-up or percolate-up and continues until the heap property is restored or the element becomes the root. Insertion in a heap takes
+    O(log n) time.
+
+            //TC: log(n)
+            public void insert(int key) {
+                if(size==capacity) return;
+
+                heap[size]=key;
+                int i=size;
+                size++;
+
+                // Heapify up
+                while (i!=0 && heap[parent(i)]>heap[i]){
+                    swap(i,parent(i));
+                    i=parent(i);
+                }
+            }
+
+    2️⃣ Deletion: in a heap always removes the root element, which is the minimum element in a min heap or the maximum element in a max heap. To delete the root,
+    the last element of the heap is moved to the root position, and the heap size is reduced. Since this may violate the heap order property, the element is moved
+    downward by comparing it with its children and swapping with the appropriate child. This process is called heapify-down or percolate-down and continues until the
+    heap property is restored. Deletion in a heap also takes O(log n) time.
+
+
+
+    Deletion in a heap always starts from the root because the heap is designed to efficiently support access and removal of only one special element the minimum in
+    a min heap or the maximum in a max heap**—and this element is always stored at the root. Unlike a binary search tree, a heap does not maintain any ordering among
+    sibling or subtree elements, so only the root is guaranteed to be the correct element to delete in constant time. If deletion were attempted at any other position,
+    the element would first need to be searched for, which takes O(n) time, defeating the purpose of using a heap. Therefore, heaps restrict deletion to the root,
+    allowing the operation to be completed efficiently by replacing the root with the last element and restoring the heap property using heapify-down in O(log n) time.
+
+
+
+
+    Check whether the given heap is Min-Heap or not:Since we're checking whether the array represents a min heap, we need to ensure that every parent node is less
+    than or equal to both of its children. That's the key rule for min heaps. We don’t have to check every element in the array. Leaf nodes don’t have children,
+    so they can’t violate the heap property. In an array of size n, leaf nodes start from index n/2, so the only nodes we actually need to check are from
+    index 0 to n/2 - 1. These are the non-leaf nodes. For each of these, we compute their children’s indices and compare values. If any parent node is found to be
+    greater than one of its children,we can immediately return false because the heap rule is broken. If all the parent nodes satisfy the condition, then the array is a valid min heap.
+
+    Full Binary tree:
 
 */
 
 //// Implement Min Heap:
 
-//        class Solution {
-//
-//            private int[] heap;
-//            private int capacity;
-//            private int size;
-//
-//            // 1️⃣ Initialize Heap
-//            public void initializeHeap() {
-//                capacity = 1000;          // default capacity
-//                heap = new int[capacity];
-//                size = 0;
-//            }
-//
-//            // Helper methods
-//            private int parent(int i) { return (i - 1) / 2; }
-//            private int left(int i) { return 2 * i + 1; }
-//            private int right(int i) { return 2 * i + 2; }
-//
-//            private void swap(int i, int j) {
-//                int temp = heap[i];
-//                heap[i] = heap[j];
-//                heap[j] = temp;
-//            }
-//
-//            // 2️⃣ Insert key
-//            public void insert(int key) {
-//                if (size == capacity) return;
-//
-//                heap[size] = key;
-//                int i = size;
-//                size++;
-//
-//                // Heapify up
-//                while (i != 0 && heap[parent(i)] > heap[i]) {
-//                    swap(i, parent(i));
-//                    i = parent(i);
-//                }
-//            }
-//
-//            // 3️⃣ Change key at index
-//            public void changeKey(int index, int newVal) {
-//                if (index < 0 || index >= size) return;
-//
-//                heap[index] = newVal;
-//
-//                // Heapify up
-//                while (index != 0 && heap[parent(index)] > heap[index]) {
-//                    swap(index, parent(index));
-//                    index = parent(index);
-//                }
-//
-//                // Heapify down
-//                minHeapify(index);
-//            }
-//
-//            // 4️⃣ Extract Minimum
-//            public void extractMin() {
-//                if (size <= 0) return;
-//
-//                if (size == 1) {
-//                    size--;
-//                    return;
-//                }
-//
-//                heap[0] = heap[size - 1];
-//                size--;
-//                minHeapify(0);
-//            }
-//
-//            // Heapify down
-//            private void minHeapify(int i) {
-//                int smallest = i;
-//                int l = left(i);
-//                int r = right(i);
-//
-//                if (l < size && heap[l] < heap[smallest]) {
-//                    smallest = l;
-//                }
-//
-//                if (r < size && heap[r] < heap[smallest]) {
-//                    smallest = r;
-//                }
-//
-//                if (smallest != i) {
-//                    swap(i, smallest);
-//                    minHeapify(smallest);
-//                }
-//            }
-//
-//            // 5️⃣ Check if empty
-//            public boolean isEmpty() {
-//                return size == 0;
-//            }
-//
-//            // 6️⃣ Get Minimum
-//            public int getMin() {
-//                if (size == 0) return -1;
-//                return heap[0];
-//            }
-//
-//            // 7️⃣ Heap size
-//            public int heapSize() {
-//                return size;
-//            }
-//        }
+        class Heap {
+
+            private int[] heap;
+            private int capacity;
+            private int size;
+
+            public Heap() {
+                capacity = 1000;          // default capacity
+                heap = new int[capacity];
+                size = 0;
+            }
+
+            // Helper methods
+            private int parent(int i) { return (i - 1) / 2; }
+            private int left(int i) { return 2 * i + 1; }
+            private int right(int i) { return 2 * i + 2; }
+
+            private void swap(int i, int j) {
+                int temp = heap[i];
+                heap[i] = heap[j];
+                heap[j] = temp;
+            }
+
+
+            //TC: log(n)
+            public void insert(int key) {
+                if(size==capacity) return;
+
+                heap[size]=key;
+                int i=size;
+                size++;
+
+                // Heapify up
+                while (i!=0 && heap[parent(i)]>heap[i]){
+                    swap(i,parent(i));
+                    i=parent(i);
+                }
+
+            }
+
+            // 3️⃣ Change key at index
+            public void changeKey(int index, int newVal) {
+                if (index < 0 || index >= size) return;
+
+                heap[index] = newVal;
+
+                // Heapify up
+                while (index != 0 && heap[parent(index)] > heap[index]) {
+                    swap(index, parent(index));
+                    index = parent(index);
+                }
+
+                // Heapify down
+                minHeapify(index);
+            }
+
+            // 4️⃣ Extract Minimum
+            public void extractMin() {
+                if (size <= 0) return;
+
+                if (size == 1) {
+                    size--;
+                    return;
+                }
+
+                heap[0] = heap[size - 1];
+                size--;
+                minHeapify(0);
+            }
+
+            // Heapify down
+            private void minHeapify(int i) {
+                int smallest = i;
+                int l = left(i);
+                int r = right(i);
+
+                if (l < size && heap[l] < heap[smallest]) {
+                    smallest = l;
+                }
+
+                if (r < size && heap[r] < heap[smallest]) {
+                    smallest = r;
+                }
+
+                if (smallest != i) {
+                    swap(i, smallest);
+                    minHeapify(smallest);
+                }
+            }
+
+            // 5️⃣ Check if empty
+            public boolean isEmpty() {
+                return size == 0;
+            }
+
+            // 6️⃣ Get Minimum
+            public int getMin() {
+                if (size == 0) return -1;
+                return heap[0];
+            }
+
+            // 7️⃣ Heap size
+            public int heapSize() {
+                return size;
+            }
+        }
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
@@ -4015,6 +4062,7 @@ Operations Associated with Min Heap:
 
 //Brute force: TC:O(nlogn) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
+
 
 ////
 
