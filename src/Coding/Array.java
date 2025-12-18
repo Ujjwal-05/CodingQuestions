@@ -3,6 +3,7 @@ package Coding;
 //Find pairs with given sum in sorted array:
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Pair{
     double distance;
@@ -3830,6 +3831,9 @@ public class Array {
 
 ////Priority Queue:
 /*
+A Priority Queue is an abstract data type, which is commonly implemented using a Heap.
+A Heap is a data structure / algorithmic idea that is implemented using an array representation of a Complete Binary Tree.
+
  A Priority Queue is a special type of queue where each element is assigned a priority. Instead of being processed in the order they arrive (like a normal queue),
  the element with the highest priority is always processed first. If two elements have the same priority, they are handled based on their insertion order.
 
@@ -3844,11 +3848,15 @@ Complete Binary Tree: A Complete Binary Tree is a binary tree in which all level
      / \ / \                 / \ / \                              /
     4  5 6  7               4  5 6                                4
 
+Full Binary tree:
 
 Heap: A Heap is a special tree-based data structure that satisfies two properties:
 
     1️⃣ Complete Binary Tree Property
     2️⃣ Heap Order Property
+
+    In CBT non-leaf node lies:  0 to n/2 - 1
+    In CBT leaf node lies:      n/2 to n-1
 
 Heap Property: Binary Heap is either a Min Heap or Max Heap. Property of the Binary Heap decides whether it is Min Heap or Max Heap.
 
@@ -3867,13 +3875,17 @@ Parent’s Index: (i-1)/2
 
 Operations Associated with Min Heap:
 
-    Function	Time Complexity
-    Insert(): 	    O(logN)
-    Heapify():	    O(logN)
-    getMin():	    O(1)
-    ExtractMin():	O(logN)
-    Decreasekey():	O(logN)
-    Delete():	    O(logN)
+| Operation                                   | Complexity   | Why                            |
+| ------------------------------------------- | ------------ | ------------------------------ |
+| Insert (offer / add)                        | O(log n)     | Heapify-up along heap height   |
+| Delete (poll / extractMin / extractMax)     | O(log n)     | Heapify-down along heap height |
+| Peek (getMin / getMax)                      | O(1)         | Root access                    |
+| Build Heap (from array)                     | O(n)         | Bottom-up heapify              |
+| Search (arbitrary element)                  | O(n)         | Heap not ordered like BST      |
+| Change key (increase/decrease priority)     | O(log n)     | Heapify up or down             |
+| Check empty                                 | O(1)         |                                |
+| Get size                                    | O(1)         |                                |
+
 
 
     1️⃣Insertion: in a heap is done by first placing the new element at the next available position to maintain the complete binary tree property. After insertion,
@@ -3899,89 +3911,10 @@ Operations Associated with Min Heap:
     2️⃣ Deletion: in a heap always removes the root element, which is the minimum element in a min heap or the maximum element in a max heap. To delete the root,
     the last element of the heap is moved to the root position, and the heap size is reduced. Since this may violate the heap order property, the element is moved
     downward by comparing it with its children and swapping with the appropriate child. This process is called heapify-down or percolate-down and continues until the
-    heap property is restored. Deletion in a heap also takes O(log n) time.
+    heap property is restored. Deletion in a heap also takes O(log n) time. extractMin/extractmax
 
+        public void extractMin() {
 
-
-    Deletion in a heap always starts from the root because the heap is designed to efficiently support access and removal of only one special element the minimum in
-    a min heap or the maximum in a max heap**—and this element is always stored at the root. Unlike a binary search tree, a heap does not maintain any ordering among
-    sibling or subtree elements, so only the root is guaranteed to be the correct element to delete in constant time. If deletion were attempted at any other position,
-    the element would first need to be searched for, which takes O(n) time, defeating the purpose of using a heap. Therefore, heaps restrict deletion to the root,
-    allowing the operation to be completed efficiently by replacing the root with the last element and restoring the heap property using heapify-down in O(log n) time.
-
-
-
-
-    Check whether the given heap is Min-Heap or not:Since we're checking whether the array represents a min heap, we need to ensure that every parent node is less
-    than or equal to both of its children. That's the key rule for min heaps. We don’t have to check every element in the array. Leaf nodes don’t have children,
-    so they can’t violate the heap property. In an array of size n, leaf nodes start from index n/2, so the only nodes we actually need to check are from
-    index 0 to n/2 - 1. These are the non-leaf nodes. For each of these, we compute their children’s indices and compare values. If any parent node is found to be
-    greater than one of its children,we can immediately return false because the heap rule is broken. If all the parent nodes satisfy the condition, then the array is a valid min heap.
-
-    Full Binary tree:
-
-*/
-
-//// Implement Min Heap:
-
-        class Heap {
-
-            private int[] heap;
-            private int capacity;
-            private int size;
-
-            public Heap() {
-                capacity = 1000;          // default capacity
-                heap = new int[capacity];
-                size = 0;
-            }
-
-            // Helper methods
-            private int parent(int i) { return (i - 1) / 2; }
-            private int left(int i) { return 2 * i + 1; }
-            private int right(int i) { return 2 * i + 2; }
-
-            private void swap(int i, int j) {
-                int temp = heap[i];
-                heap[i] = heap[j];
-                heap[j] = temp;
-            }
-
-
-            //TC: log(n)
-            public void insert(int key) {
-                if(size==capacity) return;
-
-                heap[size]=key;
-                int i=size;
-                size++;
-
-                // Heapify up
-                while (i!=0 && heap[parent(i)]>heap[i]){
-                    swap(i,parent(i));
-                    i=parent(i);
-                }
-
-            }
-
-            // 3️⃣ Change key at index
-            public void changeKey(int index, int newVal) {
-                if (index < 0 || index >= size) return;
-
-                heap[index] = newVal;
-
-                // Heapify up
-                while (index != 0 && heap[parent(index)] > heap[index]) {
-                    swap(index, parent(index));
-                    index = parent(index);
-                }
-
-                // Heapify down
-                minHeapify(index);
-            }
-
-            // 4️⃣ Extract Minimum
-            public void extractMin() {
                 if (size <= 0) return;
 
                 if (size == 1) {
@@ -3989,47 +3922,148 @@ Operations Associated with Min Heap:
                     return;
                 }
 
+                // Move last element to root
                 heap[0] = heap[size - 1];
                 size--;
-                minHeapify(0);
-            }
 
-            // Heapify down
-            private void minHeapify(int i) {
-                int smallest = i;
-                int l = left(i);
-                int r = right(i);
+                int i = 0;
 
-                if (l < size && heap[l] < heap[smallest]) {
-                    smallest = l;
-                }
+                while (true) {
+                    int left = 2 * i + 1;
+                    int right = 2 * i + 2;
+                    int smallest = i;
 
-                if (r < size && heap[r] < heap[smallest]) {
-                    smallest = r;
-                }
+                    if (left < size && heap[left] < heap[smallest]) {
+                        smallest = left;
+                    }
 
-                if (smallest != i) {
+                    if (right < size && heap[right] < heap[smallest]) {
+                        smallest = right;
+                    }
+
+                    // heap property satisfied
+                    if (smallest == i) {
+                        break;
+                    }
+
                     swap(i, smallest);
-                    minHeapify(smallest);
+                    i = smallest;
                 }
             }
 
-            // 5️⃣ Check if empty
-            public boolean isEmpty() {
-                return size == 0;
-            }
+    Deletion in a heap always starts from the root because the heap is designed to efficiently support access and removal of only one special element the minimum in
+    a min heap or the maximum in a max heap—and this element is always stored at the root. Unlike a binary search tree, a heap does not maintain any ordering among
+    sibling or subtree elements, so only the root is guaranteed to be the correct element to delete in constant time. If deletion were attempted at any other position,
+    the element would first need to be searched for, which takes O(n) time, defeating the purpose of using a heap. Therefore, heaps restrict deletion to the root,
+    allowing the operation to be completed efficiently by replacing the root with the last element and restoring the heap property using heapify-down in O(log n) time.
 
-            // 6️⃣ Get Minimum
-            public int getMin() {
-                if (size == 0) return -1;
-                return heap[0];
-            }
+    Check whether the given heap is Min-Heap or not:Since we're checking whether the array represents a min heap, we need to ensure that every parent node is less
+    than or equal to both of its children. That's the key rule for min heaps. We don’t have to check every element in the array. Leaf nodes don’t have children,
+    so they can’t violate the heap property. In an array of size n, leaf nodes start from index n/2, so the only nodes we actually need to check are from
+    index 0 to n/2 - 1. These are the non-leaf nodes. For each of these, we compute their children’s indices and compare values. If any parent node is found to be
+    greater than one of its children,we can immediately return false because the heap rule is broken. If all the parent nodes satisfy the condition, then the array is a valid min heap.
 
-            // 7️⃣ Heap size
-            public int heapSize() {
-                return size;
-            }
-        }
+
+
+*/
+
+//// Implement Min Heap:
+
+//        class PriorityQueueUsingHeap {
+//
+//            private int[] heap;
+//            private int size;
+//            private int capacity;
+//
+//            public PriorityQueueUsingHeap(int capacity) {
+//                this.capacity = capacity;
+//                heap = new int[capacity];
+//                size = 0;
+//            }
+//
+//            // Helper methods
+//            private int parent(int i) { return (i - 1) / 2; }
+//            private int left(int i)   { return 2 * i + 1; }
+//            private int right(int i)  { return 2 * i + 2; }
+//
+//            private void swap(int i, int j) {
+//                int temp = heap[i];
+//                heap[i] = heap[j];
+//                heap[j] = temp;
+//            }
+//
+//            // Insert element
+//            public void insert(int val) {
+//                if (size == capacity) {
+//                    System.out.println("Heap is full");
+//                    return;
+//                }
+//
+//                heap[size] = val;
+//                int i = size;
+//                size++;
+//
+//                // Heapify up
+//                while (i != 0 && heap[parent(i)] > heap[i]) {
+//                    swap(i, parent(i));
+//                    i = parent(i);
+//                }
+//            }
+//
+//            // Remove highest priority element (minimum)
+//            public int poll() {
+//                if (isEmpty()) {
+//                    System.out.println("Heap is empty");
+//                    return -1;
+//                }
+//
+//                int root = heap[0];
+//
+//                heap[0] = heap[size - 1];
+//                size--;
+//
+//                minHeapify(0);
+//
+//                return root;
+//            }
+//
+//            // Heapify down
+//            private void minHeapify(int i) {
+//
+//                while (true) {
+//                    int smallest = i;
+//                    int l = left(i);
+//                    int r = right(i);
+//
+//                    if (l < size && heap[l] < heap[smallest]) {
+//                        smallest = l;
+//                    }
+//
+//                    if (r < size && heap[r] < heap[smallest]) {
+//                        smallest = r;
+//                    }
+//
+//                    if (smallest == i) break;
+//
+//                    swap(i, smallest);
+//                    i = smallest;
+//                }
+//            }
+//
+//            public int peek() {
+//                if (isEmpty()) return -1;
+//                return heap[0];
+//            }
+//
+//            public boolean isEmpty() {
+//                return size == 0;
+//            }
+//
+//            public int size() {
+//                return size;
+//            }
+//        }
+
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
@@ -4056,225 +4090,261 @@ Operations Associated with Min Heap:
 
 // Optimal:    TC:O(n/2) SC:O(1)
 
+////Convert an array to min-heap:
+
+//        int[] arr = {54, 53, 55, 52, 50};
+//        int n = arr.length;
+//
+//        // Build Min Heap-- O(n) how
+//        for (int i = (n / 2) - 1; i >= 0; i--) {
+//            minHeapify(arr, i, n);
+//        }
+//
+//        private static void minHeapify(int[] arr, int i, int size) {
+//
+//            while (true) {
+//
+//                int smallest = i;
+//                int left = 2 * i + 1;
+//                int right = 2 * i + 2;
+//
+//                if (left < size && arr[left] < arr[smallest]) {
+//                    smallest = left;
+//                }
+//
+//                if (right < size && arr[right] < arr[smallest]) {
+//                    smallest = right;
+//                }
+//
+//                if (smallest == i) {
+//                    break;
+//                }
+//
+//                swap(arr, i, smallest);
+//                i = smallest;
+//            }
+//        }
+
+//        PriorityQueue<Integer> pq=new PriorityQueue<>();
+//
+//        pq.add(10); pq.add(5); pq.add(15); pq.add(20); pq.add(30);
+//        System.out.println(pq);
+//        System.out.println(pq.peek());
+//        System.out.println(pq);
+//        System.out.println(pq.poll());
+//        System.out.println(pq);
+
+
 ////Convert min Heap to max Heap:
 
-//        “Min Heap can be converted to Max Heap in O(n) time by applying max-heapify from the last non-leaf node.”
+// “Min Heap can be converted to Max Heap in O(n) time by applying max-heapify from the last non-leaf node.”
+// Optimal:    TC:O(n) SC:O(n)
+
+//// Kth largest/smallest element in an array:
+
+//While traversing the array, we maintain a **min heap of fixed size `k`** to keep track of only the `k` largest elements seen so far. First, we insert elements into
+// the heap until its size becomes `k`. At this point, the heap contains the top `k` elements from the portion of the array processed, and the root of the min heap
+// represents the smallest among them. As we continue traversing the array, for each new element, we compare it with the heap root. If the new element is smaller than
+// or equal to the root, it cannot be among the `k` largest elements overall and is ignored. If the new element is larger than the root, it replaces the root, ensuring
+// that the heap still contains only the `k` largest elements. After the entire array is processed, the heap holds the `k` largest elements of the array, and the
+// smallest element in this heap (the root) is the **kth largest element**.
+//While traversing the array, we maintain a leaderboard of the top k largest elements. Whenever a better element comes, we remove the weakest one.
+// At the end, the weakest on the leaderboard is the kth largest overall.
+//“A min heap of size k keeps the k largest elements, and the smallest among them is the kth largest overall.”
+
+//        int[] arr = {3, 2, 1, 5, 6, 4};
+//        int k = 3;
+//
+//        PriorityQueue<Integer> minheap=new PriorityQueue<>();
+//
+//        for (int num:arr){
+//            minheap.add(num);
+//
+//            if(minheap.size()>k){
+//                minheap.poll();
+//            }
+//        }
+//
+//        System.out.println(minheap.peek());
+
+//Brute force: TC:O(nlogn) SC:O(1) By sorting
+// Optimal:    TC:O(k log k + (n − k) log k) = O(n log k) SC:O(n)
+
+////Sort K sorted array:
+
+//        int[] arr = {6, 5, 3, 2, 8, 10, 9};
+//        int k = 3;
+//
+//        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+//        List<Integer> result = new ArrayList<>();
+//
+//        for (int i = 0; i <= k && i < arr.length; i++) {
+//            minHeap.add(arr[i]);
+//        }
+//
+//        for (int i = k + 1; i < arr.length; i++) {
+//            result.add(minHeap.poll()); // removes smallest from heap
+//            minHeap.add(arr[i]);        // inserts next array element
+//        }
+//
+//        while (!minHeap.isEmpty()) {
+//            result.add(minHeap.poll());
+//        }
+//
+//        System.out.println(result);
 
 //Brute force: TC:O(nlogn) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+// Optimal:    TC:O(nlogk) SC:O(n)
+
+////Merge M sorted Lists:
+
+        Node list1 = new Node(1);
+        list1.next = new Node(4);
+        list1.next.next = new Node(5);
+
+        Node list2 = new Node(1);
+        list2.next = new Node(3);
+        list2.next.next = new Node(4);
+
+        Node list3 = new Node(2);
+        list3.next = new Node(6);
+
+        Node[] lists = new Node[]{list1, list2, list3};
+
+//        List<Integer> result=new ArrayList<>();
+//
+//        for(int i=0;i<lists.length;i++){
+//            Node temp=lists[i];
+//            while (temp!=null){
+//                result.add((Integer) temp.data);
+//                temp=temp.next;
+//            }
+//        }
+//
+//        Collections.sort(result);
+//        System.out.println(result);
+//
+//        Node dummy=new Node(-1);
+//        Node tail=dummy;
+//
+//        for (int i=0;i<result.size();i++){
+//            Node resnode=new Node(result.get(i));
+//            tail.next=resnode;
+//            tail=tail.next;
+//        }
+//        dummy=dummy.next;
+//
+//        while (dummy!=null){
+//            System.out.println(dummy.data);
+//            dummy=dummy.next;
+//        }
+
+//Brute force: TC:O(nlogn) SC:O(n)
+
+//        PriorityQueue<Node<Integer>> pq=new PriorityQueue<>(
+//                (a,b)-> Integer.compare(a.data,b.data)
+//        );
+//        for(int i=0;i<lists.length;i++){
+//            pq.add(lists[i]);
+//        }
+//        Node<Integer> dummy=new Node<>(-1);
+//        Node<Integer> tail=dummy;
+//
+//        while (!pq.isEmpty()){
+//
+//            Node<Integer> smallest=pq.poll();
+//            tail.next=smallest;
+//            tail=tail.next;
+//
+//            if(smallest.next!=null){
+//                pq.add(smallest.next);
+//            }
+//        }
+
+// Optimal:    TC:O(nlogk) SC:O(n)
+
+//// Replace each array element by its corresponding rank:
+
+//        int[] arr = {20, 15, 26, 2, 98, 6};
+//        int[] copy=Arrays.copyOf(arr,arr.length);
+//        int[] res=new int[arr.length];
+//
+//        Arrays.sort(copy);
+//
+//        for (int i=0;i<arr.length;i++){
+//
+//            for(int j=0;j<copy.length;j++){
+//                if(arr[i]==copy[j]){
+//                    res[i]=j+1;
+//                    break;
+//                }
+//            }
+//        }
+//        System.out.println(Arrays.toString(res));
+
+//Brute force: TC:O(n2) SC:O(n)
+
+//        int[] arr = {20, 15, 26, 2, 98, 6};
+//        int n = arr.length;
+//
+//        int[] copy = Arrays.copyOf(arr, n);
+//        Arrays.sort(copy);
+//
+//        Map<Integer, Integer> rankMap = new HashMap<>();
+//        int rank = 1;
+//        for (int i = 0; i < n; i++) {
+//            if (!rankMap.containsKey(copy[i])) {
+//                rankMap.put(copy[i], rank++);
+//            }
+//        }
+//
+//        for (int i = 0; i < n; i++) {
+//            arr[i] = rankMap.get(arr[i]);
+//        }
+//    }
+
+// Optimal:    TC:O(nlogn) SC:O(n)
+
+////Task Scheduler:
+
+                char[] tasks={'A','A','A','B','B','B'};
+                int n=2;
+
+                int[] freq = new int[26];
+                for (char t : tasks) {
+                    freq[t - 'A']++;
+                }
+
+                PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+                for (int f : freq) {
+                    if (f > 0) pq.offer(f);
+                }
+
+                int time = 0;
+                while (!pq.isEmpty()) {
+
+                    int cycle = n + 1;
+                    List<Integer> temp = new ArrayList<>();
+
+                    while (cycle > 0 && !pq.isEmpty()) {
+                        int curr = pq.poll();
+                        curr--;              // execute task once
+                        if (curr > 0) temp.add(curr);
+                        time++;
+                        cycle--;
+                    }
+
+                    for (int t : temp) {
+                        pq.offer(t);
+                    }
+
+                    if (!pq.isEmpty()) {
+                        time += cycle; // remaining idle slots
+                    }
+                }
+
+        System.out.println(time);
 
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(4n) SC:O(2n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(4n) SC:O(2n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(4n) SC:O(2n)
-
-////
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
@@ -4554,6 +4624,193 @@ Operations Associated with Min Heap:
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(4n) SC:O(2n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
+
+////
+
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
@@ -4608,8 +4865,15 @@ Operations Associated with Min Heap:
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(n)
 
-    }}
+
+    }
+
+
+
+}
 
 
 
