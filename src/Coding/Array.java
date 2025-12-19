@@ -4307,82 +4307,403 @@ Operations Associated with Min Heap:
 
 ////Task Scheduler:
 
-                char[] tasks={'A','A','A','B','B','B'};
-                int n=2;
+//        char[] tasks={'A','A','A','B','B','B'};
+//        int n=2;
+//
+//        int[] taskFrequency=new int[26];
+//
+//        for(char c:tasks){
+//            taskFrequency[c-'A']++;
+//        }
+//
+//        PriorityQueue<Integer> maxheap=new PriorityQueue<>(Collections.reverseOrder());
+//
+//        for(int freq:taskFrequency){
+//            if(freq>0) maxheap.add(freq);
+//        }
+//        int time=0;
+//        while (!maxheap.isEmpty()){
+//
+//            int cycle=n+1;
+//            List<Integer> taskpickedbutnotcompleted=new ArrayList<>();
+//
+//            while (cycle>0 && !maxheap.isEmpty()){
+//
+//                int curr=maxheap.poll();
+//                curr--;
+//                if(curr>0) taskpickedbutnotcompleted.add(curr);
+//
+//                time++;
+//                cycle--;
+//            }
+//
+//            for(int rem:taskpickedbutnotcompleted){
+//                maxheap.add(rem);
+//            }
+//
+//            if(!maxheap.isEmpty()){
+//                time+=cycle;
+//            }
+//        }
+//        System.out.println(time);
 
-                int[] freq = new int[26];
-                for (char t : tasks) {
-                    freq[t - 'A']++;
-                }
+//Brute force: TC:O() SC:O()
+// Optimal:    TC:O(n) SC:O(1)
 
-                PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-                for (int f : freq) {
-                    if (f > 0) pq.offer(f);
-                }
+////Hands of Straights:
+        int[] hand = {1,2,3,6,2,3,4,7,8};
+        int groupSize = 3;
 
-                int time = 0;
-                while (!pq.isEmpty()) {
+//        if(hand.length%groupSize!=0) return;
+//
+//        List<Integer> list=new ArrayList<>();
+//
+//        for(int num:hand){
+//            list.add(num);
+//        }
+//        Collections.sort(list);
+//
+//        while (!list.isEmpty()){
+//            int start=list.get(0);
+//
+//            for(int i=0;i<groupSize;i++){
+//                if(!list.contains(start+i)){
+//                    return;
+//                }
+//                list.remove(start+i);
+//            }
+//        }
 
-                    int cycle = n + 1;
-                    List<Integer> temp = new ArrayList<>();
+//Brute force: TC:O(n2) SC:O(n)
 
-                    while (cycle > 0 && !pq.isEmpty()) {
-                        int curr = pq.poll();
-                        curr--;              // execute task once
-                        if (curr > 0) temp.add(curr);
-                        time++;
-                        cycle--;
-                    }
+//        if (hand.length % groupSize != 0) return ;
+//
+//        TreeMap<Integer, Integer> map = new TreeMap<>();
+//        for (int num : hand) {
+//            map.put(num, map.getOrDefault(num, 0) + 1);
+//        }
+//
+//        while (!map.isEmpty()) {
+//            int start = map.firstKey(); // smallest card
+//
+//            // Try to form a group of size groupSize
+//            for (int i = 0; i < groupSize; i++) {
+//                int card = start + i;
+//
+//                if (!map.containsKey(card)) {
+//                    return;
+//                }
+//
+//                map.put(card, map.get(card) - 1);
+//                if (map.get(card) == 0) {
+//                    map.remove(card);
+//                }
+//            }
+//        }
 
-                    for (int t : temp) {
-                        pq.offer(t);
-                    }
+//        n = number of cards
+//        m = number of unique cards
+//        Building TreeMap: O(n log m)
+//        Each card processed once: O(n log m)
 
-                    if (!pq.isEmpty()) {
-                        time += cycle; // remaining idle slots
-                    }
-                }
+// Optimal:    TC:O(n log m) SC:O(m)
 
-        System.out.println(time);
-
+//// Design Twitter:
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
-////
+////Connect n ropes with minimal cost:
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+        int[] ropes = {4, 3, 2, 6};
 
-////
+// Generate all subsequence 2^n and then traversing n
+//Brute force: TC:O(n*2^n) SC:O(n)
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+////Always connect the two smallest ropes first. Smaller ropes contribute less to future costs, Greedy choice guarantees minimum total cost.
 
-////
+//        PriorityQueue<Integer> minheap=new PriorityQueue<>();
+//        for(int rope:ropes){
+//            minheap.add(rope);
+//        }
+//
+//        int cost=0;
+//        while (minheap.size()>1){
+//
+//            int first=minheap.poll();
+//            int secod=minheap.poll();
+//
+//            int currcost=first+secod;
+//
+//            cost+=currcost;
+//
+//            minheap.add(currcost);
+//        }
+//        System.out.println(cost);
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+// Insert into heap | O(log n)       |
+// Remove from heap | O(log n)       |
+// Total operations | n − 1 merges   |
 
-////
+// Optimal:    TC:O(n log n) SC:O(n)
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//// Kth largest element in a stream of running integers:
 
-////
+//        class KthLargest {
+//
+//            private PriorityQueue<Integer> minheap;
+//            private int k;
+//
+//            public KthLargest(int k, int[] nums) {
+//                this.k=k;
+//                minheap=new PriorityQueue<>();
+//
+//                for(int num:nums){
+//                    add(num);
+//                }
+//
+//            }
+//
+//            public int add(int val) {
+//
+//                // Case 1: heap has less than k elements
+//                if (minheap.size() < k) {
+//                    minheap.offer(val);
+//                }
+//                // Case 2: val can be part of top k
+//                else if (val > minheap.peek()) {
+//                    minheap.poll();        // remove smallest among top k
+//                    minheap.offer(val);    // insert better candidate
+//                }
+//                // Case 3: val is smaller than kth largest
+//                // → ignore it
+//
+//                return minheap.peek();
+//            }
+//        }
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//// Maximum Sum Combination:
+        int[] nums1 = {7, 3};
+        int[] nums2 = {1, 6};
+        int k = 2;
 
-////
+//        List<Integer> ans=new ArrayList<>();
+//        for(int num1:nums1){
+//            for(int num2:nums2){
+//                ans.add(num1+num2);
+//            }
+//        }
+//        Collections.sort(ans,Collections.reverseOrder());
+//        System.out.println(ans.subList(0,k));
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//Brute force: TC:O(nm + nmlognm) == n2 SC:O(nm)
 
-////
+//        Arrays.sort(nums1);
+//        Arrays.sort(nums2);
+//
+//        int n = nums1.length;
+//
+//        // Max heap: {sum, i, j}
+//        PriorityQueue<int[]> maxHeap =
+//                new PriorityQueue<>((a, b) -> b[0] - a[0]);
+//
+//        Set<String> visited = new HashSet<>();
+//        List<Integer> ans = new ArrayList<>();
+//
+//        // Start with largest possible sum
+//        maxHeap.add(new int[]{nums1[n-1] + nums2[n-1], n-1, n-1});
+//        visited.add((n-1) + "," + (n-1));
+//
+//        while (k-- > 0 && !maxHeap.isEmpty()) {
+//
+//            int[] curr = maxHeap.poll();
+//            int sum = curr[0];
+//            int i = curr[1];
+//            int j = curr[2];
+//
+//            ans.add(sum);
+//
+//            // Move left in nums1
+//            if (i - 1 >= 0) {
+//                String key = (i - 1) + "," + j;
+//                if (!visited.contains(key)) {
+//                    maxHeap.add(new int[]{nums1[i-1] + nums2[j], i-1, j});
+//                    visited.add(key);
+//                }
+//            }
+//
+//            // Move left in nums2
+//            if (j - 1 >= 0) {
+//                String key = i + "," + (j - 1);
+//                if (!visited.contains(key)) {
+//                    maxHeap.add(new int[]{nums1[i] + nums2[j-1], i, j-1});
+//                    visited.add(key);
+//                }
+//            }
+//        }
+//
+//        System.out.println(ans);
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+// Optimal:    TC:O(O(n log n + k log k)) SC:O(k)
+
+////Find Median from Data Stream:
+
+//        class MedianFinder {
+//            private List<Integer> list;
+//
+//            public MedianFinder() {
+//                list=new ArrayList<>();
+//            }
+//
+//            public void addNum(int num) {
+//                list.add(num);
+//            }
+//
+//            public double findMedian() {
+//                Collections.sort(list);
+//                int n=list.size();
+//                if(n%2==0){
+//                    return (list.get(n/2)+list.get((n/2)-1))/2.0;
+//                }
+//                return list.get(n/2);
+//            }
+//        }
+
+//Brute force: TC:O(nlogn) SC:O(1)
+
+/*
+        Since the input stream is unsorted, sorting the entire data after every insertion would be inefficient. To avoid repeated sorting, we use heaps, which help us
+        maintain order dynamically. To find the median, we only need the middle element(s) of the sorted data. Therefore, we divide the data into two halves:
+
+        Left half → stores the smaller elements
+        Right half → stores the larger elements
+
+        The maximum element of the left half and the minimum element of the right half are the only values required to compute the median.
+        We use:
+            a Max Heap for the left half
+            a Min Heap for the right half
+
+        By keeping the size difference between the heaps at most 1, we can compute the median in O(1) time.
+*/
+
+//        class MedianFinder {
+//
+//            // Max heap for left half
+//            PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+//
+//            // Min heap for right half
+//            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+//
+//            // Add number to data stream
+//            public void addNum(int num) {
+//
+//                // Step 1: Add to max heap
+//                maxHeap.offer(num);
+//
+//                // Step 2: Balance order
+//                minHeap.offer(maxHeap.poll());
+//
+//                // Step 3: Balance size
+//                if (minHeap.size() > maxHeap.size()) {
+//                    maxHeap.offer(minHeap.poll());
+//                }
+//            }
+//
+//            // Find median
+//            public double findMedian() {
+//
+//                if (maxHeap.size() > minHeap.size()) {
+//                    return maxHeap.peek();
+//                }
+//
+//                return (maxHeap.peek() + minHeap.peek()) / 2.0;
+//            }
+//        }
+
+// Optimal:    Add num: TC:O(logn), median:O(1), SC:O(n)
+
+//// K most frequent elements:
+        int[] nums={1,2,3,1,1,2,2,5,4,4,4,4};
+
+//        HashMap<Integer, Integer> freqMap = new HashMap<>();
+//        for (int num : nums) {
+//            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+//        }
+//
+//        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(freqMap.entrySet());
+//
+//        list.sort((a, b) -> b.getValue() - a.getValue());
+//
+//        int[] result = new int[k];
+//        for (int i = 0; i < k; i++) {
+//            result[i] = list.get(i).getKey();
+//        }
+//        System.out.println(result);
+
+//Brute force: TC:O(nlogn) SC:O(n)
+
+//        HashMap<Integer, Integer> freqMap = new HashMap<>();
+//        for (int num : nums) {
+//            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+//        }
+//
+//        PriorityQueue<int[]> minHeap = new PriorityQueue<>(
+//                (a, b) -> a[1] - b[1]
+//        );
+//
+//        for (int key : freqMap.keySet()) {
+//            minHeap.add(new int[]{key, freqMap.get(key)});
+//            if (minHeap.size() > k) {
+//                minHeap.poll();
+//            }
+//        }
+//
+//        int[] result = new int[k];
+//        int idx = 0;
+//        while (!minHeap.isEmpty()) {
+//            result[idx++] = minHeap.poll()[0];
+//        }
+
+// Optimal: TC:O(nlogk) SC:O(n)
+
+//        HashMap<Integer, Integer> freqMap = new HashMap<>();
+//        for (int num : nums) {
+//            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+//        }
+//
+//        List<Integer>[] buckets = new List[nums.length + 1];
+//
+//        for (int key : freqMap.keySet()) {
+//            int freq = freqMap.get(key);
+//            if (buckets[freq] == null) {
+//                buckets[freq] = new ArrayList<>();
+//            }
+//            buckets[freq].add(key);
+//        }
+//
+//        int[] result = new int[k];
+//        int idx = 0;
+//
+//        for (int i = buckets.length - 1; i >= 0 && idx < k; i--) {
+//            if (buckets[i] != null) {
+//                for (int num : buckets[i]) {
+//                    result[idx++] = num;
+//                    if (idx == k) break;
+//                }
+//            }
+//        }
+//        System.out.println(result);
+//     TC:O(n) SC:O(n)
+
+//        Bucket Sort is considered the best theoretical approach for the K most frequent elements problem because it achieves linear time complexity O(n)
+//        by avoiding heap operations. After counting frequencies using a HashMap, elements are placed into buckets indexed by frequency, and we directly
+//        scan the buckets from highest to lowest frequency to get the answer. However, despite its optimal time complexity, Bucket Sort is not always preferred
+//        in practice because it requires extra space proportional to the input size (O(n) buckets), even when the number of distinct elements is small.
+//        This can lead to higher memory usage and less flexibility, especially when frequencies are sparse or input size is large. In contrast, the HashMap + Heap
+//        approach runs in O(n log k) time but uses less additional space, is easier to implement, and works efficiently for most real-world constraints.
+//        Therefore, Bucket Sort is “best theoretical” in terms of time complexity, but HashMap + Heap is often more practical and scalable in interviews and
+//        production systems.
+//        “Bucket sort gives O(n) time but higher space usage, so heap-based solutions are usually preferred in practice.”
 
 ////
 
@@ -4869,11 +5190,8 @@ Operations Associated with Min Heap:
 // Optimal:    TC:O(n) SC:O(n)
 
 
-    }
+    }}
 
-
-
-}
 
 
 
