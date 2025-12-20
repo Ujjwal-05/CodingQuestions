@@ -15,6 +15,28 @@ class Pair{
     }
 }
 
+class Item {
+    int value, weight;
+
+    Item(int value, int weight) {
+        this.value = value;
+        this.weight = weight;
+    }
+}
+
+class Meeting{
+    int start;
+    int end;
+    int position;
+
+    public Meeting(int start, int end, int position) {
+        this.start = start;
+        this.end = end;
+        this.position = position;
+    }
+
+}
+
 class Node<T>{
     T data;
     Node next;
@@ -774,7 +796,7 @@ public class Array {
 //        System.out.println(ans);
 
 ////Merge two sorted array Without Extra Space:
-//// Remove Outermost Paranthesis:
+//// Remove Outermost Parenthesis:
 //
 //        int count=0;
 //        for(Character c: str.toCharArray()){
@@ -4705,35 +4727,195 @@ Operations Associated with Min Heap:
 //        production systems.
 //        “Bucket sort gives O(n) time but higher space usage, so heap-based solutions are usually preferred in practice.”
 
-////
+//Greedy Algorithm:
+
+////Assign Cookies:
+        int[] student={1,3,2,2,4,6};
+        int[] cookie={1,2,3,3};
+
+//        boolean[] used = new boolean[cookie.length];
+//        int count = 0;
+//
+//        // Try to assign a cookie to each student
+//        for (int i = 0; i < student.length; i++) {
+//            for (int j = 0; j < cookie.length; j++) {
+//
+//                // If cookie not used and can satisfy student
+//                if (!used[j] && cookie[j] >= student[i]) {
+//                    used[j] = true;   // mark cookie as used
+//                    count++;          // one student satisfied
+//                    break;            // move to next student
+//                }
+//            }
+//        }
+
+//Brute force: TC:O(m*n) SC:O(1)
+
+//        Arrays.sort(student);
+//        Arrays.sort(cookie);
+//
+//        int i=0,j=0,count=0;
+//
+//        while (i<student.length && j<cookie.length){
+//            if (cookie[j]>=student[i]){
+//                count++;
+//                i++;
+//                j++;
+//            }else {
+//                j++;
+//            }
+//        }
+//        System.out.println(count);
+
+// Optimal:    TC:O(nlon+mlogm) SC:O(1)
+
+//// Fractional Knapsack Problem:
+
+        Item[] items = {
+                new Item(60, 10),
+                new Item(100, 20),
+                new Item(120, 30)
+        };
+        int W = 50;
+/*
+For the Fractional Knapsack problem, a brute-force approach is not meaningful because items can be divided into fractions. The problem satisfies the greedy-choice
+property, so the optimal solution is always obtained by selecting items in decreasing order of value-to-weight ratio. Unlike 0/1 Knapsack, there is no exponential
+subset-based solution here — greedy is both optimal and efficient.”
+ */
+//Brute force: TC:O(n2logn) SC:O(1)
+
+//        Arrays.sort(items, (a, b) ->
+//                Double.compare(
+//                        (double) b.value / b.weight,   // descending
+//                        (double) a.value / a.weight
+//                )
+//        );
+//
+//        double cost = 0.0;
+//        int i = 0;
+//
+//        while (W > 0 && i < items.length) {
+//
+//            if (items[i].weight <= W) {
+//                // take full item
+//                W -= items[i].weight;
+//                cost += items[i].value;
+//            } else {
+//                // take fraction
+//                cost += ((double) items[i].value / items[i].weight) * W;
+//                W = 0;
+//            }
+//            i++;
+//        }
+//
+//        System.out.println(cost);
+
+// Optimal:    TC:O(nlogn) SC:O(1)
+
+////Find minimum number of coins:
+        int[] coins = {1, 2, 5, 10, 20, 50, 100, 500, 1000};
+        int V = 70;
+
+//Brute force: TC:O(n2) SC:O(1)
+
+//        int i = coins.length - 1;
+//        int count = 0;
+//
+//        while (V > 0 && i >= 0) {
+//            if (coins[i] <= V) {
+//                int num = V / coins[i];   // number of coins
+//                count += num;
+//                V = V % coins[i];         // remaining value
+//            }
+//            i--;
+//        }
+//        System.out.println("Minimum coins required: " + count);
+
+//“This is a greedy algorithm where we always choose the largest denomination possible.
+//It works because the coin system is canonical, meaning greedy always gives the optimal solution.”
+
+// Optimal:    TC:O(n) SC:O(1)
+
+////Lemonade Change problem:
+
+//        public static boolean lemonadeChange(int[] bills) {
+//
+//            int five = 0; // count of $5 bills
+//            int ten = 0;  // count of $10 bills
+//
+//            for (int bill : bills) {
+//
+//                if (bill == 5) {
+//                    // no change needed
+//                    five++;
+//                }
+//                else if (bill == 10) {
+//                    // need one $5 as change
+//                    if (five == 0) return false;
+//
+//                    five--;
+//                    ten++;
+//                }
+//                else { // bill == 20
+//
+//                    // prefer $10 + $5
+//                    if (ten > 0 && five > 0) {
+//                        ten--;
+//                        five--;
+//                    }
+//                    // otherwise use 3 × $5
+//                    else if (five >= 3) {
+//                        five -= 3;
+//                    }
+//                    else {
+//                        return false;
+//                    }
+//                }
+//            }
+//            return true;
+//        }
+
+//Brute force: TC:O() SC:O()
+// Optimal:    TC:O(n) SC:O(n)
+
+////Valid Parenthesis Checker..
+
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
-////
+////N meetings in one room:
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//        int[] start = {1, 3, 0, 5, 8, 5};
+//        int[] end   = {2, 4, 6, 7, 9, 9};
+//
+//        List<int[]> meetings = new ArrayList<>();
+//
+//        for (int i = 0; i < start.length; i++) {
+//            meetings.add(new int[]{start[i], end[i], i + 1});
+//        }
+//
+//        // Sort by end time
+//        Collections.sort(meetings, (a, b) -> a[1] - b[1]);
+//
+//        List<Integer> result = new ArrayList<>();
+//
+//        // Select first meeting
+//        result.add(meetings.get(0)[2]);
+//        int lastEnd = meetings.get(0)[1];
+//
+//        // Select remaining meetings
+//        for (int i = 1; i < meetings.size(); i++) {
+//            if (meetings.get(i)[0] >= lastEnd) {
+//                result.add(meetings.get(i)[2]);
+//                lastEnd = meetings.get(i)[1];
+//            }
+//        }
+//
+//        System.out.println(result);
 
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//Brute force: TC:O(2^n*n2) SC:O(n)
+// Optimal:    TC:O(nlogn + n) SC:O(n)
 
 ////
 
