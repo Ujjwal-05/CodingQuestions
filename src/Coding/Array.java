@@ -4505,9 +4505,9 @@ Operations Associated with Min Heap:
 //        }
 
 //// Maximum Sum Combination:
-        int[] nums1 = {7, 3};
-        int[] nums2 = {1, 6};
-        int k = 2;
+//        int[] nums1 = {7, 3};
+//        int[] nums2 = {1, 6};
+//        int k = 2;
 
 //        List<Integer> ans=new ArrayList<>();
 //        for(int num1:nums1){
@@ -4645,7 +4645,7 @@ Operations Associated with Min Heap:
 // Optimal:    Add num: TC:O(logn), median:O(1), SC:O(n)
 
 //// K most frequent elements:
-        int[] nums={1,2,3,1,1,2,2,5,4,4,4,4};
+//        int[] nums={1,2,3,1,1,2,2,5,4,4,4,4};
 
 //        HashMap<Integer, Integer> freqMap = new HashMap<>();
 //        for (int num : nums) {
@@ -4884,7 +4884,151 @@ subset-based solution here — greedy is both optimal and efficient.”
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
+/*
+
+Interval: An interval represents a continuous range of values.
+
+(5, 10) → all numbers between 5 and 10
+[3, 7] → all numbers from 3 to 7 including both
+
+| Notation | Meaning                                |
+| -------- | -------------------------------------- |
+| `(a, b)` | open interval → excludes `a` and `b`   |
+| `[a, b]` | closed interval → includes `a` and `b` |
+| `[a, b)` | left closed, right open                |
+| `(a, b]` | left open, right closed                |
+
+📌 Intersection of Intervals: Two intervals intersect if they share at least one common point.
+
+                                        40                                         100
+A                                       |-------------------------------------------|
+
+B1(30,50)                       |------------|
+B2(50,70)                                    |-------------------|
+B3(70,120)                                                       |----------------------------------|
+B4(30,120)                      |-------------------------------------------------------------------|
+B5(10,30)         |-------------|
+B6(120,140)                                                                                         |-------------|
+We can check whether the particular interval is intersecting other interval or not by using below code for all the above 4 possible condition:
+
+        if (A.start <= B.end && B.start <= A.end)
+
+📌 Disjoint (Non-Overlapping) Intervals: Intervals that do not intersect at all.
+    Example: B5,B6
+
+        if (A.end < B.start || B.end < A.start)
+
+📌 Subinterval: Interval B is a subinterval of A if, Every point of B lies inside A.
+    Example: B2
+        A.start ≤ B.start AND B.end ≤ A.end
+
+        Two intervals overlap if:
+
+📌 Overlapping Intervals: A overlaps B if A and B intersect, but neither A is a subinterval of B nor B is a subinterval of A.
+
+    Example: B1,B3
+
+    boolean overlap =
+    (aStart <= bEnd && bStart <= aEnd) &&   // intersect
+    !(aStart <= bStart && aEnd >= bEnd) &&  // A does NOT contain B
+    !(bStart <= aStart && bEnd >= aEnd);    // B does NOT contain A
+
+    -----In most DSA problems, overlap simply means intersection. The above one is maths definition---------
+
+        But for DSA we prefer below one: That includes:
+
+            partial overlap
+            full containment (subintervals)
+
+Touching Intervals:
+Overlapping Subintervals:
+
+        A  = (5, 15)   // parent / container interval
+        B1 = (6, 10)   // subinterval of A
+        B2 = (8, 12)   // subinterval of A
+
+        To say B1 and B2 are overlapping subintervals of A, ALL of the following must be true:
+
+            B1 and B2 are both subintervals of A
+            B1 and B2 intersect with each other
+
+            The overlap happens inside A
+
+            So the overlap is not defined by A,
+            it is defined by the relationship between B1 and B2, within A.
+
+        Conditions to Define Overlapping Subintervals:
+
+            1️⃣ Both are subintervals of A:
+
+                    boolean B1_in_A = (aStart <= b1Start && b1End <= aEnd);
+                    boolean B2_in_A = (aStart <= b2Start && b2End <= aEnd);
+
+            2️⃣ B1 and B2 intersect (overlap with each other):
+
+                    boolean B1_B2_intersect =(b1Start <= b2End && b2Start <= b1End);
+
+*/
+
+
 ////N meetings in one room:
+
+/*
+    Maximum number of meetings that can be held in ONE room such that no meetings overlap.
+
+    In this type of questions we have to avoid overlaps. So how:
+
+    How Do We Avoid Overlaps in Problems?
+
+    Step 1️⃣ First Question You MUST Ask:
+
+            Is overlap allowed or not?
+                    If the problem says:
+                    one room
+                    one machine
+                    one resource
+                    cannot run simultaneously
+                    non-overlapping
+                    👉 Overlaps must be avoided
+
+     What Does “Avoid Overlap” Mean (Formally)?
+
+     Step 2️⃣ Two intervals A and B do NOT overlap if:
+            end(A) ≤ start(B)
+
+    Step 3️⃣ Universal Strategy to Avoid Overlaps:
+
+            Always Free the Resource as Early as Possible
+            That means: Pick the interval that ends first
+
+    Step 4️⃣ General Greedy Pattern (Works Everywhere)
+            Algorithm Skeleton:
+
+            Convert input to intervals (start, end)
+            Sort intervals by end time
+            Pick the first interval
+            For every next interval:
+            If start ≥ lastEnd
+            select it
+            update lastEnd
+
+    Step 5️⃣ Why This Greedy Choice Works (Intuition):
+
+            If you pick a long interval early: You block many future intervals.
+            If you pick a short interval:  You leave space for more intervals.
+
+    | Problem                | What “Avoid Overlap” Means |
+    | ---------------------- | -------------------------- |
+    | N meetings in one room | One meeting at a time      |
+    | CPU job scheduling     | One job on CPU             |
+    | Task scheduling        | One task per slot          |
+    | Movie watching         | One movie at a time        |
+    | Classroom allocation   | One class per room         |
+
+📌 This pattern appears again and again.
+
+ */
+
 
 //        int[] start = {1, 3, 0, 5, 8, 5};
 //        int[] end   = {2, 4, 6, 7, 9, 9};
@@ -4917,20 +5061,166 @@ subset-based solution here — greedy is both optimal and efficient.”
 //Brute force: TC:O(2^n*n2) SC:O(n)
 // Optimal:    TC:O(nlogn + n) SC:O(n)
 
-////
+
+/*
+Jump Game: Given an array where each element represents the maximum number of steps, you can jump forward from that element, return true if we can reach the last index
+           starting from the first index. Otherwise, return false.
+           Example 1:
+           Input:nums = [2, 3, 1, 0, 4]
+           Output: True
+
+           Explanation:
+           We start at index 0, with value 2 this means we can jump to index 1 or 2.
+           From index 1, with value 3, we can jump to index 2, 3, or 4. However, if we jump to index 2 with value 1, we can only jump to index 3.
+           So we jump to index 1 then index 4 reaching the end of the array.
+           Hence, we return true.
+
+           Example 2:
+            Input:nums = [3, 2, 1, 0, 4]
+            Output: False
+            Explanation:
+            We start at index 0, with value 3 which means we can jump to index 1, 2, or 3.
+            From index 1, with value 2 we can only jump to index 2 or 3.
+            From index 2, with value 1 we can only jump to index 3.
+            From index 3, with value 0 we cannot jump any further.
+            Hence, from all possibilities, we are unable to jump to the last index so we return false.
+
+ */
+
+//        int[] nums = {2, 3, 1, 0, 4};
+//
+//        int maxindex=0;
+//        for(int i=0;i<nums.length;i++){
+//
+//            if(i>maxindex){
+//                System.out.println("Can't be reached");
+//                return;
+//            }
+//
+//            maxindex=Math.max(maxindex,i+nums[i]);
+//
+//            if(maxindex>=nums.length-1){
+//                System.out.println("Reached");
+//                return;
+//            }
+//        }
+
+//Brute force: TC:O() SC:O()
+// Optimal:    TC:O(n) SC:O(1)
+
+////Jump Game 2:
+        // Range problem:
+
+//        int[] nums = {2, 3, 1, 1, 4};
+//        int jumps = 0;
+//        int l = 0, r = 0;
+//        int lastIndex = nums.length - 1;
+//
+//        while (r < lastIndex) {
+//
+//            int farthest = 0;
+//
+//            for (int i = l; i <= r; i++) {
+//                farthest = Math.max(farthest, i + nums[i]);
+//            }
+//            jumps++;
+//
+//            if (farthest >= lastIndex) {
+//                break;
+//            }
+//
+//            l = r + 1;
+//            r = farthest;
+//        }
+//        System.out.println(jumps);
 
 //Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+// Optimal:    TC:O(n) SC:O(1)
 
-////
+////Minimum number of platforms required for a railway:
+
+/*
+    1️⃣ Why This Is an Interval Problem
+
+    Each train has:
+    arrival[i] → start time
+    departure[i] → end time
+
+    So each train is an interval:
+    [arrival[i], departure[i]]
+
+    At any moment:
+
+    Each active interval needs one platform.
+    Overlapping intervals need multiple platforms.
+
+    2️⃣ What Is the Question REALLY Asking?
+
+    What is the maximum number of trains present at the station at the same time?
+    📌 Because:
+
+    Each overlapping train occupies one platform.
+    Maximum overlap = minimum platforms needed.
+ */
+
+        int[] arr = {900, 945, 955, 1100, 1500, 1800};
+        int[] dep = {920, 1200, 1130, 1150, 1900, 2000};
+        int n = arr.length;
+
+//        int maxPlatforms = 0;
+//
+//        for (int i = 0; i < n; i++) {
+//            int platformsNeeded = 1; // count itself
+//
+//            for (int j = i + 1; j < n; j++) {
+//                // Check if train i and j overlap
+//                if (arr[i] <= dep[j] && arr[j] <= dep[i]) {
+//                    platformsNeeded++;
+//                }
+//            }
+//
+//            maxPlatforms = Math.max(maxPlatforms, platformsNeeded);
+//        }
+//
+//        System.out.println(maxPlatforms);
 
 //Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
 
-////
+ /*
+ The optimal approach to find the minimum number of platforms required at a railway station is based on counting how many trains are present at the station at the same
+  time. Each train is treated as an interval defined by its arrival and departure times. We first sort the arrival times and departure times separately so that events
+  can be processed in chronological order of time.How in real world arrival departure happening. Then, using two pointers, we sweep through time: whenever the next
+   arrival time is earlier than the next departure time,
+  it means a new train has arrived while no platform has yet been freed, so we increase the platform count; otherwise, a train has departed and a platform becomes
+  available, so we decrease the count. While doing this, we continuously track the maximum number of platforms in use at any moment, because that maximum represents
+   the minimum number of platforms required to handle all trains without delay. This approach runs in (O(n \log n)) time due to sorting and efficiently captures the
+    peak overlap of train intervals.
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+  */
+
+//        Arrays.sort(arr);
+//        Arrays.sort(dep);
+//
+//        int i = 0, j = 0;
+//        int platforms = 0;
+//        int maxPlatforms = 0;
+//
+//        while (i < n && j < n) {
+//            // arrival before departure => overlap
+//            if (arr[i] < dep[j]) {
+//                platforms++;
+//                maxPlatforms = Math.max(maxPlatforms, platforms);
+//                i++;
+//            } else {
+//                // departure frees platform
+//                platforms--;
+//                j++;
+//            }
+//        }
+//
+//        System.out.println(maxPlatforms);
+
+        // Optimal:    TC:O(2nlogn + n) SC:O(1)
 
 ////
 
