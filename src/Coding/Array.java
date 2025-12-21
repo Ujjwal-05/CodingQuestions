@@ -23,6 +23,17 @@ class Item {
         this.weight = weight;
     }
 }
+class Job {
+    int id;
+    int deadline;
+    int profit;
+
+    Job(int id, int deadline, int profit) {
+        this.id = id;
+        this.deadline = deadline;
+        this.profit = profit;
+    }
+}
 
 class Meeting{
     int start;
@@ -5165,7 +5176,7 @@ Jump Game: Given an array where each element represents the maximum number of st
 
         int[] arr = {900, 945, 955, 1100, 1500, 1800};
         int[] dep = {920, 1200, 1130, 1150, 1900, 2000};
-        int n = arr.length;
+//        int n = arr.length;
 
 //        int maxPlatforms = 0;
 //
@@ -5222,25 +5233,217 @@ Jump Game: Given an array where each element represents the maximum number of st
 
         // Optimal:    TC:O(2nlogn + n) SC:O(1)
 
-////
+//// Job Sequencing Problem:
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+/*
+The Job Sequencing Problem is a classic greedy scheduling problem, but it is NOT an interval-overlap problem like meetings or platforms. Here, each job has a
+ deadline and a profit, and each job takes exactly one unit of time. The goal is to maximize total profit by scheduling jobs so that at most one job is done at
+  any time, and each job finishes on or before its deadline.
+ */
 
-////
+//        int[][] jobs = {
+//                {1, 4, 20},
+//                {2, 1, 10},
+//                {3, 1, 40},
+//                {4, 1, 30}
+//        };
+//
+//        Arrays.sort(jobs, (a, b) -> b[2] - a[2]);
+//
+//        int maxdeadline = 0;
+//        for (int[] job : jobs) {
+//            maxdeadline = Math.max(maxdeadline, job[1]);
+//        }
+//
+//        int[] completedjobs = new int[maxdeadline + 1];
+//        Arrays.fill(completedjobs, -1);
+//
+//        int totalprofit = 0;
+//        int jobcount = 0;
+//
+//        for (int i = 0; i < jobs.length; i++) {
+//
+//            int jobId = jobs[i][0];
+//            int deadline = jobs[i][1];
+//            int profit = jobs[i][2];
+//
+//            // IMPORTANT: go only till deadline
+//            for (int j = deadline; j > 0; j--) {
+//
+//                if (completedjobs[j] == -1) {
+//                    completedjobs[j] = jobId;
+//                    totalprofit += profit;
+//                    jobcount++;
+//                    break; // VERY IMPORTANT
+//                }
+//            }
+//        }
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(4n) SC:O(2n)
+// N=jobs.length, M=completedjobs.length
+//Brute force: TC:O() SC:O()
+// Optimal:    TC:O( O(N log N) + O(N * M),) SC:O(M)
 
-////
+//// Candy:
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+//        int[] ratings = {1, 2, 3, 2, 1};
+//        int n=ratings.length;
+//        int[] left= new int[n];
+//        int[] rigth=new int[n];
+//
+//        left[0]=1;
+//        rigth[n-1]=1;
+//
+//        for(int i=1;i<n;i++){
+//            if(ratings[i]>ratings[i-1]){
+//                left[i]=left[i-1]+1;
+//            }else {
+//                left[i]=1;
+//            }
+//        }
+//        for(int i=n-2;i>=0;i--){
+//            if(ratings[i]>ratings[i+1]){
+//                rigth[i]=rigth[i+1]+1;
+//            }else {
+//                rigth[i]=1;
+//            }
+//        }
+//
+//        int candies=0;
+//        for(int i=0;i<n;i++){
+//            candies+=Math.max(left[i],rigth[i]);
+//        }
+//
+//        System.out.println(candies);
 
-////
+//Brute force: TC:O(3n) SC:O(2n)
+// in this we can remove right array then TC:O(2n) SC:O(n)
 
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
+// Optimal:    TC:O(4n) SC:O(2n) Curve approach needs to be solved
+
+////Insert Interval:
+
+//        int[][] intervals = {{1, 3}, {6, 9}};
+//        int[] newInterval = {2, 5};
+
+//        List<int[]> list = new ArrayList<>();
+//        for (int[] interval : intervals) {
+//            list.add(interval);
+//        }
+//        list.add(newInterval);
+//        Collections.sort(list, (a, b) -> a[0] - b[0]);
+//
+//        List<int[]> result = new ArrayList<>();
+//        int[] curr = list.get(0);
+//        result.add(curr);
+//
+//        for (int i = 1; i < list.size(); i++) {
+//            int[] next = list.get(i);
+//
+//            if (next[0] <= curr[1]) { // overlap
+//                curr[1] = Math.max(curr[1], next[1]);
+//            } else {
+//                curr = next;
+//                result.add(curr);
+//            }
+//        }
+//        for (int[] res:result){
+//            System.out.println(Arrays.toString(res));
+//        }
+
+//Brute force: TC:O(nlon + n) SC:O(n)
+
+//        This is an Interval Traversal + Merge problem.
+//
+//        We divide the process into 3 logical phases:
+//
+//        Intervals completely before newInterval.
+//        Intervals overlapping with newInterval.
+//        Intervals completely after newInterval.
+
+//        List<int[]> result = new ArrayList<>();
+//        int n = intervals.length;
+//        int i = 0;
+//
+//        int start = newInterval[0];
+//        int end = newInterval[1];
+//
+//        // 1️⃣ Add intervals before newInterval
+//        while (i < n && intervals[i][1] < start) {
+//            result.add(intervals[i]);
+//            i++;
+//        }
+//
+//        // 2️⃣ Merge overlapping intervals
+//        while (i < n && intervals[i][0] <= end) {
+//            start = Math.min(start, intervals[i][0]);
+//            end = Math.max(end, intervals[i][1]);
+//            i++;
+//        }
+//
+//        // Add merged interval (new object)
+//        result.add(new int[]{start, end});
+//
+//        // 3️⃣ Add remaining intervals
+//        while (i < n) {
+//            result.add(intervals[i]);
+//            i++;
+//        }
+
+// Optimal:    TC:O(n) SC:O(1)
+
+//// Non-overlapping Intervals:
+
+//Note:Intervals which only touch at a point are also considered as non-overlapping. For example, [1, 3] and [3, 4] are non-overlapping.
+
+        int[][] intervals = { {1, 3}, {2, 4}, {3, 5}, {1, 2} };
+
+//        int n = intervals.length;
+//        boolean[] removed = new boolean[n];
+//        int removals = 0;
+//
+//        for (int i = 0; i < n; i++) {
+//            if (removed[i]) continue;
+//
+//            for (int j = i + 1; j < n; j++) {
+//                if (removed[j]) continue;
+//
+//                // overlap check (touching is allowed)
+//                if (intervals[i][0] < intervals[j][1] &&
+//                        intervals[j][0] < intervals[i][1]) {
+//
+//                    // remove the interval with larger end
+//                    if (intervals[i][1] <= intervals[j][1]) {
+//                        removed[j] = true;
+//                    } else {
+//                        removed[i] = true;
+//                        break;
+//                    }
+//                    removals++;
+//                }
+//            }
+
+//Brute force: TC:O(n2) SC:O(n)
+
+
+//        if (intervals.length == 0) return;
+//
+//        // sort by end time
+//        Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
+//
+//        int removals = 0;
+//        int lastEnd = intervals[0][1];
+//
+//        for (int i = 1; i < intervals.length; i++) {
+//
+//            // overlap (touching allowed)
+//            if (intervals[i][0] < lastEnd) {
+//                removals++;
+//            } else {
+//                lastEnd = intervals[i][1];
+//            }
+//        }
+
+// Optimal:    TC:O(n) SC:O(1)
 
 ////
 
