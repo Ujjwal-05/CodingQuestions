@@ -780,31 +780,6 @@ public class Array {
 //            }
 //            System.out.println(res);
 
-//// Merge Overlapping intervals:
-//        int[][] intervals = {
-//                {1, 3}, {2, 6},{1,9},{0,100} ,{8, 10}, {15, 18}
-//        };
-//        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
-//        System.out.println(Arrays.deepToString(intervals));
-//
-//        int i=0;
-//        List<List<Integer>> ans=new ArrayList<>();
-//
-//        while (i<intervals.length){
-//            int start=intervals[i][0];
-//            int end=intervals[i][1];
-//
-//            int j=i+1;
-//
-//            while(j<intervals.length && intervals[j][0]<=end){
-//                end=Math.max(end,intervals[j][1]);
-//                j++;
-//            }
-//            ans.add(Arrays.asList(start,end));
-//            i=j;
-//        }
-//
-//        System.out.println(ans);
 
 ////Merge two sorted array Without Extra Space:
 //// Remove Outermost Parenthesis:
@@ -4895,9 +4870,124 @@ subset-based solution here — greedy is both optimal and efficient.”
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
+
+
+/*
+Jump Game: Given an array where each element represents the maximum number of steps, you can jump forward from that element, return true if we can reach the last index
+           starting from the first index. Otherwise, return false.
+           Example 1:
+           Input:nums = [2, 3, 1, 0, 4]
+           Output: True
+
+           Explanation:
+           We start at index 0, with value 2 this means we can jump to index 1 or 2.
+           From index 1, with value 3, we can jump to index 2, 3, or 4. However, if we jump to index 2 with value 1, we can only jump to index 3.
+           So we jump to index 1 then index 4 reaching the end of the array.
+           Hence, we return true.
+
+           Example 2:
+            Input:nums = [3, 2, 1, 0, 4]
+            Output: False
+            Explanation:
+            We start at index 0, with value 3 which means we can jump to index 1, 2, or 3.
+            From index 1, with value 2 we can only jump to index 2 or 3.
+            From index 2, with value 1 we can only jump to index 3.
+            From index 3, with value 0 we cannot jump any further.
+            Hence, from all possibilities, we are unable to jump to the last index so we return false.
+
+ */
+
+//        int[] nums = {2, 3, 1, 0, 4};
+//
+//        int maxindex=0;
+//        for(int i=0;i<nums.length;i++){
+//
+//            if(i>maxindex){
+//                System.out.println("Can't be reached");
+//                return;
+//            }
+//
+//            maxindex=Math.max(maxindex,i+nums[i]);
+//
+//            if(maxindex>=nums.length-1){
+//                System.out.println("Reached");
+//                return;
+//            }
+//        }
+
+//Brute force: TC:O() SC:O()
+// Optimal:    TC:O(n) SC:O(1)
+
+////Jump Game 2:
+        // Range problem:
+
+//        int[] nums = {2, 3, 1, 1, 4};
+//        int jumps = 0;
+//        int l = 0, r = 0;
+//        int lastIndex = nums.length - 1;
+//
+//        while (r < lastIndex) {
+//
+//            int farthest = 0;
+//
+//            for (int i = l; i <= r; i++) {
+//                farthest = Math.max(farthest, i + nums[i]);
+//            }
+//            jumps++;
+//
+//            if (farthest >= lastIndex) {
+//                break;
+//            }
+//
+//            l = r + 1;
+//            r = farthest;
+//        }
+//        System.out.println(jumps);
+
+//Brute force: TC:O(n2) SC:O(1)
+// Optimal:    TC:O(n) SC:O(1)
+
+
+//// Candy:
+
+//        int[] ratings = {1, 2, 3, 2, 1};
+//        int n=ratings.length;
+//        int[] left= new int[n];
+//        int[] rigth=new int[n];
+//
+//        left[0]=1;
+//        rigth[n-1]=1;
+//
+//        for(int i=1;i<n;i++){
+//            if(ratings[i]>ratings[i-1]){
+//                left[i]=left[i-1]+1;
+//            }else {
+//                left[i]=1;
+//            }
+//        }
+//        for(int i=n-2;i>=0;i--){
+//            if(ratings[i]>ratings[i+1]){
+//                rigth[i]=rigth[i+1]+1;
+//            }else {
+//                rigth[i]=1;
+//            }
+//        }
+//
+//        int candies=0;
+//        for(int i=0;i<n;i++){
+//            candies+=Math.max(left[i],rigth[i]);
+//        }
+//
+//        System.out.println(candies);
+
+//Brute force: TC:O(3n) SC:O(2n)
+// in this we can remove right array then TC:O(2n) SC:O(n)
+
+// Optimal:    TC:O(4n) SC:O(2n) Curve approach needs to be solved
+
 /*
 
-Interval: An interval represents a continuous range of values.
+----------------------------------------------------------------INTERVAL: An interval represents a continuous range of values.------------------------------------------------
 
 (5, 10) → all numbers between 5 and 10
 [3, 7] → all numbers from 3 to 7 including both
@@ -4979,35 +5069,189 @@ Overlapping Subintervals:
 
                     boolean B1_B2_intersect =(b1Start <= b2End && b2Start <= b1End);
 
+    In interval problems, the choice of sorting depends entirely on what decision your algorithm is making. If the task is to merge or extend intervals—such as in
+    *Merge Intervals*, *Insert Interval*, or *Interval Intersection*—you should sort by start time, because merging is based on checking whether the next interval
+    starts before the current one ends (`current.start ≤ previous.end`). Sorting by start guarantees that all overlapping intervals appear consecutively, allowing
+    a safe linear merge. On the other hand, if the task is to choose or select intervals—for example, finding the maximum number of meetings, minimum removals, or
+    minimum arrows to burst balloons—you should sort by end time, because selecting the interval that finishes earliest leaves maximum room for future intervals.
+    A simple hint to remember is: “Merging → watch the start, Choosing → watch the end.”
+
 */
 
+/* Merge intervals:
 
-////N meetings in one room:
+    Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that
+    cover all the intervals in the input.
+    Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+    Output: [[1,6],[8,10],[15,18]]
+    Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+
+    If the intervals are sorted on start, then we can check merge condition with A.end>=B.start
+
+ */
+
+//        int[][] intervals = { {1, 3}, {2, 6}, {1,9}, {0,100} , {8, 10}, {15, 18} };
+
+//        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
+//        List<int[]> result=new ArrayList<>();
+//
+//        for(int i=0;i<intervals.length;i++){
+//            int start=intervals[i][0];
+//            int end=intervals[i][1];
+//
+//            if(!result.isEmpty() && result.getLast()[1]>=end){
+//                continue;
+//            }
+//
+//            for(int j=i+1;j<intervals.length;j++){
+//                if(end>=intervals[j][0]){
+//                    end=Math.max(end,intervals[j][1]);
+//                }
+//            }
+//
+//            result.add(new int[]{start,end});
+//        }
+//
+//        System.out.println(Arrays.deepToString( // 2d Array
+//                result.toArray(new int[result.size()][]))
+//        );
+
+//Brute force: TC:O(n2) SC:O(n)
+
+//        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
+//        System.out.println(Arrays.deepToString(intervals));
+//
+//        int i=0;
+//        List<List<Integer>> ans=new ArrayList<>();
+//
+//        while (i<intervals.length){
+//            int start=intervals[i][0];
+//            int end=intervals[i][1];
+//
+//            int j=i+1;
+//
+//            while(j<intervals.length && end>=intervals[j][0]){
+//                end=Math.max(end,intervals[j][1]);
+//                j++;
+//            }
+//            ans.add(Arrays.asList(start,end));
+//            i=j;
+//        }
+//
+//        System.out.println(ans);
+
+//Brute force: TC:O(nlogn) SC:O(n)
+
+/*  Insert Interval:
+
+    You are given an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent the start and the end of the ith interval and intervals
+    is sorted in ascending order by starti. You are also given an interval newInterval = [start, end] that represents the start and end of another interval.
+
+    Insert newInterval into intervals such that intervals is still sorted in ascending order by starti and intervals still does not have any overlapping intervals
+    (merge overlapping intervals if necessary).Return intervals after the insertion.
+    Note that you don't need to modify intervals in-place. You can make a new array and return it.
+
+    Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
+    Output: [[1,5],[6,9]]
+
+ */
+
+        int[][] intervals = {{1, 3}, {6, 9}};
+        int[] newInterval = {2, 5};
+
+//        List<int[]> list=new ArrayList<>();
+//        for(int[] arr:intervals){
+//            list.add(arr);
+//        }
+//        list.add(newInterval);
+//        Collections.sort(list,(a,b)->a[0]-b[0]);
+//
+//        List<int[]> result=new ArrayList<>();
+//
+//        int n=list.size();
+//        int i=0;
+//
+//        while (i<n){
+//            int start=list.get(i)[0];
+//            int end=list.get(i)[1];
+//
+//            int j=i+1;
+//
+//            while (j<n && end>=list.get(j)[0]){
+//                end=Math.max(end,list.get(j)[1]);
+//                j++;
+//            }
+//
+//            result.add(new int[]{start,end});
+//            i=j;
+//        }
+//
+//        System.out.println(
+//                Arrays.deepToString(result.toArray(new int[result.size()][]))
+//        );
+
+//Brute force: TC:O(n + nlogn + n) SC:O(n)
 
 /*
-    Maximum number of meetings that can be held in ONE room such that no meetings overlap.
+        This is an Interval Traversal + Merge problem. We divide the process into 3 logical phases:
+        Intervals completely before newInterval.Intervals overlapping with newInterval.Intervals completely after newInterval.
+*/
 
-    In this type of questions we have to avoid overlaps. So how:
+//        List<int[]> result = new ArrayList<>();
+//        int n = intervals.length;
+//        int i = 0;
+//
+//        int start = newInterval[0];
+//        int end = newInterval[1];
+//
+//        // 1️⃣ Add intervals before newInterval
+//        while (i < n && intervals[i][1] < start) {
+//            result.add(intervals[i]);
+//            i++;
+//        }
+//
+//        // 2️⃣ Merge overlapping intervals
+//        while (i < n && end>=intervals[i][0]) {
+//            start = Math.min(start, intervals[i][0]);
+//            end = Math.max(end, intervals[i][1]);
+//            i++;
+//        }
+//
+//        result.add(new int[]{start, end});
+//
+//        // 3️⃣ Add remaining intervals
+//        while (i < n) {
+//            result.add(intervals[i]);
+//            i++;
+//        }
 
-    How Do We Avoid Overlaps in Problems?
+// Optimal:    TC:O(n) SC:O(1)
 
-    Step 1️⃣ First Question You MUST Ask:
+/* N meetings in one room:
 
-            Is overlap allowed or not?
-                    If the problem says:
-                    one room
-                    one machine
-                    one resource
-                    cannot run simultaneously
-                    non-overlapping
-                    👉 Overlaps must be avoided
+    There is one meeting room in a firm. You are given two arrays, start and end each of size N. For an index ‘i’, start[i] denotes the starting time of the ith meeting
+    while end[i] will denote the ending time of the ith meeting. Find the maximum number of meetings that can be accommodated if only one meeting can happen in the room
+    at a particular time. Print the order in which these meetings will be performed.
+
+    Solution:Maximum number of meetings that can be held in ONE room such that no meetings overlap.
+
+    In this type of questions we have to avoid overlaps.How can We Avoid Overlaps in Problems?
+
+    Step 1️⃣ First Question You MUST Ask: Is overlap allowed or not?
+           If the problem says:
+           one room
+           one machine
+           one resource
+           cannot run simultaneously
+           non-overlapping
+           👉 Overlaps must be avoided
 
      What Does “Avoid Overlap” Mean (Formally)?
 
      Step 2️⃣ Two intervals A and B do NOT overlap if:
             end(A) ≤ start(B)
 
-    Step 3️⃣ Universal Strategy to Avoid Overlaps:
+    Step  3️⃣ Universal Strategy to Avoid Overlaps:
 
             Always Free the Resource as Early as Possible
             That means: Pick the interval that ends first
@@ -5040,6 +5284,8 @@ Overlapping Subintervals:
 
  */
 
+//Brute force: TC:O(2^n) SC:O(n)
+//Brute force: TC:O(2^n) SC:O(n) DP
 
 //        int[] start = {1, 3, 0, 5, 8, 5};
 //        int[] end   = {2, 4, 6, 7, 9, 9};
@@ -5051,101 +5297,87 @@ Overlapping Subintervals:
 //        }
 //
 //        // Sort by end time
-//        Collections.sort(meetings, (a, b) -> a[1] - b[1]);
+//        meetings.sort((a, b) -> a[1] - b[1]);
 //
 //        List<Integer> result = new ArrayList<>();
 //
-//        // Select first meeting
-//        result.add(meetings.get(0)[2]);
-//        int lastEnd = meetings.get(0)[1];
+//        int lastEnd = -1;   // or Integer.MIN_VALUE
 //
-//        // Select remaining meetings
-//        for (int i = 1; i < meetings.size(); i++) {
-//            if (meetings.get(i)[0] >= lastEnd) {
+//        for (int i = 0; i < meetings.size(); i++) {
+//            if (meetings.get(i)[0] > lastEnd) {
 //                result.add(meetings.get(i)[2]);
 //                lastEnd = meetings.get(i)[1];
 //            }
 //        }
 //
 //        System.out.println(result);
-
-//Brute force: TC:O(2^n*n2) SC:O(n)
 // Optimal:    TC:O(nlogn + n) SC:O(n)
 
+/* Non-overlapping Intervals:
 
-/*
-Jump Game: Given an array where each element represents the maximum number of steps, you can jump forward from that element, return true if we can reach the last index
-           starting from the first index. Otherwise, return false.
-           Example 1:
-           Input:nums = [2, 3, 1, 0, 4]
-           Output: True
+    Given an array of intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the
+    intervals non-overlapping.
 
-           Explanation:
-           We start at index 0, with value 2 this means we can jump to index 1 or 2.
-           From index 1, with value 3, we can jump to index 2, 3, or 4. However, if we jump to index 2 with value 1, we can only jump to index 3.
-           So we jump to index 1 then index 4 reaching the end of the array.
-           Hence, we return true.
+    Note that intervals which only touch at a point are non-overlapping. For example, [1, 2] and [2, 3] are non-overlapping.
 
-           Example 2:
-            Input:nums = [3, 2, 1, 0, 4]
-            Output: False
-            Explanation:
-            We start at index 0, with value 3 which means we can jump to index 1, 2, or 3.
-            From index 1, with value 2 we can only jump to index 2 or 3.
-            From index 2, with value 1 we can only jump to index 3.
-            From index 3, with value 0 we cannot jump any further.
-            Hence, from all possibilities, we are unable to jump to the last index so we return false.
+    Example 1:
+
+    Input: intervals = [[1,2],[2,3],[3,4],[1,3]]
+    Output: 1
+    Explanation: [1,3] can be removed and the rest of the intervals are non-overlapping.
+
+    Note:Intervals which only touch at a point are also considered as non-overlapping. For example, [1, 3] and [3, 4] are non-overlapping.
 
  */
 
-//        int[] nums = {2, 3, 1, 0, 4};
+//        int[][] intervals = { {1, 3}, {2, 4}, {3, 5}, {1, 2} };
+
+//        int n = intervals.length;
+//        boolean[] removed = new boolean[n];
+//        int removals = 0;
 //
-//        int maxindex=0;
-//        for(int i=0;i<nums.length;i++){
+//        for (int i = 0; i < n; i++) {
+//            if (removed[i]) continue;
 //
-//            if(i>maxindex){
-//                System.out.println("Can't be reached");
-//                return;
+//            for (int j = i + 1; j < n; j++) {
+//                if (removed[j]) continue;
+//
+//                // overlap check (touching is allowed)
+//                if (intervals[i][0] < intervals[j][1] &&
+//                        intervals[j][0] < intervals[i][1]) {
+//
+//                    // remove the interval with larger end
+//                    if (intervals[i][1] <= intervals[j][1]) {
+//                        removed[j] = true;
+//                    } else {
+//                        removed[i] = true;
+//                        break;
+//                    }
+//                    removals++;
+//                }
 //            }
+
+//Brute force: TC:O(n2) SC:O(n)
+
+
+//        if (intervals.length == 0) return;
 //
-//            maxindex=Math.max(maxindex,i+nums[i]);
+//        // sort by end time
+//        Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
 //
-//            if(maxindex>=nums.length-1){
-//                System.out.println("Reached");
-//                return;
+//        int removals = 0;
+//        int lastEnd = intervals[0][1];
+//
+//        for (int i = 1; i < intervals.length; i++) {
+//
+//            // overlap (touching allowed)
+//            if (intervals[i][0] < lastEnd) {
+//                removals++;
+//            } else {
+//                lastEnd = intervals[i][1];
 //            }
 //        }
 
-//Brute force: TC:O() SC:O()
-// Optimal:    TC:O(n) SC:O(1)
-
-////Jump Game 2:
-        // Range problem:
-
-//        int[] nums = {2, 3, 1, 1, 4};
-//        int jumps = 0;
-//        int l = 0, r = 0;
-//        int lastIndex = nums.length - 1;
-//
-//        while (r < lastIndex) {
-//
-//            int farthest = 0;
-//
-//            for (int i = l; i <= r; i++) {
-//                farthest = Math.max(farthest, i + nums[i]);
-//            }
-//            jumps++;
-//
-//            if (farthest >= lastIndex) {
-//                break;
-//            }
-//
-//            l = r + 1;
-//            r = farthest;
-//        }
-//        System.out.println(jumps);
-
-//Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(1)
 
 ////Minimum number of platforms required for a railway:
@@ -5282,168 +5514,6 @@ The Job Sequencing Problem is a classic greedy scheduling problem, but it is NOT
 // N=jobs.length, M=completedjobs.length
 //Brute force: TC:O() SC:O()
 // Optimal:    TC:O( O(N log N) + O(N * M),) SC:O(M)
-
-//// Candy:
-
-//        int[] ratings = {1, 2, 3, 2, 1};
-//        int n=ratings.length;
-//        int[] left= new int[n];
-//        int[] rigth=new int[n];
-//
-//        left[0]=1;
-//        rigth[n-1]=1;
-//
-//        for(int i=1;i<n;i++){
-//            if(ratings[i]>ratings[i-1]){
-//                left[i]=left[i-1]+1;
-//            }else {
-//                left[i]=1;
-//            }
-//        }
-//        for(int i=n-2;i>=0;i--){
-//            if(ratings[i]>ratings[i+1]){
-//                rigth[i]=rigth[i+1]+1;
-//            }else {
-//                rigth[i]=1;
-//            }
-//        }
-//
-//        int candies=0;
-//        for(int i=0;i<n;i++){
-//            candies+=Math.max(left[i],rigth[i]);
-//        }
-//
-//        System.out.println(candies);
-
-//Brute force: TC:O(3n) SC:O(2n)
-// in this we can remove right array then TC:O(2n) SC:O(n)
-
-// Optimal:    TC:O(4n) SC:O(2n) Curve approach needs to be solved
-
-////Insert Interval:
-
-//        int[][] intervals = {{1, 3}, {6, 9}};
-//        int[] newInterval = {2, 5};
-
-//        List<int[]> list = new ArrayList<>();
-//        for (int[] interval : intervals) {
-//            list.add(interval);
-//        }
-//        list.add(newInterval);
-//        Collections.sort(list, (a, b) -> a[0] - b[0]);
-//
-//        List<int[]> result = new ArrayList<>();
-//        int[] curr = list.get(0);
-//        result.add(curr);
-//
-//        for (int i = 1; i < list.size(); i++) {
-//            int[] next = list.get(i);
-//
-//            if (next[0] <= curr[1]) { // overlap
-//                curr[1] = Math.max(curr[1], next[1]);
-//            } else {
-//                curr = next;
-//                result.add(curr);
-//            }
-//        }
-//        for (int[] res:result){
-//            System.out.println(Arrays.toString(res));
-//        }
-
-//Brute force: TC:O(nlon + n) SC:O(n)
-
-//        This is an Interval Traversal + Merge problem.
-//
-//        We divide the process into 3 logical phases:
-//
-//        Intervals completely before newInterval.
-//        Intervals overlapping with newInterval.
-//        Intervals completely after newInterval.
-
-//        List<int[]> result = new ArrayList<>();
-//        int n = intervals.length;
-//        int i = 0;
-//
-//        int start = newInterval[0];
-//        int end = newInterval[1];
-//
-//        // 1️⃣ Add intervals before newInterval
-//        while (i < n && intervals[i][1] < start) {
-//            result.add(intervals[i]);
-//            i++;
-//        }
-//
-//        // 2️⃣ Merge overlapping intervals
-//        while (i < n && intervals[i][0] <= end) {
-//            start = Math.min(start, intervals[i][0]);
-//            end = Math.max(end, intervals[i][1]);
-//            i++;
-//        }
-//
-//        // Add merged interval (new object)
-//        result.add(new int[]{start, end});
-//
-//        // 3️⃣ Add remaining intervals
-//        while (i < n) {
-//            result.add(intervals[i]);
-//            i++;
-//        }
-
-// Optimal:    TC:O(n) SC:O(1)
-
-//// Non-overlapping Intervals:
-
-//Note:Intervals which only touch at a point are also considered as non-overlapping. For example, [1, 3] and [3, 4] are non-overlapping.
-
-        int[][] intervals = { {1, 3}, {2, 4}, {3, 5}, {1, 2} };
-
-//        int n = intervals.length;
-//        boolean[] removed = new boolean[n];
-//        int removals = 0;
-//
-//        for (int i = 0; i < n; i++) {
-//            if (removed[i]) continue;
-//
-//            for (int j = i + 1; j < n; j++) {
-//                if (removed[j]) continue;
-//
-//                // overlap check (touching is allowed)
-//                if (intervals[i][0] < intervals[j][1] &&
-//                        intervals[j][0] < intervals[i][1]) {
-//
-//                    // remove the interval with larger end
-//                    if (intervals[i][1] <= intervals[j][1]) {
-//                        removed[j] = true;
-//                    } else {
-//                        removed[i] = true;
-//                        break;
-//                    }
-//                    removals++;
-//                }
-//            }
-
-//Brute force: TC:O(n2) SC:O(n)
-
-
-//        if (intervals.length == 0) return;
-//
-//        // sort by end time
-//        Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
-//
-//        int removals = 0;
-//        int lastEnd = intervals[0][1];
-//
-//        for (int i = 1; i < intervals.length; i++) {
-//
-//            // overlap (touching allowed)
-//            if (intervals[i][0] < lastEnd) {
-//                removals++;
-//            } else {
-//                lastEnd = intervals[i][1];
-//            }
-//        }
-
-// Optimal:    TC:O(n) SC:O(1)
 
 ////
 
