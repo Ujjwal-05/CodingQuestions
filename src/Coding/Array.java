@@ -5239,10 +5239,7 @@ Overlapping Subintervals:
 
     Step 1️⃣ First Question You MUST Ask: Is overlap allowed or not?
            If the problem says:
-           one room
-           one machine
-           one resource
-           cannot run simultaneously
+           one room, one machine, one resource, cannot run simultaneously
            non-overlapping
            👉 Overlaps must be avoided
 
@@ -5280,12 +5277,25 @@ Overlapping Subintervals:
     | Movie watching         | One movie at a time        |
     | Classroom allocation   | One class per room         |
 
-📌 This pattern appears again and again.
+📌 Although both problems involve time intervals, their brute-force complexities differ because the **nature of the task is different**. In **N Meetings in One Room**,
+   the goal is to **select an optimal subset of meetings** such that none overlap, which means each meeting represents a decision (take or not take). Without sorting
+   or greedy reasoning, being fully correct requires trying **all possible subsets**, leading to an **exponential brute-force complexity of O(2ⁿ · n)**. In contrast,
+   the **Minimum Platforms Required** problem does not involve selecting or rejecting trains; all trains must be accommodated, and the task is simply to **count how many
+   trains overlap at any given time**. This can be done by comparing each train with every other train, resulting in a **quadratic brute-force complexity of O(n²)**.
+   The key reason for the difference is that the meetings problem is a **combinatorial selection problem**, while the platforms problem is a **pure overlap-counting
+   problem**.
+
+   Meetings problem: “Which meetings should I attend?”
+   Platforms problem: “How many people are inside the room at the same time?”
+
+   Although both problems involve intervals, the meeting scheduling problem is a subset selection problem that leads to an exponential brute-force solution,
+   whereas the minimum platforms problem only requires counting overlapping intervals, which results in a quadratic brute-force solution.
+
 
  */
 
 //Brute force: TC:O(2^n) SC:O(n)
-//Brute force: TC:O(2^n) SC:O(n) DP
+//Brute force: TC:O(n2) SC:O(n) DP
 
 //        int[] start = {1, 3, 0, 5, 8, 5};
 //        int[] end   = {2, 4, 6, 7, 9, 9};
@@ -5380,52 +5390,49 @@ Overlapping Subintervals:
 
 // Optimal:    TC:O(n) SC:O(1)
 
-////Minimum number of platforms required for a railway:
+/* Minimum number of platforms required for a railway station:
 
-/*
-    1️⃣ Why This Is an Interval Problem
+    Given the arrival and departure times of all trains reaching a particular railway station, determine the minimum number of platforms required so that no train
+    is kept waiting. Consider all trains arrive and depart on the same day. In any particular instance, the same platform cannot be used for both the departure of
+    one train and the arrival of another train, requiring the use of different platforms in such cases.
 
-    Each train has:
-    arrival[i] → start time
-    departure[i] → end time
+    Note: Time intervals are in the 24-hour format (HHMM), where the first two characters represent hour (between 00 to 23 ) and the last two characters represent
+    minutes (this will be <= 59 and >= 0). Leading zeros for hours less than 10 are optional (e.g., 0900 is the same as 900).
 
-    So each train is an interval:
-    [arrival[i], departure[i]]
+    Example 1
 
-    At any moment:
+    Input: Arrival =   [900, 940, 950, 1100, 1500, 1800] ,
+            Departure = [910, 1200, 1120, 1130, 1900, 2000]
 
-    Each active interval needs one platform.
-    Overlapping intervals need multiple platforms.
+    Output: 3
 
-    2️⃣ What Is the Question REALLY Asking?
+    Explanation : The first, second, fifth number train can use the platform 1.The third and sixth train can use the platform 2.
+    The fourth train will use platform 3. So totally we need 3 different platforms for the railway station so that no train is kept waiting.
 
-    What is the maximum number of trains present at the station at the same time?
-    📌 Because:
+    In the minimum number of platform problem, one platform can serve only one train at a time. So if we fix a particular train, that train occupies a platform from
+    its arrival time to its departure time. While this train is present, any other train that arrives before it departs will need a different platform.
+    Therefore, for each train, we need to count how many other trains have arrival times that lie between its arrival and departure interval. This is exactly an
+    interval intersection (overlap) problem. If two trains’ time intervals intersect, they cannot share the same platform. The minimum number of platforms required
+    is simply the maximum number of overlapping intervals at any point in time.
 
-    Each overlapping train occupies one platform.
-    Maximum overlap = minimum platforms needed.
  */
 
         int[] arr = {900, 945, 955, 1100, 1500, 1800};
         int[] dep = {920, 1200, 1130, 1150, 1900, 2000};
-//        int n = arr.length;
+        int n = arr.length;
 
 //        int maxPlatforms = 0;
+//        for(int i=0;i<n;i++){
+//            int platformneeded=1;
 //
-//        for (int i = 0; i < n; i++) {
-//            int platformsNeeded = 1; // count itself
+//            for(int j=i+1;j<n;j++){
 //
-//            for (int j = i + 1; j < n; j++) {
-//                // Check if train i and j overlap
-//                if (arr[i] <= dep[j] && arr[j] <= dep[i]) {
-//                    platformsNeeded++;
+//                if(dep[i]>=arr[j] && dep[j]>=arr[i]){
+//                    platformneeded++;
 //                }
 //            }
-//
-//            maxPlatforms = Math.max(maxPlatforms, platformsNeeded);
+//            maxPlatforms=Math.max(maxPlatforms,platformneeded);
 //        }
-//
-//        System.out.println(maxPlatforms);
 
 //Brute force: TC:O(n2) SC:O(1)
 
@@ -5443,27 +5450,23 @@ Overlapping Subintervals:
 
 //        Arrays.sort(arr);
 //        Arrays.sort(dep);
+//        int i=0,j=0;
+//        int platforms=0;
+//        int maxplatforms=0;
 //
-//        int i = 0, j = 0;
-//        int platforms = 0;
-//        int maxPlatforms = 0;
+//        while (i<n && j<n){
 //
-//        while (i < n && j < n) {
-//            // arrival before departure => overlap
-//            if (arr[i] < dep[j]) {
+//            if(dep[j]>=arr[i]){
 //                platforms++;
-//                maxPlatforms = Math.max(maxPlatforms, platforms);
+//                maxplatforms=Math.max(maxplatforms,platforms);
 //                i++;
-//            } else {
-//                // departure frees platform
+//            }else {
 //                platforms--;
 //                j++;
 //            }
 //        }
-//
-//        System.out.println(maxPlatforms);
 
-        // Optimal:    TC:O(2nlogn + n) SC:O(1)
+// Optimal:    TC:O(2nlogn + n) SC:O(1)
 
 //// Job Sequencing Problem:
 
