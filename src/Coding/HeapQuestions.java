@@ -1,6 +1,7 @@
 package Coding;
 
 
+import java.util.*;
 
 public class HeapQuestions {
     public static void main(String[] args) {
@@ -430,224 +431,342 @@ public class HeapQuestions {
 
 */
 
-/* Sort K sorted array:
-    You are given an array of integers where the array is k-sorted, meaning that each element is at most k positions away from its correct position in the fully
-    sorted array. Your task is to sort the array efficiently.
+/*
+    K most frequent elements: Given an integer array nums and an integer k, return the k most frequent elements.
+    You may return the answer in any order.
+
+        int[] nums={1,2,3,1,1,2,2,5,4,4,4,4}; int k=2;
+
+    public int[] topKFrequent(int[] nums, int k) {
+
+        HashMap<Integer,Integer> freqMap=new HashMap<>();
+
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        }
+
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(freqMap.entrySet());
+        list.sort((a, b) -> b.getValue() - a.getValue());
+
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = list.get(i).getKey();
+        }
+        return result;
+    }
+
+    Brute force: TC:O(nlogn) SC:O(n+k)
+
+        HashMap<Integer, Integer> freqMap = new HashMap<>();
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(
+                (a, b) -> a[1] - b[1]
+        );
+
+        for (int key : freqMap.keySet()) {
+            minHeap.add(new int[]{key, freqMap.get(key)});
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+
+        int[] result = new int[k];
+        int idx = 0;
+        while (!minHeap.isEmpty()) {
+            result[idx++] = minHeap.poll()[0];
+        }
+
+    Optimal: TC:O(nlogk) SC:O(n)
+
+        HashMap<Integer, Integer> freqMap = new HashMap<>();
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        }
+
+        List<Integer>[] buckets = new List[nums.length + 1];
+
+        for (int key : freqMap.keySet()) {
+            int freq = freqMap.get(key);
+            if (buckets[freq] == null) {
+                buckets[freq] = new ArrayList<>();
+            }
+            buckets[freq].add(key);
+        }
+
+        int[] result = new int[k];
+        int idx = 0;
+
+        for (int i = buckets.length - 1; i >= 0 && idx < k; i--) {
+            if (buckets[i] != null) {
+                for (int num : buckets[i]) {
+                    result[idx++] = num;
+                    if (idx == k) break;
+                }
+            }
+        }
+        System.out.println(result);
+        TC:O(n) SC:O(n)
+
+        Bucket Sort is considered the best theoretical approach for the K most frequent elements problem because it achieves linear time complexity O(n)
+        by avoiding heap operations. After counting frequencies using a HashMap, elements are placed into buckets indexed by frequency, and we directly
+        scan the buckets from highest to lowest frequency to get the answer. However, despite its optimal time complexity, Bucket Sort is not always preferred
+        in practice because it requires extra space proportional to the input size (O(n) buckets), even when the number of distinct elements is small.
+        This can lead to higher memory usage and less flexibility, especially when frequencies are sparse or input size is large. In contrast, the HashMap + Heap
+        approach runs in O(n log k) time but uses less additional space, is easier to implement, and works efficiently for most real-world constraints.
+        Therefore, Bucket Sort is “best theoretical” in terms of time complexity, but HashMap + Heap is often more practical and scalable in interviews and
+        production systems.
+        “Bucket sort gives O(n) time but higher space usage, so heap-based solutions are usually preferred in practice.”
+
+
  */
 
-//        int[] arr = {6, 5, 3, 2, 8, 10, 9};
-//        int k = 3;
-//
-//        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-//        List<Integer> result = new ArrayList<>();
-//
-//        for (int i = 0; i <= k && i < arr.length; i++) {
-//            minHeap.add(arr[i]);
-//        }
-//
-//        for (int i = k + 1; i < arr.length; i++) {
-//            result.add(minHeap.poll()); // removes smallest from heap
-//            minHeap.add(arr[i]);        // inserts next array element
-//        }
-//
-//        while (!minHeap.isEmpty()) {
-//            result.add(minHeap.poll());
-//        }
-//
-//        System.out.println(result);
+/*  Reduce Array Size to The Half:
 
-//Brute force: TC:O(nlogn) SC:O(1)
-// Optimal:    TC:O(nlogk) SC:O(n)
+    You are given an integer array arr. You can choose a set of integers and remove all the occurrences of these integers in the array.
+    Return the minimum size of the set so that at least half of the integers of the array are removed.
+    Input: arr = [3,3,3,3,5,5,5,2,2,7]
+    Output: 2
 
-/* Merge M sorted Lists:
+    public int minSetSize(int[] arr) {
+
+        int n = arr.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : arr) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        List<Map.Entry<Integer, Integer>> list =
+                new ArrayList<>(map.entrySet());
+
+    In this if we do not sort the element collection then we have to repeatedly find the maximum element
+    which will take K2 complexity that will be brute force and sorting is optimization.
+
+        Collections.sort(list, (a, b) ->
+                Integer.compare(b.getValue(), a.getValue()));
+
+        int removed = 0;
+        int target = n / 2;
+        int minimum = 0;
+        int i = 0;
+
+        while (removed < target) {
+            removed += list.get(i).getValue();
+            i++;
+            minimum++;
+        }
+    }
+
+    TC:  O(n+ klogk) SC: O(n)
+
+    public static int minSetSize(int[] arr) {
+        int n = arr.length;
+
+        // 1) Frequency map
+        HashMap<Integer, Integer> freq = new HashMap<>();
+        for (int num : arr) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+        // 2) Buckets where index = frequency
+        List<Integer>[] buckets = new ArrayList[n + 1];
+        for (int f : freq.values()) {
+            if (buckets[f] == null) buckets[f] = new ArrayList<>();
+            buckets[f].add(f); // store frequency (key not needed)
+        }
+
+        // 3) Greedy removal from highest frequency
+        int removed = 0;
+        int target = n / 2;
+        int count = 0;
+
+        for (int f = n; f >= 1 && removed < target; f--) {
+            if (buckets[f] != null) {
+                for (int ignored : buckets[f]) { // iterate entries
+                    removed += f;
+                    count++;
+                    if (removed >= target) break;
+                }
+            }
+        }
+
+        return count;
+    }
+    Time: O(n)    Space: O(n) (map + buckets)
+
+ */
+
+/*  Sort K sorted array:
+
+    You are given an array of integers where the array is k-sorted, meaning that each element is at most k positions away from its correct position in the fully
+    sorted array. Your task is to sort the array efficiently.
+
+        int[] arr = {6, 5, 3, 2, 8, 10, 9};  int k = 3;
+
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i <= k && i < arr.length; i++) {
+            minHeap.add(arr[i]);
+        }
+
+        for (int i = k + 1; i < arr.length; i++) {
+            result.add(minHeap.poll()); // removes smallest from heap
+            minHeap.add(arr[i]);        // inserts next array element
+        }
+
+        while (!minHeap.isEmpty()) {
+            result.add(minHeap.poll());
+        }
+
+        System.out.println(result);
+
+        Brute force: TC:O(nlogn) SC:O(1)
+        Optimal:    TC:O(nlogk) SC:O(n)
+
+*/
+
+/*  Merge M sorted Lists:
 
     You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
     Merge all the linked-lists into one sorted linked-list and return it.
 
- */
-
-        Node list1 = new Node(1);
-        list1.next = new Node(4);
-        list1.next.next = new Node(5);
-
-        Node list2 = new Node(1);
-        list2.next = new Node(3);
-        list2.next.next = new Node(4);
-
-        Node list3 = new Node(2);
-        list3.next = new Node(6);
+        Node list1 = new Node(1);list1.next = new Node(4);list1.next.next = new Node(5);
+        Node list2 = new Node(1);list2.next = new Node(3);list2.next.next = new Node(4);
+        Node list3 = new Node(2);list3.next = new Node(6);
 
         Node[] lists = new Node[]{list1, list2, list3};
 
-//        List<Integer> result=new ArrayList<>();
-//
-//        for(int i=0;i<lists.length;i++){
-//            Node temp=lists[i];
-//            while (temp!=null){
-//                result.add((Integer) temp.data);
-//                temp=temp.next;
-//            }
-//        }
-//
-//        Collections.sort(result);
-//        Node dummy=new Node(-1);
-//        Node tail=dummy;
-//
-//        for (int i=0;i<result.size();i++){
-//            Node resnode=new Node(result.get(i));
-//            tail.next=resnode;
-//            tail=tail.next;
-//        }
-//        dummy=dummy.next;
-//
-//        while (dummy!=null){
-//            System.out.println(dummy.data);
-//            dummy=dummy.next;
-//        }
+        public ListNode mergeKLists(ListNode[] lists) {
+        List<Integer> result=new ArrayList<>();
 
-//Brute force: TC:O(nlogn) SC:O(n)
+        for(int i=0;i<lists.length;i++){
+            ListNode temp=lists[i];
+            while (temp!=null){
+                result.add((Integer) temp.val);
+                temp=temp.next;
+            }
+        }
 
-//        PriorityQueue<Node<Integer>> pq=new PriorityQueue<>(
-//                (a,b)-> Integer.compare(a.data,b.data)
-//        );
-//        for(int i=0;i<lists.length;i++){
-//            pq.add(lists[i]);
-//        }
-//        Node<Integer> dummy=new Node<>(-1);
-//        Node<Integer> tail=dummy;
-//
-//        while (!pq.isEmpty()){
-//
-//            Node<Integer> smallest=pq.poll();
-//            tail.next=smallest;
-//            tail=tail.next;
-//
-//            if(smallest.next!=null){
-//                pq.add(smallest.next);
-//            }
-//        }
+        Collections.sort(result);
+        ListNode dummy=new ListNode(-1);
+        ListNode tail=dummy;
 
-// Optimal:    TC:O(nlogk) SC:O(n)
+        for (int i=0;i<result.size();i++){
+            ListNode resnode=new ListNode(result.get(i));
+            tail.next=resnode;
+            tail=tail.next;
+        }
+        return dummy.next;
 
-//        public static List<Integer> merge(int[][] arrays) {
-//
-//            PriorityQueue<Node> pq = new PriorityQueue<>(
-//                    (a, b) -> a.value - b.value
-//            );
-//
-//            List<Integer> result = new ArrayList<>();
-//
-//            // Push first element of each array
-//            for (int i = 0; i < arrays.length; i++) {
-//                if (arrays[i].length > 0) {
-//                    pq.add(new Node(arrays[i][0], i, 0));
-//                }
-//            }
-//
-//            while (!pq.isEmpty()) {
-//
-//                Node current = pq.poll();
-//                result.add(current.value);
-//
-//                int nextCol = current.col + 1;
-//                if (nextCol < arrays[current.row].length) {
-//                    pq.add(new Node(
-//                            arrays[current.row][nextCol],
-//                            current.row,
-//                            nextCol
-//                    ));
-//                }
-//            }
-//
-//            return result;
-//        }
+    }
+    Brute force: TC:O(nlogn) SC:O(n)
 
-//// Replace each array element by its corresponding rank:
 
-//        int[] arr = {20, 15, 26, 2, 98, 6};
-//        int[] copy=Arrays.copyOf(arr,arr.length);
-//        int[] res=new int[arr.length];
-//
-//        Arrays.sort(copy);
-//
-//        for (int i=0;i<arr.length;i++){
-//
-//            for(int j=0;j<copy.length;j++){
-//                if(arr[i]==copy[j]){
-//                    res[i]=j+1;
-//                    break;
-//                }
-//            }
-//        }
-//        System.out.println(Arrays.toString(res));
+        PriorityQueue<Node<Integer>> pq=new PriorityQueue<>(
+                (a,b)-> Integer.compare(a.data,b.data)
+        );
+        for(int i=0;i<lists.length;i++){
+            pq.add(lists[i]);
+        }
+        Node<Integer> dummy=new Node<>(-1);
+        Node<Integer> tail=dummy;
 
-//Brute force: TC:O(n2) SC:O(n)
+        while (!pq.isEmpty()){
 
-//        int[] arr = {20, 15, 26, 2, 98, 6};
-//        int n = arr.length;
-//
-//        int[] copy = Arrays.copyOf(arr, n);
-//        Arrays.sort(copy);
-//
-//        Map<Integer, Integer> rankMap = new HashMap<>();
-//        int rank = 1;
-//        for (int i = 0; i < n; i++) {
-//            if (!rankMap.containsKey(copy[i])) {
-//                rankMap.put(copy[i], rank++);
-//            }
-//        }
-//
-//        for (int i = 0; i < n; i++) {
-//            arr[i] = rankMap.get(arr[i]);
-//        }
-//    }
+            Node<Integer> smallest=pq.poll();
+            tail.next=smallest;
+            tail=tail.next;
 
-// Optimal:    TC:O(nlogn) SC:O(n)
+            if(smallest.next!=null){
+                pq.add(smallest.next);
+            }
+        }
 
-////Task Scheduler:
+        Optimal:    TC:O(nlogk) SC:O(n)
 
-//        char[] tasks={'A','A','A','B','B','B'};
-//        int n=2;
-//
-//        int[] taskFrequency=new int[26];
-//
-//        for(char c:tasks){
-//            taskFrequency[c-'A']++;
-//        }
-//
-//        PriorityQueue<Integer> maxheap=new PriorityQueue<>(Collections.reverseOrder());
-//
-//        for(int freq:taskFrequency){
-//            if(freq>0) maxheap.add(freq);
-//        }
-//        int time=0;
-//        while (!maxheap.isEmpty()){
-//
-//            int cycle=n+1;
-//            List<Integer> taskpickedbutnotcompleted=new ArrayList<>();
-//
-//            while (cycle>0 && !maxheap.isEmpty()){
-//
-//                int curr=maxheap.poll();
-//                curr--;
-//                if(curr>0) taskpickedbutnotcompleted.add(curr);
-//
-//                time++;
-//                cycle--;
-//            }
-//
-//            for(int rem:taskpickedbutnotcompleted){
-//                maxheap.add(rem);
-//            }
-//
-//            if(!maxheap.isEmpty()){
-//                time+=cycle;
-//            }
-//        }
-//        System.out.println(time);
+        public static List<Integer> merge(int[][] arrays) {
 
-//Brute force: TC:O() SC:O()
-// Optimal:    TC:O(n) SC:O(1)
+            PriorityQueue<Node> pq = new PriorityQueue<>(
+                    (a, b) -> a.value - b.value
+            );
+
+            List<Integer> result = new ArrayList<>();
+
+            // Push first element of each array
+            for (int i = 0; i < arrays.length; i++) {
+                if (arrays[i].length > 0) {
+                    pq.add(new Node(arrays[i][0], i, 0));
+                }
+            }
+
+            while (!pq.isEmpty()) {
+
+                Node current = pq.poll();
+                result.add(current.value);
+
+                int nextCol = current.col + 1;
+                if (nextCol < arrays[current.row].length) {
+                    pq.add(new Node(
+                            arrays[current.row][nextCol],
+                            current.row,
+                            nextCol
+                    ));
+                }
+            }
+
+            return result;
+        }
+ */
+
+/* Task Scheduler:
+
+        char[] tasks={'A','A','A','B','B','B'};
+        int n=2;
+
+        int[] taskFrequency=new int[26];
+
+        for(char c:tasks){
+            taskFrequency[c-'A']++;
+        }
+
+        PriorityQueue<Integer> maxheap=new PriorityQueue<>(Collections.reverseOrder());
+
+        for(int freq:taskFrequency){
+            if(freq>0) maxheap.add(freq);
+        }
+        int time=0;
+        while (!maxheap.isEmpty()){
+
+            int cycle=n+1;
+            List<Integer> taskpickedbutnotcompleted=new ArrayList<>();
+
+            while (cycle>0 && !maxheap.isEmpty()){
+
+                int curr=maxheap.poll();
+                curr--;
+                if(curr>0) taskpickedbutnotcompleted.add(curr);
+
+                time++;
+                cycle--;
+            }
+
+            for(int rem:taskpickedbutnotcompleted){
+                maxheap.add(rem);
+            }
+
+            if(!maxheap.isEmpty()){
+                time+=cycle;
+            }
+        }
+        System.out.println(time);
+
+        Brute force: TC:O() SC:O()
+        Optimal:    TC:O(n) SC:O(1)
+
+ */
 
 ////Hands of Straights:
         int[] hand = {1,2,3,6,2,3,4,7,8};
@@ -888,88 +1007,6 @@ public class HeapQuestions {
 
 // Optimal:    Add num: TC:O(logn), median:O(1), SC:O(n)
 
-//// K most frequent elements:
-//        int[] nums={1,2,3,1,1,2,2,5,4,4,4,4};
-
-//        HashMap<Integer, Integer> freqMap = new HashMap<>();
-//        for (int num : nums) {
-//            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
-//        }
-//
-//        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(freqMap.entrySet());
-//
-//        list.sort((a, b) -> b.getValue() - a.getValue());
-//
-//        int[] result = new int[k];
-//        for (int i = 0; i < k; i++) {
-//            result[i] = list.get(i).getKey();
-//        }
-//        System.out.println(result);
-
-//Brute force: TC:O(nlogn) SC:O(n)
-
-//        HashMap<Integer, Integer> freqMap = new HashMap<>();
-//        for (int num : nums) {
-//            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
-//        }
-//
-//        PriorityQueue<int[]> minHeap = new PriorityQueue<>(
-//                (a, b) -> a[1] - b[1]
-//        );
-//
-//        for (int key : freqMap.keySet()) {
-//            minHeap.add(new int[]{key, freqMap.get(key)});
-//            if (minHeap.size() > k) {
-//                minHeap.poll();
-//            }
-//        }
-//
-//        int[] result = new int[k];
-//        int idx = 0;
-//        while (!minHeap.isEmpty()) {
-//            result[idx++] = minHeap.poll()[0];
-//        }
-
-// Optimal: TC:O(nlogk) SC:O(n)
-
-//        HashMap<Integer, Integer> freqMap = new HashMap<>();
-//        for (int num : nums) {
-//            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
-//        }
-//
-//        List<Integer>[] buckets = new List[nums.length + 1];
-//
-//        for (int key : freqMap.keySet()) {
-//            int freq = freqMap.get(key);
-//            if (buckets[freq] == null) {
-//                buckets[freq] = new ArrayList<>();
-//            }
-//            buckets[freq].add(key);
-//        }
-//
-//        int[] result = new int[k];
-//        int idx = 0;
-//
-//        for (int i = buckets.length - 1; i >= 0 && idx < k; i--) {
-//            if (buckets[i] != null) {
-//                for (int num : buckets[i]) {
-//                    result[idx++] = num;
-//                    if (idx == k) break;
-//                }
-//            }
-//        }
-//        System.out.println(result);
-//     TC:O(n) SC:O(n)
-
-//        Bucket Sort is considered the best theoretical approach for the K most frequent elements problem because it achieves linear time complexity O(n)
-//        by avoiding heap operations. After counting frequencies using a HashMap, elements are placed into buckets indexed by frequency, and we directly
-//        scan the buckets from highest to lowest frequency to get the answer. However, despite its optimal time complexity, Bucket Sort is not always preferred
-//        in practice because it requires extra space proportional to the input size (O(n) buckets), even when the number of distinct elements is small.
-//        This can lead to higher memory usage and less flexibility, especially when frequencies are sparse or input size is large. In contrast, the HashMap + Heap
-//        approach runs in O(n log k) time but uses less additional space, is easier to implement, and works efficiently for most real-world constraints.
-//        Therefore, Bucket Sort is “best theoretical” in terms of time complexity, but HashMap + Heap is often more practical and scalable in interviews and
-//        production systems.
-//        “Bucket sort gives O(n) time but higher space usage, so heap-based solutions are usually preferred in practice.”
 
     }
 }
