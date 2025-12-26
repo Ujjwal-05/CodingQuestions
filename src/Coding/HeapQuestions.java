@@ -723,6 +723,23 @@ public class HeapQuestions {
 
 /* Task Scheduler:
 
+    You are given an array of CPU tasks, each labeled with a letter from A to Z, and a number n. Each CPU interval can be idle
+    or allow the completion of one task. Tasks can be completed in any order, but there's a constraint: there has to be a gap of at least n intervals between two tasks with the same label.
+
+    Return the minimum number of CPU intervals required to complete all tasks.
+
+    Example 1:
+
+    Input: tasks = ["A","A","A","B","B","B"], n = 2
+    Output: 8
+
+    Explanation: A possible sequence is: A -> B -> idle -> A -> B -> idle -> A -> B.
+
+    After completing task A, you must wait two intervals before doing A again. The same applies to task B. In the 3rd interval,
+    neither A nor B can be done, so you idle. By the 4th interval, you can do A again as 2 intervals have passed.
+
+        Brute force: TC:O(n2) SC:O(n)
+
         char[] tasks={'A','A','A','B','B','B'};
         int n=2;
 
@@ -763,200 +780,251 @@ public class HeapQuestions {
         }
         System.out.println(time);
 
-        Brute force: TC:O() SC:O()
+        public int leastInterval(char[] tasks, int n) {
+
+        int[] freq = new int[26];
+        int f = 0; // max frequency
+
+        for (char c : tasks) {
+            freq[c - 'A']++;
+            f = Math.max(f, freq[c - 'A']);
+        }
+
+        int X = 0;
+        for (int count : freq) {
+            if (count == f) {
+                X++;
+            }
+        }
+
+        int totalJobs = tasks.length;
+        return Math.max((f - 1) * (n + 1) + X, totalJobs);
+    }
         Optimal:    TC:O(n) SC:O(1)
 
  */
 
-////Hands of Straights:
+/*  Hands of Straights:
+
+    Alice has some number of cards and she wants to rearrange the cards into groups so that each group is of size groupSize, and consists of groupSize consecutive cards.
+
+    Given an integer array hand where hand[i] is the value written on the ith card and an integer groupSize, return true if she can rearrange the cards,
+    or false otherwise.
+
+    Example 1:
+
+    Input: hand = [1,2,3,6,2,3,4,7,8], groupSize = 3
+    Output: true
+    Explanation: Alice's hand can be rearranged as [1,2,3],[2,3,4],[6,7,8]
+
         int[] hand = {1,2,3,6,2,3,4,7,8};
         int groupSize = 3;
 
-//        if(hand.length%groupSize!=0) return;
-//
-//        List<Integer> list=new ArrayList<>();
-//
-//        for(int num:hand){
-//            list.add(num);
-//        }
-//        Collections.sort(list);
-//
-//        while (!list.isEmpty()){
-//            int start=list.get(0);
-//
-//            for(int i=0;i<groupSize;i++){
-//                if(!list.contains(start+i)){
-//                    return;
-//                }
-//                list.remove(start+i);
-//            }
-//        }
+        public boolean isNStraightHand(int[] hand, int groupSize) {
 
-//Brute force: TC:O(n2) SC:O(n)
+        if (hand.length % groupSize != 0) return false;
 
-//        if (hand.length % groupSize != 0) return ;
-//
-//        TreeMap<Integer, Integer> map = new TreeMap<>();
-//        for (int num : hand) {
-//            map.put(num, map.getOrDefault(num, 0) + 1);
-//        }
-//
-//        while (!map.isEmpty()) {
-//            int start = map.firstKey(); // smallest card
-//
-//            // Try to form a group of size groupSize
-//            for (int i = 0; i < groupSize; i++) {
-//                int card = start + i;
-//
-//                if (!map.containsKey(card)) {
-//                    return;
-//                }
-//
-//                map.put(card, map.get(card) - 1);
-//                if (map.get(card) == 0) {
-//                    map.remove(card);
-//                }
-//            }
-//        }
+        List<Integer> list = new ArrayList<>();
+        for (int num : hand) {
+            list.add(num);
+        }
 
-//        n = number of cards
-//        m = number of unique cards
-//        Building TreeMap: O(n log m)
-//        Each card processed once: O(n log m)
+        Collections.sort(list);
 
-// Optimal:    TC:O(n log m) SC:O(m)
+        while (!list.isEmpty()) {
+            int start = list.get(0);
+
+            for (int i = 0; i < groupSize; i++) {
+                if (!list.contains(start + i)) {
+                    return false;
+                }
+                list.remove(Integer.valueOf(start + i));
+            }
+        }
+        return true;
+        }
+----->Brute force: TC:O(n2) SC:O(n)
+
+        public boolean isNStraightHand(int[] hand, int groupSize) {
+
+        if (hand.length % groupSize != 0) return false;
+
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+
+        for (int num : hand) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        while (!map.isEmpty()) {
+            int start = map.firstKey(); // smallest available card
+
+            for (int i = 0; i < groupSize; i++) {
+                int card = start + i;
+
+                if (!map.containsKey(card)) {
+                    return false;
+                }
+
+                map.put(card, map.get(card) - 1);
+                if (map.get(card) == 0) {
+                    map.remove(card);
+                }
+            }
+        }
+        return true;
+    }
+
+        n = number of cards
+        m = number of unique cards
+        Building TreeMap: O(n log m)
+        Each card processed once: O(n log m)
+
+ Optimal:    TC:O(n log m) SC:O(m)
+
+ */
 
 //// Design Twitter:
 
 //Brute force: TC:O(n2) SC:O(1)
 // Optimal:    TC:O(n) SC:O(n)
 
-////Connect n ropes with minimal cost:
+/*  Connect n ropes with minimal cost:
 
+    Given an array arr[] of rope lengths, connect all ropes into a single rope with the minimum total cost. The cost to connect two ropes is the sum of their lengths.
         int[] ropes = {4, 3, 2, 6};
 
-// Generate all subsequence 2^n and then traversing n
-//Brute force: TC:O(n*2^n) SC:O(n)
+ Brute Force Approach:
+ Try all possible ways of connecting ropes by choosing every possible pair recursively.
+ Time Complexity: O(n!)  (factorial, due to all possible merge orderings)
+ Space Complexity: O(n)  (recursion stack)
 
-////Always connect the two smallest ropes first. Smaller ropes contribute less to future costs, Greedy choice guarantees minimum total cost.
+         public int minCost(int[] ropes) {
 
-//        PriorityQueue<Integer> minheap=new PriorityQueue<>();
-//        for(int rope:ropes){
-//            minheap.add(rope);
-//        }
-//
-//        int cost=0;
-//        while (minheap.size()>1){
-//
-//            int first=minheap.poll();
-//            int secod=minheap.poll();
-//
-//            int currcost=first+secod;
-//
-//            cost+=currcost;
-//
-//            minheap.add(currcost);
-//        }
-//        System.out.println(cost);
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        for (int r : ropes) {
+            pq.add(r);
+        }
+
+        int totalCost = 0;
+
+        while (pq.size() > 1) {
+            int first = pq.poll();
+            int second = pq.poll();
+
+            int cost = first + second;
+            totalCost += cost;
+
+            pq.add(cost);
+        }
+
+        return totalCost;
+
+        Always connect the two smallest ropes first. Smaller ropes contribute less to future costs, Greedy choice guarantees minimum total cost.
 
 // Insert into heap | O(log n)       |
 // Remove from heap | O(log n)       |
 // Total operations | n − 1 merges   |
 
-// Optimal:    TC:O(n log n) SC:O(n)
+Optimal:    TC:O(n log n) SC:O(n)
+ */
 
+/* Maximum Sum Combination:
+        int[] nums1 = {7, 3};
+        int[] nums2 = {1, 6};
+        int k = 2;
 
+        List<Integer> ans=new ArrayList<>();
+        for(int num1:nums1){
+            for(int num2:nums2){
+                ans.add(num1+num2);
+            }
+        }
+        Collections.sort(ans,Collections.reverseOrder());
+        System.out.println(ans.subList(0,k));
 
-//// Maximum Sum Combination:
-//        int[] nums1 = {7, 3};
-//        int[] nums2 = {1, 6};
-//        int k = 2;
+Brute force: TC:O(nm + nmlognm) == n2 SC:O(nm)
 
-//        List<Integer> ans=new ArrayList<>();
-//        for(int num1:nums1){
-//            for(int num2:nums2){
-//                ans.add(num1+num2);
-//            }
-//        }
-//        Collections.sort(ans,Collections.reverseOrder());
-//        System.out.println(ans.subList(0,k));
+import java.util.*;
 
-//Brute force: TC:O(nm + nmlognm) == n2 SC:O(nm)
+class Solution {
+    public List<Integer> kMaxSumCombinations(int[] nums1, int[] nums2, int k) {
 
-//        Arrays.sort(nums1);
-//        Arrays.sort(nums2);
-//
-//        int n = nums1.length;
-//
-//        // Max heap: {sum, i, j}
-//        PriorityQueue<int[]> maxHeap =
-//                new PriorityQueue<>((a, b) -> b[0] - a[0]);
-//
-//        Set<String> visited = new HashSet<>();
-//        List<Integer> ans = new ArrayList<>();
-//
-//        // Start with largest possible sum
-//        maxHeap.add(new int[]{nums1[n-1] + nums2[n-1], n-1, n-1});
-//        visited.add((n-1) + "," + (n-1));
-//
-//        while (k-- > 0 && !maxHeap.isEmpty()) {
-//
-//            int[] curr = maxHeap.poll();
-//            int sum = curr[0];
-//            int i = curr[1];
-//            int j = curr[2];
-//
-//            ans.add(sum);
-//
-//            // Move left in nums1
-//            if (i - 1 >= 0) {
-//                String key = (i - 1) + "," + j;
-//                if (!visited.contains(key)) {
-//                    maxHeap.add(new int[]{nums1[i-1] + nums2[j], i-1, j});
-//                    visited.add(key);
-//                }
-//            }
-//
-//            // Move left in nums2
-//            if (j - 1 >= 0) {
-//                String key = i + "," + (j - 1);
-//                if (!visited.contains(key)) {
-//                    maxHeap.add(new int[]{nums1[i] + nums2[j-1], i, j-1});
-//                    visited.add(key);
-//                }
-//            }
-//        }
-//
-//        System.out.println(ans);
+        int n = nums1.length;
 
-// Optimal:    TC:O(O(n log n + k log k)) SC:O(k)
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
 
-////Find Median from Data Stream:
+        PriorityQueue<int[]> maxHeap =new PriorityQueue<>((a, b) -> b[0] - a[0]);
 
-//        class MedianFinder {
-//            private List<Integer> list;
-//
-//            public MedianFinder() {
-//                list=new ArrayList<>();
-//            }
-//
-//            public void addNum(int num) {
-//                list.add(num);
-//            }
-//
-//            public double findMedian() {
-//                Collections.sort(list);
-//                int n=list.size();
-//                if(n%2==0){
-//                    return (list.get(n/2)+list.get((n/2)-1))/2.0;
-//                }
-//                return list.get(n/2);
-//            }
-//        }
+        Set<String> visited = new HashSet<>();
+        List<Integer> ans = new ArrayList<>();
 
-//Brute force: TC:O(nlogn) SC:O(1)
+        maxHeap.add(new int[]{nums1[n - 1] + nums2[n - 1], n - 1, n - 1});
+        visited.add((n - 1) + "," + (n - 1));
+
+        while (k-- > 0 && !maxHeap.isEmpty()) {
+
+            int[] curr = maxHeap.poll();
+            int sum = curr[0];
+            int i = curr[1];
+            int j = curr[2];
+
+            ans.add(sum);
+
+            // Move left in nums1
+            if (i - 1 >= 0) {
+                String key = (i - 1) + "," + j;
+                if (!visited.contains(key)) {
+                    maxHeap.add(new int[]{nums1[i - 1] + nums2[j], i - 1, j});
+                    visited.add(key);
+                }
+            }
+
+            // Move left in nums2
+            if (j - 1 >= 0) {
+                String key = i + "," + (j - 1);
+                if (!visited.contains(key)) {
+                    maxHeap.add(new int[]{nums1[i] + nums2[j - 1], i, j - 1});
+                    visited.add(key);
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+ Optimal:    TC:O(O(n log n + k log k)) SC:O(k)
+
+ */
 
 /*
+    Find Median from Data Stream: : Implement a class that finds the median from a data stream. The median is the middle value in an ordered integer list.
+    If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.
+
+        class MedianFinder {
+            private List<Integer> list;
+
+            public MedianFinder() {
+                list=new ArrayList<>();
+            }
+
+            public void addNum(int num) {
+                list.add(num);
+            }
+
+            public double findMedian() {
+                Collections.sort(list);
+                int n=list.size();
+                if(n%2==0){
+                    return (list.get(n/2)+list.get((n/2)-1))/2.0;
+                }
+                return list.get(n/2);
+            }
+        }
+
+------------>Brute force: TC:O(nlogn) SC:O(1)
+
         Since the input stream is unsorted, sorting the entire data after every insertion would be inefficient. To avoid repeated sorting, we use heaps, which help us
         maintain order dynamically. To find the median, we only need the middle element(s) of the sorted data. Therefore, we divide the data into two halves:
 
@@ -969,44 +1037,145 @@ public class HeapQuestions {
             a Min Heap for the right half
 
         By keeping the size difference between the heaps at most 1, we can compute the median in O(1) time.
-*/
-
-//        class MedianFinder {
-//
-//            // Max heap for left half
-//            PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-//
-//            // Min heap for right half
-//            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-//
-//            // Add number to data stream
-//            public void addNum(int num) {
-//
-//                // Step 1: Add to max heap
-//                maxHeap.offer(num);
-//
-//                // Step 2: Balance order
-//                minHeap.offer(maxHeap.poll());
-//
-//                // Step 3: Balance size
-//                if (minHeap.size() > maxHeap.size()) {
-//                    maxHeap.offer(minHeap.poll());
-//                }
-//            }
-//
-//            // Find median
-//            public double findMedian() {
-//
-//                if (maxHeap.size() > minHeap.size()) {
-//                    return maxHeap.peek();
-//                }
-//
-//                return (maxHeap.peek() + minHeap.peek()) / 2.0;
-//            }
-//        }
-
-// Optimal:    Add num: TC:O(logn), median:O(1), SC:O(n)
 
 
+        class MedianFinder {
+
+    private PriorityQueue<Integer> maxHeap; // left half
+    private PriorityQueue<Integer> minHeap; // right half
+
+    public MedianFinder() {
+        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        minHeap = new PriorityQueue<>();
+    }
+
+    public void addNum(int num) {
+        // Step 1: always push to maxHeap
+        maxHeap.offer(num);
+
+        // Step 2: balance by moving largest of left to right
+        minHeap.offer(maxHeap.poll());
+
+        // Step 3: ensure maxHeap has equal or 1 more element
+        if (minHeap.size() > maxHeap.size()) {
+            maxHeap.offer(minHeap.poll());
+        }
+    }
+
+    public double findMedian() {
+
+        // no elements present
+        if (maxHeap.isEmpty()) {
+            // You can also throw exception if interviewer prefers
+            return 0.0;
+        }
+
+        //only one element present
+        if (maxHeap.size() == 1 && minHeap.isEmpty()) {
+            return maxHeap.peek();
+        }
+
+        if (maxHeap.size() > minHeap.size()) {
+            return maxHeap.peek();
+        }
+
+        return (maxHeap.peek() + minHeap.peek()) / 2.0;
     }
 }
+
+ Optimal:    Add num: TC:O(logn), median:O(1), SC:O(n)
+
+ */
+
+/*  Total Cost to Hire K Workers:
+
+    int[] costs = {17,12,10,2,7,2,11,20,8};
+    int k = 3;
+    int candidates = 4;
+
+    public long totalCost(int[] costs, int k, int candidates) {
+        List<Integer> list=new ArrayList<>();
+        for(int cost:costs) list.add(cost);
+        int total=0;
+
+        for(int hire=0;hire<k;hire++){
+
+            int n=list.size();
+            int mincost=Integer.MAX_VALUE;
+            int minindex=-1;
+
+            for (int i=0;i<Math.min(candidates,n);i++){
+                if(list.get(i)<mincost){
+                    mincost=list.get(i);
+                    minindex=i;
+                }
+            }
+
+            for (int i=Math.max(0,n-candidates);i<n;i++){
+                if(list.get(i)<mincost){
+                    mincost=list.get(i);
+                    minindex=i;
+                }
+            }
+
+            total+=mincost;
+            list.remove(minindex);
+
+        }
+        return total;
+    }
+    Brute Force: TC: O(n2) SC:O(n)
+
+    public long totalCost(int[] costs, int k, int candidates) {
+
+        PriorityQueue<Integer> leftHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> rightHeap = new PriorityQueue<>();
+
+        int n = costs.length;
+        int left = 0;
+        int right = n - 1;
+
+        // Fill left heap
+        for (int i = 0; i < candidates && left <= right; i++) {
+            leftHeap.offer(costs[left++]);
+        }
+
+        // Fill right heap
+        for (int i = 0; i < candidates && left <= right; i++) {
+            rightHeap.offer(costs[right--]);
+        }
+
+        long total = 0;
+
+        // Hire k workers
+        for (int hired = 0; hired < k; hired++) {
+
+            // Decide from which heap to hire
+            if (rightHeap.isEmpty() ||
+                (!leftHeap.isEmpty() && leftHeap.peek() <= rightHeap.peek())) {
+
+                total += leftHeap.poll();
+
+                // Refill left heap if possible
+                if (left <= right) {
+                    leftHeap.offer(costs[left++]);
+                }
+
+            } else {
+                total += rightHeap.poll();
+
+                // Refill right heap if possible
+                if (left <= right) {
+                    rightHeap.offer(costs[right--]);
+                }
+            }
+        }
+
+        return total;
+    }
+    Optimal: TC: O(nlogn) SC: O(n)
+
+ */
+
+
+    }}
