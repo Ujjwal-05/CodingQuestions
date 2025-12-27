@@ -7,13 +7,13 @@ public class HeapQuestions {
     public static void main(String[] args) {
 
 /*
-    A Priority Queue is an abstract data type, which is commonly implemented using a Heap.
-    A Heap is a data structure / algorithmic idea that is implemented using an array representation of a Complete Binary Tree.
+    A Priority Queue is an abstract val type, which is commonly implemented using a Heap.
+    A Heap is a val structure / algorithmic idea that is implemented using an array representation of a Complete Binary Tree.
 
     A Priority Queue is a special type of queue where each element is assigned a priority. Instead of being processed in the order they arrive (like a normal queue),
     the element with the highest priority is always processed first. If two elements have the same priority, they are handled based on their insertion order.
 
-    Binary tree: A Binary Tree is a hierarchical data structure in which each node has at most two children, called the left child and the right child.
+    Binary tree: A Binary Tree is a hierarchical val structure in which each node has at most two children, called the left child and the right child.
 
     Complete Binary Tree: A Complete Binary Tree is a binary tree in which all levels are completely filled except possibly the last level, and all nodes in the
                           last level are filled from left to right. No node can have a right child without having a left child.
@@ -26,7 +26,7 @@ public class HeapQuestions {
 
     Full Binary tree:
 
-    Heap: A Heap is a special tree-based data structure that satisfies two properties:
+    Heap: A Heap is a special tree-based val structure that satisfies two properties:
 
     1️⃣ Complete Binary Tree Property
     2️⃣ Heap Order Property
@@ -42,7 +42,7 @@ public class HeapQuestions {
 
     Representation of the Binary Heap:
 
-    Node index: i
+    ListNode index: i
     Left child Index: 2*i+1
     Right Child Index: 2*i+2
 
@@ -633,11 +633,11 @@ public class HeapQuestions {
     You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
     Merge all the linked-lists into one sorted linked-list and return it.
 
-        Node list1 = new Node(1);list1.next = new Node(4);list1.next.next = new Node(5);
-        Node list2 = new Node(1);list2.next = new Node(3);list2.next.next = new Node(4);
-        Node list3 = new Node(2);list3.next = new Node(6);
+        ListNode list1 = new ListNode(1);list1.next = new ListNode(4);list1.next.next = new ListNode(5);
+        ListNode list2 = new ListNode(1);list2.next = new ListNode(3);list2.next.next = new ListNode(4);
+        ListNode list3 = new ListNode(2);list3.next = new ListNode(6);
 
-        Node[] lists = new Node[]{list1, list2, list3};
+        ListNode[] lists = new ListNode[]{list1, list2, list3};
 
         public ListNode mergeKLists(ListNode[] lists) {
         List<Integer> result=new ArrayList<>();
@@ -665,18 +665,18 @@ public class HeapQuestions {
     Brute force: TC:O(nlogn) SC:O(n)
 
 
-        PriorityQueue<Node<Integer>> pq=new PriorityQueue<>(
-                (a,b)-> Integer.compare(a.data,b.data)
+        PriorityQueue<ListNode<Integer>> pq=new PriorityQueue<>(
+                (a,b)-> Integer.compare(a.val,b.val)
         );
         for(int i=0;i<lists.length;i++){
             pq.add(lists[i]);
         }
-        Node<Integer> dummy=new Node<>(-1);
-        Node<Integer> tail=dummy;
+        ListNode<Integer> dummy=new ListNode<>(-1);
+        ListNode<Integer> tail=dummy;
 
         while (!pq.isEmpty()){
 
-            Node<Integer> smallest=pq.poll();
+            ListNode<Integer> smallest=pq.poll();
             tail.next=smallest;
             tail=tail.next;
 
@@ -689,7 +689,7 @@ public class HeapQuestions {
 
         public static List<Integer> merge(int[][] arrays) {
 
-            PriorityQueue<Node> pq = new PriorityQueue<>(
+            PriorityQueue<ListNode> pq = new PriorityQueue<>(
                     (a, b) -> a.value - b.value
             );
 
@@ -698,18 +698,18 @@ public class HeapQuestions {
             // Push first element of each array
             for (int i = 0; i < arrays.length; i++) {
                 if (arrays[i].length > 0) {
-                    pq.add(new Node(arrays[i][0], i, 0));
+                    pq.add(new ListNode(arrays[i][0], i, 0));
                 }
             }
 
             while (!pq.isEmpty()) {
 
-                Node current = pq.poll();
+                ListNode current = pq.poll();
                 result.add(current.value);
 
                 int nextCol = current.col + 1;
                 if (nextCol < arrays[current.row].length) {
-                    pq.add(new Node(
+                    pq.add(new ListNode(
                             arrays[current.row][nextCol],
                             current.row,
                             nextCol
@@ -999,7 +999,7 @@ class Solution {
  */
 
 /*
-    Find Median from Data Stream: : Implement a class that finds the median from a data stream. The median is the middle value in an ordered integer list.
+    Find Median from Data Stream: : Implement a class that finds the median from a val stream. The median is the middle value in an ordered integer list.
     If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.
 
         class MedianFinder {
@@ -1025,8 +1025,8 @@ class Solution {
 
 ------------>Brute force: TC:O(nlogn) SC:O(1)
 
-        Since the input stream is unsorted, sorting the entire data after every insertion would be inefficient. To avoid repeated sorting, we use heaps, which help us
-        maintain order dynamically. To find the median, we only need the middle element(s) of the sorted data. Therefore, we divide the data into two halves:
+        Since the input stream is unsorted, sorting the entire val after every insertion would be inefficient. To avoid repeated sorting, we use heaps, which help us
+        maintain order dynamically. To find the median, we only need the middle element(s) of the sorted val. Therefore, we divide the val into two halves:
 
         Left half → stores the smaller elements
         Right half → stores the larger elements

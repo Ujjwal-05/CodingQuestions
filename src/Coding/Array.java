@@ -48,36 +48,53 @@ class Meeting{
 
 }
 
-class Node<T>{
-    T data;
-    Node next;
-
-    public Node(T data, Node next) {
-        this.data = data;
-        this.next = next;
-    }
-    public Node(T data) {
-        this.data = data;
-        this.next = null;
-    }
-
-    Node<T> createnodes(List<T> nums) {
-
-        if (nums.isEmpty()) return null;
-
-        Node<T> head = new Node<>(nums.get(0));
-        Node<T> temp = head;
-
-        for (int i = 1; i < nums.size(); i++) {
-            temp.next = new Node<>(nums.get(i));
-            temp = temp.next;
-        }
-
-        return head;
-    }
-}
+//class ListNode{
+//    int val;
+//    ListNode next;
+//
+//    public ListNode(int val, ListNode next) {
+//        this.val = val;
+//        this.next = next;
+//    }
+//    public ListNode(int val) {
+//        this.val = val;
+//        this.next = null;
+//    }
+//
+//    ListNode createnodes(List<int> nums) {
+//
+//        if (nums.isEmpty()) return null;
+//
+//        ListNode head = new ListNode(nums.get(0));
+//        ListNode temp = head;
+//
+//        for (int i = 1; i < nums.size(); i++) {
+//            temp.next = new ListNode(nums.get(i));
+//            temp = temp.next;
+//        }
+//
+//        return head;
+//    }
+//}
 
 public class Array {
+
+    public ListNode oddEvenList(ListNode head) {
+
+        if(head==null) return null;
+        if(head.next== null || head.next.next== null) return head;
+
+        ListNode curr=head;
+
+        List<Integer> list=new Arraylist<>();
+
+        while(curr!=null){
+
+        }
+
+
+    }
+
     public static boolean canPlace ( int[] stalls, int cows, int d){
 
         int count = 1;
@@ -93,19 +110,7 @@ public class Array {
         return false;
     }
 
-    public static Node reverselinkedlist(Node head){
-        Node prev=null;
-        Node curr=head;
 
-        while (curr!=null){
-            Node front=curr.next;
-            curr.next=prev;
-            prev=curr;
-            curr=front;
-        }
-
-        return prev;
-    }
 
 
     public static void main(String[] args) {
@@ -2277,826 +2282,9 @@ public class Array {
 
 //// Kth element of 2 sorted arrays:
 
-////LinkedList:
-
-        Node<Integer> obj = new Node<>(0, null); // dummy object to call method
-        List<Integer> listnodes = Arrays.asList(2, 3, 4, 5, 6);
-        Node<Integer> head = obj.createnodes(listnodes);
-        Node<Integer> head2 = obj.createnodes(listnodes);
 
 
-// Insertion at Head:
-        Node newnode=new Node<>(1);
-        newnode.next=head;
-        head=newnode;
 
-//// Deletion at end:
-//        Node curr=head;
-//        while (curr.next.next!=null){
-//            curr=curr.next;
-//        }
-//        curr.next=null;
-
-//// Length of the linked list and find an element:
-//        Node curr=head;
-//        int length=0, element=6;
-//        while (curr!=null){
-//            if(curr.data==Integer.valueOf(element)) {
-//                System.out.println("Element Found:" + element);
-//            }
-//            length++;
-//            curr=curr.next;
-//        }
-//        System.out.println("Lenght of List:" + length);
-
-//// Middle of linked list:
-
-//        Node slow=head;
-//        Node fast=head; for 2nd middle in even length case
-//        Node fast=head.next; for 1st middle in even length case
-//
-//        while (fast!=null && fast.next!=null){
-//            slow=slow.next;
-//            fast=fast.next.next;
-//        }
-//
-//        System.out.println(slow.data);
-
-////Reverse a Linked List:
-
-//        Node prev=null;
-//        Node curr=head;
-//
-//        while (curr!=null){
-//
-//            Node front= curr.next;
-//            curr.next=prev;
-//            prev=curr;
-//            curr=front;
-//        }
-
-////Detect a Cycle/loop in a Linked List:
-
-////In Floyd’s Cycle Detection (Tortoise–Hare) algorithm, we move one pointer one step at a time and the other two steps at a time to create a speed difference that
-//// helps detect the presence of a loop efficiently. If there is no cycle in the linked list, the fast pointer, because it moves twice as quickly, will eventually reach
-//// the end of the list and become null, confirming that the list is linear. However, if a cycle exists, both pointers will eventually meet because once they are inside
-//// the loop, the fast pointer keeps closing the gap between itself and the slow pointer.
-//// Assume at some point inside the cycle the fast pointer is k nodes ahead of the slow pointer. Since the fast pointer moves two steps and the slow pointer moves one step
-//// in each iteration, the net reduction in the gap is one node per iteration. So the difference reduces from k to k-1, k-2, and so on, until it becomes zero.
-//// At that moment, both pointers land on the same node, meaning they collide, and this collision conclusively indicates that a cycle exists in the linked list.
-
-//        public ListNode detectCycle(ListNode head) {
-//            Set<ListNode> visited = new HashSet<>();
-//            while (head != null) {
-//                if (visited.contains(head)) {
-//                    return head;
-//                }
-//                visited.add(head);
-//                head = head.next;
-//            }
-//            return null;
-
-//        if (head == null || head.next == null)  return;
-//
-//        Node slow = head;       // moves 1 step
-//        Node fast = head;       // moves 2 steps
-//
-//        while (fast != null && fast.next != null) {
-//            slow = slow.next;           // move slow by 1
-//            fast = fast.next.next;      // move fast by 2
-//
-//            if (slow == fast)           // cycle detected
-//                System.out.println("Yes");
-//        }
-
-//// Starting point of loop in a Linked List: Brute force same as detect loop:
-
-// You may be curious about the proof for this algorithm, and it hinges on the idea that the point where the slow and fast pointers converge
-// can be leveraged to determine the starting point of the loop. In the "tortoise and hare" algorithm for detecting loops in a linked list, when the slow pointer
-// (tortoise) reaches the starting point of the loop, the fast pointer (hare) is positioned at a point that is twice the distance travelled by the slow pointer.
-// This is because the hare moves at double the speed of the tortoise. If slow has travelled distance L1 then fast has travelled 2 x L1. Now that slow and fast have
-// entered the loop, the distance fast will have to cover to catch up to slow is the total length of loop minus L1. Let this distance be d.
-// Distance travelled by slow = L1 Distance travelled by fast = 2 * L1 Total length of loop = L1 + d. In this configuration, the fast pointer advances toward the slow
-// pointer with two jumps per step, while the slow pointer moves away with one jump per step. As a result, the gap between them decreases by 1 with each step.
-// Given that the initial gap is d, it takes exactly d steps for them to meet.
-//// Total length of loop = L1 + d Distance between slow and fast = d
-//During these d steps, the slow pointer effectively travels d steps from the starting point within the loop and fast travels 2 x d and they meet at a specific point.
-// Based on our previous calculations, the total length of the loop is L1 + d. And since the distance covered by the slow pointer within the loop is d,
-// the remaining distance within the loop is equal to L1. Therefore, it is proven that the distance between the starting point of the loop and the point where
-// the two pointers meet is indeed equal to the distance between the starting point and head of the linked list.
-
-//         Node detectCycle(Node head) {
-//
-//            Node slow = head;
-//            Node fast = head;
-//
-//            while (fast != null && fast.next != null) {
-//
-//                slow = slow.next;
-//                fast = fast.next.next;
-//
-//                if (slow == fast) {
-//                    slow = head;
-//
-//                    while (slow != fast) {
-//                        slow = slow.next;
-//                        fast = fast.next;
-//                    }
-//
-//                    return slow;
-//                }
-//            }
-//            return null;
-//        }
-
-//// Length of Loop in LL:
-
-//        public int lengthOfLoop(Node head) {
-//            HashMap<Node, Integer> visitedNodes = new HashMap<>();
-//
-//            Node temp = head;
-//            int timer = 0;
-//
-//            while (temp != null) {
-//
-//                if (visitedNodes.containsKey(temp)) {
-//                    int loopLength = timer - visitedNodes.get(temp);
-//                    return loopLength;
-//                }
-//
-//                visitedNodes.put(temp, timer);
-//                temp = temp.next;
-//                timer++;
-//            }
-//
-//            return 0;
-//        }
-
-//        public int lengthOfLoop(Node head) {
-//            if (head == null || head.next == null) return ;
-//
-//            Node slow = head;
-//            Node fast = head;
-//
-//            while (fast != null && fast.next != null) {
-//                slow = slow.next;
-//                fast = fast.next.next;
-//
-//                if (slow == fast) {
-//                    return countLength(slow);
-//                }
-//            }
-//            return;
-//        }
-//
-//         int countLength(Node meetingPoint) {
-//            Node curr = meetingPoint;
-//            int count = 1;
-//
-//            // traverse cycle until we come back to the same node
-//            while (curr.next != meetingPoint) {
-//                curr = curr.next;
-//                count++;
-//            }
-//            return count;
-//        }
-
-//// Check if the given Linked List is Palindrome:
-
-//        Stack<Integer> st = new Stack<>();
-//        Node curr = head;
-//
-//        while (curr != null) {
-//            st.push((Integer) curr.data);
-//            curr = curr.next;
-//        }
-//
-//        curr = head;
-//        while (curr != null) {
-//            if (curr.data != st.pop()) {
-//                System.out.println("Not a Palindrome");
-//                break;
-//            }
-//            curr = curr.next;
-//        }
-//        System.out.println("It's a Palindrome");
-
-//        Node slow=head;
-//        Node fast=head;
-//
-//        while (fast!=null && fast.next!=null){
-//            slow=slow.next;
-//            fast=fast.next.next;
-//        }
-//
-//        Node firsthalf=head;
-//        Node secondhalfhead=reverselinkedlist(slow);
-//        Node secondhalf=secondhalfhead;
-//
-//        while (secondhalf!=null){
-//            if(firsthalf.data!=secondhalf.data){
-//                System.out.println("Not a Palindrome");
-//                return;
-//            }
-//            firsthalf=firsthalf.next;
-//            secondhalf=secondhalf.next;
-//        }
-//        reverselinkedlist(secondhalfhead);
-//
-//        System.out.println("Its a plaindrome");
-
-//// Segrregate odd and even nodes in LL:
-
-//        if (head == null) return;
-//
-//        ArrayList<Integer> list = new ArrayList<>();
-//        Node curr = head;
-//
-//        while (curr != null) {
-//            list.add((Integer) curr.data);
-//            curr = curr.next;
-//        }
-//
-//        curr = head;
-//
-//        for (int i = 0; i < list.size(); i += 2) {
-//            curr.data = list.get(i);
-//            curr = curr.next;
-//        }
-//
-//        for (int i = 1; i < list.size(); i += 2) {
-//            curr.data = list.get(i);
-//            curr = curr.next;
-//        }
-
-//        Node odd=head;
-//        Node even=head.next;
-//        Node evenhead=even;
-//
-//        while (even!=null && even.next!=null){
-//            odd.next=even.next;
-//            odd=odd.next;
-//
-//            even.next=odd.next;
-//            even=even.next;
-//        }
-//        odd.next=evenhead;
-//
-
-////Delete the Middle Node of the Linked List:
-//        public ListNode deleteMiddle(ListNode head) {
-//            if (head == null || head.next == null)
-//                return null;  // list becomes empty
-//
-//            ListNode slow = head;
-//            ListNode fast = head;
-//            ListNode prev = null;
-//
-//            // Move slow by 1, fast by 2
-//            while (fast != null && fast.next != null) {
-//                prev = slow;
-//                slow = slow.next;
-//                fast = fast.next.next;
-//            }
-//
-//            // Now slow is middle, prev is before middle
-//            prev.next = slow.next;
-//
-//            return head;
-//        }
-
-//// Sort LL:
-
-//        public Node sortLL(Node head) {
-//            // List to store node values
-//            ArrayList<Integer> arr = new ArrayList<>();
-//
-//            // Pointer to traverse the list
-//            Node temp = head;
-//
-//            // Traverse and push values into list
-//            while (temp != null) {
-//                arr.add(temp.data);
-//                temp = temp.next;
-//            }
-//
-//            // Sort the list
-//            Collections.sort(arr);
-//
-//            // Reassign sorted values to list nodes
-//            temp = head;
-//            for (int i = 0; i < arr.size(); i++) {
-//                temp.data = arr.get(i);
-//                temp = temp.next;
-//            }
-//
-//            // Return head of sorted list
-//            return head;
-
-
-//            Node mergeTwoSortedLinkedLists(Node list1, Node list2) {
-//                Node dummyNode = new Node(-1, null);
-//                Node temp = dummyNode;
-//
-//                while (list1 != null && list2 != null) {
-//                    if (list1.data <= list2.data) {
-//                        temp.next = list1;
-//                        list1 = list1.next;
-//                    } else {
-//                        temp.next = list2;
-//                        list2 = list2.next;
-//                    }
-//                    temp = temp.next;
-//                }
-//
-//                if (list1 != null) {
-//                    temp.next = list1;
-//                } else {
-//                    temp.next = list2;
-//                }
-//                return dummyNode.next;
-//            }
-//
-//            public Node findMiddle(Node head) {
-//                // If list empty or single node
-//                if (head == null || head.next == null) {
-//                    return head;
-//                }
-//
-//                // Slow and fast pointers
-//                Node slow = head;
-//                Node fast = head.next;
-//
-//                // Move fast twice as fast as slow
-//                while (fast != null && fast.next != null) {
-//                    slow = slow.next;
-//                    fast = fast.next.next;
-//                }
-//
-//                // Return middle node
-//                return slow;
-//            }
-//
-//            // Function to perform merge sort
-//            public Node sortLL(Node head) {
-//                // Base case: empty or single node
-//                if (head == null || head.next == null) {
-//                    return head;
-//                }
-//
-//                // Find middle node
-//                Node middle = findMiddle(head);
-//
-//                // Split into two halves
-//                Node right = middle.next;
-//                middle.next = null;
-//                Node left = head;
-//
-//                // Recursively sort both halves
-//                left = sortLL(left);
-//                right = sortLL(right);
-//
-//                // Merge sorted halves
-//                return mergeTwoSortedLinkedLists(left, right);
-//            }
-//        }
-
-////Sort a LL of 0's 1's and 2's by changing links
-
-//        Node zerohead= new Node(-1);
-//        Node onehead= new Node(-1);
-//        Node twohead= new Node(-1);
-//
-//        Node zerotail=zerohead;
-//        Node onetail=onehead;
-//        Node twotail=twohead;
-//
-//        Node temp=head;
-//
-//        while (temp!=null){
-//            Node nextnode=temp.next;
-//            temp.next=null;
-//
-//            if((int)temp.data==0){
-//                zerotail.next=temp;
-//                zerotail=zerotail.next;
-//            } else if ((int) temp.data==1) {
-//                onetail.next=temp;
-//                onetail=onetail.next;
-//            }else {
-//                twotail.next=temp;
-//                twotail=twotail.next;
-//            }
-//
-//            temp=nextnode;
-//        }
-//
-//        zerotail.next=(onehead.next!=null)?onehead.next:twohead.next;
-//        onetail.next=twohead.next;
-//        twotail.next=null;
-//
-//        return (zerohead.next != null)
-//                ? zerohead.next
-//                : (onehead.next != null ? onehead.next : twohead.next);
-
-//// Find intersection of Two Linked Lists:
-
-//public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-//    HashSet<ListNode> set = new HashSet<>();
-//
-//    while (headA != null) {
-//        set.add(headA);
-//        headA = headA.next;
-//    }
-//
-//    while (headB != null) {
-//        if (set.contains(headB))
-//            return headB;
-//        headB = headB.next;
-//    }
-//
-//    return null;
-//}
-
-//        public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-//
-//            if (headA == null || headB == null)
-//                return null;
-//
-//            ListNode a = headA;
-//            ListNode b = headB;
-//
-//            // Traverse until both pointers meet
-//            while (a != b) {
-//
-//                // If pointer a reaches the end of list A, move it to the head of list B
-//                if (a == null) {
-//                    a = headB;
-//                } else {
-//                    a = a.next;   // otherwise move to next node
-//                }
-//
-//                // If pointer b reaches the end of list B, move it to the head of list A
-//                if (b == null) {
-//                    b = headA;
-//                } else {
-//                    b = b.next;   // otherwise move to next node
-//                }
-//            }
-//
-//            // At this point, a == b
-//            // If intersection exists, it is the intersection node
-//            // If no intersection, both are null
-//            return a;
-//        }
-
-
-//// Add 1 to a number represented by LL
-
-//        if (head == null)
-//            return null;
-//
-//        long num = 0;
-//        ListNode curr = head;
-//
-//        // Step 1: Convert list to number
-//        while (curr != null) {
-//            num = num * 10 + curr.data;
-//            curr = curr.next;
-//        }
-//
-//        // Step 2: Add 1
-//        num = num + 1;
-//
-//        // Step 3: Convert updated number to string
-//        String s = String.valueOf(num);
-//
-//        // Step 4: Rewrite digits from the front
-//        curr = head;
-//        int i = 0;
-//
-//        // Track tail node to append later
-//        ListNode tail = null;
-//
-//        while (curr != null && i < s.length()) {
-//            curr.data = s.charAt(i) - '0';
-//            tail = curr;
-//            curr = curr.next;
-//            i++;
-//        }
-//
-//        // Step 5: Append remaining digits (if any)
-//        while (i < s.length()) {
-//            ListNode newNode = new ListNode(s.charAt(i) - '0');
-//            tail.next = newNode;
-//            tail = newNode;
-//            i++;
-//        }
-//
-//        return head;
-
-//            public ListNode addOne(ListNode head) {
-//                if (head == null)
-//                    return null;
-//
-//                // Step 1: Reverse the list
-//                head = reverse(head);
-//
-//                ListNode curr = head;
-//                int carry = 1; // since we add 1
-//
-//                // Step 2: Add 1 and propagate carry
-//                while (curr != null) {
-//                    int sum = curr.data + carry;
-//                    curr.data = sum % 10;
-//                    carry = sum / 10;
-//
-//                    // If no carry left, break
-//                    if (carry == 0)
-//                        break;
-//
-//                    // If next is null and carry exists, add node
-//                    if (curr.next == null && carry > 0) {
-//                        curr.next = new ListNode(carry);
-//                        carry = 0;
-//                    }
-//
-//                    curr = curr.next;
-//                }
-//
-//                // Step 3: Reverse back to original order
-//                head = reverse(head);
-//
-//                return head;
-//            }
-//
-//            private ListNode reverse(ListNode head) {
-//                ListNode prev = null;
-//                ListNode curr = head;
-//
-//                while (curr != null) {
-//                    ListNode next = curr.next;
-//                    curr.next = prev;
-//                    prev = curr;
-//                    curr = next;
-//                }
-//
-//                return prev;
-//            }
-//        }
-
-////Use && when you need pairs of nodes:
-////Use || when you need to process all nodes, even if one list ends before the other:
-
- ////Add 2 numbers in LL:
-
-//       Node l1=head,l2=head2;
-//       int carry=0;
-//       Node newHead=null, curr=null;
-//
-//       while (l1!=null || l2!=null || carry>0){
-//           int sum=carry;
-//           if(l1!=null){
-//               sum= sum +(int) l1.data;
-//               l1=l1.next;
-//           }
-//
-//           if(l2!=null){
-//               sum= sum +(int) l2.data;
-//               l2=l2.next;
-//           }
-//
-//           carry=sum/10;
-//
-//           Node newNode=new Node<>(sum%10);
-//
-//           if(newHead==null){
-//               newHead=newNode;
-//               curr=newNode;
-//           }else {
-//               curr.next = newNode;
-//               curr = curr.next;
-//           }
-//
-//       }
-
-//// While(temp!=null) till null
-//// While(temp.next!=null) till last
-//// While(temp.next.next!=null) till second last
-
-////Rotate a Linked List: Given the head of a singly linked list containing integers, shift the elements of the linked list to the right by k places and return the head of the modified list.
-////Do not change the values of the nodes, only change the links between nodes.
-
-//        int k=3;
-//        if(head==null || head.next==null || k==0) return;
-//
-//        for (int i=1;i<=k;i++){
-//
-//            Node prev=null;
-//            Node curr=head;
-//
-//            while (curr.next!=null){
-//                prev=curr;
-//                curr=curr.next;
-//            }
-//
-//            curr.next=head;
-//            head=curr;
-//            prev.next=null;
-//        }           // O(n*k)
-
-//        int k=10;
-//        if(head==null || head.next==null || k==0) return;
-//
-//        Node temp=head;
-//        int length=1;
-//        while (temp.next!=null){
-//            temp=temp.next;
-//            length++;
-//        }
-//
-//        k=k%length;
-//
-//        Node fast=head;
-//
-//        //move fast pointer k steps
-//        for(int i=0;i<k;i++){
-//            fast=fast.next;
-//        }
-//
-//        Node slow=head;
-//
-//        // move slow and fast together
-//        while (fast.next!=null){
-//            fast=fast.next;
-//            slow=slow.next;
-//        }
-//
-//        fast.next=head;
-//        head=slow.next;
-//        slow.next=null;
-
-////Merge Two Sorted Linked list in one sorted list:
-
-//        Node mergeTwoLists(Node l1, Node l2) {
-//        Node dummy = new Node(-1);
-//        Node temp = dummy;
-//
-//        while (l1 != null && l2 != null) {
-//            if (l1.val < l2.val) {
-//                temp.next = l1;
-//                l1 = l1.next;
-//            } else {
-//                temp.next = l2;
-//                l2 = l2.next;
-//            }
-//            temp = temp.next;
-//        }
-//
-//
-//            // Attach leftover part
-//            if (l1 != null) temp.next = l1;
-//            else temp.next = l2;
-//
-//            return dummy.next;
-//        }
-
-////Flattening a Linked List:
-
-//        if (head == null) return ;
-//
-//        // Step 1: add all nodes to list
-//        ArrayList<Integer> list = new ArrayList<>();
-//
-//        Node temp = head;
-//        while (temp != null) {
-//            Node b = temp;
-//            while (b != null) {
-//                list.add(b.data);
-//                b = b.bottom;
-//            }
-//            temp = temp.next;
-//        }
-//
-//        // Step 2: sort values
-//        Collections.sort(list);
-//
-//        // Step 3: build new linked list using bottom pointers
-//        Node newHead = new Node(list.get(0));
-//        Node curr = newHead;
-//
-//        for (int i = 1; i < list.size(); i++) {
-//            curr.bottom = new Node(list.get(i));
-//            curr = curr.bottom;
-//        }
-
-//        class Solution {
-//            // Merge two sorted bottom-linked lists
-//            Node merge(Node a, Node b) {
-//                if (a == null) return b;
-//                if (b == null) return a;
-//
-//                Node result;
-//
-//                if (a.data < b.data) {
-//                    result = a;
-//                    result.bottom = merge(a.bottom, b);
-//                } else {
-//                    result = b;
-//                    result.bottom = merge(a, b.bottom);
-//                }
-//
-//                result.next = null;  // very important!
-//                return result;
-//            }
-//
-//            // Main flatten function
-//            Node flatten(Node root) {
-//                if (root == null || root.next == null)
-//                    return root;
-//
-//                // Flatten the right side
-//                root.next = flatten(root.next);
-//
-//                // Merge root list with flattened right list
-//                root = merge(root, root.next);
-//
-//                return root;
-//            }
-//        }
-
-
-////Reverse Linked List in groups of Size K:
-
-// returns the k-th node from temp (1-based)
-//        Node getKthNode(Node temp, int k) {
-//            k = k - 1; // we already treat temp as 1st node
-//            while (temp != null && k > 0) {
-//                temp = temp.next;
-//                k--;
-//            }
-//            return temp;   // may return null if < k nodes remain
-//        }
-
-//        // reverse entire linked list (standard)
-//        Node reverseLinkedList(Node head) {
-//            Node prev = null;
-//            Node curr = head;
-//
-//            while (curr != null) {
-//                Node next = curr.next;
-//                curr.next = prev;
-//                prev = curr;
-//                curr = next;
-//            }
-//            return prev; // new head of reversed segment
-//        }
-//
-//        // main K-group reverse
-//        Node kReverse(Node head, int k) {
-//            if (head == null || k <= 1) return head;
-//
-//            Node temp = head;
-//            Node prevLast = null;
-//
-//            while (temp != null) {
-//
-//                Node kthNode = getKthNode(temp, k);
-//                if (kthNode == null) {
-//                    // remaining nodes < k → no reverse
-//                    if (prevLast != null) prevLast.next = temp;
-//                    break;
-//                }
-//
-//                Node nextNode = kthNode.next;
-//                kthNode.next = null; // detach segment
-//
-//                // reverse the extracted segment
-//                Node reversedHead = reverseLinkedList(temp);
-//
-//                // connect previous segment
-//                if (temp == head) {
-//                    head = reversedHead;
-//                } else {
-//                    prevLast.next = reversedHead;
-//                }
-//
-//                // temp becomes last of reversed segment
-//                prevLast = temp;
-//
-//                // move ahead
-//                temp = nextNode;
-//            }
-//
-//            return head;
-//        }
-
-//
-//        Node temphead =head;
-//        while (temphead !=null){
-//            System.out.print(temphead.data + " ");
-//            temphead = temphead.next;
-//        }
 
 ////Stack and Queue:
 
@@ -3755,14 +2943,14 @@ public class Array {
 //// LRU Cache:
 
 //        // Doubly linked list node class
-//        class  Node{
+//        class  ListNode{
 //            int key;
 //            int value;
-//            Node next;
-//            Node prev;
+//            ListNode next;
+//            ListNode prev;
 //
 //            // Constructor to initialize node
-//            public Node(int _key,int _value){
+//            public ListNode(int _key,int _value){
 //                this.key=_key;
 //                this.value=_value;
 //            }
@@ -3771,15 +2959,15 @@ public class Array {
 //        class LRUCache {
 //
 //            private int capacity;
-//            private HashMap<Integer, Node> map;
-//            private Node head, tail;
+//            private HashMap<Integer, ListNode> map;
+//            private ListNode head, tail;
 //
 //            public LRUCache(int capacity) {
 //                this.capacity=capacity;
 //                map=new HashMap<>();
 //
-//                head=new Node(-1,-1);
-//                tail=new Node(-1,-1);
+//                head=new ListNode(-1,-1);
+//                tail=new ListNode(-1,-1);
 //                head.next=tail;
 //                tail.prev=head;
 //            }
@@ -3788,7 +2976,7 @@ public class Array {
 //
 //                if(!map.containsKey(_key)) return -1;
 //
-//                Node resNode=map.get(_key);
+//                ListNode resNode=map.get(_key);
 //
 //                //map.remove(_key);
 //
@@ -3803,31 +2991,31 @@ public class Array {
 //            public void put(int _key, int _value) {
 //
 //                if(map.containsKey(_key)){
-//                    Node oldNode=map.get(_key);
+//                    ListNode oldNode=map.get(_key);
 //                    deleteNode(oldNode);
 //                    map.remove(_key);
 //                }
 //
 //                // If capacity reached
 //                if(map.size()==capacity){
-//                    Node lru=tail.prev;
+//                    ListNode lru=tail.prev;
 //                    map.remove(lru.key);
 //                    deleteNode(lru);
 //                }
 //
-//                Node newNode=new Node(_key,_value);
+//                ListNode newNode=new ListNode(_key,_value);
 //                insertAfterHead(newNode);
 //                map.put(_key,newNode);
 //            }
 //
-//            private void insertAfterHead(Node temp) {
+//            private void insertAfterHead(ListNode temp) {
 //                temp.next=head.next;
 //                temp.prev=head;
 //                head.next.prev=temp;
 //                head.next=temp;
 //            }
 //
-//            private void deleteNode(Node temp) {
+//            private void deleteNode(ListNode temp) {
 //                temp.prev.next=temp.next;
 //                temp.next.prev=temp.prev;
 //            }
