@@ -77,23 +77,7 @@ class Meeting{
 //    }
 //}
 
-public class Array {
-
-    public ListNode oddEvenList(ListNode head) {
-
-        if(head==null) return null;
-        if(head.next== null || head.next.next== null) return head;
-
-        ListNode curr=head;
-
-        List<Integer> list=new Arraylist<>();
-
-        while(curr!=null){
-
-        }
-
-
-    }
+public class ArrayQuestions {
 
     public static boolean canPlace ( int[] stalls, int cows, int d){
 
@@ -110,155 +94,337 @@ public class Array {
         return false;
     }
 
-
-
-
     public static void main(String[] args) {
         System.out.println("Happy Coding");
 
+/* Pattern: Simple Traversal / Math / Logic:
+
 ////Reverse a number or Check palindrome.
-//        int num=121;
-//        int reversed=0, temphead=num;
-//
-//        while(temphead>0){
-//            reversed=reversed*10 + temphead%10;
-//            temphead/=10;
-//        }
+
+        int num=121;
+        int reversed=0, temphead=num;
+
+        while(temphead>0){
+            reversed=reversed*10 + temphead%10;
+            temphead/=10;
+        }
 
 //// Check num is Armstrong or not:
-//        static boolean isArmstrong(int num) {
-//            int original = num;
-//            int digits = String.valueOf(num).length();
-//            int sum = 0;
-//
-//            while (num > 0) {
-//                int rem = num % 10;
-//                sum += (int) Math.pow(rem, digits);
-//                num /= 10;
-//            }
-//            return sum == original;
-//        }
+
+        static boolean isArmstrong(int num) {
+            int original = num;
+            int digits = String.valueOf(num).length();
+            int sum = 0;
+
+            while (num > 0) {
+                int rem = num % 10;
+                sum += (int) Math.pow(rem, digits);
+                num /= 10;
+            }
+            return sum == original;
+        }
 
 ////Second Largest element in the from the array:
-//        int [] arr= {10,8,5,4,3,9};
-//        int largest=Integer.MIN_VALUE;
-//        int second_larget=Integer.MIN_VALUE;
-//
-//        for(int i=0;i<arr.length;i++){
-//            if(arr[i]>largest){
-//                second_larget=largest;
-//                largest=arr[i];
-//            } else if (arr[i]<largest && arr[i]>second_larget){
-//                second_larget=arr[i];
-//            }
-//        }
 
-//// Find the duplicate elemet in the array:
+        int [] arr= {10,8,5,4,3,9};
+        int largest=Integer.MIN_VALUE;
+        int second_larget=Integer.MIN_VALUE;
+
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]>largest){
+                second_larget=largest;
+                largest=arr[i];
+            } else if (arr[i]<largest && arr[i]>second_larget){
+                second_larget=arr[i];
+            }
+        }
+
 //// Remove duplicates from the sorted array:
-//        int [] arr= {1,2,2,2,2,2,3,3,3,4,5,5};
-//        int left=0;
-//
-//        for(int right=1;right<arr.length;right++){
-//            if(arr[left]!=arr[right]){
-//                left++;
-//                arr[left]=arr[right];;
-//            }
-//        }
+        int [] arr= {1,2,2,2,2,2,3,3,3,4,5,5};
+        int left=0;
+
+        for(int right=1;right<arr.length;right++){
+            if(arr[left]!=arr[right]){
+                left++;
+                arr[left]=arr[right];;
+            }
+        }
 
 //// Find the missing number in array:
-//// Left rotate array by d place:
-//        int [] a={1,2,3,4,5};
-//        int k =3;
-//
-//        Reverse(a,0,k-1);
-//        Reverse(a,k,a.length-1);
-//        Reverse(a,0,a.length-1);
 
-//        static void Reverse(int[] a, int start, int end) {
-//            while (start < end) {
-//                int temp = a[start];
-//                a[start] = a[end];
-//                a[end] = temp;
-//                start++;
-//                end--;
-//            }
-//        }
+    public int missingNumber(int[] nums) {
+        int n = nums.length;
+
+        int expectedSum = n * (n + 1) / 2;
+        int actualSum = 0;
+
+        for (int num : nums) {
+            actualSum += num;
+        }
+
+        return expectedSum - actualSum;
+    }
+
+//// Left rotate array by d place:
+        int [] a={1,2,3,4,5};
+        int k =3;
+
+        Reverse(a,0,k-1);
+        Reverse(a,k,a.length-1);
+        Reverse(a,0,a.length-1);
+
+        static void Reverse(int[] a, int start, int end) {
+            while (start < end) {
+                int temp = a[start];
+                a[start] = a[end];
+                a[end] = temp;
+                start++;
+                end--;
+            }
+        }
 
 ////Find the number that appears once, and other numbers twice.
-//
-//        int[] arr={1,1,2,2,3,3,4,4,5,5,6};
-//        int res=0;
-//
-//        for (int num:arr){
-//            res=res^num;
-//        }
+
+        int[] arr={1,1,2,2,3,3,4,4,5,5,6};
+        int res=0;
+
+        for (int num:arr){
+            res=res^num;
+        }
+        return res;
 
 //// Moves zero to end and preserve the order:
-//        int [] arr={0,5,5,1,0,0,0,1,2,3,0,0,4,5,0,0};
-//
-//        int left=-1;
-//        for(int right=0;right<arr.length;right++){
-//
-//            if(arr[right]==0){
-//                if(left==-1) {
-//                    left = right;
-//                }
-//            }else {
-//                if(left!=-1){
-//                    arr[left]=arr[right];
-//                    arr[right]=0;
-//                    left++;
-//                }
-//            }
-//        }
+        int [] arr={0,5,5,1,0,0,0,1,2,3,0,0,4,5,0,0};
+
+        public void moveZeroes(int[] nums) {
+
+            int n = nums.length;
+            int j = -1;
+
+            // STEP 1: Find the index of first zero
+            for (int i = 0; i < n; i++) {
+                if (nums[i] == 0) {
+                    j = i;
+                    break;
+                }
+            }
+
+            // If no zero found, array already valid
+            if (j == -1) return;
+
+            // STEP 2: Move non-zero elements forward
+            for (int i = j + 1; i < n; i++) {
+                if (nums[i] != 0) {
+                    // swap nums[i] and nums[j]
+                    int temp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = temp;
+
+                    j++;
+                }
+            }
+    }
 
 ////Leader in array problem:
 
-////// Rearrange Array elements by sign.
-//        int[] arr = { -7, -1, 5, -3, 6, 4};
-//        int[] res = new int[arr.length];
-//
-//        int pos=0,neg=1;
-//
-//        for(int num:arr){
-//            if(num>0){
-//                res[pos]=num;
-//                pos+=2;
-//            }
-//            else {
-//                res[neg]=num;
-//                neg+=2;
-//            }
-//
-//        }
+     public static void printLeaders(int[] arr) {
+        int n = arr.length;
+        int maxFromRight = arr[n - 1];
 
-////Java programme to print distinct element in UnSorted/Sorted array.
-////Print duplicate elements in Sorted/Unsorted array:
+        // Rightmost element is always a leader
+        System.out.print(maxFromRight + " ");
+
+        // Traverse from right to left
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] >= maxFromRight) {
+                maxFromRight = arr[i];
+                System.out.print(maxFromRight + " ");
+            }
+        }
+    }
+
+
+//// Rearrange Array elements by sign.
+
+        int[] arr = { -7, -1, 5, -3, 6, 4};
+        int[] res = new int[arr.length];
+
+        int pos=0,neg=1;
+
+        for(int num:arr){
+            if(num>0){
+                res[pos]=num;
+                pos+=2;
+            }
+            else {
+                res[neg]=num;
+                neg+=2;
+            }
+
+        }
+
+////Distinct element in UnSorted/Sorted array.
+
+    public static void main(String[] args) {
+        int[] arr = {4, 2, 1, 2, 4, 3, 1};
+        int n = arr.length;
+
+        for (int i = 0; i < n; i++) {
+            boolean isDistinct = true;
+
+            for (int j = 0; j < i; j++) {
+                if (arr[i] == arr[j]) {
+                    isDistinct = false;
+                    break;
+                }
+            }
+
+            if (isDistinct) {
+                System.out.print(arr[i] + " ");
+            }
+        }
+    }
+
+     public static void main(String[] args) {
+        int[] arr = {1, 1, 2, 2, 2, 3, 4, 4, 5};
+        int n = arr.length;
+
+        // First element is always distinct
+        System.out.print(arr[0] + " ");
+
+        for (int i = 1; i < n; i++) {
+            if (arr[i] != arr[i - 1]) {
+                System.out.print(arr[i] + " ");
+            }
+        }
+    }
+
+     public static void main(String[] args) {
+        int[] arr = {4, 2, 1, 2, 4, 3, 1};
+
+        Set<Integer> seen = new HashSet<>();
+
+        for (int num : arr) {
+            if (!seen.contains(num)) {
+                System.out.print(num + " ");
+                seen.add(num);
+            }
+        }
+    }
+
+////Print duplicate elements in Sorted:
+
+    public static List<Integer> findDuplicates(int[] arr) {
+        List<Integer> duplicates = new ArrayList<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            int count = 0;
+
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[i] == arr[j]) {
+                    count++;
+                }
+            }
+
+            if (count > 1 && !duplicates.contains(arr[i])) {
+                duplicates.add(arr[i]);
+            }
+        }
+        return duplicates;
+    }
+
+      public static List<Integer> findDuplicatesSorted(int[] arr) {
+        List<Integer> duplicates = new ArrayList<>();
+
+        for (int i = 0; i < arr.length - 1; i++) {
+
+            // duplicate found
+            if (arr[i] == arr[i + 1]) {
+
+                if (duplicates.isEmpty() || duplicates.get(duplicates.size() - 1) != arr[i]) {
+                    duplicates.add(arr[i]);
+                }
+            }
+        }
+        return duplicates;
+    }
+
+////Print duplicate elements in Unsorted:
+
+     public static List<Integer> findDuplicates(int[] arr) {
+        List<Integer> duplicates = new ArrayList<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            int count = 0;
+
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[i] == arr[j]) {
+                    count++;
+                }
+            }
+
+            if (count > 1 && !duplicates.contains(arr[i])) {
+                duplicates.add(arr[i]);
+            }
+        }
+        return duplicates;
+    }
+
+     public static List<Integer> findDuplicatesUnsorted(int[] arr) {
+        Set<Integer> seen = new HashSet<>();
+        List<Integer> duplicates = new ArrayList<>();
+
+        for (int num : arr) {
+            // if already seen → duplicate
+            if (!seen.add(num)) {
+                // add only once
+                if (!duplicates.contains(num)) {
+                    duplicates.add(num);
+                }
+            }
+        }
+        return duplicates;
+    }
 
 ////Find pairs with given sum in sorted array:
-//        int arr[] = {1,1,2,2,3,4,4,5,6,7,8}; int k = 9;
 
-//        int left = 0, right = arr.length - 1;
-//        while (left < right) {
-//            int sum = arr[left] + arr[right];
-//
-//            if (sum == k) {
-//                System.out.println(arr[left] + " " + arr[right]);
-//
-//                // Skip duplicates for left
-//                int currentLeft = arr[left];
-//                while (left < right && arr[left] == currentLeft) left++;
-//
-//                // Skip duplicates for right
-//                int currentRight = arr[right];
-//                while (left < right && arr[right] == currentRight) right--;
-//
-//            } else if (sum > k) {
-//                right--;
-//            } else {
-//                left++;
-//            }
-//        }
+    public static void printPairs(int[] arr, int target) {
+
+        int n = arr.length;
+
+        for (int i = 0; i < n; i++) {
+
+            if (i > 0 && arr[i] == arr[i - 1]) continue;
+
+            for (int j = i + 1; j < n; j++) {
+
+                if (j > i + 1 && arr[j] == arr[j - 1]) continue;
+
+                if (arr[i] + arr[j] == target) {
+                    System.out.println("(" + arr[i] + ", " + arr[j] + ")");
+            }
+       }
+
+        int arr[] = {1,1,2,2,3,4,4,5,6,7,8}; int k = 9;
+
+        int left = 0, right = arr.length - 1;
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+
+            if (sum == k) {
+
+                int currentLeft = arr[left];
+                while (left < right && arr[left] == currentLeft) left++;
+
+                int currentRight = arr[right];
+                while (left < right && arr[right] == currentRight) right--;
+
+            } else if (sum > k) {
+                right--;
+            } else {
+                left++;
+            }
+        }
 
 ////Find Unique pairs with given sum in Unsorted array:
 //        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
