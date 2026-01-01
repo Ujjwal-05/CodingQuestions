@@ -393,741 +393,138 @@ public class ArrayQuestions {
         int n = arr.length;
 
         for (int i = 0; i < n; i++) {
-
             if (i > 0 && arr[i] == arr[i - 1]) continue;
 
             for (int j = i + 1; j < n; j++) {
-
                 if (j > i + 1 && arr[j] == arr[j - 1]) continue;
-
                 if (arr[i] + arr[j] == target) {
                     System.out.println("(" + arr[i] + ", " + arr[j] + ")");
             }
        }
 
-        int arr[] = {1,1,2,2,3,4,4,5,6,7,8}; int k = 9;
 
-        int left = 0, right = arr.length - 1;
-        while (left < right) {
-            int sum = arr[left] + arr[right];
+     int arr[] = {1,1,2,2,3,4,4,5,6,7,8}; int k = 9;
+     int left = 0, right = arr.length - 1;
+     while (left < right) {
+       int sum = arr[left] + arr[right];
 
-            if (sum == k) {
+       if (sum == k) {
 
-                int currentLeft = arr[left];
-                while (left < right && arr[left] == currentLeft) left++;
+            int currentLeft = arr[left];
+            while (left < right && arr[left] == currentLeft) left++;
 
-                int currentRight = arr[right];
-                while (left < right && arr[right] == currentRight) right--;
+            int currentRight = arr[right];
+            while (left < right && arr[right] == currentRight) right--;
 
-            } else if (sum > k) {
-                right--;
-            } else {
-                left++;
-            }
+        } else if (sum > k) {
+            right--;
+        } else {
+            left++;
         }
+    }
 
 ////Find Unique pairs with given sum in Unsorted array:
-//        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
 
-//        Set<Integer> set = new HashSet<>();
-//        Set<String> printed = new HashSet<>();
-//
-//        for (int num : arr) {
-//            int complement = k - num;
-//
-//            if (set.contains(complement)) {
-//                int a = Math.min(num, complement);
-//                int b = Math.max(num, complement);
-//
-//                if (printed.add(a + "," + b)) {
-//                    System.out.println(a + " " + b);
-//                }
-//            }
-//
-//            set.add(num);
-//        }
+        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
+
+        Set<Integer> set = new HashSet<>();
+        Set<String> printed = new HashSet<>();
+
+        for (int num : arr) {
+            int complement = k - num;
+
+            if (set.contains(complement)) {
+                int a = Math.min(num, complement);
+                int b = Math.max(num, complement);
+
+                if (printed.add(a + "," + b)) {
+                    System.out.println(a + " " + b);
+                }
+            }
+
+            set.add(num);
+        }
 
 
 //// Find common element in three or two sorted array:
-//        int[] a ={1,2,3,4,5};
-//        int[] b ={2,3,4,5,6};
-//        int[] c ={3,4,5,6,7};
-//
-//        int i=0,j=0,k=0;
-//
-//        while (i<a.length && j<b.length && k<c.length){
-//
-//            if(a[i]==b[j] && b[j]==c[k]){
-//                System.out.println(a[i]);
-//                i++;
-//                j++;
-//                k++;
-//            } else if (a[i]<b[j]) {i++;}
-//            else if (b[j]<c[k]) {j++;}
-//            else {k++;}
-//
-//            }
+        int[] a ={1,2,3,4,5};
+        int[] b ={2,3,4,5,6};
+        int[] c ={3,4,5,6,7};
+
+        int i=0,j=0,k=0;
+
+        while (i<a.length && j<b.length && k<c.length){
+
+            if(a[i]==b[j] && b[j]==c[k]){
+                System.out.println(a[i]);
+                i++;
+                j++;
+                k++;
+            } else if (a[i]<b[j]) {i++;}
+            else if (b[j]<c[k]) {j++;}
+            else {k++;}
+
+            }
 
 //// Find common element in three  unsorted array:
-//
-//        int[] a={2,8,7,5,4,6,6};
-//        int[] b={5,2,7,3,9,1,5};
-//        int[] c={1,7,2,5,6,4,5};
-//
-//        Set<Integer> set1=new HashSet<>();
-//        for(int num: a){
-//            set1.add(num);
-//        }
-//
-//        Set<Integer> set2=new HashSet<>();
-//        for(int num: b){
-//            if(set1.contains(num)){
-//                set2.add(num);
-//            }
-//        }
-//
-//        Set<Integer> set3=new HashSet<>();
-//        for(int num: c){
-//            if(set2.contains(num)){
-//                set3.add(num);
-//            }
-//
-//        }
-//
-//        for(int nums: set3 ){
-//            System.out.println(nums);
-//        }
 
-//// Delete an element from array via position:
-//        int[] a={1,2,3,4,5};
-//        int k=5;
-//
-//        for(int i=k-1;i<a.length-1;i++){
-//            a[i]=a[i+1];
-//        }
-//
-//        a[a.length-1]=-1;
-//
-//        for(int nums: a){
-//            System.out.println(nums);
-//        }
+        int[] a={2,8,7,5,4,6,6};
+        int[] b={5,2,7,3,9,1,5};
+        int[] c={1,7,2,5,6,4,5};
+
+        Set<Integer> set1=new HashSet<>();
+        for(int num: a){
+            set1.add(num);
+        }
+
+        Set<Integer> set2=new HashSet<>();
+        for(int num: b){
+            if(set1.contains(num)){
+                set2.add(num);
+            }
+        }
+
+        Set<Integer> set3=new HashSet<>();
+        for(int num: c){
+            if(set2.contains(num)){
+                set3.add(num);
+            }
+
+        }
+
+        for(int nums: set3 ){
+            System.out.println(nums);
+        }
 
 //// Given an array of 0 and 1, arrange them left side array contain 0 and right side 1:
-//
-//        int[] a={0,1,1,0,0,0,1,0,1,1,0};
-//        int left=0, right=a.length-1;
-//
-//        while(left<right){
-//
-//            while(a[left]==0 && left<right){
-//                left++;
-//            }
-//            while (a[right]==1 && left<right){
-//                right--;
-//            }
-//
-//            if(left<right) {
-//                int temphead = a[left];
-//                a[left] = a[right];
-//                a[right] = temphead;
-//
-//                left++;
-//                right--;
-//            }
-//
-//        }
-//        for (int nums: a){
-//            System.out.print(nums);
-//        }
-//
-//        System.out.println();
 
-////Find the union of the 2 sorted array and result should be sorted:
-//
-//        int arr1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//        int arr2[] = {2, 3, 4, 4, 5, 11, 12};
-//
-//        ArrayList<Integer> union = new ArrayList<>();
-//        int i = 0, j = 0;
-//
-//        while (i < arr1.length && j < arr2.length) {
-//            if (arr1[i] < arr2[j]) {
-//                if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-//                    union.add(arr1[i]);
-//                }
-//                i++;
-//            } else if (arr1[i] > arr2[j]) {
-//                if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
-//                    union.add(arr2[j]);
-//                }
-//                j++;
-//            } else {
-//                // arr1[i] == arr2[j], add one of them
-//                if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-//                    union.add(arr1[i]);
-//                }
-//                i++;
-//                j++;
-//            }
-//        }
-//
-//        while (i < arr1.length) {
-//            if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-//                union.add(arr1[i]);
-//            }
-//            i++;
-//        }
-//
-//        while (j < arr2.length) {
-//            if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
-//                union.add(arr2[j]);
-//            }
-//            j++;
-//        }
+        int[] a={0,1,1,0,0,0,1,0,1,1,0};
+        int left=0, right=a.length-1;
 
-////Longest Subarray with given Sum K(Positives)
-//
-//        int[] a = {2,3,5,0,0,0,9,0};
-//        int k = 10;
-//        int i=0,j=0,sum=0,length=0;
-//        while (j<a.length){
-//            sum+=a[j];
-//
-//            while (sum>k && i<j){
-//                sum-=a[i];
-//                i++;
-//            }
-//            if(sum==k){
-//                length=Math.max(length,j-i+1);
-//            }
-//            j++;
-//        }
+        while(left<right){
 
-////Longest Subarray with given Sum K(Positives+Negatives):
-//        int[] arr={2, 3, -4, 5, 0, 4, -2, 2}; int k=10;
+            while(a[left]==0 && left<right){
+                left++;
+            }
+            while (a[right]==1 && left<right){
+                right--;
+            }
 
-//        int i=0,j=0,sum=0,length=0;
-//        HashMap<Integer,Integer> hashMap=new HashMap<>();
-//        hashMap.put(0, -1);
-//        for(i=0;i<a.length;i++){
-//            sum+=a[j];
-//
-//            if(hashMap.containsKey(sum-k)){
-//                int len= i-hashMap.get(sum-k);
-//                length=Math.max(len,length);
-//            }
-//
-//            if (sum == k) {
-//                length = Math.max(length, i + 1);
-//            }
-//
-//            hashMap.putIfAbsent(sum, i);
+            if(left<right) {
+                int temphead = a[left];
+                a[left] = a[right];
+                a[right] = temphead;
 
-////Longest Subarray with Equal Number of 0s and 1s.
-//        int[] arr = {0, 1, 0, 1, 1, 0, 0};
+                left++;
+                right--;
+            }
+        }
 
-//        int maxLen = 0;
-//        for (int i = 0; i < arr.length; i++) {
-//            int zero = 0;
-//            int one = 0;
-//
-//            for (int j = i; j < arr.length; j++) {
-//                if (arr[j] == 0) zero++;
-//                else one++;
-//
-//                if (zero == one) {
-//                    maxLen = Math.max(maxLen, j - i + 1);
-//                }
-//            }
-//        }
+*/
 
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//        int sum=0;
-//        map.put(0, -1); // handle subarray starting at index 0
-//
-//        for (int i = 0; i < arr.length; i++) {
-//            sum += (arr[i] == 0 ? -1 : 1);
-//
-//            if (map.containsKey(sum)) {
-//                int len = i - map.get(sum);
-//                maxLen = Math.max(maxLen, len);
-//            }
-//            map.putIfAbsent(sum, i);
-//        }
-
-////Largest Subarray with Equal Number of 0s, 1s, and 2s.
-//        int c0=0,c1=0,c2=0, d10=0,d20=0;
-//        HashMap<String, Integer> map = new HashMap<>();
-//        map.put("0#0",-1);
-//        for (i = 0; i < arr.length; i++) {
-//            if(arr[i]==0) c0++;
-//            else if (arr[i]==1) c1++;
-//            else c2++;
-//
-//            d10=c1-c0;
-//            d20=c2-c0;
-//
-//            String key= d10 + "#" + d20;
-//
-//            if(map.containsKey(key)){
-//                length=Math.max(length,i-map.get(key));
-//            }
-//            map.putIfAbsent(key,i);
-//        }
-
-//// Two Sum: Given an unsorted array of integers arr[] and an integer target, find any pair of elements whose sum equals target.
-
-//        int[] arr = {2, 7, 11, 15};
-//        int k = 9;
-//
-//        Map<Integer, Integer> map = new HashMap<>();
-//        int count = 0;
-//
-//        for (int num : arr) {
-//            int rem = k - num;
-//
-//            if (map.containsKey(rem)) {
-//                count += map.get(rem);  // count all occurrences
-//            }
-//
-//            map.put(num, map.getOrDefault(num, 0) + 1);
-//        }
-//
-//        System.out.println("Total pairs = " + count);
+/*
 
 
-////Sort an array of 0s, 1s and 2s:
-//
-//        int[] arr={1,0,2,2,2,1,1,1,0,0,0,1,1,1,2,2,2,2};
-//        int low=0, mid=0,high=arr.length-1;
-//        while (mid<=high){
-//            if(arr[mid]==0){
-//                int temp=arr[low];
-//                arr[low]=arr[mid];
-//                arr[mid]=temp;
-//                low++;
-//                mid++;
-//            } else if (arr[mid]==1) {
-//                mid++;
-//            }else {
-//                int temphead=arr[mid];
-//                arr[mid]=arr[high];
-//                arr[high]=temphead;
-//                high--;
-//            }
-//        }
-//
-//        System.out.println(Arrays.toString(arr));
-
-////  Return an element that occurs more than N/2 times:
-//        int[] arr={2,3,5,0,0,0,0,0};
-//        int n = arr.length;
-//
-//        for (int i = 0; i < n; i++) {
-//            int count = 0;
-//
-//            // Count occurrences of arr[i]
-//            for (int j = 0; j < n; j++) {
-//                if (arr[j] == arr[i]) {
-//                    count++;
-//                }
-//            }
-//
-//            // Check if it occurs more than N/2 times
-//            if (count > n / 2) {
-//        System.out.println(arr[i]);
-//            }
-//        }
-
-//        int count=0, max_element=-1;
-//
-//        for (int i=0;i<arr.length;i++){
-//            if(count==0){
-//                count=1;
-//                max_element=arr[i];
-//            } else if (max_element==arr[i]) {
-//                count++;
-//            }else {
-//                count--;
-//            }
-//
-//        }
-//
-//        int count1=0;
-//        for(int num:arr){
-//            if(num==max_element){
-//                count1++;
-//            }
-//        }
-//
-//        if(count1>Math.floor(arr.length/2)){
-//            System.out.println(max_element);
-//        }else {
-//
-//            System.out.println(-1);
-//
-//        }
-
-////Return an element that occurs more than N/3 times:
-//        int[] arr={2,1,1,3,1,4,5,6};
-
-//        Set<Integer> ans= new HashSet<>();
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//        for(int num : arr){
-//            map.put(num,map.getOrDefault(num,0)+1);
-//
-//            if(map.get(num)>arr.length/3){
-//                ans.add(num);
-//            }
-//
-//            if(ans.size()==2) break;
-//        }
-
-//        int e1=-1, e2=-1, cnt1=0, cnt2=0;
-//
-//        for(int num:arr){
-//            if(cnt1==0 && num!=e2){
-//                e1=num;
-//                cnt1++;
-//            } else if (cnt2==0 && num!=e1) {
-//                e2=num;
-//                cnt2++;
-//            } else if (num==e1) cnt1++;
-//            else if (num==e2) cnt2++;
-//            else {
-//                cnt1--;
-//                cnt2--;
-//        }
-//        }
-//        // Step 2: Verify actual counts
-//        cnt1 = 0;
-//        cnt2 = 0;
-//        for (int num : arr) {
-//            if (num == e1) cnt1++;
-//            else if (num == e2) cnt2++;
-//        }
-//
-
-//// Step 3: Collect results
-//        List<Integer> res = new ArrayList<>();
-//        if (cnt1 > arr.length / 3) res.add(e1);
-//        if (cnt2 > arr.length / 3) res.add(e2);
-//
-//
-//        System.out.println(res);
-
-////Maximum subarray Sum( find the contiguous subarray (containing at least one number) which has the largest sum):
-//        int[] arr = { -2, -1, 3, 4, -1, 2,-1};
-
-//        int max_sum=Integer.MIN_VALUE;
-//        int sum=0,j=0;
-//        for(int i=0;i<arr.length;i++) {
-//            sum += arr[i];
-//
-//            if(sum>max_sum){
-//                max_sum=sum;
-//                length=i-j+1;
-//            }
-//
-//            if(sum<0){
-//                sum=0;
-//                j=i+1;
-//            }
-//        }
-//        System.out.println(max_sum);
-
-//// Stock buy or sell
-//        int[] arr = { 7, 1, 5, 3, 6, 4};
-//        int min=arr[0];
-//        int profit=0, current_profit=0;
-//
-//        for(int i=1;i<arr.length;i++) {
-//
-//            current_profit=arr[i]-min;
-//
-//            profit=Math.max(current_profit,profit);
-//
-//            if(min>arr[i]){
-//                min=arr[i];
-//            }
-//        }
-//
-
-////Maximum Product sub array. with (+ve,0)/ (+ve,-ve,0):
-//        int[] arr = {2, -1, 2, -1, 6, 4};
-
-//        int min_prod=arr[0];
-//        int max_prod=arr[0];
-//        int ans=arr[0];
-//
-//        for( i=1;i<arr.length;i++){
-//            int curr=arr[i];
-//            if(curr<0){
-//                int temp=max_prod;
-//                max_prod=min_prod;
-//                min_prod=temp;
-//            }
-//
-//            max_prod=Math.max(curr,max_prod*curr);
-//            min_prod=Math.min(curr,min_prod*curr);
-//
-//            ans=Math.max(max_prod,ans);
-//        }
-//
-//        System.out.println(ans);
-
-
-////Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
-//        int[] arr = {100, 4, 200, 1, 3, 2, 2};
-//        int maxlen = 0;
-//
-//        HashSet<Integer> set = new HashSet<>();
-//        for (int num : arr) set.add(num);
-//
-//        for (int num : set) {
-//            if (!set.contains(num - 1)) { // start of a sequence
-//                int curr = num;
-//                int len = 1; // reset for each new sequence
-//
-//                while (set.contains(++curr)) {
-//                    len++;
-//                }
-//
-//                maxlen = Math.max(maxlen, len);
-//            }
-//        }
-//
-//        System.out.println(maxlen);
-
-////Product of Array Except Self.
-//        int[] nums = {1, 2, 3, 4,5};
-
-//        int res[] =new int[nums.length];
-//        res[0]=1;
-//        // prefix
-//        for(int i=1;i<nums.length;i++){
-//            res[i]=res[i-1]*nums[i-1];
-//        }
-//
-//        int suffix=1;
-//        for(int i=nums.length-1;i>=0;i--){
-//            res[i]*=suffix;
-//            suffix*=nums[i];
-//        }
-//
-//        System.out.println(java.util.Arrays.toString(res));
-
-////Next Permutation:
-
-//// 3 Sum Problem: Find three numbers in an array whose sum equals a given target:
-//        int[] arr = {-1, 0, 1, 2, -1, -4};
-//        int k=0;
-//        List<List<Integer>> res= new ArrayList<>();
-//        Arrays.sort(arr);
-//        // [-4, -1, -1, 0, 1, 2]
-//        for(int i=0;i<arr.length-2;i++){
-//
-//            if(i>0 && arr[i]==arr[i-1]) continue;
-//
-//            int left=i+1;
-//            int right=arr.length-1;
-//
-//            while (left<right){
-//                int sum=arr[i] + arr[left] +arr[right];
-//
-//                if(sum==k){
-//                    res.add(Arrays.asList(arr[i],arr[left],arr[right]));
-//
-//                    while (left<right && arr[left]==arr[left+1]) left++;
-//                    while (left<right && arr[right]==arr[right-1]) right--;
-//
-//                    left++;
-//                    right--;
-//                } else if (sum>k) {
-//                    right--;
-//                }else {
-//                    left++;
-//                }
-//            }
-//            System.out.println(res);
-
-
-////Merge two sorted array Without Extra Space:
-//// Remove Outermost Parenthesis:
-//
-//        int count=0;
-//        for(Character c: str.toCharArray()){
-//            if(c=='('){
-//                if(count>0) sb.append(c);
-//                count++;
-//            }else {
-//                count--;
-//                if(count>0) sb.append(c);
-//            }
-//        }
-
-////Reverse Words in a String
-//        String str="  This is decent ";
-//        int index = 0;
-//        List<String> ans = new ArrayList<>();
-//
-//        while (index < str.length()) {
-//            // skip spaces
-//            while (index < str.length() && str.charAt(index) == ' ') index++;
-//
-//            // collect word
-//            StringBuilder currentWord = new StringBuilder();
-//            while (index < str.length() && str.charAt(index) != ' ') {
-//                currentWord.append(str.charAt(index));
-//                index++;
-//            }
-//
-//            if (currentWord.length() > 0) {
-//                ans.add(currentWord.toString());
-//            }
-//        }
-//
-//        // reverse list
-//        Collections.reverse(ans);
-//
-//        System.out.println(String.join(" ", ans));
-
-//// Largest Odd Number in a String:
-//        String str = "1245788";
-//        int left = 0, right = str.length() - 1;
-//
-        // Move right pointer to the last odd digit
-//        while (right >= 0 && (str.charAt(right) - '0') % 2 == 0) {
-//            right--;
-//        }
-//
-//        // If no odd digit exists
-//        if (right == -1) {
-//            System.out.println("No Substring found");
-//        } else {
-//            // Skip leading zeros
-//            while (left < right && str.charAt(left) == '0') {
-//                left++;
-//            }
-//
-//            System.out.println(str.substring(left, right + 1));
-//        }
-
-//// Longest Common Prefix:
-//        String[] input = {"interview", "internet", "internal", "interval"};
-
-//        if (input == null || input.length == 0) return;
-//        String prefix = input[0];
-//        if (prefix == null) return;
-//
-//        for(int i=1;i<input.length;i++){
-//
-//            while (!input[i].startsWith(prefix)){
-//                prefix=prefix.substring(0,prefix.length()-1);
-//            }
-//
-//            if(prefix.isEmpty()){
-//                System.out.println("No Prefix Found");
-//                return;
-//            }
-//        }
-//        System.out.println("LCP is " + prefix);
-
-//        Arrays.sort(input);
-//        String first=input[0];
-//        String last=input[input.length-1];
-//        StringBuilder ans =new StringBuilder();
-//
-//        for(int i=0;i<Math.min(first.length(),last.length());i++){
-//
-//            if(first.charAt(i)!=last.charAt(i)) break;
-//            ans.append(first.charAt(i));
-//        }
-//
-//        System.out.println(ans.toString());
-
-////Sort Characters by frequency: You are given a string s. Return the array of unique characters, sorted by highest to lowest occurring characters.
-/// If two or more characters have same frequency then arrange them in alphabetic order.
-//        String str="raaaajj";
-
-//        Map<Character, Integer> freq = new HashMap<>();
-//        for (char c : str.toCharArray()) {
-//            freq.put(c, freq.getOrDefault(c, 0) + 1);
-//        }
-//
-//        List<Character> result = new ArrayList<>(freq.keySet());
-//
-//        result.sort((a, b) -> {
-//            if (!freq.get(a).equals(freq.get(b))) {
-//                return freq.get(b) - freq.get(a); // higher freq first
-//            }
-//            return a - b; // lexicographical order when freq is same
-//        });
-//
-//        System.out.println(result);
-
-////Implement Atoi:
-
-////Sum of Beauty of all substring: The beauty of a string is defined as the difference between the frequency of the most frequent character and
-////the least frequent character (excluding characters that do not appear) in that string.
-//        String s="aabcbaa";
-//
-//        int n = s.length(), sum = 0;
-//        for (int i = 0; i < n; i++) {
-//            Map<Character, Integer> freq = new HashMap<>();
-//
-//            for (int j = i; j < n; j++) {
-//                // Increase character frequency
-//                freq.put(s.charAt(j), freq.getOrDefault(s.charAt(j), 0) + 1);
-//
-//                int maxi = Integer.MIN_VALUE;
-//                int mini = Integer.MAX_VALUE;
-//
-//                // Calculate max and min frequency
-//                for (int val : freq.values()) {
-//                    mini = Math.min(mini, val);
-//                    maxi = Math.max(maxi, val);
-//                }
-//                sum += (maxi - mini);
-//            }
-//        }
-
-//// str.substring(beginIndex), str.substring(beginIndex, endIndex);
-////Check if one string is rotation of another
-//        String s = "rotation", goal = "tionrota";
-//        if(s.length()!=goal.length()) return;
-//
-//        for (int i=0;i<s.length();i++){
-//            String rotated= s.substring(i) + s.substring(0,i);
-//            if (rotated.equals(goal)) break;
-//        }
-
-        // Another approach O(n)
-//        if(s.length()==goal.length() && (s+s).contains(goal)){
-//            System.out.println("yes");
-//        }
-
-
-////Check if two Strings are anagrams of each other and also for unicode character:
-//        String s1= "listen", s2= "silent";
-
-//        char[] a= s1.toCharArray();
-//        char[] b=s2.toCharArray();
-//        Arrays.sort(a);
-//        Arrays.sort(b);
-//        System.out.println(Arrays.equals(a,b));
-
-//        char[] frequency=new char[26];
-//        for(int i=0;i<s1.length();i++){
-//            frequency[s1.charAt(i)-'a']++;
-//        }
-//        for (int i=0;i<s2.length();i++){
-//            frequency[s2.charAt(i)-'a']--;
-//        }
-//        for(int i=0;i<frequency.length;i++){
-//            if(frequency[i]==1) return;
-//        }
-//        System.out.println("Yes");
 
 //// Longest Substring Without Repeating Characters: Given a string, S. Find the length of the longest substring
 //// without repeating characters.
