@@ -450,16 +450,6 @@ public int maxProfit(int[] prices) {
         // After this copy the result back into array:
 
 
-
-
-
-
-
-
-
-
-
-
 ////Next Permutation:
 
 
@@ -639,6 +629,6 @@ public int maxProfit(int[] prices) {
 //        }
 //        System.out.println("Yes");
 
-
+*/
     }
 }
