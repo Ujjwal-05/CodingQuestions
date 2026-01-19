@@ -158,15 +158,6 @@ class MongoFactory implements DatabaseFactory {
     }
 }
 
-
-/*
-========================================================================================
-CLIENT CODE
-========================================================================================
-- Client selects ONE factory based on DB type
-- Client gets all compatible objects from that factory
-========================================================================================
-*/
 public class AbstractFactory {
     public static void main(String[] args) {
 
