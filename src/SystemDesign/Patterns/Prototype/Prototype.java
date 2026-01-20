@@ -17,21 +17,6 @@ class Student {
         return new Student(this);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 }
 
 class IntelligentStudent extends Student{
@@ -47,13 +32,6 @@ class IntelligentStudent extends Student{
         return new IntelligentStudent(this);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }
 
 public class Prototype {
@@ -61,11 +39,6 @@ public class Prototype {
 
     Student student=new Student("Ujjwal",25);
     Student clonedStudent=student.clone();
-
-    System.out.println(student.getAge()==clonedStudent.getAge());
-
-    clonedStudent.setAge(30);
-    System.out.println(student.getAge()==clonedStudent.getAge());
 
     }
 }
@@ -183,7 +156,7 @@ package SystemDesign.Patterns;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
+
 ========================================================================================
 PROTOTYPE DESIGN PATTERN - GAME EXAMPLE (WITH PROTOTYPE REGISTRY)
 ========================================================================================
@@ -210,7 +183,7 @@ Benefits:
 ========================================================================================
 
 interface Enemy<T> {
-     T cloneEnemy();
+    T cloneEnemy();
     void setPosition(int x, int y);
     void show();
 }
@@ -420,4 +393,4 @@ public class PrototypeGameWithRegistry {
 ✔ Yes, to avoid repeating variables → use Abstract Base Class + interface
 ✔ If you don’t use it → it’s interface-based design, used when objects don’t share common state
 
-    */
+*/

@@ -1,5 +1,90 @@
 package SystemDesign.Patterns.AdapterAndFacade;
 
+class YesBankApi {
+
+    public int getBalance(){
+        return 100;
+    }
+
+    public void transferMoney(){
+    }
+}
+
+class ICICIBankAPi {
+
+    public int findBalance(){
+        return 10000;
+    }
+
+    public void fundTransfer(){
+        return;
+    }
+}
+
+interface BankApi {
+
+    public int checkBalance();
+
+    public void moneyTransfer();
+}
+
+class ICICIBankAPiAdapter implements BankApi{
+
+    private ICICIBankAPi iciciBankAPi;
+
+    public ICICIBankAPiAdapter(ICICIBankAPi iciciBankAPi) {
+        this.iciciBankAPi = iciciBankAPi;
+    }
+
+    @Override
+    public int checkBalance() {
+        return iciciBankAPi.findBalance();
+    }
+
+    @Override
+    public void moneyTransfer() {
+        iciciBankAPi.fundTransfer();
+    }
+}
+
+class YesBankApiAdapter implements BankApi{
+
+    private YesBankApi yesBankApi;
+
+    public YesBankApiAdapter(YesBankApi yesBankApi) {
+        this.yesBankApi = yesBankApi;
+    }
+
+    @Override
+    public int checkBalance() {
+        return yesBankApi.getBalance();
+    }
+
+    @Override
+    public void moneyTransfer() {
+        yesBankApi.transferMoney();
+    }
+}
+
+class Phonepe{
+
+    private BankApi bankApi;
+
+    public Phonepe(BankApi bankApi) {
+        this.bankApi = bankApi;
+    }
+
+    public int balance(){
+        return bankApi.checkBalance();
+    }
+
+    public void transfer(){
+        bankApi.moneyTransfer();
+    }
+
+
+}
+
 public class AdapterClient {
     public static void main(String[] args) {
 
