@@ -124,7 +124,7 @@ public class ArrayQuestions {
             return sum == original;
         }
 
-////Second Largest element in the from the array:
+////Second-Largest element in the array:
 
         int [] arr= {10,8,5,4,3,9};
         int largest=Integer.MIN_VALUE;
@@ -139,7 +139,7 @@ public class ArrayQuestions {
             }
         }
 
-//// Remove duplicates from the sorted array:
+//// Remove duplicates from the sorted/unsorted array.
         int [] arr= {1,2,2,2,2,2,3,3,3,4,5,5};
         int left=0;
 
@@ -166,6 +166,22 @@ public class ArrayQuestions {
     }
 
 //// Left rotate array by d place:
+
+    public void rotate(int[] nums, int k) {
+        int n=nums.length;
+        k=k%n;
+
+        for(int i=1;i<=k;i++){
+            int temp=nums[n-1];
+
+            for(int j=n-2;j>=0;j--){
+                nums[j+1]=nums[j];
+            }
+            nums[0]=temp;
+
+        }
+
+    }
         int [] a={1,2,3,4,5};
         int k =3;
 
@@ -245,6 +261,43 @@ public class ArrayQuestions {
 
 
 //// Rearrange Array elements by sign.
+
+    public int[] rearrangeArray(int[] nums) {
+        ArrayList<Integer> pos = new ArrayList<>();
+        ArrayList<Integer> neg = new ArrayList<>();
+
+        // Separate positive and negative
+     for (int num : nums) {
+            if (num >= 0) {
+                pos.add(num);
+            } else {
+                neg.add(num);
+            }
+        }
+
+        int[] result = new int[nums.length];
+
+        int posIdx = 0, negIdx = 0;
+        int i = 0;
+
+        // Fill alternately
+        while (posIdx < pos.size() && negIdx < neg.size()) {
+            if (i % 2 == 0)
+                result[i++] = pos.get(posIdx++);
+            else
+                result[i++] = neg.get(negIdx++);
+        }
+
+        // Remaining positives
+        while (posIdx < pos.size())
+            result[i++] = pos.get(posIdx++);
+
+        // Remaining negatives
+        while (negIdx < neg.size())
+            result[i++] = neg.get(negIdx++);
+
+        return result;
+}
 
         int[] arr = { -7, -1, 5, -3, 6, 4};
         int[] res = new int[arr.length];
@@ -388,42 +441,74 @@ public class ArrayQuestions {
 
 ////Find pairs with given sum in sorted array:
 
-    public static void printPairs(int[] arr, int target) {
+    public int[] twoSum(int[] numbers, int target) {
+        int n=numbers.length;
+        int[] res=new int[2];
 
-        int n = arr.length;
+        for(int i=0;i<n;i++){
 
-        for (int i = 0; i < n; i++) {
-            if (i > 0 && arr[i] == arr[i - 1]) continue;
+            for(int j=i+1;j<n;j++){
 
-            for (int j = i + 1; j < n; j++) {
-                if (j > i + 1 && arr[j] == arr[j - 1]) continue;
-                if (arr[i] + arr[j] == target) {
-                    System.out.println("(" + arr[i] + ", " + arr[j] + ")");
+                if(numbers[i]+numbers[j]==target){
+                    res[0]=i+1;
+                    res[1]=j+1;
+                    break;
+                }
             }
-       }
-
-
-     int arr[] = {1,1,2,2,3,4,4,5,6,7,8}; int k = 9;
-     int left = 0, right = arr.length - 1;
-     while (left < right) {
-       int sum = arr[left] + arr[right];
-
-       if (sum == k) {
-
-            int currentLeft = arr[left];
-            while (left < right && arr[left] == currentLeft) left++;
-
-            int currentRight = arr[right];
-            while (left < right && arr[right] == currentRight) right--;
-
-        } else if (sum > k) {
-            right--;
-        } else {
-            left++;
         }
+        return res;
+    }
+
+    public int[] twoSum(int[] numbers, int target) {
+        int n=numbers.length;
+        int[] res=new int[2];
+        int left=0, right=n-1;
+
+        while(left<right){
+            int sum=numbers[left] + numbers[right];
+
+            if(sum==target){
+                res[0]=left+1;
+                res[1]=right+1;
+                break;
+            }else if(sum>target){
+                right--;
+            }else{
+                left++;
+            }
+        }
+        return res;
     }
 
 ////Find Unique pairs with given sum in Unsorted array:
+
+        public List<List<Integer>> findPairs(int[] nums, int target) {
+        int n = nums.length;
+
+        Set<String> uniquePairs = new HashSet<>();
+        List<List<Integer>> result = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+
+                if (nums[i] + nums[j] == target) {
+
+                    int a = Math.min(nums[i], nums[j]);
+                    int b = Math.max(nums[i], nums[j]);
+
+                    String key = a + "," + b;
+
+                    if (!uniquePairs.contains(key)) {
+                        result.add(Arrays.asList(a, b));
+                        uniquePairs.add(key);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+        TC:O(n2) SC:O(n)
 
         int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
 
@@ -446,7 +531,8 @@ public class ArrayQuestions {
         }
 
 
-//// Find common element in three or two sorted array:
+//// Find common element in two/three sorted array:
+
         int[] a ={1,2,3,4,5};
         int[] b ={2,3,4,5,6};
         int[] c ={3,4,5,6,7};
@@ -497,6 +583,8 @@ public class ArrayQuestions {
         }
 
 //// Given an array of 0 and 1, arrange them left side array contain 0 and right side 1:
+
+Brute Force: Traversal and count ones and zeroes O(2n)
 
         int[] a={0,1,1,0,0,0,1,0,1,1,0};
         int left=0, right=a.length-1;

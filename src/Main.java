@@ -103,27 +103,58 @@ public class Main {
         );
 
 
-        List<Employee> employees = Arrays.asList(
-                new Employee(1, "A", 10, 10000.0, 100),
-                new Employee(2, "B", 10, 20000.0, 100),
-                new Employee(3, "C", 20, 30000.0, 200),
-                new Employee(4, "D", 20, 40000.0, 300),
-                new Employee(5, "E", 30, 50000.0, 300));
+//        List<Employee> employees = Arrays.asList(
+//                new Employee(1, "A", 10, 10000.0, 100),
+//                new Employee(2, "B", 10, 20000.0, 100),
+//                new Employee(3, "C", 20, 30000.0, 200),
+//                new Employee(4, "D", 20, 40000.0, 300),
+//                new Employee(5, "E", 30, 50000.0, 300));
+//
+//        List<String> fullNames = List.of("John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Jane Smith", "alice   johnson");
+//        List<List<Integer>> listOfLists = List.of(List.of(1, 2, 3), List.of(4, 5), List.of(6, 7, 8, 9));
+//        List<String> names = List.of("Rahul", "Amit", "Sureshhhh", "Ankit", "Naman", "Amit");
+//        String str = "daadbccdb@#123DC";
+//        List<String> sentences = List.of("Java is fun", "Streams are powerful", "Java Streams are awesome", "Java is good");
+//        List<Integer> integers = List.of(1, 2, 3, 5, 4, 5);
+//        List<Integer> list1 = List.of(1, 2, 3, 4, 5);
+//        List<Integer> list2 = List.of(3, 4, 5, 6, 7);
+//        Set<Integer> set =new HashSet<>();
+//        List<Integer> list=new ArrayList<>();
+//
+//        int[] nums ={1, 3, 3,10};
+//        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
+//        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        List<String> fullNames = List.of("John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Jane Smith", "alice   johnson");
-        List<List<Integer>> listOfLists = List.of(List.of(1, 2, 3), List.of(4, 5), List.of(6, 7, 8, 9));
-        List<String> names = List.of("Rahul", "Amit", "Sureshhhh", "Ankit", "Naman", "Amit");
-        String str = "daadbccdb@#123DC";
-        List<String> sentences = List.of("Java is fun", "Streams are powerful", "Java Streams are awesome", "Java is good");
-        List<Integer> integers = List.of(1, 2, 3, 5, 4, 5);
-        List<Integer> list1 = List.of(1, 2, 3, 4, 5);
-        List<Integer> list2 = List.of(3, 4, 5, 6, 7);
-        Set<Integer> set =new HashSet<>();
-        List<Integer> list=new ArrayList<>();
+        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
 
-        int[] nums ={1, 3, 3,10};
-        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
-        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
+        List<List<Integer>> list=new ArrayList<>();
+        Set<String> set=new HashSet<>();
+
+        for(int i=0;i<arr.length;i++){
+            for(int j=i+1;j<arr.length;j++){
+
+                if(arr[i] + arr[j]==k){
+
+                    int a=Math.min(arr[i],arr[j]);
+                    int b=Math.max(arr[i],arr[j]);
+
+                    String str= a + "" + b;
+
+                    if(!set.contains(str)){
+                        list.add(Arrays.asList(a,b));
+                    }
+
+                }
+            }
+        }
+
+
+
+
+
+
+
+
 
 
 
