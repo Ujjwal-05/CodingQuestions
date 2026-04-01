@@ -125,28 +125,40 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
+            int[] arr = { 7, 1, 5, 3, 6, 4};
 
-        List<List<Integer>> list=new ArrayList<>();
-        Set<String> set=new HashSet<>();
 
-        for(int i=0;i<arr.length;i++){
-            for(int j=i+1;j<arr.length;j++){
+            int currentProfit=0;
+            int maximumProfit=0;
 
-                if(arr[i] + arr[j]==k){
+            for(int i=0;i<arr.length;i++){
+                int buyPrice=arr[i];
+                for(int j=i+1;j<arr.length;j++){
 
-                    int a=Math.min(arr[i],arr[j]);
-                    int b=Math.max(arr[i],arr[j]);
-
-                    String str= a + "" + b;
-
-                    if(!set.contains(str)){
-                        list.add(Arrays.asList(a,b));
+                    if(arr[i]>buyPrice){
+                        currentProfit=arr[i]-buyPrice;
+                        maximumProfit=Math.max(maximumProfit,currentProfit);
                     }
-
+                    buyPrice=arr[j];
                 }
+
+                return maximumProfit;
+
+
+
+                buyPrice=Math.min(buyPrice,arr[i]);
+
             }
-        }
+
+
+
+
+
+
+
+
+
+
 
 
 

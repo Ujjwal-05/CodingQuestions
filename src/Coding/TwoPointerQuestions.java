@@ -3,48 +3,118 @@ package Coding;
 public class TwoPointerQuestions {
     public static void main(String[] args) {
 /*
-////Find the union of the 2 sorted array and result should be sorted:
 
-        int arr1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int arr2[] = {2, 3, 4, 4, 5, 11, 12};
+//Find the union of the 2 sorted array and result should be sorted:
+
+        public static int[] bruteForceUnionOfArrays(int[] arr1, int[] arr2) {
+        int n = arr1.length;
+        int m = arr2.length;
+
+        int[] temp = new int[n + m];
+        int k = 0;
+
+        for (int i = 0; i < n; i++) {
+            boolean exists = false;
+
+            for (int j = 0; j < k; j++) {
+                if (temp[j] == arr1[i]) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                temp[k++] = arr1[i];
+            }
+        }
+
+        // Add elements from arr2
+        for (int i = 0; i < m; i++) {
+            boolean exists = false;
+
+            for (int j = 0; j < k; j++) {
+                if (temp[j] == arr2[i]) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                temp[k++] = arr2[i];
+            }
+        }
+
+        Arrays.sort(temp, 0, k);
+        return Arrays.copyOf(temp, k);
+    }
+
+    TC=(n2 + m(n+m))=(n+m)2
+
+    public static ArrayList<Integer> unionUsingSet(int[] arr1, int[] arr2) {
+
+    HashSet<Integer> set = new HashSet<>();
+
+    for (int i = 0; i < arr1.length; i++) {
+        set.add(arr1[i]);
+    }
+
+    for (int i = 0; i < arr2.length; i++) {
+        set.add(arr2[i]);
+    }
+
+    ArrayList<Integer> union = new ArrayList<>(set);
+    Collections.sort(union);
+    return union;
+}
+
+// TC: O(n + m + k log k)
+// SC: O(n + m)
+
+public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
         ArrayList<Integer> union = new ArrayList<>();
         int i = 0, j = 0;
 
         while (i < arr1.length && j < arr2.length) {
+
             if (arr1[i] < arr2[j]) {
                 if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-                    union.add(arr1[i]);
-                }
-                i++;
-            } else if (arr1[i] > arr2[j]) {
-                if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
-                    union.add(arr2[j]);
-                }
-                j++;
-            } else {
-                // arr1[i] == arr2[j], add one of them
-                if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
-                    union.add(arr1[i]);
-                }
-                i++;
-                j++;
-            }
-        }
-
-        while (i < arr1.length) {
-            if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
                 union.add(arr1[i]);
             }
             i++;
         }
-
-        while (j < arr2.length) {
+        else if (arr1[i] > arr2[j]) {
             if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
                 union.add(arr2[j]);
             }
             j++;
         }
+        else {
+            if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
+                union.add(arr1[i]);
+            }
+            i++;
+            j++;
+        }
+    }
+
+    while (i < arr1.length) {
+        if (union.size() == 0 || union.get(union.size() - 1) != arr1[i]) {
+            union.add(arr1[i]);
+        }
+        i++;
+    }
+
+    while (j < arr2.length) {
+        if (union.size() == 0 || union.get(union.size() - 1) != arr2[j]) {
+            union.add(arr2[j]);
+        }
+        j++;
+    }
+
+    return union;
+}
+    TC: (n+m)
 
 ////Longest Subarray with given Sum K(Positives)
 
@@ -90,21 +160,83 @@ public class TwoPointerQuestions {
 ////Longest Subarray with Equal Number of 0s and 1s.
         int[] arr = {0, 1, 0, 1, 1, 0, 0};
 
-        HashMap<Integer,Integer> map=new HashMap<>();
-        int sum=0;
-        map.put(0, -1); // handle subarray starting at index 0
+        public static int longestSubarrayWithEqualZeroOneBruteForce(int[] arr) {
+
+           int maxLen = 0;
+
+            for (int i = 0; i < arr.length; i++) {
+
+            int count0 = 0, count1 = 0;
+
+            for (int j = i; j < arr.length; j++) {
+
+                if (arr[j] == 0) count0++;
+                else count1++;
+
+                if (count0 == count1) {
+                    maxLen = Math.max(maxLen, j - i + 1);
+                }
+            }
+        }
+
+        return maxLen;
+}
+
+// TC: O(n^2)
+// SC: O(1)
+
+        public static int longestSubarrayWithEqualZeroOne(int[] arr) {
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            int sum = 0;
+            int maxLen = 0;
+
+            map.put(0, -1);
 
         for (int i = 0; i < arr.length; i++) {
-            sum += (arr[i] == 0 ? -1 : 1);
+
+            if (arr[i] == 0) sum += -1;
+            else sum += 1;
 
             if (map.containsKey(sum)) {
                 int len = i - map.get(sum);
                 maxLen = Math.max(maxLen, len);
             }
-            map.putIfAbsent(sum, i);
+
+            map.putIfAbsent(sum, i); // no need for else
         }
 
+        return maxLen;
+}
+
+// TC: O(n)
+// SC: O(n)
+
 ////Largest Subarray with Equal Number of 0s, 1s, and 2s.
+
+        public static int longestSubarrayWithEqual012BruteForce(int[] arr) {
+
+            int maxLen = 0;
+            for (int i = 0; i < arr.length; i++) {
+            int c0 = 0, c1 = 0, c2 = 0;
+            for (int j = i; j < arr.length; j++) {
+
+                if (arr[j] == 0) c0++;
+                else if (arr[j] == 1) c1++;
+                else c2++;
+
+                if (c0 == c1 && c1 == c2) {
+                    maxLen = Math.max(maxLen, j - i + 1);
+                }
+            }
+        }
+
+        return maxLen;
+    }
+
+// TC: O(n^2)
+// SC: O(1)
+
         int c0=0,c1=0,c2=0, d10=0,d20=0;
         HashMap<String, Integer> map = new HashMap<>();
         map.put("0#0",-1);
@@ -123,48 +255,64 @@ public class TwoPointerQuestions {
             }
             map.putIfAbsent(key,i);
         }
+
 ////Maximum Product sub array.
-        int[] arr = {2, -1, 2, -1, 6, 4};
 
-        int min_prod=arr[0];
-        int max_prod=arr[0];
-        int ans=arr[0];
+        public int maxProduct(int[] nums) {
 
-        for( i=1;i<arr.length;i++){
-            int curr=arr[i];
-            if(curr<0){
-                int temp=max_prod;
-                max_prod=min_prod;
-                min_prod=temp;
+            int ans = nums[0];
+            int curr_max = nums[0];
+            int curr_min = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+
+            int curr = nums[i];
+
+            if (curr < 0) {
+                int temp = curr_max;
+                curr_max = curr_min;
+                curr_min = temp;
             }
 
-            max_prod=Math.max(curr,max_prod*curr);
-            min_prod=Math.min(curr,min_prod*curr);
-
-            ans=Math.max(max_prod,ans);
+            curr_max = Math.max(curr, curr * curr_max);
+            curr_min = Math.min(curr, curr * curr_min);
+            ans = Math.max(ans, curr_max); // ✅ FIX HERE
         }
+        return ans;
+    }
 
-        System.out.println(ans);
+// TC: O(n)
+// SC: O(1)
 
 //// Maximum subarray Sum:
-        int[] arr = { -2, -1, 3, 4, -1, 2,-1};
 
-        int max_sum=Integer.MIN_VALUE;
-        int sum=0,j=0;
-        for(int i=0;i<arr.length;i++) {
-            sum += arr[i];
+        public static int maxSubarraySum(int[] arr) {
 
-            if(sum>max_sum){
-                max_sum=sum;
-                length=i-j+1;
+            int i = 0, j = 0;
+            int sum = 0;
+            int max_sum = Integer.MIN_VALUE;
+
+            while (j < arr.length) {
+
+            sum += arr[j];
+
+            if (sum > max_sum) {
+                max_sum = sum;
             }
 
-            if(sum<0){
-                sum=0;
-                j=i+1;
+            if (sum < 0) {
+                sum = 0;
+                i = j + 1;
             }
+
+            j++;
         }
-        System.out.println(max_sum);
+
+        return max_sum;
+    }
+
+// TC: O(n)
+// SC: O(1)
 
 //// Stock buy or sell
         int[] arr = { 7, 1, 5, 3, 6, 4};
@@ -183,6 +331,56 @@ public class TwoPointerQuestions {
         }
 
 //// Stock buy or sell II:
+
+"Your approach fails because it treats the problem like a subarray accumulation, while the actual problem requires state-based decisions (buy/sell/skip)."
+
+for (i = 0 → n) {
+    buyPrice = arr[i];
+
+    for (j = i+1 → n) {
+        if (arr[j] > buyPrice) {
+            profit += arr[j] - buyPrice;
+        }
+        buyPrice = arr[j];
+    }
+}
+
+"Whenever a problem involves making choices at each step and future depends on current decisions, we model it using recursion."
+
+public static int maxProfitBruteForce(int[] prices) {
+    return helper(prices, 0);
+}
+
+private static int helper(int[] prices, int index) {
+
+    if (index >= prices.length) return 0;
+
+    int maxProfit = 0;
+
+    for (int buy = index; buy < prices.length; buy++) {
+
+        int profit = 0;
+
+        for (int sell = buy + 1; sell < prices.length; sell++) {
+
+            if (prices[sell] > prices[buy]) {
+
+                int currentProfit = prices[sell] - prices[buy]
+                                  + helper(prices, sell + 1);
+
+                profit = Math.max(profit, currentProfit);
+            }
+        }
+
+        maxProfit = Math.max(maxProfit, profit);
+    }
+
+    return maxProfit;
+}
+
+// TC: Exponential (≈ O(2^n))
+// SC: O(n) (recursion stack)
+
 
 public int maxProfit(int[] prices) {
         int n = prices.length;
@@ -205,23 +403,93 @@ public int maxProfit(int[] prices) {
         return res;
     }
 
-////Product of Array Except Self.
-        int[] nums = {1, 2, 3, 4,5};
+////Product of Array Except Self Without division.
 
-        int res[] =new int[nums.length];
-        res[0]=1;
-        // prefix
-        for(int i=1;i<nums.length;i++){
-            res[i]=res[i-1]*nums[i-1];
+Brute Force: O(N2)
+
+public static int[] productExceptSelfBruteForce(int[] arr) {
+
+    int n = arr.length;
+    int[] result = new int[n];
+
+    for (int i = 0; i < n; i++) {
+
+        int product = 1;
+
+        for (int j = 0; j < n; j++) {
+            if (i != j) {
+                product *= arr[j];
+            }
         }
 
-        int suffix=1;
-        for(int i=nums.length-1;i>=0;i--){
-            res[i]*=suffix;
-            suffix*=nums[i];
-        }
+        result[i] = product;
+    }
 
-        System.out.println(java.util.Arrays.toString(res));
+    return result;
+}
+
+// TC: O(n^2)
+// SC: O(1) (excluding output array)
+
+Better Approach: O(N), O(N)
+
+public static int[] productExceptSelfBetter(int[] arr) {
+
+    int n = arr.length;
+
+    int[] prefix = new int[n];
+    int[] suffix = new int[n];
+    int[] result = new int[n];
+
+    // prefix[i] = product of all elements before i
+    prefix[0] = 1;
+    for (int i = 1; i < n; i++) {
+        prefix[i] = prefix[i - 1] * arr[i - 1];
+    }
+
+    // suffix[i] = product of all elements after i
+    suffix[n - 1] = 1;
+    for (int i = n - 2; i >= 0; i--) {
+        suffix[i] = suffix[i + 1] * arr[i + 1];
+    }
+
+    // result[i] = prefix[i] * suffix[i]
+    for (int i = 0; i < n; i++) {
+        result[i] = prefix[i] * suffix[i];
+    }
+
+    return result;
+}
+
+// TC: O(n)
+// SC: O(n)
+
+Optimal:
+
+
+public static int[] productExceptSelfOptimal(int[] arr) {
+
+    int n = arr.length;
+    int[] result = new int[n];
+
+    // Step 1: store prefix products directly in result
+    result[0] = 1;
+    for (int i = 1; i < n; i++) {
+        result[i] = result[i - 1] * arr[i - 1];
+    }
+
+    // Step 2: multiply with suffix product (using variable)
+    int suffix = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        result[i] = result[i] * suffix;
+        suffix *= arr[i];
+    }
+
+    return result;
+}
+
+// TC: O(n)
+// SC: O(1) (excluding output array)
 
 ////find the length of the longest consecutive elements sequence.
         int[] arr = {100, 4, 200, 1, 3, 2, 2};
