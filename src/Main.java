@@ -125,6 +125,8 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
+
+
             int[] arr = { 7, 1, 5, 3, 6, 4};
 
 
