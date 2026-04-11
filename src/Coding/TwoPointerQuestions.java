@@ -4,7 +4,7 @@ public class TwoPointerQuestions {
     public static void main(String[] args) {
 
 
-//Find the union of the 2 sorted array and result should be sorted:
+////Find the union of the 2 sorted array and result should be sorted:
 
         public static int[] bruteForceUnionOfArrays(int[] arr1, int[] arr2) {
         int n = arr1.length;
