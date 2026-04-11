@@ -125,32 +125,29 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
+        int[] arr = {2,1,5,4,3,0,0};
 
+        int n=arr.length;
+        int breakpoint=-1;
 
-            int[] arr = { 7, 1, 5, 3, 6, 4};
+        for(int i=n-2;i>=0;i--){
 
-
-            int currentProfit=0;
-            int maximumProfit=0;
-
-            for(int i=0;i<arr.length;i++){
-                int buyPrice=arr[i];
-                for(int j=i+1;j<arr.length;j++){
-
-                    if(arr[i]>buyPrice){
-                        currentProfit=arr[i]-buyPrice;
-                        maximumProfit=Math.max(maximumProfit,currentProfit);
-                    }
-                    buyPrice=arr[j];
-                }
-
-                return maximumProfit;
-
-
-
-                buyPrice=Math.min(buyPrice,arr[i]);
-
+            if(arr[i]>arr[i+1]){
+                breakpoint=i;
+                break;
             }
+        }
+
+        if(breakpoint==-1) return ;
+
+
+
+
+
+
+
+
+
 
 
 

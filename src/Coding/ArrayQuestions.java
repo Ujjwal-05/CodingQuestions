@@ -612,6 +612,61 @@ Brute Force: Traversal and count ones and zeroes O(2n)
 
 
 
+//// Maximum Consecutive ones: Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+
+        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0};
+        int k = 3;
+
+        public int longestOnes(int[] nums, int k) {
+
+            int maxLen = 0;
+
+            for (int i = 0; i < nums.length; i++) {
+
+                int zeros = 0;
+
+                for (int j = i; j < nums.length; j++) {
+
+                    if (nums[j] == 0) zeros++;
+
+                    if (zeros > k) break;
+
+                    maxLen = Math.max(maxLen, j - i + 1);
+                }
+            }
+
+            return maxLen;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        public int longestOnes(int[] nums, int k) {
+
+            int maxLen = 0;
+            int left=0;
+            int zeroes=0;
+
+            for (int right = 0; right < nums.length; right++) {
+
+                if(arr[right]==0){
+                    zeroes++;
+                }
+
+                while (zeroes>k){
+
+                    if(arr[left]==0){
+                        zeroes--;
+                    }
+                    left++;
+                }
+
+                maxLen=Math.max(maxLen,right-left+1);
+            }
+            return maxLen;
+        }
+
+        TC: O(n) SC: O(1)
 
 
 
@@ -660,61 +715,11 @@ Brute Force: Traversal and count ones and zeroes O(2n)
 //            maxlen=Math.max(maxlen,right-left+1);
 //        }
 
-//// Maximum Consecutive ones: Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array
-//// if you can flip at most k 0's.
-//        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1}; int k = 3;
 
-//        int maxLen=0,n=nums.length;
-//        for (int i = 0; i < n; i++) {
-//            int zeroes = 0;
-//            for (int j = i; j < n; j++) {
-//                if (nums[j] == 0) zeroes++;
-//                if (zeroes > k) break; // window invalid
-//                maxLen = Math.max(maxLen, j - i + 1);
-//            }
-//        }
 
-//        int zeroes=0,left=0;
-//        for(int right=0;right<n;right++){
-//
-//            if(nums[right]==0) zeroes++;
-//
-//            if(zeroes>k){
-//                if(nums[left]==0) zeroes--;
-//                left++;
-//            }
-//
-//            maxLen=Math.max(maxLen,right-left+1);
-//        }
 
-////Fruit Into Baskets or Also known as: Longest Subarray with at most 2 distinct elements:
-//        int nums[]={1,1,0,2,2,1,1,2,2,0,0,1}; int k=2;
 
-//        int maxlen=0;
-//        for(int i=0;i<n;i++){
-//            HashSet<Integer> set=new HashSet<>();
-//            for(int j=i;j<n;j++){
-//                set.add(nums[j]);
-//                if(set.size()>k) break;
-//                maxlen=Math.max(maxlen,j-i+1);
-//            }
-//        }
 
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//        for(int right=0;right<n;right++){
-//            map.put(nums[right], map.getOrDefault(nums[right],0)+1);
-//
-//            while (map.size()>k){
-//                map.put(nums[left],map.get(nums[left])-1);
-//                if(map.get(nums[left])==0){
-//                    map.remove(nums[left]);
-//                }
-//                left++;
-//            }
-//
-//            maxlen=Math.max(maxlen,right-left+1);
-//        }
-//        System.out.println(maxlen);
 
 ////Longest repeating character replacement: Length of the longest substring where you can make all characters equal after
 ////at most k replacements.
@@ -748,34 +753,7 @@ Brute Force: Traversal and count ones and zeroes O(2n)
 //            right++;
 //        }
 
-////Maximum point you can obtain from cards: Given N cards arranged in a row, each card has an associated score denoted by the
-////cardScore array. Choose exactly k cards. In each step, a card can be chosen either from the beginning or the end of the row.
-////The score is the sum of the scores of the chosen cards.
-//        int[] cards = {5, 4, 1, 8, 7, 1, 3}; int k = 3;
 
-//        int n=cards.length-1, maxsum=0;
-//        for(int front=0;front<=k;front++){
-//            int back=k-front;
-//            int sum=0;
-//
-//            for(int i=0;i<front;i++) sum+=cards[i];
-//            for(int i=0;i<back;i++) sum+=cards[n-1-i];
-//
-//            maxsum=Math.max(maxsum,sum);
-//        }
-
-//        int total=0,n=cards.length;
-//        for(int i=0;i<k;i++){
-//            total+=cards[i];
-//        }
-//        int maximum=total;
-//        for(int i=0;i<k;i++){
-//
-//            total-=cards[k-1-i];
-//            total+=cards[n-1-i];
-//
-//            maximum=Math.max(maximum,total);
-//        }
 
 //// Longest Substring with At Most K Distinct Characters: Given a string s and an integer k.Find the length of the longest
 //// substring with at most k distinct characters
@@ -836,76 +814,7 @@ Brute Force: Traversal and count ones and zeroes O(2n)
 //                left++;
 //            }}
 
-//// Count Subarrays with Given Sum K (Positives + Negatives).
-        // 5,0,0,1,4
-//        int length=0;
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//        map.put(0,1);
-//
-//        for(i=0;i<a.length;i++){
-//            sum+=a[i];
-//
-//            if(map.containsKey(sum-k)){
-//                length+=map.get(sum-k);
-//            }
-//
-//            map.put(sum,map.getOrDefault(sum,0)+1);
-//        }
 
-////Binary subarray with sum: You are given a binary array nums (containing only 0s and 1s) and an integer goal.Return the
-//// number of non-empty subarrays of nums that sum to goal. A subarray is a contiguous part of the array.
-//        int[] nums = {1, 0, 0, 1, 1, 0}; int goal = 2;
-
-//        int count=0;
-//        for(int i=0;i<nums.length;i++){
-//            int sum=0;
-//            for(int j=i;j<nums.length;j++){
-//                sum+=nums[j];
-//                if(sum==goal) count++;
-//       }}
-
-//        int right=0,left=0,sum=0;
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//        map.put(0,1);
-//        while (right<nums.length){
-//            sum+=nums[right];
-//
-//            int rem=sum-goal;
-//
-//            if(map.containsKey(rem)){
-//                count+=map.get(rem);
-//            }
-//            map.put(sum,map.getOrDefault(sum,0)+1);
-//            right++;
-//        }
-
-////Count number of nice subarrays: An array is called nice if and only if it contains k odd numbers. Find the number of nice subarrays
-////in the given array nums. A subarray is continuous part of the array.
-//        int [] nums={1,1,2,1,1,1}; int k=3;
-
-//        int count=0;
-//        for(int i=0;i<nums.length;i++){
-//            int odd=0;
-//            for(int j=i;j<nums.length;j++){
-//
-//                if(nums[j]%2==1) odd++;
-//                if(odd==k) count++;
-//                if(odd>k) break;
-//            }
-//        }
-
-//        int oddCount=0,count=0;
-//        HashMap<Integer,Integer> map=new HashMap<>();
-//        for(int num:nums){
-//            if(num%2==1) oddCount++;
-//            int rem=oddCount-k;
-//
-//            if(map.containsKey(rem)){
-//                count+=map.get(rem);
-//            }
-//
-//            map.put(oddCount,map.getOrDefault(oddCount,0)+1);
-//        }
 
 //// Count Substring with At Most K Distinct Characters:
 //        public static int countAtMostKDistinct(String s, int k) {
@@ -934,44 +843,7 @@ Brute Force: Traversal and count ones and zeroes O(2n)
 //            return count;
 
 
-//// Subarray with k different integers: Return the number of good subarrays of nums. A good subarray is defined as a contiguous subarray
-///  of nums that contains exactly k distinct integers. A subarray is a contiguous part of the array.
-//        int[] nums = {1, 2, 1, 2, 3}; int k = 2;
 
-//        int count=0;
-//        for(int i=0;i<nums.length;i++){
-//            HashSet<Integer> set=new HashSet<>();
-//            for(int j=i;j<nums.length;j++){
-//                set.add(nums[j]);
-//                if(set.size()>k) break;
-//                if(set.size()==k){
-//                    count++;
-//                }
-//            }
-//        }
-
-//        public static int subarraysWithKDistinct(int[] nums, int k) {
-//            return atMost(nums, k) - atMost(nums, k - 1);
-//        }
-//
-//        private static int atMost(int[] nums, int K) {
-//            int left = 0, count = 0;
-//            HashMap<Integer, Integer> map = new HashMap<>();
-//
-//            for (int right = 0; right < nums.length; right++) {
-//                map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
-//
-//                while (map.size() > K) {
-//                    map.put(nums[left], map.get(nums[left]) - 1);
-//                    if (map.get(nums[left]) == 0) {
-//                        map.remove(nums[left]);
-//                    }
-//                    left++;
-//                }
-//                count += right - left + 1;
-//            }
-//            return count;
-//        }
 
 ////Count Number of Substrings: You are given a string s and a positive integer k. Return the number of substrings that contain exactly k distinct characters.
 //        public static int substringsWithKDistinct(String s, int k) {

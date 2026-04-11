@@ -405,229 +405,526 @@ public int maxProfit(int[] prices) {
 
 ////Product of Array Except Self Without division.
 
-Brute Force: O(N2)
+        int[] arr = {10, 3, 5, 6, 2};
 
-public static int[] productExceptSelfBruteForce(int[] arr) {
+        public static int[] productExceptSelfBruteForce(int[] arr) {
 
-    int n = arr.length;
-    int[] result = new int[n];
+            int n = arr.length;
+            int[] result = new int[n];
 
-    for (int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
 
-        int product = 1;
+                int product = 1;
 
-        for (int j = 0; j < n; j++) {
-            if (i != j) {
-                product *= arr[j];
-            }
-        }
-
-        result[i] = product;
-    }
-
-    return result;
-}
-
-// TC: O(n^2)
-// SC: O(1) (excluding output array)
-
-Better Approach: O(N), O(N)
-
-public static int[] productExceptSelfBetter(int[] arr) {
-
-    int n = arr.length;
-
-    int[] prefix = new int[n];
-    int[] suffix = new int[n];
-    int[] result = new int[n];
-
-    // prefix[i] = product of all elements before i
-    prefix[0] = 1;
-    for (int i = 1; i < n; i++) {
-        prefix[i] = prefix[i - 1] * arr[i - 1];
-    }
-
-    // suffix[i] = product of all elements after i
-    suffix[n - 1] = 1;
-    for (int i = n - 2; i >= 0; i--) {
-        suffix[i] = suffix[i + 1] * arr[i + 1];
-    }
-
-    // result[i] = prefix[i] * suffix[i]
-    for (int i = 0; i < n; i++) {
-        result[i] = prefix[i] * suffix[i];
-    }
-
-    return result;
-}
-
-// TC: O(n)
-// SC: O(n)
-
-Optimal:
-
-
-public static int[] productExceptSelfOptimal(int[] arr) {
-
-    int n = arr.length;
-    int[] result = new int[n];
-
-    // Step 1: store prefix products directly in result
-    result[0] = 1;
-    for (int i = 1; i < n; i++) {
-        result[i] = result[i - 1] * arr[i - 1];
-    }
-
-    // Step 2: multiply with suffix product (using variable)
-    int suffix = 1;
-    for (int i = n - 1; i >= 0; i--) {
-        result[i] = result[i] * suffix;
-        suffix *= arr[i];
-    }
-
-    return result;
-}
-
-// TC: O(n)
-// SC: O(1) (excluding output array)
-
-////find the length of the longest consecutive elements sequence.
-        int[] arr = {100, 4, 200, 1, 3, 2, 2};
-        int maxlen = 0;
-
-        HashSet<Integer> set = new HashSet<>();
-        for (int num : arr) set.add(num);
-
-        for (int num : set) {
-            if (!set.contains(num - 1)) { // start of a sequence
-                int curr = num;
-                int len = 1; // reset for each new sequence
-
-                while (set.contains(++curr)) {
-                    len++;
+                for (int j = 0; j < n; j++) {
+                    if (i != j) {
+                        product *= arr[j];
+                    }
                 }
 
-                maxlen = Math.max(maxlen, len);
+                result[i] = product;
+            }
+
+            return result;
+        }
+
+        TC: O(N2) O(1)
+
+        public static int[] productExceptSelfBetter(int[] arr) {
+
+            int n = arr.length;
+
+            int[] prefix = new int[n];
+            int[] suffix = new int[n];
+            int[] result = new int[n];
+
+            // prefix[i] = product of all elements before i
+            prefix[0] = 1;
+            for (int i = 1; i < n; i++) {
+                prefix[i] = prefix[i - 1] * arr[i - 1];
+            }
+
+            // suffix[i] = product of all elements after i
+            suffix[n - 1] = 1;
+            for (int i = n - 2; i >= 0; i--) {
+                suffix[i] = suffix[i + 1] * arr[i + 1];
+            }
+
+            // result[i] = prefix[i] * suffix[i]
+            for (int i = 0; i < n; i++) {
+                result[i] = prefix[i] * suffix[i];
+            }
+
+            return result;
+        }
+
+        TC: O(n) SC: O(n)
+
+        public static int[] productExceptSelfOptimal(int[] arr) {
+
+            int n = arr.length;
+            int[] result = new int[n];
+
+            // Step 1: store prefix products directly in result
+            result[0] = 1;
+            for (int i = 1; i < n; i++) {
+                result[i] = result[i - 1] * arr[i - 1];
+            }
+
+            // Step 2: multiply with suffix product (using variable)
+            int suffix = 1;
+            for (int i = n - 1; i >= 0; i--) {
+                result[i] = result[i] * suffix;
+                suffix *= arr[i];
+            }
+
+            return result;
+        }
+
+        TC: O(n) SC: O(1)
+
+//// find the length of the longest consecutive elements sequence.
+        int[] arr = {100, 4, 200, 1, 3, 2, 2};
+
+        public int longestConsecutive(int[] arr) {
+
+            if (arr.length==0) return 0;
+
+            int max_length = 1; // handle single element case
+
+            for (int i = 0; i < arr.length; i++) {
+
+                int curr = arr[i];
+                int currlength = 1;
+
+                boolean found = true;
+
+                while (found) {
+
+                    found = false;
+
+                    for (int j = 0; j < arr.length; j++) {
+
+                        if (arr[j] == curr + 1) {
+                            curr = curr + 1;
+                            currlength++;
+                            found = true;
+                            break; // important
+                        }
+                    }
+                }
+
+                max_length = Math.max(max_length, currlength);
+            }
+
+            return max_length;
+        }
+
+        TC: O(N2)
+
+        public int longestConsecutive(int[] arr) {
+
+            if (arr.length == 0) return 0;
+
+            Arrays.sort(arr);
+
+            int max_length = 1;
+            int curr_length = 1;
+
+            for (int i = 0; i < arr.length - 1; i++) {
+
+                if (arr[i] == arr[i + 1]) continue;
+
+                if (arr[i] + 1 == arr[i + 1]) {
+                    curr_length++;
+                    max_length = Math.max(max_length, curr_length);
+                } else {
+                    curr_length = 1;
+                }
+            }
+
+            return max_length;
+        }
+    }
+
+    // TC: O(n log n)
+    // SC: O(1) (ignoring sorting space)
+
+
+    public int longestConsecutive(int[] arr) {
+
+        HashSet<Integer> set = new HashSet<>();
+
+        for (int num : arr) {
+            set.add(num);
+        }
+
+        int maxLen = 0;
+
+        for (int num : set) {
+
+            // start only if it's the beginning of sequence
+            if (!set.contains(num - 1)) {
+
+                int curr = num;
+                int length = 1;
+
+                while (set.contains(curr + 1)) {
+                    curr++;
+                    length++;
+                }
+
+                maxLen = Math.max(maxLen, length);
             }
         }
 
-        System.out.println(maxlen);
+        return maxLen;
+    }
+
+    // TC: O(n)
+    // SC: O(n)
 
 ////  Return an element that occurs more than N/2 times:
 
-        int count=0, max_element=-1;
+        int nums = [2,2,1,1,1,2,2];
 
-        for (int i=0;i<arr.length;i++){
-            if(count==0){
-                count=1;
-                max_element=arr[i];
-            } else if (max_element==arr[i]) {
+    public int majorityElement(int[] nums) {
+
+        int majorityElement = 0;
+        int maximumCount = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            int currentCount = 0;
+
+            for (int j = 0; j < nums.length; j++) {
+
+                if (nums[j] == nums[i]) {
+                    currentCount++;
+                }
+            }
+
+            if (currentCount > maximumCount) {
+                majorityElement = nums[i];
+                maximumCount = currentCount;
+            }
+        }
+
+        return majorityElement;
+    }
+
+    // TC: O(n^2)
+    // SC: O(1)
+
+    public int majorityElement(int[] nums) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int n = nums.length;
+
+        for (int num : nums) {
+
+            map.put(num, map.getOrDefault(num, 0) + 1);
+
+            if (map.get(num) > n / 2) {
+                return num;
+            }
+        }
+
+        return -1; // not needed as majority always exists
+    }
+
+    // TC: O(n)
+    // SC: O(n)
+
+    int majorityElement(int[] arr) {
+
+        int n = arr.length;
+        int candidate = -1;
+        int count = 0;
+
+        // Find a candidate
+        for (int num : arr) {
+            if (count == 0) {
+                candidate = num;
+                count = 1;
+            }
+            else if (num == candidate) {
                 count++;
-            }else {
+            }
+            else {
                 count--;
             }
-
         }
 
-        int count1=0;
-        for(int num:arr){
-            if(num==max_element){
-                count1++;
+        // Validate the candidate
+        count = 0;
+        for (int num : arr) {
+            if (num == candidate) {
+                count++;
             }
         }
 
-        if(count1>Math.floor(arr.length/2)){
-            System.out.println(max_element);
-        }else {
-            System.out.println(-1);
+        // If count is greater than n / 2, return
+        // the candidate; otherwise, return -1
+        if (count > n / 2) {
+            return candidate;
+        } else {
+            return -1;
         }
+    }
+
+    // TC: O(n)
+    // SC: O(1)
+
+/*
+    The algorithm is based on the idea that if an element occurs more than n/2 times, then all the remaining elements together must occur less than n/2 times.
+
+    While traversing the array, we maintain a candidate and a vote count:
+
+    If the current element matches the candidate, we increment the vote count.
+    If it does not match, we decrement the vote count.
+    When the vote count becomes 0, it means the current candidate cannot be the majority element, so we select a new candidate.
+
+    By the end of the first traversal, the remaining candidate is the potential majority element (if there is a majority element, then this elements has to be the one). A second traversal is required to verify whether it actually appears more than n/2 times.
+
+*/
 
 ////Return an element that occurs more than N/3 times:
         int[] arr={2,1,1,3,1,4,5,6};
 
-        HashMap<Integer,Integer> map=new HashMap<>();
-        for(int num : arr){
-            map.put(num,map.getOrDefault(num,0)+1);
+    static ArrayList<Integer> findMajority(int[] arr) {
 
-            if(map.get(num)>arr.length/3){
-                ans.add(num);
+        int n = arr.length;
+        ArrayList<Integer> res = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+
+            int count = 0;
+
+            // Count frequency of arr[i]
+            for (int j = 0; j < n; j++) {
+                if (arr[j] == arr[i]) {
+                    count++;
+                }
             }
 
-            if(ans.size()==2) break;
+            // Check if > n/3
+            if (count > n / 3 && !res.contains(arr[i])) {
+                res.add(arr[i]);
+            }
+
+            // At most 2 elements possible
+            if (res.size() == 2) break;
         }
 
-        int e1=-1, e2=-1, cnt1=0, cnt2=0;
+        return res;
+    }
 
-        for(int num:arr){
-            if(cnt1==0 && num!=e2){
-                e1=num;
-                cnt1++;
-            } else if (cnt2==0 && num!=e1) {
-                e2=num;
-                cnt2++;
-            } else if (num==e1) cnt1++;
-            else if (num==e2) cnt2++;
-            else {
-                cnt1--;
-                cnt2--;
-        }
-        }
-        // Step 2: Verify actual counts
-        cnt1 = 0;
-        cnt2 = 0;
-        for (int num : arr) {
-            if (num == e1) cnt1++;
-            else if (num == e2) cnt2++;
-        }
+    // TC: O(n^2)
+    // SC: O(1) (excluding output)
 
+    import java.util.*;
 
-          // Step 3: Collect results
-        List<Integer> res = new ArrayList<>();
-        if (cnt1 > arr.length / 3) res.add(e1);
-        if (cnt2 > arr.length / 3) res.add(e2);
+    public class Solution {
+
+        public static ArrayList<Integer> majorityElementNby3(int[] arr) {
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            ArrayList<Integer> ans = new ArrayList<>();
+
+            for (int num : arr) {
+
+                map.put(num, map.getOrDefault(num, 0) + 1);
+
+                if (map.get(num) > arr.length / 3 && !ans.contains(num)) {
+                    ans.add(num);
+                }
+
+                if (ans.size() == 2) break;
+            }
+
+            return ans;
+        }
+    }
+
+    // TC: O(n)
+    // SC: O(n)
+
+    import java.util.*;
+
+    public class Solution {
+
+        public static List<Integer> majorityElementNby3(int[] arr) {
+
+            int e1 = -1, e2 = -1;
+            int cnt1 = 0, cnt2 = 0;
+
+            // Step 1: Find potential candidates
+            for (int num : arr) {
+
+                if (cnt1 == 0 && num != e2) {
+                    e1 = num;
+                    cnt1++;
+                }
+                else if (cnt2 == 0 && num != e1) {
+                    e2 = num;
+                    cnt2++;
+                }
+                else if (num == e1) {
+                    cnt1++;
+                }
+                else if (num == e2) {
+                    cnt2++;
+                }
+                else {
+                    cnt1--;
+                    cnt2--;
+                }
+            }
+
+            // Step 2: Verify counts
+            cnt1 = 0;
+            cnt2 = 0;
+
+            for (int num : arr) {
+                if (num == e1) cnt1++;
+                else if (num == e2) cnt2++;
+            }
+
+            // Step 3: Collect result
+            List<Integer> res = new ArrayList<>();
+
+            if (cnt1 > arr.length / 3) res.add(e1);
+            if (cnt2 > arr.length / 3) res.add(e2);
+
+            return res;
+        }
+    }
+
+    // TC: O(n)
+    // SC: O(1)
 
 ////Sort an array of 0s, 1s and 2s:
 
         int[] arr={1,0,2,2,2,1,1,1,0,0,0,1,1,1,2,2,2,2};
-        int low=0, mid=0,high=arr.length-1;
-        while (mid<=high){
-            if(arr[mid]==0){
-                int temp=arr[low];
-                arr[low]=arr[mid];
-                arr[mid]=temp;
+
+        Naive: Sorting NlogN
+        Two Pass: O(2n)
+
+// Dutch National Flag Algorithm (Sort 0s, 1s, 2s)
+
+    public void sortColors(int[] arr) {
+
+        int low = 0, mid = 0, high = arr.length - 1;
+
+        while (mid <= high) {
+
+            if (arr[mid] == 0) {
+                int temp = arr[low];
+                arr[low] = arr[mid];
+                arr[mid] = temp;
                 low++;
                 mid++;
-            } else if (arr[mid]==1) {
+            }
+            else if (arr[mid] == 1) {
                 mid++;
-            }else {
-                int temp=arr[mid];
-                arr[mid]=arr[high];
-                arr[high]=temp;
+            }
+            else {
+                int temp = arr[mid];
+                arr[mid] = arr[high];
+                arr[high] = temp;
                 high--;
             }
         }
+    }
+
+    // TC: O(n)
+    // SC: O(1)
 
 
-//// Two Sum: Given an unsorted array of integers arr[] and an integer target, find any pair of elements whose sum equals target.
+//// Two Sum: Given an array and target, find any pair of elements whose sum equals target.
 
-        int[] arr = {2, 7, 11, 15};
-        int k = 9;
+        Naive Approach: O(N2)
+        Better Approach: Sorting and two-pointer
 
-        Map<Integer, Integer> map = new HashMap<>();
-        int count = 0;
+        public static int countPairs(int[] arr, int k) {
 
-        for (int num : arr) {
-            int rem = k - num;
+            Map<Integer, Integer> map = new HashMap<>();
+            int count = 0;
 
-            if (map.containsKey(rem)) {
-                count += map.get(rem);  // count all occurrences
+            for (int num : arr) {
+
+                int rem = k - num;
+
+                if (map.containsKey(rem)) {
+                    count += map.get(rem); // count all previous occurrences
+                }
+
+                map.put(num, map.getOrDefault(num, 0) + 1);
             }
 
-            map.put(num, map.getOrDefault(num, 0) + 1);
+            return count;
         }
+
+        // TC: O(n)
+        // SC: O(n)
 
 //// 3 Sum Problem: Find three numbers in an array whose sum equals a given target:
         int[] arr = {-1, 0, 1, 2, -1, -4};
+
+    public List<List<Integer>> threeSum(int[] arr) {
+
+        List<List<Integer>> list = new ArrayList<>();
+
+        for (int i = 0; i < arr.length; i++) {
+
+            for (int j = i + 1; j < arr.length; j++) {
+
+                for (int k = j + 1; k < arr.length; k++) {
+
+                    if (arr[i] + arr[j] + arr[k] == 0) {
+                        list.add(Arrays.asList(arr[i], arr[j], arr[k]));
+                    }
+                }
+            }
+        }
+
+        return list;
+    }
+
+    // TC: O(n^3)
+    // SC: O(1) (excluding output)
+
+    public List<List<Integer>> threeSum(int[] arr) {
+
+        Set<List<Integer>> result = new HashSet<>();
+
+        for (int i = 0; i < arr.length; i++) {
+
+            HashSet<Integer> set = new HashSet<>();
+
+            for (int j = i + 1; j < arr.length; j++) {
+
+                int third = -(arr[i] + arr[j]);
+
+                if (set.contains(third)) {
+
+                    List<Integer> triplet = Arrays.asList(arr[i], arr[j], third);
+                    Collections.sort(triplet); // avoid duplicates
+                    result.add(triplet);
+                }
+
+                set.add(arr[j]);
+            }
+        }
+
+        return new ArrayList<>(result);
+    }
+
+    // TC: O(n^2)
+    // SC: O(n)
+
+
         int k=0;
         List<List<Integer>> res= new ArrayList<>();
         Arrays.sort(arr);
@@ -657,68 +954,789 @@ public static int[] productExceptSelfOptimal(int[] arr) {
                 }
             }
 
+            public List<List<Integer>> threeSum(int[] arr) {
 
-////Merge two sorted array Without Extra Space:
+                List<List<Integer>> res = new ArrayList<>();
+                Arrays.sort(arr);
 
-     int n = firstArray.length;
-        int m = secondArray.length;
+                for (int i = 0; i < arr.length - 2; i++) {
 
-        // Traverse second array from right to left
-        for (int indexB = m - 1; indexB >= 0; indexB--) {
+                    // skip duplicates for i
+                    if (i > 0 && arr[i] == arr[i - 1]) continue;
 
-            // If the current element of secondArray is
-            // smaller than the largest element of firstArray
-            if (firstArray[n - 1] > secondArray[indexB]) {
+                    int left = i + 1;
+                    int right = arr.length - 1;
 
-                // Store last element of firstArray
-                int lastElement = firstArray[n - 1];
+                    while (left < right) {
 
-                int indexA = n - 2;
+                        int sum = arr[i] + arr[left] + arr[right];
 
-                // Shift elements in firstArray to make space
-                while (indexA >= 0 && firstArray[indexA] > secondArray[indexB]) {
-                    firstArray[indexA + 1] = firstArray[indexA];
-                    indexA--;
+                        if (sum == 0) {
+
+                            res.add(Arrays.asList(arr[i], arr[left], arr[right]));
+
+                            // skip duplicates for left
+                            while (left < right && arr[left] == arr[left + 1]) left++;
+
+                            // skip duplicates for right
+                            while (left < right && arr[right] == arr[right - 1]) right--;
+
+                            left++;
+                            right--;
+                        }
+                        else if (sum < 0) {
+                            left++;
+                        }
+                        else {
+                            right--;
+                        }
+                    }
                 }
 
-                // Insert element from secondArray into correct position
-                firstArray[indexA + 1] = secondArray[indexB];
-
-                // Move last element of firstArray to secondArray
-                secondArray[indexB] = lastElement;
+                return res;
             }
-        }
 
+    // TC: O(n^2)
+    // SC: O(1) (excluding output)
+
+
+////Merge two sorted array Without Extra Space return o/p in one input array:
 
         int[] arr1 = {1, 3, 5, 7}; int[] arr2 = {2, 4, 6, 8};
 
-        int n = arr1.length;
-        int m = arr2.length;
+        public void merge(int[] nums1, int m, int[] nums2, int n) {
 
-        int[] result = new int[n + m];
+            // copy nums2 into nums1
+            for (int i = 0; i < n; i++) {
+                nums1[m + i] = nums2[i];
+            }
 
-        int i = 0, j = 0, k = 0;
+            // sort whole array
+            Arrays.sort(nums1);
+        }
 
-        while (i < n && j < m) {
-            if (arr1[i] <= arr2[j]) {
-                result[k++] = arr1[i++];
-            } else {
-                result[k++] = arr2[j++];
+        // TC: O((m+n) log(m+n))
+        // SC: O(1)
+
+        public void merge(int[] nums1, int m, int[] nums2, int n) {
+
+            int i = m - 1;          // last valid in nums1
+            int j = n - 1;          // last in nums2
+            int k = m + n - 1;      // last position in nums1
+
+            while (i >= 0 && j >= 0) {
+
+                if (nums1[i] > nums2[j]) {
+                    nums1[k--] = nums1[i--];
+                } else {
+                    nums1[k--] = nums2[j--];
+                }
+            }
+
+            // fill remaining nums2
+            while (j >= 0) {
+                nums1[k--] = nums2[j--];
             }
         }
 
-        while (i < n) {
-            result[k++] = arr1[i++];
+        // TC: O(m + n)
+        // SC: O(1)
+
+////Merge two sorted array Without Extra Space return o/p in both the array:
+
+        static void mergeArrays(int[] firstArray, int[] secondArray) {
+
+            int n = firstArray.length;
+            int m = secondArray.length;
+
+            for (int i = m - 1; i >= 0; i--) {
+
+                // if last element of firstArray is greater than secondarray last element
+                if (firstArray[n - 1] > secondArray[i]) {
+
+                    int last = firstArray[n - 1];
+                    int j = n - 2;
+
+                    // shift elements in firstArray
+                    while (j >= 0 && firstArray[j] > secondArray[i]) {
+                        firstArray[j + 1] = firstArray[j];
+                        j--;
+                    }
+
+                    // place element correctly
+                    firstArray[j + 1] = secondArray[i];
+
+                    // move last element to secondArray
+                    secondArray[i] = last;
+                }
+            }
         }
 
-        while (j < m) {
-            result[k++] = arr2[j++];
+        // TC: O(n * m)
+        // SC: O(1)
+
+        public void merge(int[] a, int[] b) {
+
+            int i = a.length - 1;
+            int j = 0;
+
+            // Swap elements
+            while (i >= 0 && j < b.length) {
+
+                if (a[i] > b[j]) {
+                    int temp = a[i];
+                    a[i] = b[j];
+                    b[j] = temp;
+
+                    i--;
+                    j++;
+                } else {
+                    break;
+                }
+            }
+
+            Arrays.sort(a);
+            Arrays.sort(b);
         }
 
-        // After this copy the result back into array:
+        TC: O((m+n) + m*log(m) + n*log(n))
+        SC: O(1)
 
+        public void merge(int[] a, int[] b) {
+
+            int n = a.length;
+            int m = b.length;
+
+            int gap = (n + m + 1) / 2;
+
+            while (gap > 0) {
+
+                int i = 0;
+                int j = gap;
+
+                while (j < n + m) {
+
+                    // Case 1: both pointers in a[]
+                    if (i < n && j < n) {
+                        if (a[i] > a[j]) {
+                            int temp = a[i];
+                            a[i] = a[j];
+                            a[j] = temp;
+                        }
+                    }
+                    // Case 2: i in a[], j in b[]
+                    else if (i < n && j >= n) {
+                        if (a[i] > b[j - n]) {
+                            int temp = a[i];
+                            a[i] = b[j - n];
+                            b[j - n] = temp;
+                        }
+                    }
+                    // Case 3: both in b[]
+                    else {
+                        if (b[i - n] > b[j - n]) {
+                            int temp = b[i - n];
+                            b[i - n] = b[j - n];
+                            b[j - n] = temp;
+                        }
+                    }
+
+                    i++;
+                    j++;
+                }
+
+                if (gap == 1) break;
+                gap = (gap + 1) / 2;
+            }
+        }
+
+        TC: O((m + n) log(m + n))
+        SC: O(1)
 
 ////Next Permutation:
+
+        Naive Approach: "In the naive approach, we generate all possible permutations of the given array, sort them in lexicographical order, and then find the next permutation of the current array."
+
+        Generate All permutation:   N!*N
+        Sorting all permutations:   O(n × n! log(n!))
+        Search:	                    O(n × n!)
+        Space:                      O(n!)
+
+        The optimal solution for the Next Permutation problem is based on the idea of finding the next lexicographically greater arrangement of the given array without generating all permutations. The key observation is that permutations follow a specific order, and we want to make the smallest possible change to get the next larger permutation. To achieve this, we start scanning the array from the right and look for the first position where the order breaks, i.e., an index i such that nums[i] < nums[i+1]. This point is called the breakpoint, and it indicates that the sequence to the right of it is in decreasing order and cannot be rearranged to form a larger permutation on its own. Once we find this breakpoint, we then search the right side of the array to find the smallest element that is greater than nums[i], ensuring that the increase is minimal. We swap this element with nums[i]. After the swap, the right portion of the array is still in decreasing order, so to make the overall permutation just slightly larger, we reverse this suffix to convert it into the smallest possible order (ascending). This guarantees that we get the next immediate permutation.
+
+        For example, consider the array [1, 2, 3, 6, 5, 4]. Scanning from the right, we find that 3 < 6, so index of 3 is the breakpoint. Then we look for the smallest element greater than 3 on the right side, which is 4, and swap them to get [1, 2, 4, 6, 5, 3]. Finally, we reverse the suffix after the breakpoint, resulting in [1, 2, 4, 3, 5, 6], which is the next permutation. If no such breakpoint exists (e.g., [3,2,1]), it means the array is the largest permutation, and we simply reverse the entire array to get the smallest permutation. This approach works in O(n) time and uses O(1) space, making it highly efficient compared to the brute force method.
+
+        static void nextPermutation(int[] arr)
+        {
+
+            int n = arr.length;
+
+            // Find the pivot index
+            int pivot = -1;
+            for (int i = n - 2; i >= 0; i--) {
+                if (arr[i] < arr[i + 1]) {
+                    pivot = i;
+                    break;
+                }
+            }
+
+            // If pivot point does not exist,
+            // reverse the whole array
+            if (pivot == -1) {
+                reverse(arr, 0, n - 1);
+                return ;
+            }
+
+            // Find the element from the right
+            // that is greater than pivot
+            for (int i = n - 1; i > pivot; i--) {
+                if (arr[i] > arr[pivot]) {
+                    swap(arr, i, pivot);
+                    break;
+                }
+            }
+
+            // Reverse the elements from pivot + 1 to the end
+            reverse(arr, pivot + 1, n - 1);
+        }
+
+        // Helper method to reverse array
+        private static void reverse(int[] arr, int start, int end) {
+            while (start < end) {
+                swap(arr, start++, end--);
+            }
+        }
+
+        // Helper method to swap two elements
+        private static void swap(int[] arr, int i, int j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+
+        TC: O(N) O(1)
+
+//// Maximum Consecutive ones: Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+
+        int nums[] = {0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0};
+        int k = 3;
+
+        public int longestOnes(int[] nums, int k) {
+
+            int maxLen = 0;
+
+            for (int i = 0; i < nums.length; i++) {
+
+                int zeros = 0;
+
+                for (int j = i; j < nums.length; j++) {
+
+                    if (nums[j] == 0) zeros++;
+
+                    if (zeros > k) break;
+
+                    maxLen = Math.max(maxLen, j - i + 1);
+                }
+            }
+
+            return maxLen;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        public int longestOnes(int[] nums, int k) {
+
+            int maxLen = 0;
+            int left=0;
+            int zeroes=0;
+
+            for (int right = 0; right < nums.length; right++) {
+
+                if(arr[right]==0){
+                    zeroes++;
+                }
+
+                while (zeroes>k){
+
+                    if(arr[left]==0){
+                        zeroes--;
+                    }
+                    left++;
+                }
+
+                maxLen=Math.max(maxLen,right-left+1);
+            }
+            return maxLen;
+        }
+
+        TC: O(n) SC: O(1)
+
+////Fruit Into Baskets or Also known as: Longest Subarray with at most 2 distinct elements:
+
+        int nums[]={1,1,0,2,2,1,1,2,2,0,0,1}; int k=2;
+
+        public int totalFruitBrute(int[] fruits) {
+
+            int n = fruits.length;
+            int maxLen = 0;
+
+            for (int i = 0; i < n; i++) {
+
+                HashSet<Integer> set = new HashSet<>();
+
+                for (int j = i; j < n; j++) {
+
+                    set.add(fruits[j]);
+
+                    if (set.size() > 2) break;
+
+                    maxLen = Math.max(maxLen, j - i + 1);
+                }
+            }
+
+            return maxLen;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)  (at most 2 elements in set)
+
+        public int totalFruit(int[] fruits) {
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            int left = 0, maxLen = 0;
+
+            for (int right = 0; right < fruits.length; right++) {
+
+                map.put(fruits[right], map.getOrDefault(fruits[right], 0) + 1);
+
+                while (map.size() > 2) {
+                    map.put(fruits[left], map.get(fruits[left]) - 1);
+
+                    if (map.get(fruits[left]) == 0) {
+                        map.remove(fruits[left]);
+                    }
+                    left++;
+                }
+
+                maxLen = Math.max(maxLen, right - left + 1);
+            }
+
+            return maxLen;
+        }
+
+        // TC: O(n)
+        // SC: O(1)  (at most 2 elements in map)
+
+////Maximum point you can obtain from cards: Given N cards arranged in a row, each card has an associated score denoted by the cardScore array. Choose exactly k cards.     In each step, a card can be chosen either from the beginning or the end of the row. The score is the sum of the scores of the chosen cards.
+
+        int[] cards = {5, 4, 1, 8, 7, 1, 3};
+        int k = 3;
+
+        public int maxScoreBrute(int[] cardScore, int k) {
+
+            int n = cardScore.length;
+            int maxSum = 0;
+
+            for (int front = 0; front <= k; front++) {
+
+                int back = k - front;
+                int sum = 0;
+
+                // pick from front
+                for (int i = 0; i < front; i++) {
+                    sum += cardScore[i];
+                }
+
+                // pick from back
+                for (int i = 0; i < back; i++) {
+                    sum += cardScore[n - 1 - i];
+                }
+
+                maxSum = Math.max(maxSum, sum);
+            }
+
+            return maxSum;
+        }
+
+        // TC: O(k^2)
+        // SC: O(1)
+
+        public int maxScoreOptimal(int[] cardScore, int k) {
+
+            int n = cardScore.length;
+
+            // total sum of first k elements
+            int currentSum = 0;
+            for (int i = 0; i < k; i++) {
+                currentSum += cardScore[i];
+            }
+
+            int maxSum = currentSum;
+
+            int left = k - 1;
+            int right = n - 1;
+
+            // slide window: remove from front, add from back
+            while (left >= 0) {
+
+                currentSum -= cardScore[left];
+                currentSum += cardScore[right];
+
+                maxSum = Math.max(maxSum, currentSum);
+
+                left--;
+                right--;
+            }
+
+            return maxSum;
+        }
+
+        // TC: O(k)
+        // SC: O(1)
+
+//// Count of Subarrays with sum equals k in a given Binary Array:
+
+        Naive: TC: O(n^2)  SC: O(1)
+
+        public int countSubarraysOptimal(int[] arr, int k) {
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            int sum = 0, count = 0;
+
+            map.put(0, 1);
+
+            for (int num : arr) {
+
+                sum += num;
+
+                if (map.containsKey(sum - k)) {
+                    count += map.get(sum - k);
+                }
+
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(n)
+
+        public int countSubarraysBetter(int[] arr, int k) {
+            return atMost(arr, k) - atMost(arr, k - 1);
+        }
+
+        private int atMost(int[] arr, int k) {
+
+            int left = 0, sum = 0, count = 0;
+
+            for (int right = 0; right < arr.length; right++) {
+
+                sum += arr[right];
+
+                while (sum > k) {
+                    sum -= arr[left];
+                    left++;
+                }
+
+                count += (right - left + 1);
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+        Exactly(k) = atMost(k) - atMost(k-1)
+
+"The atMost(k) trick doesn’t work with negative numbers because sliding window requires monotonic behavior, so we use prefix sum with hashmap instead."
+
+        //// Count Subarrays with Given Sum K (Only Positives exclude zero):
+
+        Naive: TC: O(n^2)  SC: O(1)
+
+        public int countSubarraysOptimal(int[] arr, int k) {
+
+            int left = 0, sum = 0, count = 0;
+
+            for (int right = 0; right < arr.length; right++) {
+
+                sum += arr[right];
+
+                while (sum > k) {
+                    sum -= arr[left];
+                    left++;
+                }
+
+                if (sum == k) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+//// Count Subarrays with Given Sum K (Positives + Negatives).
+
+        int arr[] = [10, 2, -2, -20, 10], k = -10
+
+        public int countSubarraysBrute(int[] arr, int k) {
+
+            int n = arr.length;
+            int count = 0;
+
+            for (int i = 0; i < n; i++) {
+
+                int sum = 0;
+
+                for (int j = i; j < n; j++) {
+
+                    sum += arr[j];
+
+                    if (sum == k) {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        public int countSubarraysOptimal(int[] arr, int k) {
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            int sum = 0, count = 0;
+            map.put(0, 1);
+
+            for (int num : arr) {
+
+                sum += num;
+
+                if (map.containsKey(sum - k)) {
+                    count += map.get(sum - k);
+                }
+
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(n)
+
+
+////Count number of nice subarrays: An array is called nice if and only if it contains k odd numbers. Find the number of nice subarrays in the given array nums.
+
+        int [] nums={1,1,2,1,1,1}; int k=3;
+
+        public int countNiceSubarraysBrute(int[] nums, int k) {
+
+            int n = nums.length;
+            int count = 0;
+
+            for (int i = 0; i < n; i++) {
+
+                int oddCount = 0;
+
+                for (int j = i; j < n; j++) {
+
+                    if (nums[j] % 2 != 0) {
+                        oddCount++;
+                    }
+
+                    if (oddCount > k) break;   // 🔥 optimization
+
+                    if (oddCount == k) {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        // TC: O(n^2) (but faster in practice)
+        // SC: O(1)
+
+        public int numberOfSubarraysHashMap(int[] nums, int k) {
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            int sum = 0, count = 0;
+
+            map.put(0, 1);
+
+            for (int num : nums) {
+
+                // convert odd to 1
+                if (num % 2 != 0) {
+                    sum += 1;
+                }
+
+                if (map.containsKey(sum - k)) {
+                    count += map.get(sum - k);
+                }
+
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(n)
+
+        public int numberOfSubarraysOptimal(int[] nums, int k) {
+            return atMost(nums, k) - atMost(nums, k - 1);
+        }
+
+        private int atMost(int[] nums, int k) {
+
+            int left = 0, count = 0, oddCount = 0;
+
+            for (int right = 0; right < nums.length; right++) {
+
+                if (nums[right] % 2 != 0) {
+                    oddCount++;
+                }
+
+                while (oddCount > k) {
+                    if (nums[left] % 2 != 0) {
+                        oddCount--;
+                    }
+                    left++;
+                }
+
+                count += (right - left + 1);
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+//// Subarray with k different integers: Return the number of good subarrays of nums. A good subarray is defined as a contiguous subarray of nums that contains exactly k distinct integers. A subarray is a contiguous part of the array.
+
+        int[] nums = {1, 2, 1, 2, 3}; int k = 2;
+
+        Naive: O(N2) TC:O(N)
+
+        public int subarraysWithKDistinct(int[] nums, int k) {
+            return atMost(nums, k) - atMost(nums, k - 1);
+        }
+
+        private int atMost(int[] nums, int k) {
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            int left = 0, count = 0;
+
+            for (int right = 0; right < nums.length; right++) {
+
+                map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
+
+                while (map.size() > k) {
+                    map.put(nums[left], map.get(nums[left]) - 1);
+
+                    if (map.get(nums[left]) == 0) {
+                        map.remove(nums[left]);
+                    }
+                    left++;
+                }
+
+                count += (right - left + 1);
+            }
+
+            return count;
+        }
+
+        TC: O(N) SC: O(N)
+
+////Count the number of subarrays whose product is less than equal to k.
+
+        int arr[] = { 1, 2, 3, 4 };
+        int k = 10;
+
+        public int countSubarraysProductBrute(int[] nums, int k) {
+
+            int n = nums.length;
+            int count = 0;
+
+            for (int i = 0; i < n; i++) {
+
+                int product = 1;
+
+                for (int j = i; j < n; j++) {
+
+                    product *= nums[j];
+
+                    if (product <= k) {
+                        count++;
+                    } else {
+                        break; // optimization (only positive numbers)
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        "We use sliding window maintaining product ≤ k and count all valid subarrays ending at each index, achieving O(n) time."
+
+        public int countSubarraysProductOptimal(int[] nums, int k) {
+
+            if (k <= 1) return 0; // important edge case
+
+            int left = 0;
+            int product = 1;
+            int count = 0;
+
+            for (int right = 0; right < nums.length; right++) {
+
+                product *= nums[right];
+
+                while (product > k) {
+                    product /= nums[left];
+                    left++;
+                }
+
+                count += (right - left + 1);
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //// Remove Outermost Parenthesis:
