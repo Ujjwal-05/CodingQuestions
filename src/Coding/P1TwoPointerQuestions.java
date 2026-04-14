@@ -1,5 +1,7 @@
 package Coding;
 
+import java.util.HashSet;
+
 public class P1TwoPointerQuestions {
     public static void main(String[] args) {
 
@@ -255,6 +257,220 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
             }
             map.putIfAbsent(key,i);
         }
+
+//// Longest Substring Without Repeating Characters: Given a string, S. Find the length of the longest substring without repeating characters.
+
+        String str = "takeUforward";
+
+        public static int longestSubstringBrute(String str) {
+
+            int maxlen = 0;
+
+            for (int i = 0; i < str.length(); i++) {
+
+                HashSet<Character> set = new HashSet<>();
+
+                for (int j = i; j < str.length(); j++) {
+
+                    char c = str.charAt(j);
+
+                    if (set.contains(c)) break;
+
+                    set.add(c);
+
+                    maxlen = Math.max(maxlen, j - i + 1);
+                }
+            }
+
+            return maxlen;
+        }
+
+        // TC: O(n^2)
+        // SC: O(n)
+
+        public static int longestSubstringOptimal(String str) {
+
+            HashSet<Character> set = new HashSet<>();
+
+            int left = 0, maxlen = 0;
+
+            for (int right = 0; right < str.length(); right++) {
+
+                while (set.contains(str.charAt(right))) {
+                    set.remove(str.charAt(left));
+                    left++;
+                }
+
+                set.add(str.charAt(right));
+                maxlen = Math.max(maxlen, right - left + 1);
+            }
+
+            return maxlen;
+        }
+
+        // TC: O(n)
+        // SC: O(n)
+
+////Longest repeating character replacement: Length of the longest substring where you can make all characters equal after at most k replacements.
+
+        String str="ABBC";
+        int k=2;
+
+        public static int characterReplacementBrute(String str, int k) {
+
+            int maxlen = 0;
+
+            for (int i = 0; i < str.length(); i++) {
+
+                int[] freq = new int[26];
+                int maximum = 0;
+
+                for (int j = i; j < str.length(); j++) {
+
+                    char c = str.charAt(j);
+
+                    freq[c - 'A']++;
+
+                    maximum = Math.max(maximum, freq[c - 'A']);
+
+                    int windowSize = j - i + 1;
+
+                    if (windowSize - maximum <= k) {
+                        maxlen = Math.max(maxlen, windowSize);
+                    }
+                }
+            }
+
+            return maxlen;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        public static int characterReplacement(String str, int k) {
+
+            int[] freq = new int[26];
+            int left = 0, right = 0;
+            int maxCount = 0, maxLength = 0;
+
+            while (right < str.length()) {
+
+                freq[str.charAt(right) - 'A']++;
+
+                maxCount = Math.max(maxCount, freq[str.charAt(right) - 'A']);
+
+                while ((right - left + 1) - maxCount > k) {
+                    freq[str.charAt(left) - 'A']--;
+                    left++;
+                }
+
+                maxLength = Math.max(maxLength, right - left + 1);
+
+                right++;
+            }
+
+            return maxLength;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+//// Longest Substring with At Most K Distinct Characters: Find the length of the longest substring with at most k distinct characters.
+
+        String str="aababbcaacc"; int k = 2;
+
+        public static int longestKDistinctBrute(String str, int k) {
+
+            int maxlen = 0;
+
+            for (int i = 0; i < str.length(); i++) {
+
+                HashSet<Character> set = new HashSet<>();
+
+                for (int j = i; j < str.length(); j++) {
+
+                    char c = str.charAt(j);
+                    set.add(c);
+
+                    if (set.size() > k) break;
+
+                    maxlen = Math.max(maxlen, j - i + 1);
+                }
+            }
+
+            return maxlen;
+        }
+
+        // TC: O(n^2)
+        // SC: O(n)
+
+        public static int longestKDistinctOptimal(String str, int k) {
+
+            int maxlen = 0;
+            int left = 0;
+
+            HashMap<Character, Integer> map = new HashMap<>();
+
+            for (int right = 0; right < str.length(); right++) {
+
+                char c = str.charAt(right);
+                map.put(c, map.getOrDefault(c, 0) + 1);
+
+                while (map.size() > k) {
+
+                    char leftChar = str.charAt(left);
+                    map.put(leftChar, map.get(leftChar) - 1);
+
+                    if (map.get(leftChar) == 0) {
+                        map.remove(leftChar);
+                    }
+
+                    left++;
+                }
+
+                maxlen = Math.max(maxlen, right - left + 1);
+            }
+
+            return maxlen;
+        }
+
+        // TC: O(n)
+        // SC: O(k) ≈ O(n)
+
+        public static int longestKDistinctOptimal(String str, int k) {
+
+            int[] freq = new int[128]; // ASCII
+            int left = 0, maxlen = 0, distinct = 0;
+
+            for (int right = 0; right < str.length(); right++) {
+
+                char c = str.charAt(right);
+
+                if (freq[c] == 0) distinct++;
+
+                freq[c]++;
+
+                while (distinct > k) {
+
+                    char leftChar = str.charAt(left);
+
+                    freq[leftChar]--;
+
+                    if (freq[leftChar] == 0) distinct--;
+
+                    left++;
+                }
+
+                maxlen = Math.max(maxlen, right - left + 1);
+            }
+
+            return maxlen;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+
 
 ////Maximum Product sub array.
 
