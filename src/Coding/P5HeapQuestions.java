@@ -1,9 +1,7 @@
 package Coding;
 
 
-import java.util.*;
-
-public class HeapQuestions {
+public class P5HeapQuestions {
     public static void main(String[] args) {
 
 /*

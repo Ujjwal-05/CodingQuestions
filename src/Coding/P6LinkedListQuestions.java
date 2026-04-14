@@ -1,8 +1,5 @@
 package Coding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class ListNode {
     int val;
     ListNode next;
@@ -17,7 +14,7 @@ class ListNode {
     }
 }
 
-public class LinkedListQuestions {
+public class P6LinkedListQuestions {
 
     public static void main(String[] args) {
         ListNode head=new ListNode(1);

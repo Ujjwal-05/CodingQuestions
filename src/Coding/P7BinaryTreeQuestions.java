@@ -17,7 +17,7 @@ class TreeNode {
           this.right = right;
       }
 }
-public class BinaryTreeQuestions {
+public class P7BinaryTreeQuestions {
     public static void main(String[] args) {
 
 /*

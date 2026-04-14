@@ -1,6 +1,6 @@
 package Coding;
 
-public class BinarySearchQuestions {
+public class P3BinarySearchQuestions {
     public static void main(String[] args) {
 
 /*
