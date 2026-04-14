@@ -690,32 +690,7 @@ Brute Force: Traversal and count ones and zeroes O(2n)
 
 
 
-////Number of substring containing all three characters: Given a string s consisting only of characters 'a', 'b', 'c'.
-////Find the number of substrings that contain at least one occurrence of all these characters 'a', 'b', 'c'.
-//        String str="ccabcc";
 
-//        int count=0;
-//        for(int i=0;i<str.length();i++){
-//            int [] freq=new int[3];
-//            for(int j=i;j<str.length();j++){
-//                freq[str.charAt(j)-'a']++;
-//                if(freq[0]>=1 && freq[1]>=1 && freq[2]>=1){
-//                    count++;
-//                }
-//            }
-//        }
-
-//        int [] freq=new int[3];
-//        int n=str.length(),left=0;
-//        for(int right=0;right<str.length();right++){
-//
-//            freq[str.charAt(right)-'a']++;
-//
-//            while (freq[0]>0 && freq[1]>0 && freq[2]>0){
-//                count+=n-right;
-//                freq[str.charAt(left) - 'a']--;
-//                left++;
-//            }}
 
 
 

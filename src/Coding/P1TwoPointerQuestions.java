@@ -1936,25 +1936,207 @@ public int maxProfit(int[] prices) {
         // TC: O(n)
         // SC: O(1)
 
+//// Count Number of Substrings contain exactly k distinct characters.
+
+        String str = "pqpqs";
+        int k = 2;
+
+        o/p--> "pq", "pqp", "pqpq", "qp", "qpq", "pq", "qs"
 
 
+        public static int countKDistinctBrute(String str, int k) {
 
+            int count = 0;
 
+            for (int i = 0; i < str.length(); i++) {
 
+                HashSet<Character> set = new HashSet<>();
 
+                for (int j = i; j < str.length(); j++) {
 
+                    char c = str.charAt(j);
+                    set.add(c);
 
+                    if (set.size() == k) {
+                        count++;
+                    }
+                    else if (set.size() > k) {
+                        break;
+                    }
+                }
+            }
 
+            return count;
+        }
 
+        // TC: O(n^2)
+        // SC: O(n)
 
+        exactly(k) = atMost(k) - atMost(k - 1)
 
+        public static int atMostK(String str, int k) {
 
+            int[] freq = new int[128]; // ASCII
+            int left = 0, count = 0, distinct = 0;
 
+            for (int right = 0; right < str.length(); right++) {
 
+                char c = str.charAt(right);
 
+                if (freq[c] == 0) distinct++;
+                freq[c]++;
 
+                while (distinct > k) {
+                    char leftChar = str.charAt(left);
 
+                    freq[leftChar]--;
+                    if (freq[leftChar] == 0) distinct--;
 
+                    left++;
+                }
+
+                // count substrings ending at right
+                count += (right - left + 1);
+            }
+
+            return count;
+        }
+
+        public static int countKDistinctOptimal(String str, int k) {
+
+            return atMostK(str, k) - atMostK(str, k - 1);
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+////Number of substring containing all three characters: Given a string s consisting only of characters 'a', 'b', 'c'. Find the number of substrings that contain at least one occurrence of all these characters 'a', 'b', 'c'.
+
+        String str="ccabcc";
+
+        public static int countSubstringsBrute(String str) {
+
+            int count = 0;
+
+            for (int i = 0; i < str.length(); i++) {
+
+                int[] freq = new int[3]; // a, b, c
+
+                for (int j = i; j < str.length(); j++) {
+
+                    freq[str.charAt(j) - 'a']++;
+
+                    if (freq[0] >= 1 && freq[1] >= 1 && freq[2] >= 1) {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        public static int countSubstringsOptimal(String str) {
+
+            int count = 0;
+            int[] freq = new int[3];
+
+            int n = str.length();
+            int left = 0;
+
+            for (int right = 0; right < n; right++) {
+
+                freq[str.charAt(right) - 'a']++;
+
+                while (freq[0] > 0 && freq[1] > 0 && freq[2] > 0) {
+
+                    count += (n - right);
+
+                    freq[str.charAt(left) - 'a']--;
+                    left++;
+                }
+            }
+
+            return count;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+////Sum of Beauty of all substring: The beauty of a string is defined as the difference between the frequency of the most frequent character and the least frequent character (excluding characters that do not appear) in that string.
+
+        String s="aabcbaa";
+
+        public static int beautySumBrute(String s) {
+
+            int sum = 0;
+
+            for (int i = 0; i < s.length(); i++) {
+
+                for (int j = i; j < s.length(); j++) {
+
+                    int[] freq = new int[26]; // recreated every time ❌
+
+                    // recompute freq from i → j
+                    for (int k = i; k <= j; k++) {
+                        freq[s.charAt(k) - 'a']++;
+                    }
+
+                    int maxFreq = 0;
+                    int minFreq = Integer.MAX_VALUE;
+
+                    for (int x = 0; x < 26; x++) {
+                        if (freq[x] > 0) {
+                            maxFreq = Math.max(maxFreq, freq[x]);
+                            minFreq = Math.min(minFreq, freq[x]);
+                        }
+                    }
+
+                    sum += (maxFreq - minFreq);
+                }
+            }
+
+            return sum;
+        }
+
+        // TC: O(n^3)
+        // SC: O(1)
+
+        public static int beautySum(String s) {
+
+            int sum = 0;
+
+            for (int i = 0; i < s.length(); i++) {
+
+                int[] frequency = new int[26];
+
+                for (int j = i; j < s.length(); j++) {
+
+                    frequency[s.charAt(j) - 'a']++;
+
+                    int maximum = 0;
+                    int minimum = Integer.MAX_VALUE;
+
+                    // check all characters
+                    for (int k = 0; k < 26; k++) {
+
+                        if (frequency[k] > 0) {
+                            maximum = Math.max(maximum, frequency[k]);
+                            minimum = Math.min(minimum, frequency[k]);
+                        }
+                    }
+
+                    sum += (maximum - minimum);
+                }
+            }
+
+            return sum;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
 
     }
 }

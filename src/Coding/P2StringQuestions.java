@@ -435,32 +435,6 @@ public class P2StringQuestions {
 
 
 
-////Implement Atoi:
-
-////Sum of Beauty of all substring: The beauty of a string is defined as the difference between the frequency of the most frequent character and
-////the least frequent character (excluding characters that do not appear) in that string.
-//        String s="aabcbaa";
-//
-//        int n = s.length(), sum = 0;
-//        for (int i = 0; i < n; i++) {
-//            Map<Character, Integer> freq = new HashMap<>();
-//
-//            for (int j = i; j < n; j++) {
-//                // Increase character frequency
-//                freq.put(s.charAt(j), freq.getOrDefault(s.charAt(j), 0) + 1);
-//
-//                int maxi = Integer.MIN_VALUE;
-//                int mini = Integer.MAX_VALUE;
-//
-//                // Calculate max and min frequency
-//                for (int val : freq.values()) {
-//                    mini = Math.min(mini, val);
-//                    maxi = Math.max(maxi, val);
-//                }
-//                sum += (maxi - mini);
-//            }
-//        }
-
 //// str.substring(beginIndex), str.substring(beginIndex, endIndex);
 
 
