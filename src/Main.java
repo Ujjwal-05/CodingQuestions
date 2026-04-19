@@ -1,6 +1,4 @@
-import java.util.Arrays;
 import java.util.List;
-import java.util.*;
 
 class Product {
     private String name;
@@ -125,51 +123,43 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        int[] arr = {2,1,5,4,3,0,0};
+            String str = "ADOBECODEBAANC";
+            String target = "ABCA";
+            int minlength=Integer.MAX_VALUE;
 
-        int n=arr.length;
-        int breakpoint=-1;
+            for(int start = 0; start <str.length(); start++){
 
-        for(int i=n-2;i>=0;i--){
+                for (int end = start; end <str.length(); end++){
 
-            if(arr[i]>arr[i+1]){
-                breakpoint=i;
-                break;
+                    int length= end - start + 1;
+
+                    if(target.length()>length) continue;
+                    if(length>=minlength) continue;
+
+                    String s=str.substring(start,end+1);
+
+                    if(isSubstring(s,target)){
+                        minlength=s.length();
+                    }
+                }
             }
+
+            return minlength==Integer.MAX_VALUE?-1:minlength;
+
+
+
+}
+        static boolean isSubstring(String s, String target){
+        int i=0;
+        int j=0;
+        while (i<s.length() && j<target.length()){
+
+            if(s.charAt(i)!=target.charAt(j)){
+                return false;
+            }
+
+        }
+            return true;
         }
 
-        if(breakpoint==-1) return ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}}
+}

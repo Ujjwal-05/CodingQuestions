@@ -94,7 +94,7 @@ public class ArrayQuestions {
         return false;
     }
 
-    public static void main(String[] args) {
+    public static void main22(String[] args) {
         System.out.println("Happy Coding");
 
 /* Pattern: Simple Traversal / Math / Logic:

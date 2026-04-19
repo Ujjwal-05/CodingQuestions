@@ -2138,5 +2138,176 @@ public int maxProfit(int[] prices) {
         // TC: O(n^2)
         // SC: O(1)
 
+//// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t (including duplicates), order doesn't matter in the window. Return the empty string "" if no such substring exists.
+
+        String s = "ADOBECODEBAANC";
+        String t = "ABCA";
+
+        static int minWindowLength(String str, String target) {
+            int minlength = Integer.MAX_VALUE;
+
+            for (int start = 0; start < str.length(); start++) {
+
+                for (int end = start; end < str.length(); end++) {
+
+                    int length = end - start + 1;
+
+                    if (target.length() > length) continue;
+                    if (length >= minlength) continue;
+
+                    String s = str.substring(start, end + 1);
+
+                    if (isValidWindow(s, target)) {
+                        minlength = length;
+                    }
+                }
+            }
+
+            return minlength == Integer.MAX_VALUE ? -1 : minlength;
+        }
+
+        static boolean isValidWindow(String s, String target) {
+
+            int[] freq = new int[128];
+
+            for (char c : target.toCharArray()) {
+                freq[c]++;
+            }
+
+            int required = target.length(); // total chars needed
+
+            for (char c : s.toCharArray()) {
+                if (freq[c] > 0) {
+                    required--;
+                }
+                freq[c]--;
+            }
+
+            return required == 0;
+        }
+
+        TC: O(n3)
+
+        public static int minWindowLengthBrute(String s, String t) {
+
+            int minlength = Integer.MAX_VALUE;
+            int[] hash = new int[256];
+
+            for (int i = 0; i < t.length(); i++) {
+                hash[t.charAt(i)]++;
+            }
+
+            for (int i = 0; i < s.length(); i++) {
+
+                int[] frequency = hash.clone();
+                int count = t.length();
+
+                for (int j = i; j < s.length(); j++) {
+
+                    char c = s.charAt(j);
+                    if (frequency[c] > 0) count--;
+                    frequency[c]--;
+
+                    if (count == 0) {
+                        minlength = Math.min(minlength, j - i + 1);
+                        break;
+                    }
+                }
+            }
+            return minlength == Integer.MAX_VALUE ? -1 : minlength;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        public static int minWindowLengthOptimal(String s, String t) {
+
+            int[] hash = new int[256];
+
+            for (char c : t.toCharArray()) {
+                hash[c]++;
+            }
+
+            int left = 0, right = 0;
+            int count = t.length();
+
+            int minLen = Integer.MAX_VALUE;
+
+            while (right < s.length()) {
+
+                if (hash[s.charAt(right)] > 0) {
+                    count--;
+                }
+
+                hash[s.charAt(right)]--;
+
+                while (count == 0) {
+
+                    minLen = Math.min(minLen, right - left + 1);
+
+                    hash[s.charAt(left)]++;
+
+                    if (hash[s.charAt(left)] > 0) {
+                        count++;
+                    }
+
+                    left++;
+                }
+
+                right++;
+            }
+
+            return minLen == Integer.MAX_VALUE ? -1 : minLen;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+////Minimum window subsequence:
+
+        A subsequence is formed by removing some or no characters from the original string without changing the order of the remaining characters. This means skipping is allowed, but the relative order must be preserved. For instance, from "abcde", valid subsequences include "a", "ace" (skipping b and d), "bd", "abc", and "abcde", while "aed" is invalid because it changes the order of characters.
+
+                Now consider the strings s1 = "geeksforgeeks" and s2 = "eksrg". The output "eksforg" is a subsequence of s1 that contains all characters of s2 in the same order. Additionally, it is constructed to be as long as possible while still maintaining s2 as a subsequence within it.
+
+        "For each character, we decide whether to include or exclude it, leading to 2 choices per character. Hence total subsequences are 2ⁿ."
+
+
+
+
+////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
+
+//// Longest Common Prefix:
+//        String[] input = {"interview", "internet", "internal", "interval"};
+
+//        if (input == null || input.length == 0) return;
+//        String prefix = input[0];
+//        if (prefix == null) return;
+//
+//        for(int i=1;i<input.length;i++){
+//
+//            while (!input[i].startsWith(prefix)){
+//                prefix=prefix.substring(0,prefix.length()-1);
+//            }
+//
+//            if(prefix.isEmpty()){
+//                System.out.println("No Prefix Found");
+//                return;
+//            }
+//        }
+//        System.out.println("LCP is " + prefix);
+
+//        Arrays.sort(input);
+//        String first=input[0];
+//        String last=input[input.length-1];
+//        StringBuilder ans =new StringBuilder();
+//
+//        for(int i=0;i<Math.min(first.length(),last.length());i++){
+//
+//            if(first.charAt(i)!=last.charAt(i)) break;
+//            ans.append(first.charAt(i));
+//        }
+//
+//        System.out.println(ans.toString());
+
     }
 }
