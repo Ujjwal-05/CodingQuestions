@@ -123,43 +123,31 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-            String str = "ADOBECODEBAANC";
-            String target = "ABCA";
-            int minlength=Integer.MAX_VALUE;
+        int[] base = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
+        String[] sym = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
 
-            for(int start = 0; start <str.length(); start++){
-
-                for (int end = start; end <str.length(); end++){
-
-                    int length= end - start + 1;
-
-                    if(target.length()>length) continue;
-                    if(length>=minlength) continue;
-
-                    String s=str.substring(start,end+1);
-
-                    if(isSubstring(s,target)){
-                        minlength=s.length();
-                    }
-                }
-            }
-
-            return minlength==Integer.MAX_VALUE?-1:minlength;
-
-
-
-}
-        static boolean isSubstring(String s, String target){
+        int num=1994;
         int i=0;
-        int j=0;
-        while (i<s.length() && j<target.length()){
+        StringBuilder sb=new StringBuilder();
+        while (num>0){
 
-            if(s.charAt(i)!=target.charAt(j)){
-                return false;
+            while (base[i]>num){
+                i++;
             }
 
+            int q=num/base[i];
+
+            for(int j=1;j<=q;j++){
+                sb.append(sym[i]);
+            }
+
+            num=num%base[i];
+            i++;
         }
-            return true;
+
+
+
+
         }
 
 }

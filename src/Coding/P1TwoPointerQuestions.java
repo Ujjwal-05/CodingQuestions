@@ -470,7 +470,405 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
         // TC: O(n)
         // SC: O(1)
 
+//// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t (including duplicates), order doesn't matter in the window. Return the empty string "" if no such substring exists.
 
+        String s = "ADOBECODEBAANC";
+        String t = "ABCA";
+
+        static int minWindowLength(String str, String target) {
+            int minlength = Integer.MAX_VALUE;
+
+            for (int start = 0; start < str.length(); start++) {
+
+                for (int end = start; end < str.length(); end++) {
+
+                    int length = end - start + 1;
+
+                    if (target.length() > length) continue;
+                    if (length >= minlength) continue;
+
+                    String s = str.substring(start, end + 1);
+
+                    if (isValidWindow(s, target)) {
+                        minlength = length;
+                    }
+                }
+            }
+
+            return minlength == Integer.MAX_VALUE ? -1 : minlength;
+        }
+
+        static boolean isValidWindow(String s, String target) {
+
+            int[] freq = new int[128];
+
+            for (char c : target.toCharArray()) {
+                freq[c]++;
+            }
+
+            int required = target.length(); // total chars needed
+
+            for (char c : s.toCharArray()) {
+                if (freq[c] > 0) {
+                    required--;
+                }
+                freq[c]--;
+            }
+
+            return required == 0;
+        }
+
+        TC: O(n3)
+
+        public static int minWindowLengthBrute(String s, String t) {
+
+            int minlength = Integer.MAX_VALUE;
+            int[] hash = new int[256];
+
+            for (int i = 0; i < t.length(); i++) {
+                hash[t.charAt(i)]++;
+            }
+
+            for (int i = 0; i < s.length(); i++) {
+
+                int[] frequency = hash.clone();
+                int count = t.length();
+
+                for (int j = i; j < s.length(); j++) {
+
+                    char c = s.charAt(j);
+                    if (frequency[c] > 0) count--;
+                    frequency[c]--;
+
+                    if (count == 0) {
+                        minlength = Math.min(minlength, j - i + 1);
+                        break;
+                    }
+                }
+            }
+            return minlength == Integer.MAX_VALUE ? -1 : minlength;
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+        public static int minWindowLengthOptimal(String s, String t) {
+
+            int[] hash = new int[256];
+
+            for (char c : t.toCharArray()) {
+                hash[c]++;
+            }
+
+            int left = 0, right = 0;
+            int count = t.length();
+
+            int minLen = Integer.MAX_VALUE;
+
+            while (right < s.length()) {
+
+                if (hash[s.charAt(right)] > 0) {
+                    count--;
+                }
+
+                hash[s.charAt(right)]--;
+
+                while (count == 0) {
+
+                    minLen = Math.min(minLen, right - left + 1);
+
+                    hash[s.charAt(left)]++;
+
+                    if (hash[s.charAt(left)] > 0) {
+                        count++;
+                    }
+
+                    left++;
+                }
+
+                right++;
+            }
+
+            return minLen == Integer.MAX_VALUE ? -1 : minLen;
+        }
+
+        // TC: O(n)
+        // SC: O(1)
+
+////Minimum window subsequence:
+
+"A subsequence is formed by removing some or no characters from the original string without changing the order of the remaining characters. This means skipping is allowed, but the relative order must be preserved. For instance, from "abcde", valid subsequences include "a", "ace" (skipping b and d), "bd", "abc", and "abcde", while "aed" is invalid because it changes the order of characters."
+
+"Now consider the strings s1 = "geeksforgeeks" and s2 = "eksrg". The output "eksforg" is a subsequence of s1 that contains all characters of s2 in the same order. Additionally, it is constructed to be as long as possible while still maintaining s2 as a subsequence within it."
+
+"For each character, we decide whether to include or exclude it, leading to 2 choices per character. Hence total subsequences are 2ⁿ."
+
+        public String minWindowImprovedBrute(String s1, String s2) {
+            int n = s1.length();
+            int minLen = Integer.MAX_VALUE;
+            String result = "";
+
+            for (int i = 0; i < n; i++) {
+                for (int j = i; j < n; j++) {
+
+                    int windowLen = j - i + 1;
+
+                    // Skip invalid windows
+                    if (windowLen >= minLen) continue;
+                    if (windowLen < s2.length()) continue;
+
+                    String sub = s1.substring(i, j + 1);
+
+                    if (isSubsequence(sub, s2)) {
+                        minLen = windowLen;
+                        result = sub;
+                        break; // minimal for this i
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private boolean isSubsequence(String s1, String s2) {
+            int i = 0, j = 0;
+
+            while (i < s1.length() && j < s2.length()) {
+                if (s1.charAt(i) == s2.charAt(j)) {
+                    j++;
+                }
+                i++;
+            }
+            return j == s2.length();
+        }
+
+        TC: O(N3)
+
+        static String minWindow(String s1, String s2) {
+            int n = s1.length();
+            int m = s2.length();
+
+            if (m == 0 || n == 0 || m > n) return "";
+
+            String ans = "";
+            int minLen = Integer.MAX_VALUE;
+
+            for (int i = 0; i < n; i++) {
+                if (s1.charAt(i) == s2.charAt(0)) {
+
+                    int p1 = i, p2 = 0;
+
+                    // Forward scan
+                    while (p1 < n && p2 < m) {
+                        if (s1.charAt(p1) == s2.charAt(p2)) p2++;
+                        p1++;
+                    }
+
+                    if (p2 == m) {
+                        int end = p1 - 1;
+                        p2 = m - 1;
+
+                        // Backward shrink
+                        while (end >= 0) {
+                            if (s1.charAt(end) == s2.charAt(p2)) p2--;
+                            if (p2 < 0) break;
+                            end--;
+                        }
+
+                        int start = end;
+                        int len = p1 - start;
+
+                        if (len < minLen) {
+                            minLen = len;
+                            ans = s1.substring(start, start + len);
+                        }
+                    }
+                }
+            }
+
+            return ans;
+        }
+
+        //TC: O(n × m)
+
+// DP Solution:
+
+////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
+
+"A string of length n has n(n+1)/2 substrings because for each starting index, we can form substrings up to the end, forming an arithmetic series. and to check whether the string is palindrome or not it takes n/2 comaprison"
+
+        public static String longestPalindromeBrute(String s) {
+
+            int n = s.length();
+            String result = "";
+
+            for (int i = 0; i < n; i++) {
+
+                for (int j = i; j < n; j++) {
+
+                    String sub = s.substring(i, j + 1);
+
+                    if (isPalindrome(sub)) {
+
+                        if (sub.length() > result.length()) {
+                            result = sub;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static boolean isPalindrome(String str) {
+
+            int left = 0;
+            int right = str.length() - 1;
+
+            while (left < right) {
+                if (str.charAt(left) != str.charAt(right)) {
+                    return false;
+                }
+                left++;
+                right--;
+            }
+
+            return true;
+        }
+
+        // TC: O(n^3)
+        // SC: O(1)
+
+        public static String getLongestPal(String s) {
+
+            int n = s.length();
+
+            int start = 0;
+            int maxLen = 1;
+
+            for (int i = 0; i < n; i++) {
+
+                // run twice: odd (j=0), even (j=1)
+                for (int j = 0; j <= 1; j++) {
+
+                    int low = i;
+                    int high = i + j;
+
+                    // expand while palindrome
+                    while (low >= 0 && high < n && s.charAt(low) == s.charAt(high)) {
+
+                        int currLen = high - low + 1;
+
+                        if (currLen > maxLen) {
+                            start = low;
+                            maxLen = currLen;
+                        }
+
+                        low--;
+                        high++;
+                    }
+                }
+            }
+
+            return s.substring(start, start + maxLen);
+        }
+
+        // TC: O(n^2)
+        // SC: O(1)
+
+"In the expand-around-center approach, we use two types of centers because palindromes can be either odd-length or even-length. An odd-length palindrome has a single central character (like `"aba"`), so we expand around one index. However, an even-length palindrome does not have a single middle character; instead, its center lies between two characters (like `"baab"`), so we must expand between adjacent indices. If we only consider one center, we would miss all even-length palindromes. Therefore, by checking both cases—one center (`i, i`) and two centers (`i, i+1`)—we ensure that all possible palindromic substrings are covered."
+
+"In the center expansion algorithm for finding the longest palindromic substring, instead of checking all possible substrings, we treat each index (and gap between indices) as a potential center and expand outward to check for palindromes. A string of length n has n possible odd-length centers (each character) and n−1 even-length centers (between adjacent characters), giving a total of 2n−1 centers. For each center, we expand outward while the characters match, and in the worst case, this expansion can take up to n/2 comparisons. Therefore, the total time complexity becomes:  (2n − 1) × (n/2) ≈ O(n²).  " +
+
+"The space complexity is O(1) since no extra space is used apart from variables."
+
+//// Manchers Algorithm:
+
+
+//// Longest Common Prefix:
+        String[] input = {"interview", "internet", "internal", "interval"};
+
+        public static String longestCommonPrefix(String[] strs) {
+
+            if (strs == null || strs.length == 0) return "";
+
+            String first = strs[0];
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < first.length(); i++) {
+
+                char ch = first.charAt(i);
+
+                // compare this character with all other strings
+                for (int j = 1; j < strs.length; j++) {
+
+                    // if index out of bound OR mismatch
+                    if (i >= strs[j].length() || strs[j].charAt(i) != ch) {
+                        return result.toString();
+                    }
+                }
+
+                result.append(ch);
+            }
+
+            return result.toString();
+        }
+
+        // TC: O(n * m)
+        // n = number of strings
+        // m = length of shortest string
+        // SC: O(1)  (excluding output)
+
+        import java.util.Arrays;
+
+        public static String longestCommonPrefixBetter(String[] strs) {
+
+            if (strs == null || strs.length == 0) return "";
+
+            Arrays.sort(strs); //Yes, string sorting in Java is lexicographical (dictionary order).
+
+            String first = strs[0];
+            String last = strs[strs.length - 1];
+
+            int i = 0;
+
+            while (i < first.length() && i < last.length() &&
+                    first.charAt(i) == last.charAt(i)) {
+                i++;
+            }
+
+            return first.substring(0, i);
+        }
+
+//        Total = (number of comparisons) × (cost per comparison)= (n log n) × m
+
+        public static String longestCommonPrefixOptimal(String[] strs) {
+
+            if (strs == null || strs.length == 0) return "";
+
+            String prefix = strs[0];
+
+            for (int i = 1; i < strs.length; i++) {
+
+                while (!strs[i].startsWith(prefix)) {
+                    prefix = prefix.substring(0, prefix.length() - 1);
+
+                    if (prefix.isEmpty()) return "";
+                }
+            }
+
+            return prefix;
+        }
+
+        // TC: O(n * m)
+        // SC: O(1)
+
+
+"Both approaches(brute force and optimal) have O(n*m) time complexity, but the optimal one reduces the prefix size dynamically, making it faster in practice due to fewer comparisons.”
+
+" I’ll start with a brute force column-wise comparison( vertical scanning) in O(n*m).Then I can optimize using sorting, but the best practical approach is horizontal scanning where I iteratively reduce the prefix.”
+
+"Vertical scanning and horizontal scanning are two different approaches to solve the Longest Common Prefix problem. In vertical scanning, we compare characters column by column, meaning we fix an index and check that character across all strings at the same position. If any mismatch occurs or a string ends, we stop and return the prefix found so far. This approach treats the input like a table and scans it vertically. In contrast, horizontal scanning works by taking the first string as an initial prefix and then comparing it with each subsequent string one by one, gradually shrinking the prefix until it matches all strings. So instead of checking all strings at a fixed index, it reduces the prefix step-by-step across the array. Although both approaches have the same time complexity of O(n × m), horizontal scanning is often more efficient in practice because the prefix keeps shrinking, reducing the number of comparisons needed for later strings."
 
 ////Maximum Product sub array.
 
@@ -2138,176 +2536,7 @@ public int maxProfit(int[] prices) {
         // TC: O(n^2)
         // SC: O(1)
 
-//// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t (including duplicates), order doesn't matter in the window. Return the empty string "" if no such substring exists.
 
-        String s = "ADOBECODEBAANC";
-        String t = "ABCA";
-
-        static int minWindowLength(String str, String target) {
-            int minlength = Integer.MAX_VALUE;
-
-            for (int start = 0; start < str.length(); start++) {
-
-                for (int end = start; end < str.length(); end++) {
-
-                    int length = end - start + 1;
-
-                    if (target.length() > length) continue;
-                    if (length >= minlength) continue;
-
-                    String s = str.substring(start, end + 1);
-
-                    if (isValidWindow(s, target)) {
-                        minlength = length;
-                    }
-                }
-            }
-
-            return minlength == Integer.MAX_VALUE ? -1 : minlength;
-        }
-
-        static boolean isValidWindow(String s, String target) {
-
-            int[] freq = new int[128];
-
-            for (char c : target.toCharArray()) {
-                freq[c]++;
-            }
-
-            int required = target.length(); // total chars needed
-
-            for (char c : s.toCharArray()) {
-                if (freq[c] > 0) {
-                    required--;
-                }
-                freq[c]--;
-            }
-
-            return required == 0;
-        }
-
-        TC: O(n3)
-
-        public static int minWindowLengthBrute(String s, String t) {
-
-            int minlength = Integer.MAX_VALUE;
-            int[] hash = new int[256];
-
-            for (int i = 0; i < t.length(); i++) {
-                hash[t.charAt(i)]++;
-            }
-
-            for (int i = 0; i < s.length(); i++) {
-
-                int[] frequency = hash.clone();
-                int count = t.length();
-
-                for (int j = i; j < s.length(); j++) {
-
-                    char c = s.charAt(j);
-                    if (frequency[c] > 0) count--;
-                    frequency[c]--;
-
-                    if (count == 0) {
-                        minlength = Math.min(minlength, j - i + 1);
-                        break;
-                    }
-                }
-            }
-            return minlength == Integer.MAX_VALUE ? -1 : minlength;
-        }
-
-        // TC: O(n^2)
-        // SC: O(1)
-
-        public static int minWindowLengthOptimal(String s, String t) {
-
-            int[] hash = new int[256];
-
-            for (char c : t.toCharArray()) {
-                hash[c]++;
-            }
-
-            int left = 0, right = 0;
-            int count = t.length();
-
-            int minLen = Integer.MAX_VALUE;
-
-            while (right < s.length()) {
-
-                if (hash[s.charAt(right)] > 0) {
-                    count--;
-                }
-
-                hash[s.charAt(right)]--;
-
-                while (count == 0) {
-
-                    minLen = Math.min(minLen, right - left + 1);
-
-                    hash[s.charAt(left)]++;
-
-                    if (hash[s.charAt(left)] > 0) {
-                        count++;
-                    }
-
-                    left++;
-                }
-
-                right++;
-            }
-
-            return minLen == Integer.MAX_VALUE ? -1 : minLen;
-        }
-
-        // TC: O(n)
-        // SC: O(1)
-
-////Minimum window subsequence:
-
-        A subsequence is formed by removing some or no characters from the original string without changing the order of the remaining characters. This means skipping is allowed, but the relative order must be preserved. For instance, from "abcde", valid subsequences include "a", "ace" (skipping b and d), "bd", "abc", and "abcde", while "aed" is invalid because it changes the order of characters.
-
-                Now consider the strings s1 = "geeksforgeeks" and s2 = "eksrg". The output "eksforg" is a subsequence of s1 that contains all characters of s2 in the same order. Additionally, it is constructed to be as long as possible while still maintaining s2 as a subsequence within it.
-
-        "For each character, we decide whether to include or exclude it, leading to 2 choices per character. Hence total subsequences are 2ⁿ."
-
-
-
-
-////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
-
-//// Longest Common Prefix:
-//        String[] input = {"interview", "internet", "internal", "interval"};
-
-//        if (input == null || input.length == 0) return;
-//        String prefix = input[0];
-//        if (prefix == null) return;
-//
-//        for(int i=1;i<input.length;i++){
-//
-//            while (!input[i].startsWith(prefix)){
-//                prefix=prefix.substring(0,prefix.length()-1);
-//            }
-//
-//            if(prefix.isEmpty()){
-//                System.out.println("No Prefix Found");
-//                return;
-//            }
-//        }
-//        System.out.println("LCP is " + prefix);
-
-//        Arrays.sort(input);
-//        String first=input[0];
-//        String last=input[input.length-1];
-//        StringBuilder ans =new StringBuilder();
-//
-//        for(int i=0;i<Math.min(first.length(),last.length());i++){
-//
-//            if(first.charAt(i)!=last.charAt(i)) break;
-//            ans.append(first.charAt(i));
-//        }
-//
-//        System.out.println(ans.toString());
 
     }
 }

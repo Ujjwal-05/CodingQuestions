@@ -400,13 +400,196 @@ public class P2StringQuestions {
 //        Time: O(n)
 //        Space = O(n) in general BUT becomes O(1) if character set is fixed
 
+////String Compression:
+
+//// This problem uses a two-pointer approach where one pointer (read) scans the array to count consecutive repeating characters, while another pointer (write) updates the array in place with the compressed result. For each group of identical characters, we write the character once and then, if the count is greater than one, we write the digits of the count individually. Since counts like 12 need to be stored as '1' and '2', we convert the count to a string and write each digit. This ensures the compression happens in-place using constant extra space, and the final length is tracked using the write pointer.
+
+        public static int compressBrute(char[] chars) {
+
+            StringBuilder sb = new StringBuilder();
+
+            int i = 0;
+
+            while (i < chars.length) {
+
+                char current = chars[i];
+                int count = 0;
+
+                // count frequency
+                while (i < chars.length && chars[i] == current) {
+                    count++;
+                    i++;
+                }
+
+                sb.append(current);
+
+                if (count > 1) {
+                    sb.append(count);
+                }
+            }
+
+            // copy back to original array
+            for (int k = 0; k < sb.length(); k++) {
+                chars[k] = sb.charAt(k);
+            }
+
+            return sb.length();
+        }
+
+        // TC: O(n)
+        // SC: O(n)
+
+        public static int compress(char[] chars) {
+
+            int write = 0;
+            int read = 0;
+
+            while (read < chars.length) {
+
+                char current = chars[read];
+                int count = 0;
+
+                // count same characters
+                while (read < chars.length && chars[read] == current) {
+                    read++;
+                    count++;
+                }
+
+                // write character
+                chars[write++] = current;
+
+                // write count if > 1
+                if (count > 1) {
+                    String cnt = String.valueOf(count);
+
+                    for (char c : cnt.toCharArray()) {
+                        chars[write++] = c;
+                    }
+                }
+            }
+
+            return write;
+
+            // TC: O(n)
+            // SC: O(1)
+        }
 
 
+////Count and Say:
 
+/* In the count-and-say problem, each step applies run-length encoding on the previous string, where consecutive characters are grouped and represented as count + character. For a single iteration, the logic runs in O(n) time because we traverse the string once using a pointer, even though there is a nested loop—the pointer moves forward and each character is processed only once. The resulting string in one iteration can grow up to 2n in the worst case (when all characters are different, like "abcd" → "1a1b1c1d"). However, the overall algorithm is not O(n) because we repeat this process n times, and the string length keeps increasing at each step. So the total time complexity depends on the sum of lengths of all generated strings, not just the initial size.
 
+In theory, we use a safe upper bound of O(n · 2ⁿ) time and O(2ⁿ) space, assuming the string could double every iteration. But in reality, the sequence doesn’t grow that fast—it follows a known growth rate called Conway’s constant (~1.303), so the length of the nth string is closer to (1.303)ⁿ. That means the practical complexity is better and often expressed as O(Lₙ), where Lₙ is the length of the final string.
 
-//// str.substring(beginIndex), str.substring(beginIndex, endIndex);
+The O(n · 2ⁿ) comes from taking a safe worst-case upper bound on how the string length could grow across iterations.
 
+In one iteration of run-length encoding, if the input string has length L, the output can be at most 2L. This happens in the worst case when all characters are different (for example, "abcd" → "1a1b1c1d"), so every character expands into two characters. Now, if you imagine this worst case happening at every step (even though it doesn’t in reality), the string length would double each time: L₁ = 1, L₂ ≤ 2, L₃ ≤ 4, L₄ ≤ 8 … so in general Lₙ ≤ 2ⁿ.
+
+Since each iteration processes the entire current string, the work done at iteration i is proportional to Lᵢ, and the total time is: L₁ + L₂ + L₃ + ... + Lₙ
+
+If we plug in the worst-case doubling: 1 + 2 + 4 + 8 + ... + 2ⁿ ≈ 2ⁿ
+
+So strictly speaking, the total work is O(2ⁿ). Sometimes people write it as O(n · 2ⁿ) as a looser upper bound (since there are n iterations), but the tighter bound is O(2ⁿ).
+
+*/
+
+        public static String countAndSayBrute(int n) {
+
+            if (n == 1) return "1";
+
+            String result = "1";
+
+            for (int i = 2; i <= n; i++) {
+
+                String next = "";
+
+                for (int j = 0; j < result.length(); j++) {
+
+                    char ch = result.charAt(j);
+                    int count = 1;
+
+                    // count consecutive characters using inner loop
+                    while (j + 1 < result.length() && result.charAt(j) == result.charAt(j + 1)) {
+                        count++;
+                        j++;
+                    }
+
+                    next = next + count + ch;  // ❌ string concatenation (costly)
+                }
+
+                result = next;
+            }
+
+            return result;
+
+            // TC: O(Ln^2)
+            // SC: O(Ln)
+        }
+
+        public static String countAndSay(int n) {
+
+            String result = "1";
+
+            for (int i = 1; i < n; i++) {
+
+                StringBuilder next = new StringBuilder();
+
+                int j = 0;
+
+                while (j < result.length()) {
+
+                    char ch = result.charAt(j);
+                    int count = 0;
+
+                    // count consecutive characters
+                    while (j < result.length() && result.charAt(j) == ch) {
+                        count++;
+                        j++;
+                    }
+
+                    next.append(count);
+                    next.append(ch);
+                }
+
+                result = next.toString();
+            }
+
+            return result;
+
+            // TC: O(Ln)  ~ O(2^n) worst-case
+            // SC: O(Ln)
+        }
+
+//// Integer to roman:
+
+        int num=1994;
+
+        public static String intToRoman(int num) {
+
+            int[] base = {1000, 900, 500, 400, 100, 90, 50, 40,
+                    10, 9, 5, 4, 1};
+
+            String[] sym = {"M", "CM", "D", "CD", "C", "XC", "L", "XL",
+                    "X", "IX", "V", "IV", "I"};
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < base.length; i++) {
+
+                int q = num / base[i];   // how many times this value fits
+
+                for (int j = 0; j < q; j++) {
+                    sb.append(sym[i]);
+                }
+
+                num = num % base[i];     // reduce number
+            }
+
+            return sb.toString();
+
+            // TC: O(1)
+            // SC: O(1)
+        }
 
 
     }
