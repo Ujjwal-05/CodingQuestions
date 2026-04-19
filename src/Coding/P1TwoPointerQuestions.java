@@ -782,7 +782,7 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
 "The space complexity is O(1) since no extra space is used apart from variables."
 
-//// Manchers Algorithm:
+// Manchers Algorithm:
 
 
 //// Longest Common Prefix:
@@ -818,8 +818,6 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
         // n = number of strings
         // m = length of shortest string
         // SC: O(1)  (excluding output)
-
-        import java.util.Arrays;
 
         public static String longestCommonPrefixBetter(String[] strs) {
 
@@ -862,6 +860,8 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
         // TC: O(n * m)
         // SC: O(1)
+
+"In this code, n and m represent two different dimensions of the input. n is the number of strings in the array strs, i.e., strs.length. The outer loop runs from 1 to n - 1, so we compare the prefix with each string one by one. m is the length of the prefix (or effectively the length of the shortest string). In the worst case, the prefix can be as long as the first string initially, and during comparisons we may check up to m characters when using startsWith() and when shrinking the prefix using substring().  So the time complexity O(n × m) comes from the fact that for each of the n strings, we may compare up to m characters while matching and shrinking the prefix."
 
 
 "Both approaches(brute force and optimal) have O(n*m) time complexity, but the optimal one reduces the prefix size dynamically, making it faster in practice due to fewer comparisons.”
