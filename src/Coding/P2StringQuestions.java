@@ -642,6 +642,22 @@ So strictly speaking, the total work is O(2ⁿ). Sometimes people write it as O(
 
 ////OrderlyQueue:
 
+
+"When we are allowed to swap any two characters, we can generate any permutation of the string, which means we can always reach the sorted (lexicographically smallest) string. However, in this problem, we are only allowed to move one of the first k characters to the end. The key observation is that when k ≥ 2, this operation gives us enough flexibility to simulate swaps between characters. For example, starting with "ceabd", we can perform a sequence of allowed operations like:
+ceabd → cabde → abdec → bdeca → decab → ecabd,
+
+which effectively moves 'e' in front of 'c', similar to swapping them. Since we can simulate such movements repeatedly, we can eventually rearrange the string into any desired order. Therefore, when k ≥ 2, we can achieve any permutation, including the sorted string.
+
+k = 1 → only rotations → find minimum rotation
+k ≥ 2 → can simulate swaps → sort string
+
+“For k ≥ 2, we can simulate swaps using allowed operations, so any permutation is possible, hence sorting gives the answer.”
+"
+
+"The key insight is that when k == 1, you are only allowed to rotate the string, so you must check all possible rotations and pick the lexicographically smallest one. However, when k >= 2, you gain enough flexibility to rearrange the string in any order, which means the smallest possible string is simply the sorted version of the characters. This observation removes the need for simulation and leads to an optimal and clean solution."
+
+        String s="baaca";
+
         public static String orderlyQueue(String s, int k) {
 
             // Case 1: Only rotations allowed
@@ -668,8 +684,6 @@ So strictly speaking, the total work is O(2ⁿ). Sometimes people write it as O(
         // TC: O(n^2) for k = 1, O(n log n) for k >= 2
         // SC: O(n)
 }
-
-"The key insight is that when k == 1, you are only allowed to rotate the string, so you must check all possible rotations and pick the lexicographically smallest one. However, when k >= 2, you gain enough flexibility to rearrange the string in any order, which means the smallest possible string is simply the sorted version of the characters. This observation removes the need for simulation and leads to an optimal and clean solution."
 
 Booth’s algorithm is specifically designed to find the smallest possible string that can be formed by rotating the given string. A rotation means taking some prefix of the string and moving it to the end. Instead of generating all rotations and comparing them (which takes O(n²)), Booth’s algorithm efficiently determines the starting index of the smallest rotation by skipping unnecessary comparisons, achieving this in O(n) time.
 
@@ -722,6 +736,60 @@ Booth’s algorithm is specifically designed to find the smallest possible strin
        // TC: O(n) for k=1, O(n log n) for k>=2
        // SC: O(n)
 
+////Make String good:
 
+     public String makeGood(String s) {
+
+        String result = "";
+
+        int i = 0;
+        int j = -1;
+
+        while (i < s.length()) {
+
+            if (result.isEmpty() || Math.abs(result.charAt(j) - s.charAt(i)) != 32) {
+                result += s.charAt(i);   // ❌ creates new string
+                j++;
+            } else {
+                if (j > -1) {
+                    result = result.substring(0, j); // ❌ creates new string
+                }
+                j--;
+            }
+            i++;
+        }
+
+        return result;
+
+        // TC: O(n^2)
+        // SC: O(n)
+    }
+
+    public String makeGood(String s) {
+
+        StringBuilder stack = new StringBuilder();
+
+           for (char ch : s.toCharArray()) {
+
+            int n = stack.length();
+
+            if (n > 0 && Math.abs(stack.charAt(n - 1) - ch) == 32) {
+                stack.deleteCharAt(n - 1); // pop
+            } else {
+                stack.append(ch); // push
+            }
+        }
+
+        return stack.toString();
+
+        // TC: O(n)
+        // SC: O(n)
+}
+
+"Instead of using a string, we use a StringBuilder to simulate a stack efficiently. We iterate through the input string, and for each character, we check the top of the stack (last character of StringBuilder). If they form a bad pair (difference of 32), we remove the top element; otherwise, we add the current character. This way, each character is processed once, and all operations (append/delete) are efficient, resulting in linear time complexity."
+
+
+
+*/
     }
 }

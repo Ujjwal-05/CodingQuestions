@@ -123,37 +123,27 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        String s="baaca";
-        int k=3;
-        boolean flag=true;
+        String s="LeEeetcode";
 
-        while (flag){
+        String result="";
 
-            flag=false;
+        int i=0;
+        int j=-1;
+        while (i<s.length()){
 
-            char smallest =s.charAt(0);
-            int index=0;
-
-            for(int i=1;i<k;i++){
-
-                if(smallest > s.charAt(i)){
-
-                    smallest = s.charAt(i);
-                    index=i;
-
-                    if(flag==false){
-                        flag=true;
-                    }
+            if(result.isEmpty() || Math.abs(result.charAt(j)-s.charAt(i))!=32){
+             result+=s.charAt(i);
+             j++;
+            }else {
+                if(j>-1) {
+                    result = result.substring(0,j);
                 }
+                j--;
             }
-//            if(flag==false) return s;
-
-            s=s.substring(0,index) + s.substring(index+1) +s.charAt(index);
-            System.out.println(s);
+            i++;
         }
 
-        System.out.println(s);
-
+        System.out.println(result);
 
 
 
