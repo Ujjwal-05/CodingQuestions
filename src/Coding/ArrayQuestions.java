@@ -94,10 +94,10 @@ public class ArrayQuestions {
         return false;
     }
 
-    public static void main22(String[] args) {
+    public static void main(String[] args) {
         System.out.println("Happy Coding");
-
-/* Pattern: Simple Traversal / Math / Logic:
+/*
+ Pattern: Simple Traversal / Math / Logic:
 
 ////Reverse a number or Check palindrome.
 
@@ -608,7 +608,7 @@ Brute Force: Traversal and count ones and zeroes O(2n)
             }
         }
 
-*/
+
 
 
 
@@ -1473,11 +1473,11 @@ Brute Force: Traversal and count ones and zeroes O(2n)
                 new Item(120, 30)
         };
         int W = 50;
-/*
+
 For the Fractional Knapsack problem, a brute-force approach is not meaningful because items can be divided into fractions. The problem satisfies the greedy-choice
 property, so the optimal solution is always obtained by selecting items in decreasing order of value-to-weight ratio. Unlike 0/1 Knapsack, there is no exponential
 subset-based solution here — greedy is both optimal and efficient.”
- */
+ 
 //Brute force: TC:O(n2logn) SC:O(1)
 
 //        Arrays.sort(items, (a, b) ->
@@ -1582,7 +1582,7 @@ subset-based solution here — greedy is both optimal and efficient.”
 
 
 
-/*
+
 Jump Game: Given an array where each element represents the maximum number of steps, you can jump forward from that element, return true if we can reach the last index
            starting from the first index. Otherwise, return false.
            Example 1:
@@ -1605,7 +1605,7 @@ Jump Game: Given an array where each element represents the maximum number of st
             From index 3, with value 0 we cannot jump any further.
             Hence, from all possibilities, we are unable to jump to the last index so we return false.
 
- */
+ 
 
 //        int[] nums = {2, 3, 1, 0, 4};
 //
@@ -1697,11 +1697,11 @@ Jump Game: Given an array where each element represents the maximum number of st
 
 //// Job Sequencing Problem:
 
-/*
+
 The Job Sequencing Problem is a classic greedy scheduling problem, but it is NOT an interval-overlap problem like meetings or platforms. Here, each job has a
  deadline and a profit, and each job takes exactly one unit of time. The goal is to maximize total profit by scheduling jobs so that at most one job is done at
   any time, and each job finishes on or before its deadline.
- */
+ 
 
 //        int[][] jobs = {
 //                {1, 4, 20},
@@ -1745,7 +1745,7 @@ The Job Sequencing Problem is a classic greedy scheduling problem, but it is NOT
 //Brute force: TC:O() SC:O()
 // Optimal:    TC:O( O(N log N) + O(N * M),) SC:O(M)
 
-/*
+
 
 ----------------------------------------------------------------INTERVAL: An interval represents a continuous range of values.------------------------------------------------
 
@@ -1836,9 +1836,9 @@ Overlapping Subintervals:
     minimum arrows to burst balloons—you should sort by end time, because selecting the interval that finishes earliest leaves maximum room for future intervals.
     A simple hint to remember is: “Merging → watch the start, Choosing → watch the end.”
 
-*/
 
-/* Merge intervals:
+
+ Merge intervals:
 
     Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that
     cover all the intervals in the input.
@@ -1848,7 +1848,7 @@ Overlapping Subintervals:
 
     If the intervals are sorted on start, then we can check merge condition with A.end>=B.start
 
- */
+ 
 
 //        int[][] intervals = { {1, 3}, {2, 6}, {1,9}, {0,100} , {8, 10}, {15, 18} };
 
@@ -1902,7 +1902,7 @@ Overlapping Subintervals:
 
 //Brute force: TC:O(nlogn) SC:O(n)
 
-/*  Insert Interval:
+  Insert Interval:
 
     You are given an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent the start and the end of the ith interval and intervals
     is sorted in ascending order by starti. You are also given an interval newInterval = [start, end] that represents the start and end of another interval.
@@ -1914,7 +1914,7 @@ Overlapping Subintervals:
     Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
     Output: [[1,5],[6,9]]
 
- */
+ 
 
 //        int[][] intervals = {{1, 3}, {6, 9}};
 //        int[] newInterval = {2, 5};
@@ -1952,10 +1952,10 @@ Overlapping Subintervals:
 
 //Brute force: TC:O(n + nlogn + n) SC:O(n)
 
-/*
+
         This is an Interval Traversal + Merge problem. We divide the process into 3 logical phases:
         Intervals completely before newInterval.Intervals overlapping with newInterval.Intervals completely after newInterval.
-*/
+
 
 //        List<int[]> result = new ArrayList<>();
 //        int n = intervals.length;
@@ -1987,7 +1987,7 @@ Overlapping Subintervals:
 
 // Optimal:    TC:O(n) SC:O(1)
 
-/* N meetings in one room:
+ N meetings in one room:
 
     There is one meeting room in a firm. You are given two arrays, start and end each of size N. For an index ‘i’, start[i] denotes the starting time of the ith meeting
     while end[i] will denote the ending time of the ith meeting. Find the maximum number of meetings that can be accommodated if only one meeting can happen in the room
@@ -2052,7 +2052,7 @@ Overlapping Subintervals:
    whereas the minimum platforms problem only requires counting overlapping intervals, which results in a quadratic brute-force solution.
 
 
- */
+ 
 
 //Brute force: TC:O(2^n) SC:O(n)
 //Brute force: TC:O(n2) SC:O(n) DP
@@ -2083,7 +2083,7 @@ Overlapping Subintervals:
 //        System.out.println(result);
 // Optimal:    TC:O(nlogn + n) SC:O(n)
 
-/* Non-overlapping Intervals:
+ Non-overlapping Intervals:
 
     Given an array of intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the
     intervals non-overlapping.
@@ -2098,7 +2098,7 @@ Overlapping Subintervals:
 
     Note:Intervals which only touch at a point are also considered as non-overlapping. For example, [1, 3] and [3, 4] are non-overlapping.
 
- */
+ 
 
 //        int[][] intervals = { {1, 3}, {2, 4}, {3, 5}, {1, 2} };
 
@@ -2150,7 +2150,7 @@ Overlapping Subintervals:
 
 // Optimal:    TC:O(n) SC:O(1)
 
-/* Minimum number of platforms required for a railway station:
+ Minimum number of platforms required for a railway station:
 
     Given the arrival and departure times of all trains reaching a particular railway station, determine the minimum number of platforms required so that no train
     is kept waiting. Consider all trains arrive and depart on the same day. In any particular instance, the same platform cannot be used for both the departure of
@@ -2175,7 +2175,7 @@ Overlapping Subintervals:
     interval intersection (overlap) problem. If two trains’ time intervals intersect, they cannot share the same platform. The minimum number of platforms required
     is simply the maximum number of overlapping intervals at any point in time.
 
- */
+ 
 
 //        int[] arr = {900, 945, 955, 1100, 1500, 1800};
 //        int[] dep = {920, 1200, 1130, 1150, 1900, 2000};
@@ -2195,8 +2195,7 @@ Overlapping Subintervals:
 //        }
 
 //Brute force: TC:O(n2) SC:O(1)
-
- /*
+        
  The optimal approach to find the minimum number of platforms required at a railway station is based on counting how many trains are present at the station at the same
   time. Each train is treated as an interval defined by its arrival and departure times. We first sort the arrival times and departure times separately so that events
   can be processed in chronological order of time.How in real world arrival departure happening. Then, using two pointers, we sweep through time: whenever the next
@@ -2205,8 +2204,7 @@ Overlapping Subintervals:
   available, so we decrease the count. While doing this, we continuously track the maximum number of platforms in use at any moment, because that maximum represents
    the minimum number of platforms required to handle all trains without delay. This approach runs in (O(n \log n)) time due to sorting and efficiently captures the
     peak overlap of train intervals.
-
-  */
+                
 
 //        Arrays.sort(arr);
 //        Arrays.sort(dep);
@@ -2228,426 +2226,7 @@ Overlapping Subintervals:
 
 // Optimal:    TC:O(2nlogn + n) SC:O(1)
 
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(4n) SC:O(2n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(4n) SC:O(2n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(4n) SC:O(2n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-////
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
-//Brute force: TC:O(n2) SC:O(1)
-// Optimal:    TC:O(n) SC:O(n)
-
+*/
 
     }}
 

@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class P1TwoPointerQuestions {
     public static void main(String[] args) {
 
-
+/*
 ////Find the union of the 2 sorted array and result should be sorted:
 
         public static int[] bruteForceUnionOfArrays(int[] arr1, int[] arr2) {
@@ -890,7 +890,7 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
             curr_max = Math.max(curr, curr * curr_max);
             curr_min = Math.min(curr, curr * curr_min);
-            ans = Math.max(ans, curr_max); // ✅ FIX HERE
+            ans = Math.max(ans, curr_max);
         }
         return ans;
     }
@@ -1290,7 +1290,7 @@ public int maxProfit(int[] prices) {
     // TC: O(n)
     // SC: O(1)
 
-/*
+
     The algorithm is based on the idea that if an element occurs more than n/2 times, then all the remaining elements together must occur less than n/2 times.
 
     While traversing the array, we maintain a candidate and a vote count:
@@ -1301,7 +1301,7 @@ public int maxProfit(int[] prices) {
 
     By the end of the first traversal, the remaining candidate is the potential majority element (if there is a majority element, then this elements has to be the one). A second traversal is required to verify whether it actually appears more than n/2 times.
 
-*/
+
 
 ////Return an element that occurs more than N/3 times:
         int[] arr={2,1,1,3,1,4,5,6};
@@ -2537,6 +2537,7 @@ public int maxProfit(int[] prices) {
         // SC: O(1)
 
 
-
+*/
     }
+
 }

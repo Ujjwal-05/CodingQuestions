@@ -1,8 +1,9 @@
 package Coding;
 
 public class P2StringQuestions {
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
+/*
 //// Remove Outermost Parenthesis:
 
         public String removeOuterParentheses(String s) {
@@ -477,7 +478,7 @@ public class P2StringQuestions {
 
 ////Count and Say:
 
-/* In the count-and-say problem, each step applies run-length encoding on the previous string, where consecutive characters are grouped and represented as count + character. For a single iteration, the logic runs in O(n) time because we traverse the string once using a pointer, even though there is a nested loop—the pointer moves forward and each character is processed only once. The resulting string in one iteration can grow up to 2n in the worst case (when all characters are different, like "abcd" → "1a1b1c1d"). However, the overall algorithm is not O(n) because we repeat this process n times, and the string length keeps increasing at each step. So the total time complexity depends on the sum of lengths of all generated strings, not just the initial size.
+ In the count-and-say problem, each step applies run-length encoding on the previous string, where consecutive characters are grouped and represented as count + character. For a single iteration, the logic runs in O(n) time because we traverse the string once using a pointer, even though there is a nested loop—the pointer moves forward and each character is processed only once. The resulting string in one iteration can grow up to 2n in the worst case (when all characters are different, like "abcd" → "1a1b1c1d"). However, the overall algorithm is not O(n) because we repeat this process n times, and the string length keeps increasing at each step. So the total time complexity depends on the sum of lengths of all generated strings, not just the initial size.
 
 In theory, we use a safe upper bound of O(n · 2ⁿ) time and O(2ⁿ) space, assuming the string could double every iteration. But in reality, the sequence doesn’t grow that fast—it follows a known growth rate called Conway’s constant (~1.303), so the length of the nth string is closer to (1.303)ⁿ. That means the practical complexity is better and often expressed as O(Lₙ), where Lₙ is the length of the final string.
 
@@ -491,7 +492,6 @@ If we plug in the worst-case doubling: 1 + 2 + 4 + 8 + ... + 2ⁿ ≈ 2ⁿ
 
 So strictly speaking, the total work is O(2ⁿ). Sometimes people write it as O(n · 2ⁿ) as a looser upper bound (since there are n iterations), but the tighter bound is O(2ⁿ).
 
-*/
 
         public static String countAndSayBrute(int n) {
 
@@ -590,6 +590,137 @@ So strictly speaking, the total work is O(2ⁿ). Sometimes people write it as O(
             // TC: O(1)
             // SC: O(1)
         }
+
+////Check If Two String Arrays are Equivalent:
+
+        word1 = ["ab", "c"], word2 = ["a", "bc"]
+
+        public static boolean arrayStringsAreEqualBrute(String[] word1, String[] word2) {
+
+            String s1 = "";
+            String s2 = "";
+
+            for (String w : word1) s1 += w;
+            for (String w : word2) s2 += w;
+
+            return s1.equals(s2);
+
+            // TC: O(n + m)
+            // SC: O(n + m)
+        }
+
+        public static boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+
+            int i = 0, j = 0; // pointers for arrays
+            int p1 = 0, p2 = 0; // pointers inside strings
+
+            while (i < word1.length && j < word2.length) {
+
+                if (word1[i].charAt(p1) != word2[j].charAt(p2)) {
+                    return false;
+                }
+
+                p1++;
+                p2++;
+
+                if (p1 == word1[i].length()) {
+                    i++;
+                    p1 = 0;
+                }
+
+                if (p2 == word2[j].length()) {
+                    j++;
+                    p2 = 0;
+                }
+            }
+
+            return i == word1.length && j == word2.length;
+
+            // TC: O(n + m)
+            // SC: O(1)
+        }
+
+////OrderlyQueue:
+
+        public static String orderlyQueue(String s, int k) {
+
+            // Case 1: Only rotations allowed
+            if (k == 1) {
+
+            String ans = s;
+
+            for (int i = 1; i < s.length(); i++) {
+                String rotated = s.substring(i) + s.substring(0, i);
+
+                if (rotated.compareTo(ans) < 0) {
+                    ans = rotated;
+                }
+            }
+
+            return ans;
+        }
+
+        // Case 2: k >= 2 → full rearrangement possible
+        char[] arr = s.toCharArray();
+        Arrays.sort(arr);
+        return new String(arr);
+
+        // TC: O(n^2) for k = 1, O(n log n) for k >= 2
+        // SC: O(n)
+}
+
+"The key insight is that when k == 1, you are only allowed to rotate the string, so you must check all possible rotations and pick the lexicographically smallest one. However, when k >= 2, you gain enough flexibility to rearrange the string in any order, which means the smallest possible string is simply the sorted version of the characters. This observation removes the need for simulation and leads to an optimal and clean solution."
+
+Booth’s algorithm is specifically designed to find the smallest possible string that can be formed by rotating the given string. A rotation means taking some prefix of the string and moving it to the end. Instead of generating all rotations and comparing them (which takes O(n²)), Booth’s algorithm efficiently determines the starting index of the smallest rotation by skipping unnecessary comparisons, achieving this in O(n) time.
+
+        public static String booth(String s) {
+
+           String str = s + s;
+            int n = s.length();
+
+            int i = 0, j = 1, k = 0;
+
+            while (i < n && j < n && k < n) {
+
+                if (str.charAt(i + k) == str.charAt(j + k)) {
+                    k++;
+                }
+                else if (str.charAt(i + k) > str.charAt(j + k)) {
+                    i = i + k + 1;
+                    if (i == j) i++;
+                    k = 0;
+                }
+                else {
+                    j = j + k + 1;
+                    if (i == j) j++;
+                    k = 0;
+                }
+            }
+
+            int start = Math.min(i, j);
+            return str.substring(start, start + n);
+
+            // TC: O(n)
+            // SC: O(n)
+}
+
+        public static String orderlyQueue(String s, int k) {
+
+            // Case 1: k == 1 → use Booth (minimum rotation)
+            if (k == 1) {
+                return booth(s);
+            }
+
+            // Case 2: k >= 2 → sort
+
+            char[] arr = s.toCharArray();
+            Arrays.sort(arr);
+            return new String(arr);
+
+        }
+
+       // TC: O(n) for k=1, O(n log n) for k>=2
+       // SC: O(n)
 
 
     }

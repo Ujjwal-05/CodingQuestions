@@ -123,27 +123,37 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        int[] base = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
-        String[] sym = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
+        String s="baaca";
+        int k=3;
+        boolean flag=true;
 
-        int num=1994;
-        int i=0;
-        StringBuilder sb=new StringBuilder();
-        while (num>0){
+        while (flag){
 
-            while (base[i]>num){
-                i++;
+            flag=false;
+
+            char smallest =s.charAt(0);
+            int index=0;
+
+            for(int i=1;i<k;i++){
+
+                if(smallest > s.charAt(i)){
+
+                    smallest = s.charAt(i);
+                    index=i;
+
+                    if(flag==false){
+                        flag=true;
+                    }
+                }
             }
+//            if(flag==false) return s;
 
-            int q=num/base[i];
-
-            for(int j=1;j<=q;j++){
-                sb.append(sym[i]);
-            }
-
-            num=num%base[i];
-            i++;
+            s=s.substring(0,index) + s.substring(index+1) +s.charAt(index);
+            System.out.println(s);
         }
+
+        System.out.println(s);
+
 
 
 
