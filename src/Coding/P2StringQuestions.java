@@ -788,6 +788,91 @@ Booth’s algorithm is specifically designed to find the smallest possible strin
 
 "Instead of using a string, we use a StringBuilder to simulate a stack efficiently. We iterate through the input string, and for each character, we check the top of the stack (last character of StringBuilder). If they form a bad pair (difference of 32), we remove the top element; otherwise, we add the current character. This way, each character is processed once, and all operations (append/delete) are efficient, resulting in linear time complexity."
 
+"The indexOf() method in Java is used to find the first occurrence of a character or substring inside a string. It returns the index (position) where the character or substring is found, and if it is not present, it returns -1."
+
+//// Determine if Two Strings Are Close:
+
+"The key intuition behind this problem is to understand what the allowed operations actually change and what they preserve. Since you can **swap any two characters**, the order of characters becomes irrelevant—you can rearrange the string however you want. The second operation allows you to **swap all occurrences of one character with another existing character**, which means you can redistribute frequencies among characters but only within the set of characters already present; you cannot introduce a new character. So, the problem reduces to checking two things: both strings must have the **same set of unique characters**, and the **frequencies of characters must match when considered as a group**, not tied to specific characters. For example, consider `word1 = "aabccc"` and `word2 = "bbbaac"`. In `word1`, the counts are `a=2, b=1, c=3` → frequencies `[2,1,3]`, and in `word2`, the counts are `b=3, a=2, c=1` → frequencies `[3,2,1]`. Even though different characters have different counts, if we sort both frequency lists we get `[1,2,3]` for both. Also, both strings use the same characters `{a, b, c}`. Because we can swap character identities (like turning all `a` into `b`, etc.), we can rearrange these counts to match, so the strings are considered **close**.
+
+“Since swaps remove order dependency and character transformations allow frequency reassignment, we just need to check that both strings have the same character set and the same sorted frequency distribution.”
+"
+
+In brute force, we try to simulate all possible transformations using the allowed operations—swapping characters and transforming character types. This means generating all permutations and mappings, which leads to exponential complexity and is not feasible in practice. This approach only helps to understand that the problem is about transformations, not positions.
+
+
+public static boolean closeStringsBetter(String w1, String w2) {
+
+    if (w1.length() != w2.length()) return false;
+
+    HashMap<Character, Integer> map1 = new HashMap<>();
+    HashMap<Character, Integer> map2 = new HashMap<>();
+
+    for (char c : w1.toCharArray()) {
+        map1.put(c, map1.getOrDefault(c, 0) + 1);
+    }
+
+    for (char c : w2.toCharArray()) {
+        map2.put(c, map2.getOrDefault(c, 0) + 1);
+    }
+
+    // check same character set
+    if (!map1.keySet().equals(map2.keySet())) return false;
+
+    // compare frequencies
+    List<Integer> f1 = new ArrayList<>(map1.values());
+    List<Integer> f2 = new ArrayList<>(map2.values());
+
+    Collections.sort(f1);
+    Collections.sort(f2);
+
+    return f1.equals(f2);
+
+    // TC: O(n log n)
+    // SC: O(n)
+}
+
+public static boolean closeStrings(String w1, String w2) {
+
+    if (w1.length() != w2.length()) return false;
+
+    int[] freq1 = new int[26];
+    int[] freq2 = new int[26];
+
+    for (char c : w1.toCharArray()) {
+        freq1[c - 'a']++;
+    }
+
+    for (char c : w2.toCharArray()) {
+        freq2[c - 'a']++;
+    }
+
+    // check same character set
+    for (int i = 0; i < 26; i++) {
+        if ((freq1[i] == 0 && freq2[i] != 0) ||
+            (freq1[i] != 0 && freq2[i] == 0)) {
+            return false;
+        }
+    }
+
+    Arrays.sort(freq1);
+    Arrays.sort(freq2);
+
+    return Arrays.equals(freq1, freq2);
+
+    // TC: O(n + 26 log 26) ≈ O(n)
+    // SC: O(1)
+}
+
+"The Better approach (using HashMap) is written in a general way, assuming characters could be anything (not just lowercase English letters). Because of that, the number of unique characters can go up to n in worst case, so storing frequencies takes O(n) space, and sorting the frequency list also takes O(n log n) time. However, in this specific problem, we are guaranteed that the string contains only lowercase English letters (a–z), which means there are at most 26 unique characters. Because of this constraint, both the space and sorting cost become constant, and the complexity effectively reduces."
+
+" IF different characters are allowed"
+
+If different characters are allowed, then you can think of characters as just labels that can be renamed freely. So instead of focusing on which character is which, you only care about how many times each character appears. Imagine you have buckets with some number of balls (frequencies). You don’t care about the names of the buckets—you can rename them—but the number of balls in each bucket must match. So if both strings have the same frequency pattern (like one has counts [1,2,3] and the other also has [1,2,3]), then you can always rename characters to make them equal. But if the frequency patterns are different (like [2,2] vs [1,3]), then no amount of renaming will help.
+
+“Ignore characters, only match frequency counts.”
+
+
+"
 
 
 */
