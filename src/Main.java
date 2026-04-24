@@ -123,31 +123,20 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        String s="LeEeetcode";
+        int[][] arr = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
 
-        String result="";
+        for(int i=0;i<arr.length;i++){
 
-        int i=0;
-        int j=-1;
-        while (i<s.length()){
-
-            if(result.isEmpty() || Math.abs(result.charAt(j)-s.charAt(i))!=32){
-             result+=s.charAt(i);
-             j++;
-            }else {
-                if(j>-1) {
-                    result = result.substring(0,j);
-                }
-                j--;
+            for(int j=0;j<arr[i].length;j++){
+                System.out.println(arr[j][i]);
             }
-            i++;
         }
 
-        System.out.println(result);
 
-
-
-
-        }
+    }
 
 }

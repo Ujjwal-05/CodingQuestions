@@ -870,9 +870,82 @@ public static boolean closeStrings(String w1, String w2) {
 If different characters are allowed, then you can think of characters as just labels that can be renamed freely. So instead of focusing on which character is which, you only care about how many times each character appears. Imagine you have buckets with some number of balls (frequencies). You don’t care about the names of the buckets—you can rename them—but the number of balls in each bucket must match. So if both strings have the same frequency pattern (like one has counts [1,2,3] and the other also has [1,2,3]), then you can always rename characters to make them equal. But if the frequency patterns are different (like [2,2] vs [1,3]), then no amount of renaming will help.
 
 “Ignore characters, only match frequency counts.”
-
-
 "
+
+////Detect Capital:
+
+    This approach manually checks all possible patterns by inspecting the first two characters and then validating the rest of the string accordingly. While correct, it involves repeated logic and multiple loops, making it harder to maintain and less clean.
+
+    public static boolean detectCapitalUseBrute(String word) {
+
+        if (word.length() <= 1) return true;
+
+        char first = word.charAt(0);
+        char second = word.charAt(1);
+
+        // Case 1: First two uppercase → all must be uppercase
+        if (Character.isUpperCase(first) && Character.isUpperCase(second)) {
+            for (int i = 2; i < word.length(); i++) {
+                if (Character.isLowerCase(word.charAt(i))) return false;
+            }
+        }
+        // Case 2: First uppercase, second lowercase → rest lowercase
+        else if (Character.isUpperCase(first) && Character.isLowerCase(second)) {
+            for (int i = 2; i < word.length(); i++) {
+                if (Character.isUpperCase(word.charAt(i))) return false;
+            }
+        }
+        // Case 3: First lowercase → all must be lowercase
+        else {
+            for (int i = 1; i < word.length(); i++) {
+                if (Character.isUpperCase(word.charAt(i))) return false;
+            }
+        }
+
+        return true;
+
+        // TC: O(n)
+        // SC: O(1)
+}
+
+This approach uses built-in string methods like toUpperCase() and toLowerCase() to simplify the logic. It directly checks the three valid patterns, making the code shorter and easier to understand, but it creates new strings internally, increasing space usage.
+
+    public static boolean detectCapitalUseBetter(String word) {
+
+        if (word.equals(word.toUpperCase())) return true;
+        if (word.equals(word.toLowerCase())) return true;
+
+        if (Character.isUpperCase(word.charAt(0)) &&
+            word.substring(1).equals(word.substring(1).toLowerCase())) {
+            return true;
+        }
+
+        return false;
+
+        // TC: O(n)
+        // SC: O(n) (substring creates new string)
+}
+
+Instead of checking patterns explicitly, we simply count how many uppercase letters exist. Based on this count, we determine if the string satisfies one of the valid conditions. This avoids extra string creation and keeps the logic clean and efficient.
+
+    public static boolean detectCapitalUse(String word) {
+
+        int upperCount = 0;
+
+        for (char c : word.toCharArray()) {
+            if (Character.isUpperCase(c)) upperCount++;
+        }
+
+        if (upperCount == word.length()) return true; // all uppercase
+        if (upperCount == 0) return true;             // all lowercase
+        if (upperCount == 1 && Character.isUpperCase(word.charAt(0))) return true;
+
+        return false;
+
+        // TC: O(n)
+        // SC: O(1)
+    }
+
 
 
 */
