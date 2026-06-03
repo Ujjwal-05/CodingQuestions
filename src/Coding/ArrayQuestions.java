@@ -97,9 +97,8 @@ public class ArrayQuestions {
     public static void main(String[] args) {
         System.out.println("Happy Coding");
 /*
- Pattern: Simple Traversal / Math / Logic:
 
-////Reverse a number or Check palindrome.
+//Reverse a number or Check palindrome.
 
         int num=121;
         int reversed=0, temphead=num;
@@ -109,11 +108,12 @@ public class ArrayQuestions {
             temphead/=10;
         }
 
-//// Check num is Armstrong or not:
+//// Check num is Armstrong or not: 153
 
         static boolean isArmstrong(int num) {
             int original = num;
             int digits = String.valueOf(num).length();
+//            int digits = (int) Math.log10(num) + 1;
             int sum = 0;
 
             while (num > 0) {
@@ -150,7 +150,73 @@ public class ArrayQuestions {
             }
         }
 
-//// Find the missing number in array:
+    public static ArrayList<Integer> removeDuplicatesBrute(int[] arr) {
+
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < arr.length; i++) {
+
+            boolean found = false;
+
+            for (int j = 0; j < i; j++) {
+                if (arr[i] == arr[j]) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                result.add(arr[i]);
+            }
+        }
+
+        return result;
+    }
+
+    // TC: O(n^2)
+    // SC: O(n)
+
+        public static ArrayList<Integer> removeDuplicatesBetter(int[] arr) {
+
+            Arrays.sort(arr);
+            ArrayList<Integer> result = new ArrayList<>();
+            result.add(arr[0]);
+
+            for (int i = 1; i < arr.length; i++) {
+                if (arr[i] != arr[i - 1]) {
+                result.add(arr[i]);
+            }
+        }
+        return result;
+    }
+
+    // TC: O(n log n)
+    // SC: O(n)
+
+    Optimal Approach (HashSet):
+    If Original Order Must Be Preserved: Use LinkedHashSet
+
+        public static ArrayList<Integer> removeDuplicates(int[] arr) {
+
+            LinkedHashSet<Integer> set = new LinkedHashSet<>();
+
+            for (int num : arr) {
+                set.add(num);
+            }
+
+        return new ArrayList<>(set);
+    }
+
+    // TC: O(n)
+    // SC: O(n)
+
+//  Find the missing number in the array.
+    Given an array arr[] of size n-1 with distinct integers in the range of [1, n]. This array represents a permutation of the integers from 1 to n with one element missing. Find the missing element in the array.
+
+    Using Linear Search:
+    Using Hashing:
+    Using Sum formula:
+    Using Xor Operator:
 
     public int missingNumber(int[] nums) {
         int n = nums.length;

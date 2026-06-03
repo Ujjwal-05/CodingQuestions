@@ -123,18 +123,37 @@ public class Main {
 //        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
 //        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
 
-        int[][] arr = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 9}
-        };
+        int num=153;
 
-        for(int i=0;i<arr.length;i++){
+        int length=String.valueOf(num).length();
 
-            for(int j=0;j<arr[i].length;j++){
-                System.out.println(arr[j][i]);
-            }
+        int pow=length;
+        int sum=0,temp=num;
+
+        while (length>0){
+            int lastdigit=temp%10;
+            sum+= (int) Math.pow(lastdigit,pow);
+            temp/=10;
+            length--;
         }
+
+        System.out.println(num==sum);
+
+
+
+
+//        int[][] arr = {
+//                {1, 2, 3},
+//                {4, 5, 6},
+//                {7, 8, 9}
+//        };
+//
+//        for(int i=0;i<arr.length;i++){
+//
+//            for(int j=0;j<arr[i].length;j++){
+//                System.out.println(arr[j][i]);
+//            }
+//        }
 
 
     }
