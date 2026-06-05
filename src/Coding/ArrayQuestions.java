@@ -95,6 +95,7 @@ public class ArrayQuestions {
     }
 
     public static void main(String[] args) {
+
         System.out.println("Happy Coding");
 /*
 
@@ -249,13 +250,18 @@ public class ArrayQuestions {
             nums[0]=temp;
 
         }
-
     }
 
+    TC: O(N2)
+    SC: O(1)
+
+    public void rotate(int[] nums, int k) {
 
         Reverse(a,0,k-1);
         Reverse(a,k,a.length-1);
         Reverse(a,0,a.length-1);
+
+    }
 
         static void Reverse(int[] a, int start, int end) {
             while (start < end) {
@@ -266,81 +272,90 @@ public class ArrayQuestions {
                 end--;
             }
         }
+    TC:O(N)
 
 ////Find the number that appears once, and other numbers twice.
 
-        int[] arr={1,1,2,2,3,3,4,4,5,5,6};
-        int res=0;
+    int[] arr={1,1,2,2,3,3,4,4,5,5,6};
+    int res=0;
 
-    Brute force: O(N^2)
-    Using Hash: O(N) , O(N)
+    Brute force: O(N^2) Take each number at a time and search in whole array:
+    Using Hash: O(N),O(N)
 
-        for (int num:arr){
-            res=res^num;
-        }
+    for (int num:arr){
+         res=res^num;
+    }
     return res;
 
     Optimal: O(N)
 
-//// Moves zero to end and preserve the order:
-        int [] arr={0,5,5,1,0,0,0,1,2,3,0,0,4,5,0,0};
+//  Moves zero to end and preserve the order:
 
+    int [] arr={0,0,5,5,1,0,0,0,1,2,3,0,0,4,5,0,0};
 
-            public void moveZeroes(int[] nums) {
+    Using Temporary Array: O(N), O(N)
+    Two Traversal:
 
-            int n = nums.length;
-            int j = -1;
+    public void moveZeroes(int[] nums) {
 
-            // STEP 1: Find the index of first zero
-            for (int i = 0; i < n; i++) {
-                if (nums[i] == 0) {
-                    j = i;
-                    break;
-                }
+        int n = nums.length;
+        int j = -1;
+
+        // STEP 1: Find the index of first zero
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                j = i;
+                break;
             }
+        }
 
-            // If no zero found, array already valid
-            if (j == -1) return;
+        // If no zero found, array already valid
+        if (j == -1) return;
 
-            // STEP 2: Move non-zero elements forward
-            for (int i = j + 1; i < n; i++) {
-                if (nums[i] != 0) {
-                    // swap nums[i] and nums[j]
-                    int temp = nums[i];
-                    nums[i] = nums[j];
-                    nums[j] = temp;
-
-                    j++;
-                }
-            }
-    }
-
-////Leader in array problem:
-
-     public static void printLeaders(int[] arr) {
-        int n = arr.length;
-        int maxFromRight = arr[n - 1];
-
-        // Rightmost element is always a leader
-        System.out.print(maxFromRight + " ");
-
-        // Traverse from right to left
-        for (int i = n - 2; i >= 0; i--) {
-            if (arr[i] >= maxFromRight) {
-                maxFromRight = arr[i];
-                System.out.print(maxFromRight + " ");
+        // STEP 2: Move non-zero elements forward
+        for (int i = j + 1; i < n; i++) {
+           if (nums[i] != 0) {
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                j++;
             }
         }
     }
 
+////Leader in array problem:  An element is a Leader if it is greater than or equal to all the elements to its right side.
+
+    int arr[] = [16, 17, 4, 3, 5, 2];  o/p->17 5 2
+
+    Brute Force: O(N2) Pick each element from the start and compare with their all right side elements.
+
+    public static List<Integer> findLeaders(int[] arr) {
+
+        List<Integer> leaders = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (arr[i] > max) {
+                leaders.add(arr[i]);
+                max = arr[i];
+            }
+        }
+
+        Collections.reverse(leaders);
+        return leaders;
+    }
+
+    TC: O(N)
 
 //// Rearrange Array elements by sign.
 
+    int[] nums = { -7, -1, 5, -3, 6, 4};
+
     public int[] rearrangeArray(int[] nums) {
+
         ArrayList<Integer> pos = new ArrayList<>();
         ArrayList<Integer> neg = new ArrayList<>();
 
-        // Separate positive and negative
      for (int num : nums) {
             if (num >= 0) {
                 pos.add(num);
@@ -349,34 +364,28 @@ public class ArrayQuestions {
             }
         }
 
-        int[] result = new int[nums.length];
+    int[] result = new int[nums.length];
 
-        int posIdx = 0, negIdx = 0;
-        int i = 0;
+    int posIdx = 0, negIdx = 0;
+    int i = 0;
 
-        // Fill alternately
-        while (posIdx < pos.size() && negIdx < neg.size()) {
-            if (i % 2 == 0)
-                result[i++] = pos.get(posIdx++);
-            else
-                result[i++] = neg.get(negIdx++);
-        }
 
-        // Remaining positives
-        while (posIdx < pos.size())
+    while (posIdx < pos.size() && negIdx < neg.size()) {
+
+        if (i % 2 == 0)
             result[i++] = pos.get(posIdx++);
-
-        // Remaining negatives
-        while (negIdx < neg.size())
+        else
             result[i++] = neg.get(negIdx++);
+    }
+
+        while (posIdx < pos.size())      result[i++] = pos.get(posIdx++);
+        while (negIdx < neg.size())      result[i++] = neg.get(negIdx++);
 
         return result;
 }
 
-        int[] arr = { -7, -1, 5, -3, 6, 4};
-        int[] res = new int[arr.length];
-
-        int pos=0,neg=1;
+    int[] res = new int[arr.length];
+    int pos=0,neg=1;
 
         for(int num:arr){
             if(num>0){
@@ -412,6 +421,8 @@ public class ArrayQuestions {
         }
     }
 
+    TC: O(N2)
+
      public static void main(String[] args) {
         int[] arr = {1, 1, 2, 2, 2, 3, 4, 4, 5};
         int n = arr.length;
@@ -438,6 +449,8 @@ public class ArrayQuestions {
             }
         }
     }
+
+    TC: O(N) , O(N)
 
 ////Print duplicate elements in Sorted:
 
