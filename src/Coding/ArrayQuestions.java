@@ -231,7 +231,10 @@ public class ArrayQuestions {
         return expectedSum - actualSum;
     }
 
-//// Left rotate array by d place:
+//  Left rotate array by d place:
+
+    int [] a={1,2,3,4,5};
+    int k =3;
 
     public void rotate(int[] nums, int k) {
         int n=nums.length;
@@ -248,8 +251,7 @@ public class ArrayQuestions {
         }
 
     }
-        int [] a={1,2,3,4,5};
-        int k =3;
+
 
         Reverse(a,0,k-1);
         Reverse(a,k,a.length-1);
@@ -270,15 +272,21 @@ public class ArrayQuestions {
         int[] arr={1,1,2,2,3,3,4,4,5,5,6};
         int res=0;
 
+    Brute force: O(N^2)
+    Using Hash: O(N) , O(N)
+
         for (int num:arr){
             res=res^num;
         }
-        return res;
+    return res;
+
+    Optimal: O(N)
 
 //// Moves zero to end and preserve the order:
         int [] arr={0,5,5,1,0,0,0,1,2,3,0,0,4,5,0,0};
 
-        public void moveZeroes(int[] nums) {
+
+            public void moveZeroes(int[] nums) {
 
             int n = nums.length;
             int j = -1;
