@@ -6,71 +6,60 @@ public class P1TwoPointerQuestions {
     public static void main(String[] args) {
 
 /*
-////Find the union of the 2 sorted array and result should be sorted:
 
-        public static int[] bruteForceUnionOfArrays(int[] arr1, int[] arr2) {
-        int n = arr1.length;
-        int m = arr2.length;
+//Find the union of the 2 sorted array and result should be sorted:
 
-        int[] temp = new int[n + m];
-        int k = 0;
+    int a[] = {1, 1, 2, 2, 2, 4};
+    int b[] = {2, 2, 4, 4};
 
-        for (int i = 0; i < n; i++) {
-            boolean exists = false;
+Brute Force: Traverse both arrays and store elements in a list only if they are not already present. After collecting all unique elements, sort the list.
 
-            for (int j = 0; j < k; j++) {
-                if (temp[j] == arr1[i]) {
-                    exists = true;
-                    break;
-                }
-            }
+public static ArrayList<Integer> bruteForceUnionOfArrays(int[] arr1, int[] arr2) {
 
-            if (!exists) {
-                temp[k++] = arr1[i];
-            }
-        }
+    ArrayList<Integer> union = new ArrayList<>();
 
-        // Add elements from arr2
-        for (int i = 0; i < m; i++) {
-            boolean exists = false;
-
-            for (int j = 0; j < k; j++) {
-                if (temp[j] == arr2[i]) {
-                    exists = true;
-                    break;
-                }
-            }
-
-            if (!exists) {
-                temp[k++] = arr2[i];
-            }
-        }
-
-        Arrays.sort(temp, 0, k);
-        return Arrays.copyOf(temp, k);
+    for (int i = 0; i < arr1.length; i++) {
+        if (!union.contains(arr1[i])) {  union.add(arr1[i]); }
     }
 
-    TC=(n2 + m(n+m))=(n+m)2
+    for (int i = 0; i < arr2.length; i++) {
+        if (!union.contains(arr2[i])) { union.add(arr2[i]);  }
+    }
+
+    Collections.sort(union);
+    return union;
+}
+
+// TC: O((n + m)^2) + O((n + m) log(n + m))
+// SC: O(n + m)
+
+ Copying all elements from a[] to res[] takes O(n2) time. Now in the worst case, there will be no commo elements in a[] and b[]. So, to check if the first element of b[] is present in res[], we need n comparisons. Similarly, for second element of b[], we need (n + 1) comparisons. So for m elements, total number of comparisons will be: n + (n + 1) + (n + 2) …. (n + m) = (n * m) + (m2 / 2)
+
+Better Approach: In the brute force approach, we check whether an element is already present in the output list before inserting it, which leads to quadratic time complexity. To avoid this repeated searching, we can use a HashSet, which provides O(1) average-time lookup and automatically stores only distinct elements. We first insert all elements from both arrays into the set and then add the set elements to the result.
 
     public static ArrayList<Integer> unionUsingSet(int[] arr1, int[] arr2) {
 
     HashSet<Integer> set = new HashSet<>();
 
-    for (int i = 0; i < arr1.length; i++) {
-        set.add(arr1[i]);
+    for (int i = 0; i < arr1.length; i++) {  O(n)
+        set.add(arr1[i]); O(k)
     }
 
-    for (int i = 0; i < arr2.length; i++) {
-        set.add(arr2[i]);
+    for (int i = 0; i < arr2.length; i++) {  O(m)
+         set.add(arr2[i]); O(k)
     }
 
-    ArrayList<Integer> union = new ArrayList<>(set);
-    Collections.sort(union);
+    ArrayList<Integer> union = new ArrayList<>(set); O(k), O(k)
+    Collections.sort(union); klog(k), log(k)
     return union;
 }
 
-// TC: O(n + m + k log k)
-// SC: O(n + m)
+since: k<=(n+m)
+
+// TC: O(n) + O(m) + O(k)+ klogk == O(n + m + k log k)
+// SC: O(k) + O(k) + log(k)         == O(n + m)
+
+Optimal: Using two pointer.
 
 public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
@@ -116,48 +105,79 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
     return union;
 }
-    TC: (n+m)
 
-////Longest Subarray with given Sum K(Positives)
+TC: (n+m)
 
-        int[] a = {2,3,5,0,0,0,9,0};
-        int k = 10;
-        int i=0,j=0,sum=0,length=0;
-        while (j<a.length){
-            sum+=a[j];
+//Longest Subarray with given Sum K(Positives)
 
-            while (sum>k && i<j){
-                sum-=a[i];
+int[] a = {2,3,5,0,0,0,9,0};
+
+Brute Force: O(N^2) try all subarrays combination:
+
+Optimal Approach: Since all elements are positive, expanding the window increases the sum and shrinking the window decreases the sum. We maintain a sliding window [i...j]. If the sum exceeds k, we shrink the window from the left until the sum becomes less than or equal to k. Whenever the sum equals k, we update the maximum length.
+
+    public static int longestSubarray(int[] a, int k) {
+
+        int i = 0, j = 0;
+        int sum = 0, length = 0;
+
+        while (j < a.length) {
+
+            sum += a[j];
+
+            while (sum > k) {
+                sum -= a[i];
                 i++;
             }
-            if(sum==k){
-                length=Math.max(length,j-i+1);
+
+            if (sum == k) {
+                length = Math.max(length, j - i + 1);
             }
+
             j++;
         }
 
-////Longest Subarray with given Sum K(Positives+Negatives):
+        return length;
+    }
+
+// TC: O(n)
+// SC: O(1)
+
+This sliding window approach works only when all array elements are positive (or non-negative). If negative numbers are present, use the Prefix Sum + HashMap approach. Use Sliding Window when adding or removing elements affects the condition in a predictable direction, allowing greedy expansion and contraction of the window. Examples include fixed-size windows, positive-number sum problems, longest substring without repeating characters, at most K distinct characters, and minimum window substring.
+
+//Longest Subarray with given Sum K(Positives+Negatives):
 
         int[] arr = {2, 3, -4, 5, 0, 4, -2, 2};
         int k = 10;
 
-        HashMap<Integer, Integer> map = new HashMap<>();
-        map.put(0, -1);   // important
+Brute Force: O(N^2) try all subarrays combination:
 
-        int sum = 0;
-        int length = 0;
+Optimal: In this approach, we keep calculating the running sum while traversing the array and store each sum in a HashMap along with the index where it first appeared. At any index, if we want a subarray with sum K, we check whether (currentSum - K) has already occurred. If it has, then the elements between that previous index and the current index form a subarray whose sum is exactly K. We store only the first occurrence of a prefix sum because it gives us the longest possible subarray. We also add (0, -1) to the map initially so that subarrays starting from index 0 are handled correctly. This way, we can find the longest subarray with sum K in a single traversal of the array.
 
-        for (int i = 0; i < arr.length; i++) {
-            sum += arr[i];
+public static int longestSubarray(int[] arr, int k) {
 
-            if (map.containsKey(sum - k)) {
-                length = Math.max(length, i - map.get(sum - k));
-            }
+    HashMap<Integer, Integer> map = new HashMap<>();
+    map.put(0, -1);
 
-            map.putIfAbsent(sum, i);
+    int sum = 0;
+    int maxLen = 0;
+
+    for (int i = 0; i < arr.length; i++) {
+
+        sum += arr[i];
+
+        if (map.containsKey(sum - k)) {
+            maxLen = Math.max(maxLen, i - map.get(sum - k));
         }
 
-        System.out.println(length);
+        map.putIfAbsent(sum, i);
+    }
+
+    return maxLen;
+}
+
+// TC: O(n)
+// SC: O(n)
 
 ////Longest Subarray with Equal Number of 0s and 1s.
         int[] arr = {0, 1, 0, 1, 1, 0, 0};

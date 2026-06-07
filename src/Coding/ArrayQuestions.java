@@ -528,6 +528,9 @@ public class ArrayQuestions {
 
 ////Find pairs with given sum in sorted array:
 
+    int arr[]={1,2,5,7,10,15,20};
+    target=9;
+
     public int[] twoSum(int[] numbers, int target) {
         int n=numbers.length;
         int[] res=new int[2];
@@ -569,6 +572,9 @@ public class ArrayQuestions {
 
 ////Find Unique pairs with given sum in Unsorted array:
 
+        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};
+        int k = 9;
+
         public List<List<Integer>> findPairs(int[] nums, int target) {
         int n = nums.length;
 
@@ -597,25 +603,30 @@ public class ArrayQuestions {
     }
         TC:O(n2) SC:O(n)
 
-        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};  int k = 9;
+    public static void printPairs(int[] arr, int k) {
 
         Set<Integer> set = new HashSet<>();
         Set<String> printed = new HashSet<>();
 
         for (int num : arr) {
+
             int complement = k - num;
 
             if (set.contains(complement)) {
+
                 int a = Math.min(num, complement);
                 int b = Math.max(num, complement);
 
-                if (printed.add(a + "," + b)) {
+                String pair = a + "," + b;
+
+                if (printed.add(pair)) {
                     System.out.println(a + " " + b);
                 }
             }
 
             set.add(num);
         }
+    }
 
 
 //// Find common element in two/three sorted array:
@@ -623,6 +634,9 @@ public class ArrayQuestions {
         int[] a ={1,2,3,4,5};
         int[] b ={2,3,4,5,6};
         int[] c ={3,4,5,6,7};
+
+    TC: O(N2/N3)
+
 
         int i=0,j=0,k=0;
 
@@ -638,6 +652,8 @@ public class ArrayQuestions {
             else {k++;}
 
             }
+
+    TC: O(N)
 
 //// Find common element in three  unsorted array:
 
@@ -662,7 +678,6 @@ public class ArrayQuestions {
             if(set2.contains(num)){
                 set3.add(num);
             }
-
         }
 
         for(int nums: set3 ){
@@ -671,9 +686,10 @@ public class ArrayQuestions {
 
 //// Given an array of 0 and 1, arrange them left side array contain 0 and right side 1:
 
-Brute Force: Traversal and count ones and zeroes O(2n)
+    int[] a={0,1,1,0,0,0,1,0,1,1,0};
 
-        int[] a={0,1,1,0,0,0,1,0,1,1,0};
+    Brute Force: Traversal and count ones and zeroes O(2n)
+
         int left=0, right=a.length-1;
 
         while(left<right){
@@ -694,10 +710,6 @@ Brute Force: Traversal and count ones and zeroes O(2n)
                 right--;
             }
         }
-
-
-
-
 
 //// Maximum Consecutive ones: Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
 
