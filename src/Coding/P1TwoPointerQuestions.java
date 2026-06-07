@@ -145,7 +145,7 @@ Optimal Approach: Since all elements are positive, expanding the window increase
 
 This sliding window approach works only when all array elements are positive (or non-negative). If negative numbers are present, use the Prefix Sum + HashMap approach. Use Sliding Window when adding or removing elements affects the condition in a predictable direction, allowing greedy expansion and contraction of the window. Examples include fixed-size windows, positive-number sum problems, longest substring without repeating characters, at most K distinct characters, and minimum window substring.
 
-//Longest Subarray with given Sum K(Positives+Negatives):
+////Longest Subarray with given Sum K(Positives+Negatives):
 
         int[] arr = {2, 3, -4, 5, 0, 4, -2, 2};
         int k = 10;
@@ -180,21 +180,19 @@ public static int longestSubarray(int[] arr, int k) {
 // SC: O(n)
 
 ////Longest Subarray with Equal Number of 0s and 1s.
-        int[] arr = {0, 1, 0, 1, 1, 0, 0};
 
-        public static int longestSubarrayWithEqualZeroOneBruteForce(int[] arr) {
+        int[] arr = {1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0};
 
-           int maxLen = 0;
+Brute Force: O(N^2) try all subarrays combination:
 
-            for (int i = 0; i < arr.length; i++) {
+   public static int longestSubarrayWithEqualZeroOneBruteForce(int[] arr) {
 
+       int maxLen = 0;
+       for (int i = 0; i < arr.length; i++) {
             int count0 = 0, count1 = 0;
-
             for (int j = i; j < arr.length; j++) {
-
                 if (arr[j] == 0) count0++;
                 else count1++;
-
                 if (count0 == count1) {
                     maxLen = Math.max(maxLen, j - i + 1);
                 }
@@ -207,13 +205,21 @@ public static int longestSubarray(int[] arr, int k) {
 // TC: O(n^2)
 // SC: O(1)
 
-        public static int longestSubarrayWithEqualZeroOne(int[] arr) {
+Optimal: We replace every 0 with -1 and keep 1 as it is. Then we find the longest subarray whose sum is 0 using Prefix Sum + HashMap. If the same prefix sum appears at two different indices, the sum of elements between those indices is 0, which means that subarray contains an equal number of 0s and 1s. By storing the first occurrence of each prefix sum, we can find the longest such subarray in O(n) time.
+Because if we don't replace 0 with -1, the prefix sum technique won't directly tell us whether the number of 0s and 1s are equal.
 
-            HashMap<Integer, Integer> map = new HashMap<>();
-            int sum = 0;
-            int maxLen = 0;
+arr = {0, 1, 0, 1}
+Prefix Sums = 0, 1, 1, 2
 
-            map.put(0, -1);
+A sum of 2 doesn't tell us that there are two 1s and two 0s. The prefix sum only counts the contribution of 1s because 0 adds nothing. when we replace 0 with -1 this transform the problem to Find the longest subarray with sum = 0.
+
+    public static int longestSubarrayWithEqualZeroOne(int[] arr) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int sum = 0;
+        int maxLen = 0;
+
+        map.put(0, -1);
 
         for (int i = 0; i < arr.length; i++) {
 
@@ -236,74 +242,67 @@ public static int longestSubarray(int[] arr, int k) {
 
 ////Largest Subarray with Equal Number of 0s, 1s, and 2s.
 
-        public static int longestSubarrayWithEqual012BruteForce(int[] arr) {
+    int arr[] = {0, 1, 0, 2, 0, 1, 2, 1, 2}
 
-            int maxLen = 0;
-            for (int i = 0; i < arr.length; i++) {
-            int c0 = 0, c1 = 0, c2 = 0;
-            for (int j = i; j < arr.length; j++) {
+Brute Force TC: O(n^2), O(1)
 
-                if (arr[j] == 0) c0++;
-                else if (arr[j] == 1) c1++;
-                else c2++;
+Optimal: We cannot solve this problem by replacing 0 with -3 and then finding the longest subarray with sum 0. Although every valid subarray having equal numbers of 0s, 1s, and 2s will produce a sum of 0, the reverse is not true. A subarray can have sum 0 even when the counts of 0, 1, and 2 are not equal. In the previous problem (equal number of 0s and 1s), replacing 0 with -1 works because a sum of 0 directly implies that the count of 0s and 1s are equal. However, for three numbers (0, 1, and 2), we need to satisfy two conditions simultaneously: count0 = count1 and count1 = count2. Therefore, we store the pair (count1 - count0, count2 - count1) in a HashMap. If the same pair appears again, it means the subarray between those indices contains equal numbers of 0s, 1s, and 2s.
 
-                if (c0 == c1 && c1 == c2) {
-                    maxLen = Math.max(maxLen, j - i + 1);
-                }
+    public static int longestSubarrayEqual012(int[] arr) {
+
+        int c0 = 0, c1 = 0, c2 = 0;
+        int length = 0;
+
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("0#0", -1);
+
+        for (int i = 0; i < arr.length; i++) {
+
+            if (arr[i] == 0) {
+                c0++;
+            } else if (arr[i] == 1) {
+                c1++;
+            } else {
+                c2++;
+            }
+
+            int d10 = c1 - c0;
+            int d20 = c2 - c0;
+
+            String key = d10 + "#" + d20;
+
+            if (map.containsKey(key)) {
+                length = Math.max(length, i - map.get(key));
+            } else {
+                map.put(key, i);
             }
         }
-
-        return maxLen;
+        return length;
     }
 
-// TC: O(n^2)
-// SC: O(1)
-
-        int c0=0,c1=0,c2=0, d10=0,d20=0;
-        HashMap<String, Integer> map = new HashMap<>();
-        map.put("0#0",-1);
-        for (i = 0; i < arr.length; i++) {
-            if(arr[i]==0) c0++;
-            else if (arr[i]==1) c1++;
-            else c2++;
-
-            d10=c1-c0;
-            d20=c2-c0;
-
-            String key= d10 + "#" + d20;
-
-            if(map.containsKey(key)){
-                length=Math.max(length,i-map.get(key));
-            }
-            map.putIfAbsent(key,i);
-        }
+    TC: O(n)
 
 //// Longest Substring Without Repeating Characters: Given a string, S. Find the length of the longest substring without repeating characters.
 
-        String str = "takeUforward";
+     String str = "takeUforward";
 
         public static int longestSubstringBrute(String str) {
-
             int maxlen = 0;
 
             for (int i = 0; i < str.length(); i++) {
-
                 HashSet<Character> set = new HashSet<>();
+                    for (int j = i; j < str.length(); j++) {
 
-                for (int j = i; j < str.length(); j++) {
+                        char c = str.charAt(j);
+                        if (set.contains(c)) break;
 
-                    char c = str.charAt(j);
-
-                    if (set.contains(c)) break;
-
-                    set.add(c);
-
-                    maxlen = Math.max(maxlen, j - i + 1);
+                        set.add(c);
+                        maxlen = Math.max(maxlen, j - i + 1);
+                    }
                 }
-            }
 
-            return maxlen;
-        }
+                return maxlen;
+            }
 
         // TC: O(n^2)
         // SC: O(n)
@@ -311,7 +310,6 @@ public static int longestSubarray(int[] arr, int k) {
         public static int longestSubstringOptimal(String str) {
 
             HashSet<Character> set = new HashSet<>();
-
             int left = 0, maxlen = 0;
 
             for (int right = 0; right < str.length(); right++) {
@@ -324,22 +322,20 @@ public static int longestSubarray(int[] arr, int k) {
                 set.add(str.charAt(right));
                 maxlen = Math.max(maxlen, right - left + 1);
             }
-
             return maxlen;
         }
 
-        // TC: O(n)
-        // SC: O(n)
+// TC: O(n), O(n)
 
-////Longest repeating character replacement: Length of the longest substring where you can make all characters equal after at most k replacements.
+//  Longest repeating character replacement: You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.
 
-        String str="ABBC";
+        String str="AABABBC";
         int k=2;
 
         public static int characterReplacementBrute(String str, int k) {
 
             int maxlen = 0;
-
+2
             for (int i = 0; i < str.length(); i++) {
 
                 int[] freq = new int[26];
@@ -348,13 +344,10 @@ public static int longestSubarray(int[] arr, int k) {
                 for (int j = i; j < str.length(); j++) {
 
                     char c = str.charAt(j);
-
                     freq[c - 'A']++;
-
                     maximum = Math.max(maximum, freq[c - 'A']);
 
                     int windowSize = j - i + 1;
-
                     if (windowSize - maximum <= k) {
                         maxlen = Math.max(maxlen, windowSize);
                     }
@@ -376,7 +369,6 @@ public static int longestSubarray(int[] arr, int k) {
             while (right < str.length()) {
 
                 freq[str.charAt(right) - 'A']++;
-
                 maxCount = Math.max(maxCount, freq[str.charAt(right) - 'A']);
 
                 while ((right - left + 1) - maxCount > k) {
@@ -385,15 +377,12 @@ public static int longestSubarray(int[] arr, int k) {
                 }
 
                 maxLength = Math.max(maxLength, right - left + 1);
-
                 right++;
             }
-
             return maxLength;
         }
 
-        // TC: O(n)
-        // SC: O(1)
+// TC: O(n), SC: O(1)
 
 //// Longest Substring with At Most K Distinct Characters: Find the length of the longest substring with at most k distinct characters.
 
