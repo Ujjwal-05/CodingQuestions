@@ -6,71 +6,60 @@ public class P1TwoPointerQuestions {
     public static void main(String[] args) {
 
 /*
-////Find the union of the 2 sorted array and result should be sorted:
 
-        public static int[] bruteForceUnionOfArrays(int[] arr1, int[] arr2) {
-        int n = arr1.length;
-        int m = arr2.length;
+//Find the union of the 2 sorted array and result should be sorted:
 
-        int[] temp = new int[n + m];
-        int k = 0;
+    int a[] = {1, 1, 2, 2, 2, 4};
+    int b[] = {2, 2, 4, 4};
 
-        for (int i = 0; i < n; i++) {
-            boolean exists = false;
+Brute Force: Traverse both arrays and store elements in a list only if they are not already present. After collecting all unique elements, sort the list.
 
-            for (int j = 0; j < k; j++) {
-                if (temp[j] == arr1[i]) {
-                    exists = true;
-                    break;
-                }
-            }
+public static ArrayList<Integer> bruteForceUnionOfArrays(int[] arr1, int[] arr2) {
 
-            if (!exists) {
-                temp[k++] = arr1[i];
-            }
-        }
+    ArrayList<Integer> union = new ArrayList<>();
 
-        // Add elements from arr2
-        for (int i = 0; i < m; i++) {
-            boolean exists = false;
-
-            for (int j = 0; j < k; j++) {
-                if (temp[j] == arr2[i]) {
-                    exists = true;
-                    break;
-                }
-            }
-
-            if (!exists) {
-                temp[k++] = arr2[i];
-            }
-        }
-
-        Arrays.sort(temp, 0, k);
-        return Arrays.copyOf(temp, k);
+    for (int i = 0; i < arr1.length; i++) {
+        if (!union.contains(arr1[i])) {  union.add(arr1[i]); }
     }
 
-    TC=(n2 + m(n+m))=(n+m)2
+    for (int i = 0; i < arr2.length; i++) {
+        if (!union.contains(arr2[i])) { union.add(arr2[i]);  }
+    }
+
+    Collections.sort(union);
+    return union;
+}
+
+// TC: O((n + m)^2) + O((n + m) log(n + m))
+// SC: O(n + m)
+
+ Copying all elements from a[] to res[] takes O(n2) time. Now in the worst case, there will be no commo elements in a[] and b[]. So, to check if the first element of b[] is present in res[], we need n comparisons. Similarly, for second element of b[], we need (n + 1) comparisons. So for m elements, total number of comparisons will be: n + (n + 1) + (n + 2) …. (n + m) = (n * m) + (m2 / 2)
+
+Better Approach: In the brute force approach, we check whether an element is already present in the output list before inserting it, which leads to quadratic time complexity. To avoid this repeated searching, we can use a HashSet, which provides O(1) average-time lookup and automatically stores only distinct elements. We first insert all elements from both arrays into the set and then add the set elements to the result.
 
     public static ArrayList<Integer> unionUsingSet(int[] arr1, int[] arr2) {
 
     HashSet<Integer> set = new HashSet<>();
 
-    for (int i = 0; i < arr1.length; i++) {
-        set.add(arr1[i]);
+    for (int i = 0; i < arr1.length; i++) {  O(n)
+        set.add(arr1[i]); O(k)
     }
 
-    for (int i = 0; i < arr2.length; i++) {
-        set.add(arr2[i]);
+    for (int i = 0; i < arr2.length; i++) {  O(m)
+         set.add(arr2[i]); O(k)
     }
 
-    ArrayList<Integer> union = new ArrayList<>(set);
-    Collections.sort(union);
+    ArrayList<Integer> union = new ArrayList<>(set); O(k), O(k)
+    Collections.sort(union); klog(k), log(k)
     return union;
 }
 
-// TC: O(n + m + k log k)
-// SC: O(n + m)
+since: k<=(n+m)
+
+// TC: O(n) + O(m) + O(k)+ klogk == O(n + m + k log k)
+// SC: O(k) + O(k) + log(k)         == O(n + m)
+
+Optimal: Using two pointer.
 
 public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
@@ -116,65 +105,94 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
     return union;
 }
-    TC: (n+m)
 
-////Longest Subarray with given Sum K(Positives)
+TC: (n+m)
 
-        int[] a = {2,3,5,0,0,0,9,0};
-        int k = 10;
-        int i=0,j=0,sum=0,length=0;
-        while (j<a.length){
-            sum+=a[j];
+//Longest Subarray with given Sum K(Positives)
 
-            while (sum>k && i<j){
-                sum-=a[i];
+int[] a = {2,3,5,0,0,0,9,0};
+
+Brute Force: O(N^2) try all subarrays combination:
+
+Optimal Approach: Since all elements are positive, expanding the window increases the sum and shrinking the window decreases the sum. We maintain a sliding window [i...j]. If the sum exceeds k, we shrink the window from the left until the sum becomes less than or equal to k. Whenever the sum equals k, we update the maximum length.
+
+    public static int longestSubarray(int[] a, int k) {
+
+        int i = 0, j = 0;
+        int sum = 0, length = 0;
+
+        while (j < a.length) {
+
+            sum += a[j];
+
+            while (sum > k) {
+                sum -= a[i];
                 i++;
             }
-            if(sum==k){
-                length=Math.max(length,j-i+1);
+
+            if (sum == k) {
+                length = Math.max(length, j - i + 1);
             }
+
             j++;
         }
+
+        return length;
+    }
+
+// TC: O(n)
+// SC: O(1)
+
+This sliding window approach works only when all array elements are positive (or non-negative). If negative numbers are present, use the Prefix Sum + HashMap approach. Use Sliding Window when adding or removing elements affects the condition in a predictable direction, allowing greedy expansion and contraction of the window. Examples include fixed-size windows, positive-number sum problems, longest substring without repeating characters, at most K distinct characters, and minimum window substring.
 
 ////Longest Subarray with given Sum K(Positives+Negatives):
 
         int[] arr = {2, 3, -4, 5, 0, 4, -2, 2};
         int k = 10;
 
-        HashMap<Integer, Integer> map = new HashMap<>();
-        map.put(0, -1);   // important
+Brute Force: O(N^2) try all subarrays combination:
 
-        int sum = 0;
-        int length = 0;
+Optimal: In this approach, we keep calculating the running sum while traversing the array and store each sum in a HashMap along with the index where it first appeared. At any index, if we want a subarray with sum K, we check whether (currentSum - K) has already occurred. If it has, then the elements between that previous index and the current index form a subarray whose sum is exactly K. We store only the first occurrence of a prefix sum because it gives us the longest possible subarray. We also add (0, -1) to the map initially so that subarrays starting from index 0 are handled correctly. This way, we can find the longest subarray with sum K in a single traversal of the array.
 
-        for (int i = 0; i < arr.length; i++) {
-            sum += arr[i];
+public static int longestSubarray(int[] arr, int k) {
 
-            if (map.containsKey(sum - k)) {
-                length = Math.max(length, i - map.get(sum - k));
-            }
+    HashMap<Integer, Integer> map = new HashMap<>();
+    map.put(0, -1);
 
-            map.putIfAbsent(sum, i);
+    int sum = 0;
+    int maxLen = 0;
+
+    for (int i = 0; i < arr.length; i++) {
+
+        sum += arr[i];
+
+        if (map.containsKey(sum - k)) {
+            maxLen = Math.max(maxLen, i - map.get(sum - k));
         }
 
-        System.out.println(length);
+        map.putIfAbsent(sum, i);
+    }
+
+    return maxLen;
+}
+
+// TC: O(n)
+// SC: O(n)
 
 ////Longest Subarray with Equal Number of 0s and 1s.
-        int[] arr = {0, 1, 0, 1, 1, 0, 0};
 
-        public static int longestSubarrayWithEqualZeroOneBruteForce(int[] arr) {
+        int[] arr = {1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0};
 
-           int maxLen = 0;
+Brute Force: O(N^2) try all subarrays combination:
 
-            for (int i = 0; i < arr.length; i++) {
+   public static int longestSubarrayWithEqualZeroOneBruteForce(int[] arr) {
 
+       int maxLen = 0;
+       for (int i = 0; i < arr.length; i++) {
             int count0 = 0, count1 = 0;
-
             for (int j = i; j < arr.length; j++) {
-
                 if (arr[j] == 0) count0++;
                 else count1++;
-
                 if (count0 == count1) {
                     maxLen = Math.max(maxLen, j - i + 1);
                 }
@@ -187,13 +205,21 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 // TC: O(n^2)
 // SC: O(1)
 
-        public static int longestSubarrayWithEqualZeroOne(int[] arr) {
+Optimal: We replace every 0 with -1 and keep 1 as it is. Then we find the longest subarray whose sum is 0 using Prefix Sum + HashMap. If the same prefix sum appears at two different indices, the sum of elements between those indices is 0, which means that subarray contains an equal number of 0s and 1s. By storing the first occurrence of each prefix sum, we can find the longest such subarray in O(n) time.
+Because if we don't replace 0 with -1, the prefix sum technique won't directly tell us whether the number of 0s and 1s are equal.
 
-            HashMap<Integer, Integer> map = new HashMap<>();
-            int sum = 0;
-            int maxLen = 0;
+arr = {0, 1, 0, 1}
+Prefix Sums = 0, 1, 1, 2
 
-            map.put(0, -1);
+A sum of 2 doesn't tell us that there are two 1s and two 0s. The prefix sum only counts the contribution of 1s because 0 adds nothing. when we replace 0 with -1 this transform the problem to Find the longest subarray with sum = 0.
+
+    public static int longestSubarrayWithEqualZeroOne(int[] arr) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int sum = 0;
+        int maxLen = 0;
+
+        map.put(0, -1);
 
         for (int i = 0; i < arr.length; i++) {
 
@@ -216,74 +242,67 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
 
 ////Largest Subarray with Equal Number of 0s, 1s, and 2s.
 
-        public static int longestSubarrayWithEqual012BruteForce(int[] arr) {
+    int arr[] = {0, 1, 0, 2, 0, 1, 2, 1, 2}
 
-            int maxLen = 0;
-            for (int i = 0; i < arr.length; i++) {
-            int c0 = 0, c1 = 0, c2 = 0;
-            for (int j = i; j < arr.length; j++) {
+Brute Force TC: O(n^2), O(1)
 
-                if (arr[j] == 0) c0++;
-                else if (arr[j] == 1) c1++;
-                else c2++;
+Optimal: We cannot solve this problem by replacing 0 with -3 and then finding the longest subarray with sum 0. Although every valid subarray having equal numbers of 0s, 1s, and 2s will produce a sum of 0, the reverse is not true. A subarray can have sum 0 even when the counts of 0, 1, and 2 are not equal. In the previous problem (equal number of 0s and 1s), replacing 0 with -1 works because a sum of 0 directly implies that the count of 0s and 1s are equal. However, for three numbers (0, 1, and 2), we need to satisfy two conditions simultaneously: count0 = count1 and count1 = count2. Therefore, we store the pair (count1 - count0, count2 - count1) in a HashMap. If the same pair appears again, it means the subarray between those indices contains equal numbers of 0s, 1s, and 2s.
 
-                if (c0 == c1 && c1 == c2) {
-                    maxLen = Math.max(maxLen, j - i + 1);
-                }
+    public static int longestSubarrayEqual012(int[] arr) {
+
+        int c0 = 0, c1 = 0, c2 = 0;
+        int length = 0;
+
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("0#0", -1);
+
+        for (int i = 0; i < arr.length; i++) {
+
+            if (arr[i] == 0) {
+                c0++;
+            } else if (arr[i] == 1) {
+                c1++;
+            } else {
+                c2++;
+            }
+
+            int d10 = c1 - c0;
+            int d20 = c2 - c0;
+
+            String key = d10 + "#" + d20;
+
+            if (map.containsKey(key)) {
+                length = Math.max(length, i - map.get(key));
+            } else {
+                map.put(key, i);
             }
         }
-
-        return maxLen;
+        return length;
     }
 
-// TC: O(n^2)
-// SC: O(1)
-
-        int c0=0,c1=0,c2=0, d10=0,d20=0;
-        HashMap<String, Integer> map = new HashMap<>();
-        map.put("0#0",-1);
-        for (i = 0; i < arr.length; i++) {
-            if(arr[i]==0) c0++;
-            else if (arr[i]==1) c1++;
-            else c2++;
-
-            d10=c1-c0;
-            d20=c2-c0;
-
-            String key= d10 + "#" + d20;
-
-            if(map.containsKey(key)){
-                length=Math.max(length,i-map.get(key));
-            }
-            map.putIfAbsent(key,i);
-        }
+    TC: O(n)
 
 //// Longest Substring Without Repeating Characters: Given a string, S. Find the length of the longest substring without repeating characters.
 
-        String str = "takeUforward";
+     String str = "takeUforward";
 
         public static int longestSubstringBrute(String str) {
-
             int maxlen = 0;
 
             for (int i = 0; i < str.length(); i++) {
-
                 HashSet<Character> set = new HashSet<>();
+                    for (int j = i; j < str.length(); j++) {
 
-                for (int j = i; j < str.length(); j++) {
+                        char c = str.charAt(j);
+                        if (set.contains(c)) break;
 
-                    char c = str.charAt(j);
-
-                    if (set.contains(c)) break;
-
-                    set.add(c);
-
-                    maxlen = Math.max(maxlen, j - i + 1);
+                        set.add(c);
+                        maxlen = Math.max(maxlen, j - i + 1);
+                    }
                 }
-            }
 
-            return maxlen;
-        }
+                return maxlen;
+            }
 
         // TC: O(n^2)
         // SC: O(n)
@@ -291,7 +310,6 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
         public static int longestSubstringOptimal(String str) {
 
             HashSet<Character> set = new HashSet<>();
-
             int left = 0, maxlen = 0;
 
             for (int right = 0; right < str.length(); right++) {
@@ -304,22 +322,20 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
                 set.add(str.charAt(right));
                 maxlen = Math.max(maxlen, right - left + 1);
             }
-
             return maxlen;
         }
 
-        // TC: O(n)
-        // SC: O(n)
+// TC: O(n), O(n)
 
-////Longest repeating character replacement: Length of the longest substring where you can make all characters equal after at most k replacements.
+//  Longest repeating character replacement: You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.
 
-        String str="ABBC";
+        String str="AABABBC";
         int k=2;
 
         public static int characterReplacementBrute(String str, int k) {
 
             int maxlen = 0;
-
+2
             for (int i = 0; i < str.length(); i++) {
 
                 int[] freq = new int[26];
@@ -328,13 +344,10 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
                 for (int j = i; j < str.length(); j++) {
 
                     char c = str.charAt(j);
-
                     freq[c - 'A']++;
-
                     maximum = Math.max(maximum, freq[c - 'A']);
 
                     int windowSize = j - i + 1;
-
                     if (windowSize - maximum <= k) {
                         maxlen = Math.max(maxlen, windowSize);
                     }
@@ -356,7 +369,6 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
             while (right < str.length()) {
 
                 freq[str.charAt(right) - 'A']++;
-
                 maxCount = Math.max(maxCount, freq[str.charAt(right) - 'A']);
 
                 while ((right - left + 1) - maxCount > k) {
@@ -365,15 +377,12 @@ public static ArrayList<Integer> optimalUnionOfArrays(int[] arr1, int[] arr2) {
                 }
 
                 maxLength = Math.max(maxLength, right - left + 1);
-
                 right++;
             }
-
             return maxLength;
         }
 
-        // TC: O(n)
-        // SC: O(1)
+// TC: O(n), SC: O(1)
 
 //// Longest Substring with At Most K Distinct Characters: Find the length of the longest substring with at most k distinct characters.
 
