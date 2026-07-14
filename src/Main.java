@@ -1,4 +1,7 @@
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Product {
     private String name;
@@ -85,6 +88,11 @@ class Employee{
     }
 }
 
+class Human{
+     public synchronized void show(){
+
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
@@ -101,61 +109,69 @@ public class Main {
         );
 
 
-//        List<Employee> employees = Arrays.asList(
-//                new Employee(1, "A", 10, 10000.0, 100),
-//                new Employee(2, "B", 10, 20000.0, 100),
-//                new Employee(3, "C", 20, 30000.0, 200),
-//                new Employee(4, "D", 20, 40000.0, 300),
-//                new Employee(5, "E", 30, 50000.0, 300));
-//
-//        List<String> fullNames = List.of("John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Jane Smith", "alice   johnson");
-//        List<List<Integer>> listOfLists = List.of(List.of(1, 2, 3), List.of(4, 5), List.of(6, 7, 8, 9));
-//        List<String> names = List.of("Rahul", "Amit", "Sureshhhh", "Ankit", "Naman", "Amit");
-//        String str = "daadbccdb@#123DC";
-//        List<String> sentences = List.of("Java is fun", "Streams are powerful", "Java Streams are awesome", "Java is good");
-//        List<Integer> integers = List.of(1, 2, 3, 5, 4, 5);
-//        List<Integer> list1 = List.of(1, 2, 3, 4, 5);
-//        List<Integer> list2 = List.of(3, 4, 5, 6, 7);
-//        Set<Integer> set =new HashSet<>();
-//        List<Integer> list=new ArrayList<>();
-//
-//        int[] nums ={1, 3, 3,10};
-//        int left=0,right=0,count=0,sum=0,max_sum=0, max_len=0,len=0;
-//        int i=0,j=0, e1= -1,e2=-1,cnt1=0,cnt2=0,cnt3=0,d10=0,d20=0,min=0;
-
-        int num=153;
-
-        int length=String.valueOf(num).length();
-
-        int pow=length;
-        int sum=0,temp=num;
-
-        while (length>0){
-            int lastdigit=temp%10;
-            sum+= (int) Math.pow(lastdigit,pow);
-            temp/=10;
-            length--;
-        }
-
-        System.out.println(num==sum);
 
 
 
+        List<Employee> employees = Arrays.asList(
+                new Employee(1, "A", 10, 10000.0, 100),
+                new Employee(2, "B", 10, 20000.0, 100),
+                new Employee(3, "C", 20, 30000.0, 200),
+                new Employee(4, "D", 20, 40000.0, 300),
+                new Employee(5, "E", 30, 50000.0, 300));
 
-//        int[][] arr = {
-//                {1, 2, 3},
-//                {4, 5, 6},
-//                {7, 8, 9}
-//        };
-//
-//        for(int i=0;i<arr.length;i++){
-//
-//            for(int j=0;j<arr[i].length;j++){
-//                System.out.println(arr[j][i]);
-//            }
-//        }
+        List<String> fullNames = List.of("John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Jane Smith", "alice   johnson");
+        List<List<Integer>> listOfLists = List.of(List.of(1, 2, 3), List.of(4, 5), List.of(6, 7, 8, 9));
+
+
+        List<String> sentences = List.of("Java is fun", "Streams are powerful", "Java Streams are awesome", "Java is good");
+        List<Integer> integers = List.of(1, 2, 3, 5, 4, 5);
+        List<Integer> list1 = List.of(1, 2, 3, 4, 5);
+        List<Integer> list2 = List.of(3, 4, 5, 6, 7);
+        List<Integer> list=new ArrayList<>();
+
+        int[] array={1,1,2,2,3,4,5,6,7,8,9,10,10};
+        List<String> names = List.of("Rahul", "Amit", "Sureshhhh", "Ankit", "Naman", "Amit");
+        String string = "daadbccdb@#123DC";
+
+        Arrays.stream(array).boxed().collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry->entry.getValue()>1)
+                .map(Map.Entry::getKey).toList();
+
+        names.stream().flatMap(str -> str.chars().mapToObj(c -> (char) c))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(Comparator.comparingLong(entry -> entry.getValue()))
+                .map(entry -> entry.getKey());
+
+
+        String reduce = string.chars().mapToObj(c -> String.valueOf((char) c)).reduce("", (a, b) -> b + a);
+
+        System.out.println(reduce);
 
 
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
