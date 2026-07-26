@@ -97,619 +97,465 @@ public class ArrayQuestions {
     public static void main(String[] args) {
 
         System.out.println("Happy Coding");
-/*
 
-//Reverse a number or Check palindrome.
+//// Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed
+//// 32-bit integer range [-2^31, 2^31 - 1], then return 0.
 
-        int num=121;
-        int reversed=0, temphead=num;
+//        Integer.MAX_VALUE=2147483647
+//        Integer.MIN_VALUE=-2147483648
 
-        while(temphead>0){
-            reversed=reversed*10 + temphead%10;
-            temphead/=10;
-        }
+//            public int reverse(int x) {
+//
+//                int reversed = 0;
+//
+//                while (x != 0) {
+//
+//                    int digit = x % 10;
+//
+//                    if (reversed > Integer.MAX_VALUE / 10 || (reversed == Integer.MAX_VALUE / 10 && digit > 7)) {
+//                        return 0;
+//                    }
+//
+//                    if (reversed < Integer.MIN_VALUE / 10 || (reversed == Integer.MIN_VALUE / 10 && digit < -8)) {
+//                        return 0;
+//                    }
+//
+//                    reversed = reversed * 10 + digit;
+//                    x /= 10;
+//                }
+//
+//                return reversed;
+//            }
+
+// We check Integer.MAX_VALUE / 10 because the next operation is reversed * 10 + digit. If reversed is already greater than
+// Integer.MAX_VALUE / 10, multiplying by 10 will definitely overflow. If reversed is exactly Integer.MAX_VALUE / 10, we can
+// safely append only digits 0 to 7 because Integer.MAX_VALUE ends with 7. Similarly, when reversed is Integer.MIN_VALUE / 10,
+// we can append only down to -8 because Integer.MIN_VALUE ends with -8. These checks ensure we never overflow before performing
+// the multiplication and addition.
+
 
 //// Check num is Armstrong or not: 153
 
-        static boolean isArmstrong(int num) {
-            int original = num;
-            int digits = String.valueOf(num).length();
+//Math.log10(num): returns the power to which 10 must be raised to get num.
+
+//        static boolean isArmstrong(int num) {
+//            int original = num;
+//            int sum = 0;
+
+//            int digits = String.valueOf(num).length();
 //            int digits = (int) Math.log10(num) + 1;
-            int sum = 0;
 
-            while (num > 0) {
-                int rem = num % 10;
-                sum += (int) Math.pow(rem, digits);
-                num /= 10;
-            }
-            return sum == original;
-        }
+//            while (num > 0) {
+//                int rem = num % 10;
+//                sum += (int) Math.pow(rem, digits);
+//                num /= 10;
+//            }
+//            return sum == original;
+//        }
 
-////Second-Largest element in the array:
 
-        int [] arr= {10,8,5,4,3,9};
-        int largest=Integer.MIN_VALUE;
-        int second_larget=Integer.MIN_VALUE;
+////Given an alphanumeric string s, return the second largest numerical digit that appears in s, or -1 if it does not exist.
+//// An alphanumeric string is a string consisting of lowercase English letters and digits.
 
-        for(int i=0;i<arr.length;i++){
-            if(arr[i]>largest){
-                second_larget=largest;
-                largest=arr[i];
-            } else if (arr[i]<largest && arr[i]>second_larget){
-                second_larget=arr[i];
-            }
-        }
+// Create a list of digits, sort them and find the second largest.
+// two pass solution
 
-//// Remove duplicates from the sorted/unsorted array.
-        int [] arr= {1,2,2,2,2,2,3,3,3,4,5,5};
-        int left=0;
+//        public int secondHighest(String s) {
+//
+//            int first = -1;
+//            int second = -1;
+//
+//            for (char ch : s.toCharArray()) {
+//
+//                if (Character.isDigit(ch)) {
+//
+//                    int digit = ch - '0';
+//
+//                    if (digit > first) {
+//                        second = first;
+//                        first = digit;
+//                    } else if (digit != first && digit > second) {
+//                        second = digit;
+//                    }
+//                }
+//            }
+//
+//            return second;
+//        }
 
-        for(int right=1;right<arr.length;right++){
-            if(arr[left]!=arr[right]){
-                left++;
-                arr[left]=arr[right];;
-            }
-        }
+////  Find the missing number in the array. Given an array arr[] of size n-1 with distinct integers in the range of [1, n].
+////  This array represents a permutation of the integers from 1 to n with one element missing. Find the missing element in the array.
 
-    public static ArrayList<Integer> removeDuplicatesBrute(int[] arr) {
+//  Brute Force: O(n2)
+//  better using sum (sum of first n numbers): O(n)
+//  Using Xor operation: O(n)
 
-        ArrayList<Integer> result = new ArrayList<>();
+//    public int missingNumber(int[] nums) {
+//        int n = nums.length;
+//
+//        int expectedSum = n * (n + 1) / 2;
+//        int actualSum = 0;
+//
+//        for (int num : nums) {
+//            actualSum += num;
+//        }
+//
+//        return expectedSum - actualSum;
+//    }
 
-        for (int i = 0; i < arr.length; i++) {
+//        public int missingNumber(int[] nums) {
+//
+//            int n=nums.length;
+//
+//            int xor=0;
+//
+//            for(int i=1;i<=n;i++){
+//                xor^=i;
+//            }
+//
+//            for(int num: nums){
+//                xor^=num;
+//            }
+//
+//            return xor;
+//
+//        }
 
-            boolean found = false;
+////  Left rotate array by d place: Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
 
-            for (int j = 0; j < i; j++) {
-                if (arr[i] == arr[j]) {
-                    found = true;
-                    break;
-                }
-            }
+// Brute Force: O(n2)
+// Better Approach: Reversal algorith O(n): Reverse first k → Reverse remaining → Reverse entire
 
-            if (!found) {
-                result.add(arr[i]);
-            }
-        }
+//        public void rotate(int[] nums, int k) {
+//
+//            int n = nums.length;
+//            k %= n;
+//
+//            reverse(nums, 0, k - 1);
+//            reverse(nums, k, n - 1);
+//            reverse(nums, 0, n - 1);
+//
+//        }
+//
+//        private void reverse(int[] nums, int left, int right) {
+//
+//            while (left < right) {
+//
+//                int temp = nums[left];
+//                nums[left] = nums[right];
+//                nums[right] = temp;
+//
+//                left++;
+//                right--;
+//            }
+//        }
 
-        return result;
-    }
 
-    // TC: O(n^2)
-    // SC: O(n)
+////  Moves zero to end and preserve the order: Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
-        public static ArrayList<Integer> removeDuplicatesBetter(int[] arr) {
+// Using Temporary Array: O(N), O(N)
+// Two Traversal: O(n)
 
-            Arrays.sort(arr);
-            ArrayList<Integer> result = new ArrayList<>();
-            result.add(arr[0]);
+//    public void moveZeroes(int[] nums) {
+//
+//        int n = nums.length;
+//        int j = -1;
+//
+//        // STEP 1: Find the index of first zero
+//        for (int i = 0; i < n; i++) {
+//            if (nums[i] == 0) {
+//                j = i;
+//                break;
+//            }
+//        }
+//
+//        // If no zero found, array already valid
+//        if (j == -1) return;
+//
+//        // STEP 2: Move non-zero elements forward
+//        for (int i = j + 1; i < n; i++) {
+//           if (nums[i] != 0) {
+//                int temp = nums[i];
+//                nums[i] = nums[j];
+//                nums[j] = temp;
+//                j++;
+//            }
+//        }
+//    }
 
-            for (int i = 1; i < arr.length; i++) {
-                if (arr[i] != arr[i - 1]) {
-                result.add(arr[i]);
-            }
-        }
-        return result;
-    }
+//// Replace Elements with Greatest Element on Right Side:  Given an array arr, replace every element in that array with the
+//// greatest element among the elements to its right, and replace the last element with -1.
 
-    // TC: O(n log n)
-    // SC: O(n)
+//        Input: arr = [17,18,5,4,6,1]
+//        Output: [18,6,6,6,1,-1]
 
-    Optimal Approach (HashSet):
-    If Original Order Must Be Preserved: Use LinkedHashSet
+//    Brute Force: O(N2) Pick each element from the start and compare with their all right side elements.
+//    Optimal: O(N) keep a track of the largest element traversing from the end of the array.
 
-        public static ArrayList<Integer> removeDuplicates(int[] arr) {
-
-            LinkedHashSet<Integer> set = new LinkedHashSet<>();
-
-            for (int num : arr) {
-                set.add(num);
-            }
-
-        return new ArrayList<>(set);
-    }
-
-    // TC: O(n)
-    // SC: O(n)
-
-//  Find the missing number in the array.
-    Given an array arr[] of size n-1 with distinct integers in the range of [1, n]. This array represents a permutation of the integers from 1 to n with one element missing. Find the missing element in the array.
-
-    Using Linear Search:
-    Using Hashing:
-    Using Sum formula:
-    Using Xor Operator:
-
-    public int missingNumber(int[] nums) {
-        int n = nums.length;
-
-        int expectedSum = n * (n + 1) / 2;
-        int actualSum = 0;
-
-        for (int num : nums) {
-            actualSum += num;
-        }
-
-        return expectedSum - actualSum;
-    }
-
-//  Left rotate array by d place:
-
-    int [] a={1,2,3,4,5};
-    int k =3;
-
-    public void rotate(int[] nums, int k) {
-        int n=nums.length;
-        k=k%n;
-
-        for(int i=1;i<=k;i++){
-            int temp=nums[n-1];
-
-            for(int j=n-2;j>=0;j--){
-                nums[j+1]=nums[j];
-            }
-            nums[0]=temp;
-
-        }
-    }
-
-    TC: O(N2)
-    SC: O(1)
-
-    public void rotate(int[] nums, int k) {
-
-        Reverse(a,0,k-1);
-        Reverse(a,k,a.length-1);
-        Reverse(a,0,a.length-1);
-
-    }
-
-        static void Reverse(int[] a, int start, int end) {
-            while (start < end) {
-                int temp = a[start];
-                a[start] = a[end];
-                a[end] = temp;
-                start++;
-                end--;
-            }
-        }
-    TC:O(N)
-
-////Find the number that appears once, and other numbers twice.
-
-    int[] arr={1,1,2,2,3,3,4,4,5,5,6};
-    int res=0;
-
-    Brute force: O(N^2) Take each number at a time and search in whole array:
-    Using Hash: O(N),O(N)
-
-    for (int num:arr){
-         res=res^num;
-    }
-    return res;
-
-    Optimal: O(N)
-
-//  Moves zero to end and preserve the order:
-
-    int [] arr={0,0,5,5,1,0,0,0,1,2,3,0,0,4,5,0,0};
-
-    Using Temporary Array: O(N), O(N)
-    Two Traversal:
-
-    public void moveZeroes(int[] nums) {
-
-        int n = nums.length;
-        int j = -1;
-
-        // STEP 1: Find the index of first zero
-        for (int i = 0; i < n; i++) {
-            if (nums[i] == 0) {
-                j = i;
-                break;
-            }
-        }
-
-        // If no zero found, array already valid
-        if (j == -1) return;
-
-        // STEP 2: Move non-zero elements forward
-        for (int i = j + 1; i < n; i++) {
-           if (nums[i] != 0) {
-                int temp = nums[i];
-                nums[i] = nums[j];
-                nums[j] = temp;
-                j++;
-            }
-        }
-    }
-
-////Leader in array problem:  An element is a Leader if it is greater than or equal to all the elements to its right side.
-
-    int arr[] = [16, 17, 4, 3, 5, 2];  o/p->17 5 2
-
-    Brute Force: O(N2) Pick each element from the start and compare with their all right side elements.
-
-    public static List<Integer> findLeaders(int[] arr) {
-
-        List<Integer> leaders = new ArrayList<>();
-        int max = Integer.MIN_VALUE;
-
-        for (int i = arr.length - 1; i >= 0; i--) {
-            if (arr[i] > max) {
-                leaders.add(arr[i]);
-                max = arr[i];
-            }
-        }
-
-        Collections.reverse(leaders);
-        return leaders;
-    }
-
-    TC: O(N)
+//        public int[] replaceElements(int[] arr) {
+//
+//            int maxRight=-1;
+//            int n=arr.length;
+//
+//            int[] ans=new int[n];
+//
+//            for(int i=n-1;i>=0;i--){
+//
+//                int current=arr[i];
+//                ans[i]=maxRight;
+//                maxRight=Math.max(maxRight,current);
+//
+//            }
+//            return ans;
+//        }
 
 //// Rearrange Array elements by sign.
 
-    int[] nums = { -7, -1, 5, -3, 6, 4};
+// The brute-force approach uses two separate lists and then merges them. O(n) O(n)
+// The better/optimal approach avoids the intermediate lists by placing each number directly into its correct position in the
+// result array using two pointers (posIndex and negIndex), making it cleaner while keeping the same time complexity. O(n)
 
-    public int[] rearrangeArray(int[] nums) {
+//        public int[] rearrangeArray(int[] nums) {
+//
+//            int n = nums.length;
+//            int[] ans = new int[n];
+//
+//            int posIndex = 0;
+//            int negIndex = 1;
+//
+//            for (int num : nums) {
+//
+//                if (num > 0) {
+//                    ans[posIndex] = num;
+//                    posIndex += 2;
+//                } else {
+//                    ans[negIndex] = num;
+//                    negIndex += 2;
+//                }
+//            }
+//
+//            return ans;
+//        }
 
-        ArrayList<Integer> pos = new ArrayList<>();
-        ArrayList<Integer> neg = new ArrayList<>();
+//// Distinct element in UnSorted/Sorted array.
 
-     for (int num : nums) {
-            if (num >= 0) {
-                pos.add(num);
-            } else {
-                neg.add(num);
-            }
-        }
+// Sorted Array: int[] arr = {1, 1, 2, 2, 2, 3, 4, 4, 5};
+// Brute force: Use hashset. O(N), O(N)
+// Optimal: O(N) using list, store the distinct elements directly into the list and check elements from the array whether it is present in the list or not.
 
-    int[] result = new int[nums.length];
+//        public int[] distinctElements(int[] arr){
+//
+//            List<Integer> list = new ArrayList<>();
+//
+//            if (arr.length == 0) {
+//                return new int[0];
+//            }
+//
+//            list.add(arr[0]);
+//
+//            for (int i = 1; i < arr.length; i++) {
+//                if (arr[i] != arr[i - 1]) {
+//                    list.add(arr[i]);
+//                }
+//            }
+//        }
 
-    int posIdx = 0, negIdx = 0;
-    int i = 0;
+// Unsorted Array: int[] arr = {1, 2, 2, 1, 6, 3, 2, 6, 5};
 
+// Brute Force: O(N2). Traverse the array and maintain a List of distinct elements. For each element, check if it already exists
+// in the list using list.contains(). If it doesn't exist, add it to the list, then convert the list to an array and return it.
 
-    while (posIdx < pos.size() && negIdx < neg.size()) {
+// Better: Sort and then find distinct : O(NlogN)
+// Optimal: using hashset: O(N) O(N)
 
-        if (i % 2 == 0)
-            result[i++] = pos.get(posIdx++);
-        else
-            result[i++] = neg.get(negIdx++);
-    }
+////Find pairs with given sum in sorted array: Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number.
 
-        while (posIdx < pos.size())      result[i++] = pos.get(posIdx++);
-        while (negIdx < neg.size())      result[i++] = neg.get(negIdx++);
+//    int arr[]={1,2,5,7,10,15,20};
+//    target=9;
 
-        return result;
-}
+//  Brute Force: O(N2)
+//  Using Hashmap: O(N), O(N)
+//  Optimal: Using Two pointer O(N)
 
-    int[] res = new int[arr.length];
-    int pos=0,neg=1;
+//        public int[] twoSum(int[] numbers, int target) {
+//
+//            HashMap<Integer, Integer> map = new HashMap<>();
+//
+//            for (int i = 0; i < numbers.length; i++) {
+//
+//                int complement = target - numbers[i];
+//
+//                if (map.containsKey(complement)) {
+//                    return new int[]{map.get(complement) + 1, i + 1};
+//                }
+//
+//                map.put(numbers[i], i);
+//            }
+//
+//            return new int[]{-1, -1};
+//        }
 
-        for(int num:arr){
-            if(num>0){
-                res[pos]=num;
-                pos+=2;
-            }
-            else {
-                res[neg]=num;
-                neg+=2;
-            }
-
-        }
-
-////Distinct element in UnSorted/Sorted array.
-
-    public static void main(String[] args) {
-        int[] arr = {4, 2, 1, 2, 4, 3, 1};
-        int n = arr.length;
-
-        for (int i = 0; i < n; i++) {
-            boolean isDistinct = true;
-
-            for (int j = 0; j < i; j++) {
-                if (arr[i] == arr[j]) {
-                    isDistinct = false;
-                    break;
-                }
-            }
-
-            if (isDistinct) {
-                System.out.print(arr[i] + " ");
-            }
-        }
-    }
-
-    TC: O(N2)
-
-     public static void main(String[] args) {
-        int[] arr = {1, 1, 2, 2, 2, 3, 4, 4, 5};
-        int n = arr.length;
-
-        // First element is always distinct
-        System.out.print(arr[0] + " ");
-
-        for (int i = 1; i < n; i++) {
-            if (arr[i] != arr[i - 1]) {
-                System.out.print(arr[i] + " ");
-            }
-        }
-    }
-
-     public static void main(String[] args) {
-        int[] arr = {4, 2, 1, 2, 4, 3, 1};
-
-        Set<Integer> seen = new HashSet<>();
-
-        for (int num : arr) {
-            if (!seen.contains(num)) {
-                System.out.print(num + " ");
-                seen.add(num);
-            }
-        }
-    }
-
-    TC: O(N) , O(N)
-
-////Print duplicate elements in Sorted:
-
-    public static List<Integer> findDuplicates(int[] arr) {
-        List<Integer> duplicates = new ArrayList<>();
-
-        for (int i = 0; i < arr.length; i++) {
-            int count = 0;
-
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[i] == arr[j]) {
-                    count++;
-                }
-            }
-
-            if (count > 1 && !duplicates.contains(arr[i])) {
-                duplicates.add(arr[i]);
-            }
-        }
-        return duplicates;
-    }
-
-      public static List<Integer> findDuplicatesSorted(int[] arr) {
-        List<Integer> duplicates = new ArrayList<>();
-
-        for (int i = 0; i < arr.length - 1; i++) {
-
-            // duplicate found
-            if (arr[i] == arr[i + 1]) {
-
-                if (duplicates.isEmpty() || duplicates.get(duplicates.size() - 1) != arr[i]) {
-                    duplicates.add(arr[i]);
-                }
-            }
-        }
-        return duplicates;
-    }
-
-////Print duplicate elements in Unsorted:
-
-     public static List<Integer> findDuplicates(int[] arr) {
-        List<Integer> duplicates = new ArrayList<>();
-
-        for (int i = 0; i < arr.length; i++) {
-            int count = 0;
-
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[i] == arr[j]) {
-                    count++;
-                }
-            }
-
-            if (count > 1 && !duplicates.contains(arr[i])) {
-                duplicates.add(arr[i]);
-            }
-        }
-        return duplicates;
-    }
-
-     public static List<Integer> findDuplicatesUnsorted(int[] arr) {
-        Set<Integer> seen = new HashSet<>();
-        List<Integer> duplicates = new ArrayList<>();
-
-        for (int num : arr) {
-            // if already seen → duplicate
-            if (!seen.add(num)) {
-                // add only once
-                if (!duplicates.contains(num)) {
-                    duplicates.add(num);
-                }
-            }
-        }
-        return duplicates;
-    }
-
-////Find pairs with given sum in sorted array:
-
-    int arr[]={1,2,5,7,10,15,20};
-    target=9;
-
-    public int[] twoSum(int[] numbers, int target) {
-        int n=numbers.length;
-        int[] res=new int[2];
-
-        for(int i=0;i<n;i++){
-
-            for(int j=i+1;j<n;j++){
-
-                if(numbers[i]+numbers[j]==target){
-                    res[0]=i+1;
-                    res[1]=j+1;
-                    break;
-                }
-            }
-        }
-        return res;
-    }
-
-    public int[] twoSum(int[] numbers, int target) {
-        int n=numbers.length;
-        int[] res=new int[2];
-        int left=0, right=n-1;
-
-        while(left<right){
-            int sum=numbers[left] + numbers[right];
-
-            if(sum==target){
-                res[0]=left+1;
-                res[1]=right+1;
-                break;
-            }else if(sum>target){
-                right--;
-            }else{
-                left++;
-            }
-        }
-        return res;
-    }
+// In unsorted we can apply only brute force and hashmap approach.
 
 ////Find Unique pairs with given sum in Unsorted array:
 
-        int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};
-        int k = 9;
+//      int arr[] = {1,1,2,2,3,4,4,5,6,7,8,0,9};
+//      int k = 9;
 
-        public List<List<Integer>> findPairs(int[] nums, int target) {
-        int n = nums.length;
+// Brute Force: O(N2)
+// Using hashset: O(N) O(N)
 
-        Set<String> uniquePairs = new HashSet<>();
-        List<List<Integer>> result = new ArrayList<>();
+//        public List<List<Integer>> uniquePairs(int[] arr, int target) {
+//
+//            List<List<Integer>> result = new ArrayList<>();
+//
+//            for (int i = 0; i < arr.length - 1; i++) {
+//                for (int j = i + 1; j < arr.length; j++) {
+//
+//                    if (arr[i] + arr[j] == target) {
+//
+//                        int first = Math.min(arr[i], arr[j]);
+//                        int second = Math.max(arr[i], arr[j]);
+//
+//                        List<Integer> pair = Arrays.asList(first, second);
+//
+//                        if (!result.contains(pair)) {
+//                            result.add(pair);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            return result;
+//        }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
 
-                if (nums[i] + nums[j] == target) {
-
-                    int a = Math.min(nums[i], nums[j]);
-                    int b = Math.max(nums[i], nums[j]);
-
-                    String key = a + "," + b;
-
-                    if (!uniquePairs.contains(key)) {
-                        result.add(Arrays.asList(a, b));
-                        uniquePairs.add(key);
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-        TC:O(n2) SC:O(n)
-
-    public static void printPairs(int[] arr, int k) {
-
-        Set<Integer> set = new HashSet<>();
-        Set<String> printed = new HashSet<>();
-
-        for (int num : arr) {
-
-            int complement = k - num;
-
-            if (set.contains(complement)) {
-
-                int a = Math.min(num, complement);
-                int b = Math.max(num, complement);
-
-                String pair = a + "," + b;
-
-                if (printed.add(pair)) {
-                    System.out.println(a + " " + b);
-                }
-            }
-
-            set.add(num);
-        }
-    }
-
+//        public List<List<Integer>> uniquePairs(int[] arr, int target) {
+//
+//            Set<Integer> seen = new HashSet<>();
+//            Set<List<Integer>> pairs = new HashSet<>();
+//
+//            for (int num : arr) {
+//
+//                int complement = target - num;
+//
+//                if (seen.contains(complement)) {
+//
+//                    int first = Math.min(num, complement);
+//                    int second = Math.max(num, complement);
+//
+//                    pairs.add(Arrays.asList(first, second));
+//                }
+//
+//                seen.add(num);
+//            }
+//
+//            return new ArrayList<>(pairs);
+//        }
 
 //// Find common element in two/three sorted array:
 
-        int[] a ={1,2,3,4,5};
-        int[] b ={2,3,4,5,6};
-        int[] c ={3,4,5,6,7};
+//  Sorted Array:
 
-    TC: O(N2/N3)
+//        int[] a ={1,2,3,4,5};
+//        int[] b ={2,3,4,5,6};
+//        int[] c ={3,4,5,6,7};
 
+// Brute Force: O(N^2,N^3)
+// using Set: O(N), (N)
+// Using Pointers: O(N)
 
-        int i=0,j=0,k=0;
+//        public List<Integer> commonElements(int[] a, int[] b, int[] c) {
+//
+//            List<Integer> result = new ArrayList<>();
+//
+//            int i = 0, j = 0, k = 0;
+//
+//            while (i < a.length && j < b.length && k < c.length) {
+//
+//                if (a[i] == b[j] && b[j] == c[k]) {
+//
+//                    result.add(a[i]);
+//
+//                    int value = a[i];
+//
+//                    while (i < a.length && a[i] == value) i++;
+//                    while (j < b.length && b[j] == value) j++;
+//                    while (k < c.length && c[k] == value) k++;
+//                }
+//                else if (a[i] <= b[j] && a[i] <= c[k]) {
+//                    i++;
+//                }
+//                else if (b[j] <= a[i] && b[j] <= c[k]) {
+//                    j++;
+//                }
+//                else {
+//                    k++;
+//                }
+//            }
+//
+//            return result;
+//        }
 
-        while (i<a.length && j<b.length && k<c.length){
+//Unsorted array:
+// Brute force: O(N2, N3)
+// Using Set:
 
-            if(a[i]==b[j] && b[j]==c[k]){
-                System.out.println(a[i]);
-                i++;
-                j++;
-                k++;
-            } else if (a[i]<b[j]) {i++;}
-            else if (b[j]<c[k]) {j++;}
-            else {k++;}
-
-            }
-
-    TC: O(N)
-
-//// Find common element in three  unsorted array:
-
-        int[] a={2,8,7,5,4,6,6};
-        int[] b={5,2,7,3,9,1,5};
-        int[] c={1,7,2,5,6,4,5};
-
-        Set<Integer> set1=new HashSet<>();
-        for(int num: a){
-            set1.add(num);
-        }
-
-        Set<Integer> set2=new HashSet<>();
-        for(int num: b){
-            if(set1.contains(num)){
-                set2.add(num);
-            }
-        }
-
-        Set<Integer> set3=new HashSet<>();
-        for(int num: c){
-            if(set2.contains(num)){
-                set3.add(num);
-            }
-        }
-
-        for(int nums: set3 ){
-            System.out.println(nums);
-        }
+//        int[] a={2,8,7,5,4,6,6};
+//        int[] b={5,2,7,3,9,1,5};
+//        int[] c={1,7,2,5,6,4,5};
+//
+//        Set<Integer> set1=new HashSet<>();
+//        for(int num: a){
+//            set1.add(num);
+//        }
+//
+//        Set<Integer> set2=new HashSet<>();
+//        for(int num: b){
+//            if(set1.contains(num)){
+//                set2.add(num);
+//            }
+//        }
+//
+//        Set<Integer> set3=new HashSet<>();
+//        for(int num: c){
+//            if(set2.contains(num)){
+//                set3.add(num);
+//            }
+//        }
+//
+//        for(int nums: set3 ){
+//            System.out.println(nums);
+//        }
 
 //// Given an array of 0 and 1, arrange them left side array contain 0 and right side 1:
 
-    int[] a={0,1,1,0,0,0,1,0,1,1,0};
+// BF: O(N),O(N) Create a new array. First copy all the 0s into the new array, then copy all the 1s. Finally, return the new array.
+// Counting: O(N)
+// Using two pointer: O(N) In place solution
 
-    Brute Force: Traversal and count ones and zeroes O(2n)
+//    int[] a={0,1,1,0,0,0,1,0,1,1,0};
 
-        int left=0, right=a.length-1;
-
-        while(left<right){
-
-            while(a[left]==0 && left<right){
-                left++;
-            }
-            while (a[right]==1 && left<right){
-                right--;
-            }
-
-            if(left<right) {
-                int temphead = a[left];
-                a[left] = a[right];
-                a[right] = temphead;
-
-                left++;
-                right--;
-            }
-        }
+//        int left=0, right=a.length-1;
+//
+//        while(left<right){
+//
+//            while(a[left]==0 && left<right){
+//                left++;
+//            }
+//            while (a[right]==1 && left<right){
+//                right--;
+//            }
+//
+//            if(left<right) {
+//                int temphead = a[left];
+//                a[left] = a[right];
+//                a[right] = temphead;
+//
+//                left++;
+//                right--;
+//            }
+//        }
 
 //// Maximum Consecutive ones: Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
 
