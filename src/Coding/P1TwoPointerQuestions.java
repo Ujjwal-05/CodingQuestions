@@ -342,378 +342,426 @@ public class P1TwoPointerQuestions {
 
 //  We can solve this using, Sliding Window + HashMap. O(N), O(N)
 
-////  Longest repeating character replacement: You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you can get after performing the above operations.
+////    Longest repeating character replacement: You are given a string s and an integer k. You can choose any character of the string and change it to any
+////    other uppercase English character. You can perform this operation at most k times. Return the length of the longest substring containing the same letter you
+////    can get after performing the above operations.
 
-        String str="AABABBC";
-        int k=2;
+//        String str="AABABBC";
+//        int k=2;
 
-        public static int characterReplacementBrute(String str, int k) {
+//  The intuition behind substringLength - maxFrequency is that to make all characters in a substring the same, we should keep the character that already appears the
+//  most and replace all the others. The maxFrequency characters are already correct, so only the remaining substringLength - maxFrequency characters need to be replaced.
+//  If this number is less than or equal to k, then the substring can be converted into a string of identical characters using at most k replacements.
 
-            int maxlen = 0;
-2
-            for (int i = 0; i < str.length(); i++) {
+// Brute force: O(N2)
 
-                int[] freq = new int[26];
-                int maximum = 0;
+//        public int characterReplacement(String s, int k) {
+//
+//            int maxLength = 0;
+//
+//            for (int i = 0; i < s.length(); i++) {
+//
+//                int[] freq = new int[26];
+//                int maxFreq = 0;
+//
+//                for (int j = i; j < s.length(); j++) {
+//
+//                    char ch = s.charAt(j);
+//
+//                    freq[ch - 'A']++;
+//                    maxFreq = Math.max(maxFreq, freq[ch - 'A']);
+//
+//                    int length = j - i + 1;
+//
+//                    if (length - maxFreq <= k) {
+//                        maxLength = Math.max(maxLength, length);
+//                    } else {
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            return maxLength;
+//        }
 
-                for (int j = i; j < str.length(); j++) {
+//optimal: O(N)
 
-                    char c = str.charAt(j);
-                    freq[c - 'A']++;
-                    maximum = Math.max(maximum, freq[c - 'A']);
+//        public int characterReplacement(String str, int k) {
+//
+//            int[] freq = new int[26];
+//            int left = 0, right = 0;
+//            int maxCount = 0, maxLength = 0;
+//
+//            while (right < str.length()) {
+//
+//                freq[str.charAt(right) - 'A']++;
+//                maxCount = Math.max(maxCount, freq[str.charAt(right) - 'A']);
+//
+//                while ((right - left + 1) - maxCount > k) {
+//
+//                    freq[str.charAt(left) - 'A']--;
+//                    left++;
+//
+//                    maxCount = 0;
+//                    for (int i = 0; i < 26; i++) {
+//                        maxCount = Math.max(maxCount, freq[i]);
+//                    }
+//                }
+//
+//                maxLength = Math.max(maxLength, right - left + 1);
+//                right++;
+//            }
+//
+//            return maxLength;
+//
+//        }
 
-                    int windowSize = j - i + 1;
-                    if (windowSize - maximum <= k) {
-                        maxlen = Math.max(maxlen, windowSize);
-                    }
-                }
-            }
+//  Time Complexity: O(26 × n) ≈ O(n) because recalculating maxCount scans only 26 characters, which is constant.
+//  Space Complexity: O(26) ≈ O(1) due to the fixed-size frequency array.
+//  Note: If the string contained arbitrary Unicode characters instead of only uppercase English letters, recalculating maxCount would no longer be constant time.
+//  In that case, the complexity would be O(Σ × n), where Σ is the size of the character set.
 
-            return maxlen;
-        }
+////  Longest Substring with At Most K Distinct Characters: Find the length of the longest substring with at most k distinct characters.
 
-        // TC: O(n^2)
-        // SC: O(1)
+//    String str="aababbcaacc"; int k = 2;
 
-        public static int characterReplacement(String str, int k) {
+//   Brute Force: TC: O(n^2), SC: O(n)
 
-            int[] freq = new int[26];
-            int left = 0, right = 0;
-            int maxCount = 0, maxLength = 0;
+//        public static int longestKDistinctBrute(String str, int k) {
+//
+//            int maxlen = 0;
+//
+//            for (int i = 0; i < str.length(); i++) {
+//
+//                HashSet<Character> set = new HashSet<>();
+//
+//                for (int j = i; j < str.length(); j++) {
+//
+//                    char c = str.charAt(j);
+//                    set.add(c);
+//
+//                    if (set.size() > k) break;
+//
+//                    maxlen = Math.max(maxlen, j - i + 1);
+//                }
+//            }
+//
+//            return maxlen;
+//        }
 
-            while (right < str.length()) {
+// Optimal: O(n), O(1) if only fixed set of characters.
 
-                freq[str.charAt(right) - 'A']++;
-                maxCount = Math.max(maxCount, freq[str.charAt(right) - 'A']);
+//        public static int longestKDistinctOptimal(String str, int k) {
+//
+//            int maxlen = 0;
+//            int left = 0;
+//
+//            HashMap<Character, Integer> map = new HashMap<>();
+//
+//            for (int right = 0; right < str.length(); right++) {
+//
+//                char c = str.charAt(right);
+//                map.put(c, map.getOrDefault(c, 0) + 1);
+//
+//                while (map.size() > k) {
+//
+//                    char leftChar = str.charAt(left);
+//                    map.put(leftChar, map.get(leftChar) - 1);
+//
+//                    if (map.get(leftChar) == 0) {
+//                        map.remove(leftChar);
+//                    }
+//
+//                    left++;
+//                }
+//
+//                maxlen = Math.max(maxlen, right - left + 1);
+//            }
+//
+//            return maxlen;
+//        }
 
-                while ((right - left + 1) - maxCount > k) {
-                    freq[str.charAt(left) - 'A']--;
-                    left++;
-                }
 
-                maxLength = Math.max(maxLength, right - left + 1);
-                right++;
-            }
-            return maxLength;
-        }
-
-// TC: O(n), SC: O(1)
-
-//// Longest Substring with At Most K Distinct Characters: Find the length of the longest substring with at most k distinct characters.
-
-        String str="aababbcaacc"; int k = 2;
-
-        public static int longestKDistinctBrute(String str, int k) {
-
-            int maxlen = 0;
-
-            for (int i = 0; i < str.length(); i++) {
-
-                HashSet<Character> set = new HashSet<>();
-
-                for (int j = i; j < str.length(); j++) {
-
-                    char c = str.charAt(j);
-                    set.add(c);
-
-                    if (set.size() > k) break;
-
-                    maxlen = Math.max(maxlen, j - i + 1);
-                }
-            }
-
-            return maxlen;
-        }
-
-        // TC: O(n^2)
-        // SC: O(n)
-
-        public static int longestKDistinctOptimal(String str, int k) {
-
-            int maxlen = 0;
-            int left = 0;
-
-            HashMap<Character, Integer> map = new HashMap<>();
-
-            for (int right = 0; right < str.length(); right++) {
-
-                char c = str.charAt(right);
-                map.put(c, map.getOrDefault(c, 0) + 1);
-
-                while (map.size() > k) {
-
-                    char leftChar = str.charAt(left);
-                    map.put(leftChar, map.get(leftChar) - 1);
-
-                    if (map.get(leftChar) == 0) {
-                        map.remove(leftChar);
-                    }
-
-                    left++;
-                }
-
-                maxlen = Math.max(maxlen, right - left + 1);
-            }
-
-            return maxlen;
-        }
-
-        // TC: O(n)
-        // SC: O(k) ≈ O(n)
-
-        public static int longestKDistinctOptimal(String str, int k) {
-
-            int[] freq = new int[128]; // ASCII
-            int left = 0, maxlen = 0, distinct = 0;
-
-            for (int right = 0; right < str.length(); right++) {
-
-                char c = str.charAt(right);
-
-                if (freq[c] == 0) distinct++;
-
-                freq[c]++;
-
-                while (distinct > k) {
-
-                    char leftChar = str.charAt(left);
-
-                    freq[leftChar]--;
-
-                    if (freq[leftChar] == 0) distinct--;
-
-                    left++;
-                }
-
-                maxlen = Math.max(maxlen, right - left + 1);
-            }
-
-            return maxlen;
-        }
-
-        // TC: O(n)
-        // SC: O(1)
-
-//// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t (including duplicates), order doesn't matter in the window. Return the empty string "" if no such substring exists.
+//// Minimum Window Substring: Given two strings s and t. Find the smallest window substring of s that includes all characters in t (including duplicates),
+//// order doesn't matter in the window. Return the empty string "" if no such substring exists.
 
         String s = "ADOBECODEBAANC";
         String t = "ABCA";
 
-        static int minWindowLength(String str, String target) {
-            int minlength = Integer.MAX_VALUE;
-
-            for (int start = 0; start < str.length(); start++) {
-
-                for (int end = start; end < str.length(); end++) {
-
-                    int length = end - start + 1;
-
-                    if (target.length() > length) continue;
-                    if (length >= minlength) continue;
-
-                    String s = str.substring(start, end + 1);
-
-                    if (isValidWindow(s, target)) {
-                        minlength = length;
-                    }
-                }
-            }
-
-            return minlength == Integer.MAX_VALUE ? -1 : minlength;
-        }
-
-        static boolean isValidWindow(String s, String target) {
-
-            int[] freq = new int[128];
-
-            for (char c : target.toCharArray()) {
-                freq[c]++;
-            }
-
-            int required = target.length(); // total chars needed
-
-            for (char c : s.toCharArray()) {
-                if (freq[c] > 0) {
-                    required--;
-                }
-                freq[c]--;
-            }
-
-            return required == 0;
-        }
-
-        TC: O(n3)
-
-        public static int minWindowLengthBrute(String s, String t) {
-
-            int minlength = Integer.MAX_VALUE;
-            int[] hash = new int[256];
-
-            for (int i = 0; i < t.length(); i++) {
-                hash[t.charAt(i)]++;
-            }
-
-            for (int i = 0; i < s.length(); i++) {
-
-                int[] frequency = hash.clone();
-                int count = t.length();
-
-                for (int j = i; j < s.length(); j++) {
-
-                    char c = s.charAt(j);
-                    if (frequency[c] > 0) count--;
-                    frequency[c]--;
-
-                    if (count == 0) {
-                        minlength = Math.min(minlength, j - i + 1);
-                        break;
-                    }
-                }
-            }
-            return minlength == Integer.MAX_VALUE ? -1 : minlength;
-        }
-
-        // TC: O(n^2)
-        // SC: O(1)
-
-        public static int minWindowLengthOptimal(String s, String t) {
-
-            int[] hash = new int[256];
-
-            for (char c : t.toCharArray()) {
-                hash[c]++;
-            }
-
-            int left = 0, right = 0;
-            int count = t.length();
-
-            int minLen = Integer.MAX_VALUE;
-
-            while (right < s.length()) {
-
-                if (hash[s.charAt(right)] > 0) {
-                    count--;
-                }
-
-                hash[s.charAt(right)]--;
-
-                while (count == 0) {
-
-                    minLen = Math.min(minLen, right - left + 1);
-
-                    hash[s.charAt(left)]++;
-
-                    if (hash[s.charAt(left)] > 0) {
-                        count++;
-                    }
-
-                    left++;
-                }
-
-                right++;
-            }
-
-            return minLen == Integer.MAX_VALUE ? -1 : minLen;
-        }
-
-        // TC: O(n)
-        // SC: O(1)
-
-////Minimum window subsequence:
-
-"A subsequence is formed by removing some or no characters from the original string without changing the order of the remaining characters. This means skipping is allowed, but the relative order must be preserved. For instance, from "abcde", valid subsequences include "a", "ace" (skipping b and d), "bd", "abc", and "abcde", while "aed" is invalid because it changes the order of characters."
-
-"Now consider the strings s1 = "geeksforgeeks" and s2 = "eksrg". The output "eksforg" is a subsequence of s1 that contains all characters of s2 in the same order. Additionally, it is constructed to be as long as possible while still maintaining s2 as a subsequence within it."
-
-"For each character, we decide whether to include or exclude it, leading to 2 choices per character. Hence total subsequences are 2ⁿ."
-
-        public String minWindowImprovedBrute(String s1, String s2) {
-            int n = s1.length();
-            int minLen = Integer.MAX_VALUE;
-            String result = "";
-
-            for (int i = 0; i < n; i++) {
-                for (int j = i; j < n; j++) {
-
-                    int windowLen = j - i + 1;
-
-                    // Skip invalid windows
-                    if (windowLen >= minLen) continue;
-                    if (windowLen < s2.length()) continue;
-
-                    String sub = s1.substring(i, j + 1);
-
-                    if (isSubsequence(sub, s2)) {
-                        minLen = windowLen;
-                        result = sub;
-                        break; // minimal for this i
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private boolean isSubsequence(String s1, String s2) {
-            int i = 0, j = 0;
-
-            while (i < s1.length() && j < s2.length()) {
-                if (s1.charAt(i) == s2.charAt(j)) {
-                    j++;
-                }
-                i++;
-            }
-            return j == s2.length();
-        }
-
-        TC: O(N3)
-
-        static String minWindow(String s1, String s2) {
-            int n = s1.length();
-            int m = s2.length();
-
-            if (m == 0 || n == 0 || m > n) return "";
-
-            String ans = "";
-            int minLen = Integer.MAX_VALUE;
-
-            for (int i = 0; i < n; i++) {
-                if (s1.charAt(i) == s2.charAt(0)) {
-
-                    int p1 = i, p2 = 0;
-
-                    // Forward scan
-                    while (p1 < n && p2 < m) {
-                        if (s1.charAt(p1) == s2.charAt(p2)) p2++;
-                        p1++;
-                    }
-
-                    if (p2 == m) {
-                        int end = p1 - 1;
-                        p2 = m - 1;
-
-                        // Backward shrink
-                        while (end >= 0) {
-                            if (s1.charAt(end) == s2.charAt(p2)) p2--;
-                            if (p2 < 0) break;
-                            end--;
-                        }
-
-                        int start = end;
-                        int len = p1 - start;
-
-                        if (len < minLen) {
-                            minLen = len;
-                            ans = s1.substring(start, start + len);
-                        }
-                    }
-                }
-            }
-
-            return ans;
-        }
-
-        //TC: O(n × m)
+// Brute Force: O(n3)
+
+//        static int minWindowLength(String str, String target) {
+//
+//            int minLength = Integer.MAX_VALUE;
+//
+//            for (int start = 0; start < str.length(); start++) {
+//
+//                for (int end = start; end < str.length(); end++) {
+//
+//                    int length = end - start + 1;
+//
+//                    if (length < target.length()) {
+//                        continue;
+//                    }
+//
+//                    if (length >= minLength) {
+//                        continue;
+//                    }
+//
+//                    if (isValidWindow(str, start, end, target)) {
+//                        minLength = length;
+//                    }
+//                }
+//            }
+//
+//            return minLength == Integer.MAX_VALUE ? -1 : minLength;
+//        }
+//
+//        static boolean isValidWindow(String str, int start, int end, String target) {
+//
+//            int[] freq = new int[128];
+//            for (char ch : target.toCharArray()) {
+//                freq[ch]++;
+//            }
+//
+//            int required = target.length();
+//
+//            for (int i = start; i <= end; i++) {
+//
+//                char ch = str.charAt(i);
+//                if (freq[ch] > 0) {
+//                    required--;
+//                }
+//                freq[ch]--;
+//            }
+//
+//            return required == 0;
+//        }
+
+// Better Approach: O(N2)
+
+//        public String minWindow(String s, String t) {
+//
+//            if (s.length() < t.length()) {  return "";  }
+//
+//            int minLength = Integer.MAX_VALUE;
+//            int[] targetFreq = new int[128];
+//
+//            for (int i = 0; i < t.length(); i++) {
+//                targetFreq[t.charAt(i)]++;
+//            }
+//
+//            int start = -1;
+//
+//            for (int i = 0; i < s.length(); i++) {
+//
+//                int[] window = new int[128];
+//
+//                for (int j = i; j < s.length(); j++) {
+//
+//                    window[s.charAt(j)]++;
+//
+//                    if (isValid(window, targetFreq)) {
+//
+//                        if (minLength > j - i + 1) {
+//                            minLength = j - i + 1;
+//                            start = i;
+//                        }
+//
+//                        // No need to extend this window further
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            return start == -1 ? "" : s.substring(start, start + minLength);
+//        }
+//
+//        public boolean isValid(int[] window, int[] targetFreq) {
+//
+//            for (int i = 0; i < targetFreq.length; i++) {
+//
+//                if (window[i] < targetFreq[i]) {
+//                    return false;
+//                }
+//            }
+//
+//            return true;
+//        }
+
+// USing Sliding window: O(N), O(N)
+
+//        public String minWindow(String s, String t) {
+//
+//            if (s.length() < t.length()) {
+//                return "";
+//            }
+//
+//            int[] freq = new int[128];
+//
+//            for (char ch : t.toCharArray()) {
+//                freq[ch]++;
+//            }
+//
+//            int left = 0;
+//            int matched = 0;
+//
+//            int minLength = Integer.MAX_VALUE;
+//            int start = 0;
+//
+//            for (int right = 0; right < s.length(); right++) {
+//
+//                char ch = s.charAt(right);
+//
+//                if (freq[ch] > 0) {
+//                    matched++;
+//                }
+//
+//                freq[ch]--;
+//
+//                while (matched == t.length()) {
+//
+//                    if (right - left + 1 < minLength) {
+//                        minLength = right - left + 1;
+//                        start = left;
+//                    }
+//
+//                    char leftChar = s.charAt(left);
+//
+//                    freq[leftChar]++;
+//
+//                    if (freq[leftChar] > 0) {
+//                        matched--;
+//                    }
+//
+//                    left++;
+//                }
+//            }
+//
+//            return minLength == Integer.MAX_VALUE
+//                    ? ""
+//                    : s.substring(start, start + minLength);
+//        }
+
+
+////Minimum window subsequence: You are given two strings, s1 and s2. Your task is to find the smallest substring in s1 such that s2 appears as a subsequence within that substring.
+
+//  A subsequence is formed by removing some or no characters from the original string without changing the order of the remaining characters. This means skipping is
+//  allowed, but the relative order must be preserved. For instance, from "abcde", valid subsequences include "a", "ace" (skipping b and d), "bd", "abc", and "abcde",
+//  while "aed" is invalid because it changes the order of characters.". "Now consider the strings s1 = "geeksforgeeks" and s2 = "eksrg". The output "eksforg" is a
+//  subsequence of s1 that contains all characters of s2 in the same order. Additionally, it is constructed to be as long as possible while still maintaining s2 as a
+//  subsequence within it." "For each character, we decide whether to include or exclude it, leading to 2 choices per character. Hence, total subsequences are 2ⁿ."
+
+// Brute force: O(N3)
+
+//        public String minWindow(String s, String t) {
+//
+//            int minLength = Integer.MAX_VALUE;
+//            int start = -1;
+//
+//            for (int i = 0; i < s.length(); i++) {
+//
+//                for (int j = i; j < s.length(); j++) {
+//
+//                    if (isSubsequence(s, i, j, t)) {
+//
+//                        if (j - i + 1 < minLength) {
+//                            minLength = j - i + 1;
+//                            start = i;
+//                        }
+//
+//                        // Smallest window for this i
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            return start == -1 ? "" : s.substring(start, start + minLength);
+//        }
+//
+//        private boolean isSubsequence(String s, int start, int end, String t) {
+//
+//            int i = start;
+//            int j = 0;
+//
+//            while (i <= end && j < t.length()) {
+//
+//                if (s.charAt(i) == t.charAt(j)) {
+//                    j++;
+//                }
+//
+//                i++;
+//            }
+//
+//            return j == t.length();
+//        }
+
+
+//        class Solution {
+//
+//            public String minWindow(String s, String t) {
+//
+//                int n = s.length();
+//                int m = t.length();
+//
+//                int minLength = Integer.MAX_VALUE;
+//                int start = -1;
+//
+//                int i = 0;
+//
+//                while (i < n) {
+//
+//                    int j = 0;
+//
+//                    // Forward scan
+//                    while (i < n) {
+//
+//                        if (s.charAt(i) == t.charAt(j)) {
+//                            j++;
+//
+//                            if (j == m) {
+//                                break;
+//                            }
+//                        }
+//
+//                        i++;
+//                    }
+//
+//                    // No subsequence found
+//                    if (i == n) {
+//                        break;
+//                    }
+//
+//                    // End of current window
+//                    int end = i;
+//
+//                    // Backward scan
+//                    j = m - 1;
+//
+//                    while (j >= 0) {
+//
+//                        if (s.charAt(i) == t.charAt(j)) {
+//                            j--;
+//                        }
+//
+//                        i--;
+//                    }
+//
+//                    // Actual start of window
+//                    i++;
+//
+//                    if (end - i + 1 < minLength) {
+//                        minLength = end - i + 1;
+//                        start = i;
+//                    }
+//
+//                    // Continue from next position
+//                    i = i + 1;
+//                }
+//
+//                return start == -1 ? "" : s.substring(start, start + minLength);
+//            }
+//        }
 
 // DP Solution:
 
