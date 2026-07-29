@@ -767,182 +767,225 @@ public class P1TwoPointerQuestions {
 
 ////Longest Palindromic Substring[Do it without DP]: Given a string s, return the longest palindromic substring in s.
 
-"A string of length n has n(n+1)/2 substrings because for each starting index, we can form substrings up to the end, forming an arithmetic series. and to check whether the string is palindrome or not it takes n/2 comaprison"
+//  "A string of length n has n(n+1)/2 substrings because for each starting index, we can form substrings up to the end, forming an arithmetic series.
+//  and to check whether the string is palindrome or not it takes n/2 comaprison"
 
-        public static String longestPalindromeBrute(String s) {
+// Brute Force: O(n3). For each substring, check whether it is a palindrome.
 
-            int n = s.length();
-            String result = "";
+//            public String longestPalindrome(String s) {
+//
+//                int maxLength = 0;
+//                int start = 0;
+//
+//                for (int left = 0; left < s.length(); left++) {
+//
+//                    for (int right = left; right < s.length(); right++) {
+//
+//                        if (isPalindrome(s, left, right)) {
+//
+//                            int currentLength = right - left + 1;
+//
+//                            if (currentLength > maxLength) {
+//                                maxLength = currentLength;
+//                                start = left;
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                return s.substring(start, start + maxLength);
+//            }
+//
+//            private boolean isPalindrome(String s, int left, int right) {
+//
+//                while (left < right) {
+//
+//                    if (s.charAt(left) != s.charAt(right)) {
+//                        return false;
+//                    }
+//
+//                    left++;
+//                    right--;
+//                }
+//
+//                return true;
+//            }
 
-            for (int i = 0; i < n; i++) {
+// Optimal: O(n^2) Expand Around Center
 
-                for (int j = i; j < n; j++) {
+//        public static String getLongestPal(String s) {
+//
+//            int n = s.length();
+//
+//            int start = 0;
+//            int maxLen = 1;
+//
+//            for (int i = 0; i < n; i++) {
+//
+//                // run twice: odd (j=0), even (j=1)
+//                for (int j = 0; j <= 1; j++) {
+//
+//                    int low = i;
+//                    int high = i + j;
+//
+//                    // expand while palindrome
+//                    while (low >= 0 && high < n && s.charAt(low) == s.charAt(high)) {
+//
+//                        int currLen = high - low + 1;
+//
+//                        if (currLen > maxLen) {
+//                            start = low;
+//                            maxLen = currLen;
+//                        }
+//
+//                        low--;
+//                        high++;
+//                    }
+//                }
+//            }
+//
+//            return s.substring(start, start + maxLen);
+//        }
 
-                    String sub = s.substring(i, j + 1);
-
-                    if (isPalindrome(sub)) {
-
-                        if (sub.length() > result.length()) {
-                            result = sub;
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private static boolean isPalindrome(String str) {
-
-            int left = 0;
-            int right = str.length() - 1;
-
-            while (left < right) {
-                if (str.charAt(left) != str.charAt(right)) {
-                    return false;
-                }
-                left++;
-                right--;
-            }
-
-            return true;
-        }
-
-        // TC: O(n^3)
-        // SC: O(1)
-
-        public static String getLongestPal(String s) {
-
-            int n = s.length();
-
-            int start = 0;
-            int maxLen = 1;
-
-            for (int i = 0; i < n; i++) {
-
-                // run twice: odd (j=0), even (j=1)
-                for (int j = 0; j <= 1; j++) {
-
-                    int low = i;
-                    int high = i + j;
-
-                    // expand while palindrome
-                    while (low >= 0 && high < n && s.charAt(low) == s.charAt(high)) {
-
-                        int currLen = high - low + 1;
-
-                        if (currLen > maxLen) {
-                            start = low;
-                            maxLen = currLen;
-                        }
-
-                        low--;
-                        high++;
-                    }
-                }
-            }
-
-            return s.substring(start, start + maxLen);
-        }
-
-        // TC: O(n^2)
-        // SC: O(1)
-
-"In the expand-around-center approach, we use two types of centers because palindromes can be either odd-length or even-length. An odd-length palindrome has a single central character (like `"aba"`), so we expand around one index. However, an even-length palindrome does not have a single middle character; instead, its center lies between two characters (like `"baab"`), so we must expand between adjacent indices. If we only consider one center, we would miss all even-length palindromes. Therefore, by checking both cases—one center (`i, i`) and two centers (`i, i+1`)—we ensure that all possible palindromic substrings are covered."
-
-"In the center expansion algorithm for finding the longest palindromic substring, instead of checking all possible substrings, we treat each index (and gap between indices) as a potential center and expand outward to check for palindromes. A string of length n has n possible odd-length centers (each character) and n−1 even-length centers (between adjacent characters), giving a total of 2n−1 centers. For each center, we expand outward while the characters match, and in the worst case, this expansion can take up to n/2 comparisons. Therefore, the total time complexity becomes:  (2n − 1) × (n/2) ≈ O(n²).  " +
-
-"The space complexity is O(1) since no extra space is used apart from variables."
+//  There are n possible centers for odd-length palindromes and n - 1 possible centers for even-length palindromes, so we perform about 2n - 1 center expansions.
+//  Each expansion can extend up to O(n) characters in the worst case.
 
 // Manchers Algorithm:
 
 
-//// Longest Common Prefix:
-        String[] input = {"interview", "internet", "internal", "interval"};
+//// Longest Common Prefix:Write a function to find the longest common prefix string amongst an array of strings.
 
-        public static String longestCommonPrefix(String[] strs) {
+//        String[] input = {"interview", "internet", "internal", "interval"};
 
-            if (strs == null || strs.length == 0) return "";
+//Brute Approach: Horizontal scanning.  (n*m)
 
-            String first = strs[0];
-            StringBuilder result = new StringBuilder();
+//        public static String longestCommonPrefixOptimal(String[] strs) {
+//
+//            if (strs == null || strs.length == 0) return "";
+//
+//            String prefix = strs[0];
+//
+//            for (int i = 1; i < strs.length; i++) {
+//
+//                while (!strs[i].startsWith(prefix)) {
+//                    prefix = prefix.substring(0, prefix.length() - 1);
+//
+//                    if (prefix.isEmpty()) return "";
+//                }
+//            }
+//
+//            return prefix;
+//        }
 
-            for (int i = 0; i < first.length(); i++) {
+//Better Approach: O(n*m)
 
-                char ch = first.charAt(i);
+//        public static String longestCommonPrefix(String[] strs) {
+//
+//            if (strs == null || strs.length == 0) return "";
+//
+//            String first = strs[0];
+//            StringBuilder result = new StringBuilder();
+//
+//            for (int i = 0; i < first.length(); i++) {
+//
+//                char ch = first.charAt(i);
+//
+//                for (int j = 1; j < strs.length; j++) {
+//
+//                    if (i >= strs[j].length() || strs[j].charAt(i) != ch) {
+//                        return result.toString();
+//                    }
+//                }
+//
+//                result.append(ch);
+//            }
+//
+//            return result.toString();
+//        }
 
-                // compare this character with all other strings
-                for (int j = 1; j < strs.length; j++) {
+// Trie:
 
-                    // if index out of bound OR mismatch
-                    if (i >= strs[j].length() || strs[j].charAt(i) != ch) {
-                        return result.toString();
-                    }
-                }
+//// Maximum subarray Sum: Given an integer array nums, find the subarray with the largest sum, and return its sum.
 
-                result.append(ch);
-            }
+//      int[] arr=[-2,1,-3,4,-1,2,1,-5,4]
 
-            return result.toString();
+//Brute Force: O(n2)
+
+// Optimal: TC: O(n) SC: O(1)
+
+/*
+    Using kadane's algo: Kadane's Algorithm is a dynamic programming algorithm that finds the maximum sum of a contiguous subarray by deciding at each index whether
+    to extend the current subarray or start a new one.
+
+    The core idea is, At every element, ask: Should I continue the previous subarray or start a new subarray from the current element?
+
+        Mathematically,
+                currentSum = max(currentElement, currentSum + currentElement)
+                maximumSum = max(maximumSum, currentSum)
+
+        int currentSum = nums[0];
+        int maximumSum = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+
+            maximumSum = Math.max(maximumSum, currentSum);
         }
 
-        // TC: O(n * m)
-        // n = number of strings
-        // m = length of shortest string
-        // SC: O(1)  (excluding output)
+        return maximumSum;
 
-        public static String longestCommonPrefixBetter(String[] strs) {
+        When To use: Maximum Sum Contiguous Subarray, Minimum Sum Subarray, Circular Maximum Sum Subarray, Maximum Profit Variation
+        When not To use: Product Problems, Prefix Sum Problems, Non-Contiguous Problems
 
-            if (strs == null || strs.length == 0) return "";
+ */
 
-            Arrays.sort(strs); //Yes, string sorting in Java is lexicographical (dictionary order).
+//        public int maxSubArray(int[] nums) {
+//
+//            int currentSum = nums[0];
+//            int maximumSum = nums[0];
+//
+//            for (int index = 1; index < nums.length; index++) {
+//
+//                currentSum = Math.max(nums[index],currentSum + nums[index]);
+//                maximumSum = Math.max(maximumSum, currentSum);
+//            }
+//
+//            return maximumSum;
+//        }
 
-            String first = strs[0];
-            String last = strs[strs.length - 1];
-
-            int i = 0;
-
-            while (i < first.length() && i < last.length() &&
-                    first.charAt(i) == last.charAt(i)) {
-                i++;
-            }
-
-            return first.substring(0, i);
-        }
-
-//        Total = (number of comparisons) × (cost per comparison)= (n log n) × m
-
-        public static String longestCommonPrefixOptimal(String[] strs) {
-
-            if (strs == null || strs.length == 0) return "";
-
-            String prefix = strs[0];
-
-            for (int i = 1; i < strs.length; i++) {
-
-                while (!strs[i].startsWith(prefix)) {
-                    prefix = prefix.substring(0, prefix.length() - 1);
-
-                    if (prefix.isEmpty()) return "";
-                }
-            }
-
-            return prefix;
-        }
-
-        // TC: O(n * m)
-        // SC: O(1)
-
-"In this code, n and m represent two different dimensions of the input. n is the number of strings in the array strs, i.e., strs.length. The outer loop runs from 1 to n - 1, so we compare the prefix with each string one by one. m is the length of the prefix (or effectively the length of the shortest string). In the worst case, the prefix can be as long as the first string initially, and during comparisons we may check up to m characters when using startsWith() and when shrinking the prefix using substring().  So the time complexity O(n × m) comes from the fact that for each of the n strings, we may compare up to m characters while matching and shrinking the prefix."
+//        public static int maxSubarraySum(int[] arr) {
+//
+//            int i = 0, j = 0;
+//            int sum = 0;
+//            int max_sum = Integer.MIN_VALUE;
+//
+//            while (j < arr.length) {
+//
+//                sum += arr[j];
+//
+//                if (sum > max_sum) {
+//                    max_sum = sum;
+//                }
+//
+//                if (sum < 0) {
+//                    sum = 0;
+//                    i = j + 1;
+//                }
+//
+//                j++;
+//            }
+//
+//            return max_sum;
+//        }
 
 
-"Both approaches(brute force and optimal) have O(n*m) time complexity, but the optimal one reduces the prefix size dynamically, making it faster in practice due to fewer comparisons.”
-
-" I’ll start with a brute force column-wise comparison( vertical scanning) in O(n*m).Then I can optimize using sorting, but the best practical approach is horizontal scanning where I iteratively reduce the prefix.”
-
-"Vertical scanning and horizontal scanning are two different approaches to solve the Longest Common Prefix problem. In vertical scanning, we compare characters column by column, meaning we fix an index and check that character across all strings at the same position. If any mismatch occurs or a string ends, we stop and return the prefix found so far. This approach treats the input like a table and scans it vertically. In contrast, horizontal scanning works by taking the first string as an initial prefix and then comparing it with each subsequent string one by one, gradually shrinking the prefix until it matches all strings. So instead of checking all strings at a fixed index, it reduces the prefix step-by-step across the array. Although both approaches have the same time complexity of O(n × m), horizontal scanning is often more efficient in practice because the prefix keeps shrinking, reducing the number of comparisons needed for later strings."
 
 ////Maximum Product sub array.
+
+//   int[] nums = [2,3,-2,4];
+
+// Brute Force: Generate every subarrray: O(N2)
 
         public int maxProduct(int[] nums) {
 
@@ -970,35 +1013,7 @@ public class P1TwoPointerQuestions {
 // TC: O(n)
 // SC: O(1)
 
-//// Maximum subarray Sum:
 
-        public static int maxSubarraySum(int[] arr) {
-
-            int i = 0, j = 0;
-            int sum = 0;
-            int max_sum = Integer.MIN_VALUE;
-
-            while (j < arr.length) {
-
-            sum += arr[j];
-
-            if (sum > max_sum) {
-                max_sum = sum;
-            }
-
-            if (sum < 0) {
-                sum = 0;
-                i = j + 1;
-            }
-
-            j++;
-        }
-
-        return max_sum;
-    }
-
-// TC: O(n)
-// SC: O(1)
 
 //// Stock buy or sell
         int[] arr = { 7, 1, 5, 3, 6, 4};
