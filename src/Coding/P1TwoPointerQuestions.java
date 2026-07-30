@@ -1015,174 +1015,189 @@ public class P1TwoPointerQuestions {
 
 
 
-//// Stock buy or sell
-        int[] arr = { 7, 1, 5, 3, 6, 4};
-        int min=arr[0];
-        int profit=0, current_profit=0;
+//// Stock buy or sell:
 
-        for(int i=1;i<arr.length;i++) {
+//        int[] arr = { 7, 1, 5, 3, 6, 4};
 
-            current_profit=arr[i]-min;
+// Brute force: O(N2)
 
-            profit=Math.max(current_profit,profit);
+//        public int maxProfit(int[] prices){
+//            int max = 0;
+//            for (int i = 0; i < prices.length - 1; i++) {
+//                for (int j = i + 1; j < prices.length; j++) {
+//                    int profit = prices[j] - prices[i];
+//                    max = Math.max(max, profit);
+//                }
+//            }
+//
+//            return max;
+//        }
 
-            if(min>arr[i]){
-                min=arr[i];
-            }
-        }
+//        public int maxProfit(int[] prices) {
+//
+//            if (prices == null || prices.length == 0) {
+//                return 0;
+//            }
+//
+//            int minPrice = prices[0];
+//            int maxProfit = 0;
+//
+//            for (int i = 1; i < prices.length; i++) {
+//
+//                maxProfit = Math.max(maxProfit, prices[i] - minPrice);
+//
+//                if (prices[i] < minPrice) {
+//                    minPrice = prices[i];
+//                }
+//            }
+//
+//            return maxProfit;
+//        }
+
 
 //// Stock buy or sell II:
 
-"Your approach fails because it treats the problem like a subarray accumulation, while the actual problem requires state-based decisions (buy/sell/skip)."
+// Brute Force: TC: Exponential (≈ O(2^n))   // SC: O(n) (recursion stack)
 
-for (i = 0 → n) {
-    buyPrice = arr[i];
+//public static int maxProfitBruteForce(int[] prices) {
+//    return helper(prices, 0);
+//}
 
-    for (j = i+1 → n) {
-        if (arr[j] > buyPrice) {
-            profit += arr[j] - buyPrice;
-        }
-        buyPrice = arr[j];
-    }
-}
+//private static int helper(int[] prices, int index) {
+//
+//    if (index >= prices.length) return 0;
+//
+//    int maxProfit = 0;
+//
+//    for (int buy = index; buy < prices.length; buy++) {
+//
+//        int profit = 0;
+//
+//        for (int sell = buy + 1; sell < prices.length; sell++) {
+//
+//            if (prices[sell] > prices[buy]) {
+//
+//                int currentProfit = prices[sell] - prices[buy]
+//                                  + helper(prices, sell + 1);
+//
+//                profit = Math.max(profit, currentProfit);
+//            }
+//        }
+//
+//        maxProfit = Math.max(maxProfit, profit);
+//    }
+//
+//    return maxProfit;
+//}
+//
 
-"Whenever a problem involves making choices at each step and future depends on current decisions, we model it using recursion."
+// Optmal: O(N)
 
-public static int maxProfitBruteForce(int[] prices) {
-    return helper(prices, 0);
-}
-
-private static int helper(int[] prices, int index) {
-
-    if (index >= prices.length) return 0;
-
-    int maxProfit = 0;
-
-    for (int buy = index; buy < prices.length; buy++) {
-
-        int profit = 0;
-
-        for (int sell = buy + 1; sell < prices.length; sell++) {
-
-            if (prices[sell] > prices[buy]) {
-
-                int currentProfit = prices[sell] - prices[buy]
-                                  + helper(prices, sell + 1);
-
-                profit = Math.max(profit, currentProfit);
-            }
-        }
-
-        maxProfit = Math.max(maxProfit, profit);
-    }
-
-    return maxProfit;
-}
-
-// TC: Exponential (≈ O(2^n))
-// SC: O(n) (recursion stack)
-
-
-public int maxProfit(int[] prices) {
-        int n = prices.length;
-        int lMin = prices[0];
-        int lMax = prices[0];
-        int res = 0;
-
-        int i = 0;
-        while (i < n - 1) {
-
-            while (i < n - 1 && prices[i] >= prices[i + 1]) { i++; }
-            lMin = prices[i];
-
-            while (i < n - 1 && prices[i] <= prices[i + 1]) { i++; }
-            lMax = prices[i];
-
-            res += (lMax - lMin);
-        }
-
-        return res;
-    }
+//        public int maxProfit(int[] prices) {
+//
+//            int n = prices.length;
+//            int minima, maxima;
+//            int profit = 0;
+//            int i = 0;
+//
+//            while (i < n - 1) {
+//
+//                while (i < n - 1 && prices[i] >= prices[i + 1]) {
+//                    i++;
+//                }
+//                minima = prices[i];
+//
+//                while (i < n - 1 && prices[i] <= prices[i + 1]) {
+//                    i++;
+//                }
+//                maxima = prices[i];
+//
+//                profit += maxima - minima;
+//            }
+//
+//            return profit;
+//        }
 
 ////Product of Array Except Self Without division.
 
-        int[] arr = {10, 3, 5, 6, 2};
+// int[] arr = {10, 3, 5, 6, 2};
 
-        public static int[] productExceptSelfBruteForce(int[] arr) {
+// Brute Force: TC: O(N2) O(1)
+// Prefix,Suffix Approach: O(N), O(N)
+// Prefix,Suffix Approach: O(N), O(1)
 
-            int n = arr.length;
-            int[] result = new int[n];
+//        public int[] productExceptSelf(int[] nums) {
+//
+//            int ans[]=new int[nums.length];
+//            Arrays.fill(ans,1);
+//
+//            for(int i=0;i<nums.length;i++){
+//
+//                for(int j=0;j<nums.length;j++){
+//
+//                    if(i==j) continue;
+//
+//                    ans[i]=ans[i]*nums[j];
+//                }
+//
+//            }
+//            return ans;
+//
+//        }
 
-            for (int i = 0; i < n; i++) {
+// Better Approach:
 
-                int product = 1;
+//        public static int[] productExceptSelfBetter(int[] arr) {
+//
+//            int n = arr.length;
+//
+//            int[] prefix = new int[n];
+//            int[] suffix = new int[n];
+//            int[] result = new int[n];
+//
+//            prefix[0] = 1;
+//            for (int i = 1; i < n; i++) {
+//                prefix[i] = prefix[i - 1] * arr[i - 1];
+//            }
+//
+//            suffix[n - 1] = 1;
+//            for (int i = n - 2; i >= 0; i--) {
+//                suffix[i] = suffix[i + 1] * arr[i + 1];
+//            }
+//
+//            for (int i = 0; i < n; i++) {
+//                result[i] = prefix[i] * suffix[i];
+//            }
+//
+//            return result;
+//        }
+//
+//        TC: O(n) SC: O(n)
 
-                for (int j = 0; j < n; j++) {
-                    if (i != j) {
-                        product *= arr[j];
-                    }
-                }
+// Optimal Approach:
 
-                result[i] = product;
-            }
-
-            return result;
-        }
-
-        TC: O(N2) O(1)
-
-        public static int[] productExceptSelfBetter(int[] arr) {
-
-            int n = arr.length;
-
-            int[] prefix = new int[n];
-            int[] suffix = new int[n];
-            int[] result = new int[n];
-
-            // prefix[i] = product of all elements before i
-            prefix[0] = 1;
-            for (int i = 1; i < n; i++) {
-                prefix[i] = prefix[i - 1] * arr[i - 1];
-            }
-
-            // suffix[i] = product of all elements after i
-            suffix[n - 1] = 1;
-            for (int i = n - 2; i >= 0; i--) {
-                suffix[i] = suffix[i + 1] * arr[i + 1];
-            }
-
-            // result[i] = prefix[i] * suffix[i]
-            for (int i = 0; i < n; i++) {
-                result[i] = prefix[i] * suffix[i];
-            }
-
-            return result;
-        }
-
-        TC: O(n) SC: O(n)
-
-        public static int[] productExceptSelfOptimal(int[] arr) {
-
-            int n = arr.length;
-            int[] result = new int[n];
-
-            // Step 1: store prefix products directly in result
-            result[0] = 1;
-            for (int i = 1; i < n; i++) {
-                result[i] = result[i - 1] * arr[i - 1];
-            }
-
-            // Step 2: multiply with suffix product (using variable)
-            int suffix = 1;
-            for (int i = n - 1; i >= 0; i--) {
-                result[i] = result[i] * suffix;
-                suffix *= arr[i];
-            }
-
-            return result;
-        }
-
-        TC: O(n) SC: O(1)
+//        public static int[] productExceptSelfOptimal(int[] arr) {
+//
+//            int n = arr.length;
+//            int[] result = new int[n];
+//
+//            // Step 1: store prefix products directly in result
+//            result[0] = 1;
+//            for (int i = 1; i < n; i++) {
+//                result[i] = result[i - 1] * arr[i - 1];
+//            }
+//
+//            // Step 2: multiply with suffix product (using variable)
+//            int suffix = 1;
+//            for (int i = n - 1; i >= 0; i--) {
+//                result[i] = result[i] * suffix;
+//                suffix *= arr[i];
+//            }
+//
+//            return result;
+//        }
+//
+//        TC: O(n) SC: O(1)
 
 //// find the length of the longest consecutive elements sequence.
         int[] arr = {100, 4, 200, 1, 3, 2, 2};
