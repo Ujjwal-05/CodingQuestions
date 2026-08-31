@@ -8,8 +8,8 @@ public class P1TwoPointerQuestions {
 
 //// Find the union of the 2 sorted array and result should be sorted: Union:  Distinct elements including both the arrays are:
 
-    int a[] = {1, 1, 2, 2, 2, 4};
-    int b[] = {2, 2, 4, 4};
+        int a[] = {1, 1, 2, 2, 2, 4};
+        int b[] = {2, 2, 4, 4};
 
 //  Brute Force: Traverse both arrays and store elements in a list only if they are not already present. After collecting all unique elements, sort the list.
 //  TC: O(m2) + O(n(n+m)) + (n+m)log(n+m) SC: O(n + m)
@@ -979,42 +979,6 @@ public class P1TwoPointerQuestions {
 //            return max_sum;
 //        }
 
-
-
-////Maximum Product sub array.
-
-//   int[] nums = [2,3,-2,4];
-
-// Brute Force: Generate every subarrray: O(N2)
-
-        public int maxProduct(int[] nums) {
-
-            int ans = nums[0];
-            int curr_max = nums[0];
-            int curr_min = nums[0];
-
-        for (int i = 1; i < nums.length; i++) {
-
-            int curr = nums[i];
-
-            if (curr < 0) {
-                int temp = curr_max;
-                curr_max = curr_min;
-                curr_min = temp;
-            }
-
-            curr_max = Math.max(curr, curr * curr_max);
-            curr_min = Math.min(curr, curr * curr_min);
-            ans = Math.max(ans, curr_max);
-        }
-        return ans;
-    }
-
-// TC: O(n)
-// SC: O(1)
-
-
-
 //// Stock buy or sell:
 
 //        int[] arr = { 7, 1, 5, 3, 6, 4};
@@ -1181,13 +1145,11 @@ public class P1TwoPointerQuestions {
 //            int n = arr.length;
 //            int[] result = new int[n];
 //
-//            // Step 1: store prefix products directly in result
 //            result[0] = 1;
 //            for (int i = 1; i < n; i++) {
 //                result[i] = result[i - 1] * arr[i - 1];
 //            }
 //
-//            // Step 2: multiply with suffix product (using variable)
 //            int suffix = 1;
 //            for (int i = n - 1; i >= 0; i--) {
 //                result[i] = result[i] * suffix;
@@ -1199,363 +1161,338 @@ public class P1TwoPointerQuestions {
 //
 //        TC: O(n) SC: O(1)
 
+////Maximum Product sub array.
+
+//   int[] nums = [2,3,-2,4];
+
+// Brute Force: Generate every subarrray: O(N2)
+
+// Optimal Approach: The optimal approach for Maximum Product Subarray is based on tracking both the maximum product and the minimum product ending at the current index.
+// Why do we track both?
+// Because multiplying by a negative number can change:
+//        A large positive product → negative
+//        A large negative product → positive
+
+// TC: O(n)
+// SC: O(1)
+
+//        public int maxProduct(int[] nums) {
+//
+//            int ans = nums[0];
+//            int curr_max = nums[0];
+//            int curr_min = nums[0];
+//
+//            for (int i = 1; i < nums.length; i++) {
+//
+//                int curr = nums[i];
+//
+//                if (curr < 0) {
+//                    int temp = curr_max;
+//                    curr_max = curr_min;
+//                    curr_min = temp;
+//                }
+//
+//                curr_max = Math.max(curr, curr * curr_max);
+//                curr_min = Math.min(curr, curr * curr_min);
+//                ans = Math.max(ans, curr_max);
+//            }
+//            return ans;
+//        }
+
+
 //// find the length of the longest consecutive elements sequence.
         int[] arr = {100, 4, 200, 1, 3, 2, 2};
 
-        public int longestConsecutive(int[] arr) {
+//  Brute Force: Time Complexity : O(N^3), The outer loop runs exactly N times, and because currentNumber increments by 1
+//    during each iteration of the while loop, it runs in O(N) time. Then, on each iteration of the while loop, an
+//    O(N) operation in the array is performed. Therefore, this brute force algorithm is really three nested O(N)
+//    loops, which compound multiplicatively to a cubic runtime. Where N is the size of the Array(nums).
 
-            if (arr.length==0) return 0;
+// Better Approach: By sorting NlogN
+// Optimal Approach: O(N) O(N)
 
-            int max_length = 1; // handle single element case
-
-            for (int i = 0; i < arr.length; i++) {
-
-                int curr = arr[i];
-                int currlength = 1;
-
-                boolean found = true;
-
-                while (found) {
-
-                    found = false;
-
-                    for (int j = 0; j < arr.length; j++) {
-
-                        if (arr[j] == curr + 1) {
-                            curr = curr + 1;
-                            currlength++;
-                            found = true;
-                            break; // important
-                        }
-                    }
-                }
-
-                max_length = Math.max(max_length, currlength);
-            }
-
-            return max_length;
-        }
-
-        TC: O(N2)
-
-        public int longestConsecutive(int[] arr) {
-
-            if (arr.length == 0) return 0;
-
-            Arrays.sort(arr);
-
-            int max_length = 1;
-            int curr_length = 1;
-
-            for (int i = 0; i < arr.length - 1; i++) {
-
-                if (arr[i] == arr[i + 1]) continue;
-
-                if (arr[i] + 1 == arr[i + 1]) {
-                    curr_length++;
-                    max_length = Math.max(max_length, curr_length);
-                } else {
-                    curr_length = 1;
-                }
-            }
-
-            return max_length;
-        }
-    }
-
-    // TC: O(n log n)
-    // SC: O(1) (ignoring sorting space)
+//        public boolean contains(int[] nums, int element){
+//            for(int num:nums){
+//                if(num==element){
+//                    return true;
+//                }
+//            }
+//
+//            return false;
+//        }
+//        public int longestConsecutive(int[] nums) {
+//
+//            int max=0;
+//            int n=nums.length;
+//
+//            for(int num:nums){
+//
+//                int curr=num;
+//                int length=1;
+//
+//                while(contains(nums,curr+1)){
+//                    curr++;
+//                    length++;
+//                }
+//
+//                max=Math.max(length,max);
+//
+//            }
+//
+//            return max;
+//
+//        }
 
 
-    public int longestConsecutive(int[] arr) {
+//        public int longestConsecutive(int[] arr) {
+//
+//            if (arr.length == 0) return 0;
+//
+//            Arrays.sort(arr);
+//
+//            int max_length = 1;
+//            int curr_length = 1;
+//
+//            for (int i = 0; i < arr.length - 1; i++) {
+//
+//                if (arr[i] == arr[i + 1]) continue;
+//
+//                if (arr[i] + 1 == arr[i + 1]) {
+//                    curr_length++;
+//                    max_length = Math.max(max_length, curr_length);
+//                } else {
+//                    curr_length = 1;
+//                }
+//            }
+//
+//            return max_length;
+//        }
+//    }
 
-        HashSet<Integer> set = new HashSet<>();
 
-        for (int num : arr) {
-            set.add(num);
-        }
-
-        int maxLen = 0;
-
-        for (int num : set) {
-
-            // start only if it's the beginning of sequence
-            if (!set.contains(num - 1)) {
-
-                int curr = num;
-                int length = 1;
-
-                while (set.contains(curr + 1)) {
-                    curr++;
-                    length++;
-                }
-
-                maxLen = Math.max(maxLen, length);
-            }
-        }
-
-        return maxLen;
-    }
-
-    // TC: O(n)
-    // SC: O(n)
+//    public int longestConsecutive(int[] arr) {
+//
+//        HashSet<Integer> set = new HashSet<>();
+//
+//        for (int num : arr) {
+//            set.add(num);
+//        }
+//
+//        int maxLen = 0;
+//
+//        for (int num : set) {
+//
+//            // start only if it's the beginning of sequence
+//            if (!set.contains(num - 1)) {
+//
+//                int curr = num;
+//                int length = 1;
+//
+//                while (set.contains(curr + 1)) {
+//                    curr++;
+//                    length++;
+//                }
+//
+//                maxLen = Math.max(maxLen, length);
+//            }
+//        }
+//
+//        return maxLen;
+//    }
 
 ////  Return an element that occurs more than N/2 times:
 
-        int nums = [2,2,1,1,1,2,2];
+//        int nums = [2,2,1,1,1,2,2];
 
-    public int majorityElement(int[] nums) {
+// Brute Force:         O(N2)
+// Better Approach:     O(N) , O(N) Using Hashmap
+// Optimal approach:    Moore algo O(N)
 
-        int majorityElement = 0;
-        int maximumCount = 0;
+//    int majorityElement(int[] arr) {
+//
+//        int n = arr.length;
+//        int candidate = -1;
+//        int count = 0;
+//
+//        for (int num : arr) {
+//            if (count == 0) {
+//                candidate = num;
+//                count = 1;
+//            }
+//            else if (num == candidate) {
+//                count++;
+//            }
+//            else {
+//                count--;
+//            }
+//        }
+//
+//        count = 0;
+//        for (int num : arr) {
+//            if (num == candidate) {
+//                count++;
+//            }
+//        }
+//
+//        // If count is greater than n / 2, return
+//        // the candidate; otherwise, return -1
+//        if (count > n / 2) {
+//            return candidate;
+//        } else {
+//            return -1;
+//        }
+//    }
 
-        for (int i = 0; i < nums.length; i++) {
-
-            int currentCount = 0;
-
-            for (int j = 0; j < nums.length; j++) {
-
-                if (nums[j] == nums[i]) {
-                    currentCount++;
-                }
-            }
-
-            if (currentCount > maximumCount) {
-                majorityElement = nums[i];
-                maximumCount = currentCount;
-            }
-        }
-
-        return majorityElement;
-    }
-
-    // TC: O(n^2)
-    // SC: O(1)
-
-    public int majorityElement(int[] nums) {
-
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int n = nums.length;
-
-        for (int num : nums) {
-
-            map.put(num, map.getOrDefault(num, 0) + 1);
-
-            if (map.get(num) > n / 2) {
-                return num;
-            }
-        }
-
-        return -1; // not needed as majority always exists
-    }
-
-    // TC: O(n)
-    // SC: O(n)
-
-    int majorityElement(int[] arr) {
-
-        int n = arr.length;
-        int candidate = -1;
-        int count = 0;
-
-        // Find a candidate
-        for (int num : arr) {
-            if (count == 0) {
-                candidate = num;
-                count = 1;
-            }
-            else if (num == candidate) {
-                count++;
-            }
-            else {
-                count--;
-            }
-        }
-
-        // Validate the candidate
-        count = 0;
-        for (int num : arr) {
-            if (num == candidate) {
-                count++;
-            }
-        }
-
-        // If count is greater than n / 2, return
-        // the candidate; otherwise, return -1
-        if (count > n / 2) {
-            return candidate;
-        } else {
-            return -1;
-        }
-    }
-
-    // TC: O(n)
-    // SC: O(1)
-
-
-    The algorithm is based on the idea that if an element occurs more than n/2 times, then all the remaining elements together must occur less than n/2 times.
-
-    While traversing the array, we maintain a candidate and a vote count:
-
-    If the current element matches the candidate, we increment the vote count.
-    If it does not match, we decrement the vote count.
-    When the vote count becomes 0, it means the current candidate cannot be the majority element, so we select a new candidate.
-
-    By the end of the first traversal, the remaining candidate is the potential majority element (if there is a majority element, then this elements has to be the one). A second traversal is required to verify whether it actually appears more than n/2 times.
-
+//    The algorithm is based on the idea that if an element occurs more than n/2 times, then all the remaining elements together must occur less than n/2 times.
+//
+//    While traversing the array, we maintain a candidate and a vote count:
+//
+//    If the current element matches the candidate, we increment the vote count.
+//    If it does not match, we decrement the vote count.
+//    When the vote count becomes 0, it means the current candidate cannot be the majority element, so we select a new candidate.
+//
+//    By the end of the first traversal, the remaining candidate is the potential majority element (if there is a majority element, then this elements has to be the one).
+//    A second traversal is required to verify whether it actually appears more than n/2 times.
 
 
 ////Return an element that occurs more than N/3 times:
-        int[] arr={2,1,1,3,1,4,5,6};
+//        int[] arr={2,1,1,3,1,4,5,6};
 
-    static ArrayList<Integer> findMajority(int[] arr) {
+// Brute force: O(N2)
+// Better Approch: O(N) O(N)
+// Optimal Approach: O(N)
 
-        int n = arr.length;
-        ArrayList<Integer> res = new ArrayList<>();
+//    static ArrayList<Integer> findMajority(int[] arr) {
+//
+//        int n = arr.length;
+//        ArrayList<Integer> res = new ArrayList<>();
+//
+//        for (int i = 0; i < n; i++) {
+//
+//            int count = 0;
+//
+//            for (int j = 0; j < n; j++) {
+//                if (arr[j] == arr[i]) {
+//                    count++;
+//                }
+//            }
+//
+//            if (count > n / 3 && !res.contains(arr[i])) {
+//                res.add(arr[i]);
+//            }
+//
+//            // At most 2 elements possible
+//            if (res.size() == 2) break;
+//        }
+//
+//        return res;
+//    }
 
-        for (int i = 0; i < n; i++) {
 
-            int count = 0;
+//    public class Solution {
+//
+//        public static ArrayList<Integer> majorityElementNby3(int[] arr) {
+//
+//            HashMap<Integer, Integer> map = new HashMap<>();
+//            ArrayList<Integer> ans = new ArrayList<>();
+//
+//            for (int num : arr) {
+//
+//                map.put(num, map.getOrDefault(num, 0) + 1);
+//
+//                if (map.get(num) > arr.length / 3 && !ans.contains(num)) {
+//                    ans.add(num);
+//                }
+//
+//                if (ans.size() == 2) break;
+//            }
+//
+//            return ans;
+//        }
+//    }
 
-            // Count frequency of arr[i]
-            for (int j = 0; j < n; j++) {
-                if (arr[j] == arr[i]) {
-                    count++;
-                }
-            }
+//    public class Solution {
+//
+//        public static List<Integer> majorityElementNby3(int[] arr) {
+//
+//            int e1 = -1, e2 = -1;
+//            int cnt1 = 0, cnt2 = 0;
+//
+//            // Step 1: Find potential candidates
+//            for (int num : arr) {
+//
+//                if (cnt1 == 0 && num != e2) {
+//                    e1 = num;
+//                    cnt1++;
+//                }
+//                else if (cnt2 == 0 && num != e1) {
+//                    e2 = num;
+//                    cnt2++;
+//                }
+//                else if (num == e1) {
+//                    cnt1++;
+//                }
+//                else if (num == e2) {
+//                    cnt2++;
+//                }
+//                else {
+//                    cnt1--;
+//                    cnt2--;
+//                }
+//            }
+//
+//            // Step 2: Verify counts
+//            cnt1 = 0;
+//            cnt2 = 0;
+//
+//            for (int num : arr) {
+//                if (num == e1) cnt1++;
+//                else if (num == e2) cnt2++;
+//            }
+//
+//            // Step 3: Collect result
+//            List<Integer> res = new ArrayList<>();
+//
+//            if (cnt1 > arr.length / 3) res.add(e1);
+//            if (cnt2 > arr.length / 3) res.add(e2);
+//
+//            return res;
+//        }
+//    }
 
-            // Check if > n/3
-            if (count > n / 3 && !res.contains(arr[i])) {
-                res.add(arr[i]);
-            }
-
-            // At most 2 elements possible
-            if (res.size() == 2) break;
-        }
-
-        return res;
-    }
-
-    // TC: O(n^2)
-    // SC: O(1) (excluding output)
-
-    import java.util.*;
-
-    public class Solution {
-
-        public static ArrayList<Integer> majorityElementNby3(int[] arr) {
-
-            HashMap<Integer, Integer> map = new HashMap<>();
-            ArrayList<Integer> ans = new ArrayList<>();
-
-            for (int num : arr) {
-
-                map.put(num, map.getOrDefault(num, 0) + 1);
-
-                if (map.get(num) > arr.length / 3 && !ans.contains(num)) {
-                    ans.add(num);
-                }
-
-                if (ans.size() == 2) break;
-            }
-
-            return ans;
-        }
-    }
-
-    // TC: O(n)
-    // SC: O(n)
-
-    import java.util.*;
-
-    public class Solution {
-
-        public static List<Integer> majorityElementNby3(int[] arr) {
-
-            int e1 = -1, e2 = -1;
-            int cnt1 = 0, cnt2 = 0;
-
-            // Step 1: Find potential candidates
-            for (int num : arr) {
-
-                if (cnt1 == 0 && num != e2) {
-                    e1 = num;
-                    cnt1++;
-                }
-                else if (cnt2 == 0 && num != e1) {
-                    e2 = num;
-                    cnt2++;
-                }
-                else if (num == e1) {
-                    cnt1++;
-                }
-                else if (num == e2) {
-                    cnt2++;
-                }
-                else {
-                    cnt1--;
-                    cnt2--;
-                }
-            }
-
-            // Step 2: Verify counts
-            cnt1 = 0;
-            cnt2 = 0;
-
-            for (int num : arr) {
-                if (num == e1) cnt1++;
-                else if (num == e2) cnt2++;
-            }
-
-            // Step 3: Collect result
-            List<Integer> res = new ArrayList<>();
-
-            if (cnt1 > arr.length / 3) res.add(e1);
-            if (cnt2 > arr.length / 3) res.add(e2);
-
-            return res;
-        }
-    }
-
-    // TC: O(n)
-    // SC: O(1)
 
 ////Sort an array of 0s, 1s and 2s:
 
-        int[] arr={1,0,2,2,2,1,1,1,0,0,0,1,1,1,2,2,2,2};
+//  int[] arr={1,0,2,2,2,1,1,1,0,0,0,1,1,1,2,2,2,2};
 
-        Naive: Sorting NlogN
-        Two Pass: O(2n)
+//  Brute:      Sorting NlogN
+//  Better:     O(2n)
+//  Optimal:    O(N)        Dutch National Flag Algorithm (Sort 0s, 1s, 2s)
 
-// Dutch National Flag Algorithm (Sort 0s, 1s, 2s)
-
-    public void sortColors(int[] arr) {
-
-        int low = 0, mid = 0, high = arr.length - 1;
-
-        while (mid <= high) {
-
-            if (arr[mid] == 0) {
-                int temp = arr[low];
-                arr[low] = arr[mid];
-                arr[mid] = temp;
-                low++;
-                mid++;
-            }
-            else if (arr[mid] == 1) {
-                mid++;
-            }
-            else {
-                int temp = arr[mid];
-                arr[mid] = arr[high];
-                arr[high] = temp;
-                high--;
-            }
-        }
-    }
-
-    // TC: O(n)
-    // SC: O(1)
+//    public void sortColors(int[] arr) {
+//
+//        int low = 0, mid = 0, high = arr.length - 1;
+//
+//        while (mid <= high) {
+//
+//            if (arr[mid] == 0) {
+//                int temp = arr[low];
+//                arr[low] = arr[mid];
+//                arr[mid] = temp;
+//                low++;
+//                mid++;
+//            }
+//            else if (arr[mid] == 1) {
+//                mid++;
+//            }
+//            else {
+//                int temp = arr[mid];
+//                arr[mid] = arr[high];
+//                arr[high] = temp;
+//                high--;
+//            }
+//        }
+//    }
 
 
 //// Two Sum: Given an array and target, find any pair of elements whose sum equals target.
@@ -2638,8 +2575,6 @@ public class P1TwoPointerQuestions {
         // TC: O(n^2)
         // SC: O(1)
 
-
 */
-    }
+    }}
 
-}
