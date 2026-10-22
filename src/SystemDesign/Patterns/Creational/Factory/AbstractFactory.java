@@ -1,11 +1,11 @@
-package SystemDesign.Patterns.Factory;
+package SystemDesign.Patterns.Creational.Factory;
 
 /*
 ========================================================================================
 ABSTRACT FACTORY DESIGN PATTERN - DATABASE EXAMPLE
 ========================================================================================
-Why Abstract Factory?
-- Factory Method creates only ONE product (ex: createQuery()).
+Why Abstract FactoryMethod?
+- FactoryMethod Method creates only ONE product (ex: createQuery()).
 - But in real DB systems, choosing a DB means we need a FAMILY of related objects:
   ✅ Query
   ✅ Transaction
@@ -13,7 +13,7 @@ Why Abstract Factory?
 - All these objects must be compatible with each other (MySQL family with MySQL family).
 
 Solution:
-- Create an Abstract Factory: DatabaseFactory
+- Create an Abstract FactoryMethod: DatabaseFactory
 - Concrete Factories: MySQLFactory, MongoFactory
 - Each factory creates a full set of related objects.
 ========================================================================================
@@ -25,9 +25,9 @@ Solution:
 PRODUCT FAMILY 1: Query
 ========================================================================================
 */
-//interface Query {
-//    void execute();
-//}
+interface Query {
+    void execute();
+}
 
 class MySQLQuery implements Query {
     @Override

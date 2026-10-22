@@ -1,4 +1,4 @@
-package SystemDesign.Patterns.Command;
+package SystemDesign.Patterns.Behaviourl.Command;
 
 interface Command {
     void execute();

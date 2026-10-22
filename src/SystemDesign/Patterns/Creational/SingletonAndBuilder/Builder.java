@@ -1,4 +1,4 @@
-package SystemDesign.Patterns.SingletonAndBuilder;
+package SystemDesign.Patterns.Creational.SingletonAndBuilder;
 
 class Employee {
 

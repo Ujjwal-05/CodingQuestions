@@ -1,4 +1,4 @@
-package SystemDesign.Patterns.FlyWeight;
+package SystemDesign.Patterns.Structural.FlyWeight;
 //import org.openjdk.jol.info.ClassLayout;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ class Bullet {
     }
 }
 
-// Flyweight Factory (Reuse BulletType objects)
+// Flyweight FactoryMethod (Reuse BulletType objects)
  class BulletFactory {
     private static final Map<String, BulletType> cache = new HashMap<>();
 

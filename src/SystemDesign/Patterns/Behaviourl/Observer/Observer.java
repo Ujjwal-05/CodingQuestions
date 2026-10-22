@@ -1,4 +1,4 @@
-package SystemDesign.Patterns.Observer;
+package SystemDesign.Patterns.Behaviourl.Observer;
 import java.util.ArrayList;
 import java.util.List;
 

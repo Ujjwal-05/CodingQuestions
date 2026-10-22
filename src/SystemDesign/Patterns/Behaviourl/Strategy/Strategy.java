@@ -1,4 +1,4 @@
-package SystemDesign.Patterns.Strategy;
+package SystemDesign.Patterns.Behaviourl.Strategy;
 
 interface PaymentStrategy {
     void pay(int amount);

@@ -1,4 +1,4 @@
-package SystemDesign.Patterns.Decorator;
+package SystemDesign.Patterns.Structural.Decorator;
 
 interface Beverage {
 

@@ -1,48 +1,55 @@
-package SystemDesign.Patterns.Prototype;
+package SystemDesign.Patterns.Creational.Prototype;
 
 class Student {
     private String name;
     private int age;
 
-    Student(String name, int age){
-        this.name=name;
-        this.age=age;
-    }
-    Student(Student student){
-        this.name= student.name;
-        this.age= student.age;
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 
-    public Student clone(){
+    Student(Student student) {
+        this.name = student.name;
+        this.age = student.age;
+    }
+
+    public Student clone() {
         return new Student(this);
     }
-
 }
 
-class IntelligentStudent extends Student{
+class IntelligentStudent extends Student {
     int id;
 
-    IntelligentStudent(IntelligentStudent intelligentStudent){
-        super(intelligentStudent);
-        this.id=intelligentStudent.id;
+    IntelligentStudent(String name, int age, int id) {
+        super(name, age);
+        this.id = id;
+    }
+
+    IntelligentStudent(IntelligentStudent student) {
+        super(student);
+        this.id = student.id;
     }
 
     @Override
-    public IntelligentStudent clone(){
+    public IntelligentStudent clone() {
         return new IntelligentStudent(this);
     }
-
 }
 
 public class Prototype {
     public static void main(String[] args) {
+        Student student = new Student("Ujjwal", 25);
+        Student clonedStudent = student.clone();
 
-    Student student=new Student("Ujjwal",25);
-    Student clonedStudent=student.clone();
+        IntelligentStudent original =
+                new IntelligentStudent("Rahul", 22, 101);
 
+        IntelligentStudent cloned =
+                original.clone();
     }
 }
-
 
 /*
 

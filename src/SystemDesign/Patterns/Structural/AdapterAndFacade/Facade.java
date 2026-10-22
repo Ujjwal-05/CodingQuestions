@@ -1,4 +1,4 @@
-package SystemDesign.Patterns.AdapterAndFacade;
+package SystemDesign.Patterns.Structural.AdapterAndFacade;
 
 // Subsystem 1
 class Lighting {
